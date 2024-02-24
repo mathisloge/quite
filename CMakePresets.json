@@ -1,0 +1,90 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 26,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "common",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build",
+            "generator": "Ninja",
+            "toolchainFile": "~/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake/vcpkg"
+            }
+        },
+        {
+            "name": "debug-build",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-build",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "use-clang",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "VCPKG_TARGET_TRIPLET": "x64-linux-clang"
+            }
+        },
+        {
+            "name": "use-gcc",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            }
+        },
+        {
+            "name": "developer-clang",
+            "displayName": "Developer clang",
+            "inherits": [
+                "common",
+                "use-clang",
+                "debug-build"
+            ]
+        },
+        {
+            "name": "developer-gcc",
+            "displayName": "Developer gcc",
+            "inherits": [
+                "common",
+                "use-gcc",
+                "debug-build"
+            ]
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "developer-clang",
+            "configurePreset": "developer-clang"
+        },
+        {
+            "name": "developer-gcc",
+            "configurePreset": "developer-gcc"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "developer-clang",
+            "configurePreset": "developer-clang"
+        },
+        {
+            "name": "developer-gcc",
+            "configurePreset": "developer-gcc"
+        }
+    ]
+}
