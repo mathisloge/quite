@@ -1,0 +1,8 @@
+{
+    "name": "quite",
+    "dependencies": [
+        "uvw",
+        "spdlog",
+        "catch2"
+    ]
+}
