@@ -1,4 +1,5 @@
 add_library(probe SHARED)
+add_library(quite::probe ALIAS probe)
 set_target_properties(probe PROPERTIES 
     POSITION_INDEPENDENT_CODE ON
 )

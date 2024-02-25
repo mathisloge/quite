@@ -17,3 +17,8 @@ target_link_libraries(tester PUBLIC
     Qt6::Quick
     probe
 )
+
+file(GENERATE OUTPUT tester_app.hpp INPUT tester_app.in.hpp TARGET tester)
+add_library(tester_app_if INTERFACE)
+add_library(quite::tester_app ALIAS tester_app_if)
+target_include_directories(tester_app_if INTERFACE ${CMAKE_CURRENT_BINARY_DIR})

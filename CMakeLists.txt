@@ -3,6 +3,8 @@ project(quite CXX)
 
 include(CTest)
 include(GenerateExportHeader)
+Include(FetchContent)
+
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -14,6 +16,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
+find_package(Catch2 CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+find_package(uvw CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick REQUIRED)
 
 
