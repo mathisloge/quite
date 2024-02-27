@@ -42,6 +42,16 @@ Process::Process(const std::string &path_to_application)
     }
 }
 
+int Process::stdoutPipe() const noexcept
+{
+    return out_pipe_[0];
+}
+
+int Process::stderrPipe() const noexcept
+{
+    return err_pipe_[0];
+}
+
 Process::~Process()
 {
     for (auto pipe : out_pipe_)
