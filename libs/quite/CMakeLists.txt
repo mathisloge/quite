@@ -11,7 +11,7 @@ target_include_directories(quitelib PUBLIC
 )
 
 target_link_libraries(quitelib PRIVATE 
-    uvw::uvw
+    asio::asio
     spdlog::spdlog
     quite::protocol
 )

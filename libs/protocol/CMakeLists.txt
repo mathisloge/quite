@@ -6,7 +6,7 @@ target_include_directories(protocol PUBLIC
 )
 
 target_link_libraries(protocol PRIVATE 
-    uvw::uvw
+    asio::asio
 )
 
 target_sources(protocol
