@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <asio/readable_pipe.hpp>
+#include "process.hpp"
 #include "quite/application.hpp"
 
 namespace quite
@@ -15,9 +16,7 @@ class ProcessApplication final : public Application
     void do_read();
 
   private:
-    pid_t pid_;
-    std::array<int, 2> out_pipe_;
-    std::array<int, 2> err_pipe_;
+    Process process_;
     asio::readable_pipe stdout_pipe_;
     asio::readable_pipe stderr_pipe_;
 

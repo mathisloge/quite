@@ -4,37 +4,10 @@
 namespace quite
 {
 ProcessApplication::ProcessApplication(asio::io_context &io_context, const std::string &path_to_application)
-    : stdout_pipe_{io_context}
-    , stderr_pipe_{io_context}
+    : process_{path_to_application}
+    , stdout_pipe_{io_context, process_.stdoutPipe()}
+    , stderr_pipe_{io_context, process_.stderrPipe()}
 {
-    if (pipe(out_pipe_.data()) == -1 || pipe(err_pipe_.data()) == -1)
-    {
-        spdlog::error("Could not open pipes for the application pipes");
-        return;
-    }
-
-    // Konfiguriere posix_spawn-Attribute
-    posix_spawn_file_actions_t file_actions;
-    posix_spawn_file_actions_init(&file_actions);
-    posix_spawn_file_actions_adddup2(&file_actions, out_pipe_[1], STDOUT_FILENO);
-    posix_spawn_file_actions_adddup2(&file_actions, err_pipe_[1], STDERR_FILENO);
-    posix_spawn_file_actions_addclose(&file_actions, out_pipe_[0]);
-    posix_spawn_file_actions_addclose(&file_actions, err_pipe_[0]);
-
-    const char *args[] = {path_to_application.c_str(), nullptr};
-    if (posix_spawn(&pid_, args[0], &file_actions, nullptr, const_cast<char *const *>(args), environ) == -1)
-    {
-        spdlog::error("Could not spwan process");
-        return;
-    }
-
-    // Schließe unbenutzte Enden der Pipes
-    close(out_pipe_[1]);
-    close(err_pipe_[1]);
-
-    stdout_pipe_ = asio::readable_pipe{io_context, out_pipe_[0]};
-    stderr_pipe_ = asio::readable_pipe{io_context, err_pipe_[0]};
-
     do_read();
 }
 
@@ -52,7 +25,7 @@ void ProcessApplication::do_read()
         }
     });
 
-        stderr_pipe_.async_read_some(asio::buffer(buffer), [this](std::error_code ec, std::size_t length) {
+    stderr_pipe_.async_read_some(asio::buffer(buffer), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {
             spdlog::debug("err {}", std::string_view{buffer.begin(), length});
