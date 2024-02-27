@@ -1,11 +1,12 @@
-#include "process_application.hpp"
+#include "process.hpp"
+#include <csignal>
 #include <spawn.h>
 #include <spdlog/spdlog.h>
+#include <sys/wait.h>
+
 namespace quite
 {
-ProcessApplication::ProcessApplication(asio::io_context &io_context, const std::string &path_to_application)
-    : stdout_pipe_{io_context}
-    , stderr_pipe_{io_context}
+Process::Process(const std::string &path_to_application)
 {
     if (pipe(out_pipe_.data()) == -1 || pipe(err_pipe_.data()) == -1)
     {
@@ -29,35 +30,44 @@ ProcessApplication::ProcessApplication(asio::io_context &io_context, const std::
     }
 
     // Schließe unbenutzte Enden der Pipes
-    close(out_pipe_[1]);
-    close(err_pipe_[1]);
-
-    stdout_pipe_ = asio::readable_pipe{io_context, out_pipe_[0]};
-    stderr_pipe_ = asio::readable_pipe{io_context, err_pipe_[0]};
-
-    do_read();
+    if (out_pipe_[1] != -1)
+    {
+        close(out_pipe_[1]);
+        out_pipe_[1] = -1;
+    }
+    if (err_pipe_[1] != -1)
+    {
+        close(err_pipe_[1]);
+        err_pipe_[1] = -1;
+    }
 }
 
-ProcessApplication::~ProcessApplication()
-{}
-
-void ProcessApplication::do_read()
+Process::~Process()
 {
-    spdlog::debug("do_read");
-    stdout_pipe_.async_read_some(asio::buffer(buffer), [this](std::error_code ec, std::size_t length) {
-        if (!ec)
+    for (auto pipe : out_pipe_)
+    {
+        if (pipe != -1)
         {
-            spdlog::debug("out {}", std::string_view{buffer.begin(), length});
-            do_read();
+            close(pipe);
         }
-    });
+    }
 
-        stderr_pipe_.async_read_some(asio::buffer(buffer), [this](std::error_code ec, std::size_t length) {
-        if (!ec)
+    for (auto pipe : err_pipe_)
+    {
+        if (pipe != -1)
         {
-            spdlog::debug("err {}", std::string_view{buffer.begin(), length});
-            do_read();
+            close(pipe);
         }
-    });
+    }
+
+    if (pid_ != -1)
+    {
+        kill(pid_, SIGTERM);
+        int status;
+        if (waitpid(pid_, &status, 0) == -1)
+        {
+            spdlog::error("Error waiting for child process: {}", strerror(errno));
+        }
+    }
 }
 } // namespace quite

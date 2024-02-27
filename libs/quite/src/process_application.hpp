@@ -1,22 +1,26 @@
 #pragma once
+#include <array>
+#include <asio/readable_pipe.hpp>
 #include "quite/application.hpp"
-
-namespace uvw
-{
-class process_handle;
-class pipe_handle;
-} // namespace uvw
 
 namespace quite
 {
 class ProcessApplication final : public Application
 {
   public:
-    explicit ProcessApplication(const std::string &path_to_application);
+    explicit ProcessApplication(asio::io_context &io_context, const std::string &path_to_application);
     ~ProcessApplication() override;
 
   private:
-    std::shared_ptr<uvw::process_handle> process_;
-    std::shared_ptr<uvw::pipe_handle> out_pipe_;
+    void do_read();
+
+  private:
+    pid_t pid_;
+    std::array<int, 2> out_pipe_;
+    std::array<int, 2> err_pipe_;
+    asio::readable_pipe stdout_pipe_;
+    asio::readable_pipe stderr_pipe_;
+
+    std::array<char, 1024> buffer;
 };
 } // namespace quite

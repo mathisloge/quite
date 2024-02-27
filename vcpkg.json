@@ -1,7 +1,7 @@
 {
     "name": "quite",
     "dependencies": [
-        "uvw",
+        "asio",
         "spdlog",
         "catch2"
     ]
