@@ -12,6 +12,7 @@ class Process final
 
     int stdoutPipe() const noexcept;
     int stderrPipe() const noexcept;
+    void terminate();
 
   private:
     pid_t pid_{-1};

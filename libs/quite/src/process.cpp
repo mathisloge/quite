@@ -52,21 +52,23 @@ int Process::stderrPipe() const noexcept
     return err_pipe_[0];
 }
 
-Process::~Process()
+void Process::terminate()
 {
-    for (auto pipe : out_pipe_)
+    for (auto &pipe : out_pipe_)
     {
         if (pipe != -1)
         {
             close(pipe);
+            pipe = -1;
         }
     }
 
-    for (auto pipe : err_pipe_)
+    for (auto &pipe : err_pipe_)
     {
         if (pipe != -1)
         {
             close(pipe);
+            pipe = -1;
         }
     }
 
@@ -78,6 +80,12 @@ Process::~Process()
         {
             spdlog::error("Error waiting for child process: {}", strerror(errno));
         }
+        pid_ = -1;
     }
+}
+
+Process::~Process()
+{
+    terminate();
 }
 } // namespace quite
