@@ -11,8 +11,7 @@ ProcessApplication::ProcessApplication(asio::io_context &io_context, const std::
     do_read();
 }
 
-ProcessApplication::~ProcessApplication()
-{}
+ProcessApplication::~ProcessApplication() = default;
 
 void ProcessApplication::do_read()
 {

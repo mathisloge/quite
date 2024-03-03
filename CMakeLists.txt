@@ -18,6 +18,7 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Catch2 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+find_package(asio-grpc CONFIG REQUIRED)
 find_package(asio CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick REQUIRED)
 

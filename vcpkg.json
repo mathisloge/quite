@@ -2,6 +2,7 @@
     "name": "quite",
     "dependencies": [
         "asio",
+        "asio-grpc",
         "spdlog",
         "catch2"
     ]
