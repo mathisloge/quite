@@ -17,5 +17,5 @@ target_link_libraries(protocol
 
 target_sources(protocol
     PRIVATE
-        src/protocol.cpp
+        src/object_server.cpp
 )
