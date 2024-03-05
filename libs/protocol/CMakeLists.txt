@@ -8,14 +8,15 @@ target_include_directories(protocol PUBLIC
 )
 
 target_link_libraries(protocol 
-    PRIVATE 
-        quite::protocol_proto
     PUBLIC
+        spdlog::spdlog
         asio::asio
-        asio-grpc::asio-grpc
+        asio-grpc::asio-grpc-standalone-asio
+        quite::protocol_proto
 )
 
 target_sources(protocol
     PRIVATE
-        src/object_server.cpp
+        src/object_service.cpp
+        src/object_client.cpp
 )

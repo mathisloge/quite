@@ -13,7 +13,6 @@ target_include_directories(quitelib PUBLIC
 target_link_libraries(quitelib PRIVATE 
     asio::asio
     spdlog::spdlog
-    quite::protocol
 )
 
 target_sources(quitelib

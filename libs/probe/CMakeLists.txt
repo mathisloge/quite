@@ -13,6 +13,7 @@ target_include_directories(probe PUBLIC
 target_link_libraries(probe PRIVATE 
     Qt6::CorePrivate 
     Qt6::QuickPrivate
+    quite::protocol
 )
 
 target_sources(probe
