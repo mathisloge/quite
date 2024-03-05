@@ -1,3 +1,6 @@
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+
 qt_add_executable(tester
     main.cpp
 )
@@ -10,7 +13,7 @@ qt_add_qml_module(tester
     DEPENDENCIES QtQuick
 )
 
-target_link_libraries(tester PUBLIC 
+target_link_libraries(tester PRIVATE 
     Qt6::Core
     Qt6::Gui
     Qt6::Qml
