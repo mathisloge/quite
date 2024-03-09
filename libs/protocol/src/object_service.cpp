@@ -2,8 +2,8 @@
 #include <agrpc/asio_grpc.hpp>
 #include <grpcpp/server.h>
 #include <grpcpp/server_builder.h>
-#include "awaitable_server.hpp"
-#include "rethrow.hpp"
+#include "quite/detail/awaitable_server.hpp"
+#include "quite/detail/rethrow.hpp"
 
 namespace quite
 {

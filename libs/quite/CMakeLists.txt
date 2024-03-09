@@ -13,6 +13,7 @@ target_include_directories(quitelib PUBLIC
 target_link_libraries(quitelib PRIVATE 
     asio::asio
     spdlog::spdlog
+    quite::protocol
 )
 
 target_sources(quitelib
@@ -23,4 +24,8 @@ target_sources(quitelib
         src/process_application.hpp
         src/process.cpp
         src/process.hpp
+        src/object_client.cpp
+        src/object_client.hpp
+        src/context.cpp
+        src/context.hpp
 )
