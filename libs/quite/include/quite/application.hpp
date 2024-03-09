@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <asio/awaitable.hpp>
 #include "quitelib_export.h"
 namespace quite
 {
@@ -7,6 +8,7 @@ class QUITELIB_EXPORT Application
 {
   public:
     virtual ~Application();
+    virtual asio::awaitable<void> test() = 0;
 
   protected:
     Application();

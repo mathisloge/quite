@@ -3,15 +3,21 @@
 #include <spdlog/spdlog.h>
 namespace quite
 {
-ProcessApplication::ProcessApplication(asio::io_context &io_context, const std::string &path_to_application)
+ProcessApplication::ProcessApplication(Context &context, const std::string &path_to_application)
     : process_{path_to_application}
-    , stdout_pipe_{io_context, process_.stdoutPipe()}
-    , stderr_pipe_{io_context, process_.stderrPipe()}
+    , stdout_pipe_{context.ioContext(), process_.stdoutPipe()}
+    , stderr_pipe_{context.ioContext(), process_.stderrPipe()}
+    , object_client_{context.grpcContext()}
 {
     do_read();
 }
 
 ProcessApplication::~ProcessApplication() = default;
+
+asio::awaitable<void> ProcessApplication::test()
+{
+    co_await object_client_.findObject();
+}
 
 void ProcessApplication::do_read()
 {
