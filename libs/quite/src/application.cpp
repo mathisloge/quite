@@ -9,6 +9,6 @@ Application::~Application() = default;
 
 std::shared_ptr<Application> Application::CreateApplication(const std::string &path_to_application)
 {
-    return std::make_shared<ProcessApplication>(Context::Instance().ioContext(), path_to_application);
+    return std::make_shared<ProcessApplication>(Context::Instance(), path_to_application);
 }
 } // namespace quite
