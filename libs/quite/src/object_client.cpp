@@ -1,17 +1,9 @@
-#include "quite/object_client.hpp"
-#include <grpcpp/client_context.h>
-#include <grpcpp/create_channel.h>
-#include "awaitable_client.hpp"
+#include "object_client.hpp"
 #include <spdlog/spdlog.h>
+#include "quite/detail/awaitable_client.hpp"
 
 namespace quite
 {
-ObjectClient::ObjectClient(agrpc::GrpcContext &context)
-    : context_{context}
-    , stub_{grpc::CreateChannel(std::string("localhost:50051"), grpc::InsecureChannelCredentials())}
-{}
-
-ObjectClient::~ObjectClient() = default;
 
 asio::awaitable<std::string> ObjectClient::sayHello(const std::string &name)
 {

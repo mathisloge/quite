@@ -4,6 +4,7 @@ package quite.proto;
 
 service ObjectService {
     rpc SayHello(HelloRequest) returns (HelloReply) {}
+    rpc FindObject(ObjectRequest) returns (ObjectReply) {}
 }
 
 message HelloRequest {
@@ -13,4 +14,12 @@ message HelloRequest {
 // The response message containing the greetings
 message HelloReply {
   string message = 1;
+}
+
+message ObjectRequest {
+  string object_name = 1;
+}
+
+message ObjectReply {
+  
 }
