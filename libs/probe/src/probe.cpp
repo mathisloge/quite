@@ -21,6 +21,10 @@ class ProbeObjectService final : public quite::ObjectService
     {
         *response.mutable_message() = fmt::format(FMT_COMPILE("{} <3 from probe"), request.name());
     }
+
+    void onFindObject(const quite::proto::ObjectRequest& request, quite::proto::ObjectReply& response) override {
+
+    }
 };
 struct ProbeData final
 {

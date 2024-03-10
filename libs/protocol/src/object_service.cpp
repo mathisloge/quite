@@ -9,6 +9,7 @@ namespace quite
 {
 
 using RpcSayHello = awaitable_server_t<&quite::proto::ObjectService::AsyncService::RequestSayHello>;
+using RpcFindObject = awaitable_server_t<&quite::proto::ObjectService::AsyncService::RequestFindObject>;
 
 ObjectService::ObjectService(agrpc::GrpcContext &context, grpc::ServerBuilder &builder)
 {
@@ -21,6 +22,17 @@ ObjectService::ObjectService(agrpc::GrpcContext &context, grpc::ServerBuilder &b
             proto::HelloReply response;
             request.name();
             onSayHello(request, response);
+            co_await rpc.finish(response, grpc::Status::OK);
+        },
+        RethrowFirstArg{});
+
+    agrpc::register_awaitable_rpc_handler<RpcFindObject>(
+        context,
+        service_,
+        [this](RpcFindObject &rpc, RpcFindObject::Request &request) -> asio::awaitable<void> {
+            proto::ObjectReply response;
+
+            onFindObject(request, response);
             co_await rpc.finish(response, grpc::Status::OK);
         },
         RethrowFirstArg{});
