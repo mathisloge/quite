@@ -35,6 +35,6 @@ asio::awaitable<void> ObjectClient::findObject()
     proto::ObjectReply response;
     const auto status = co_await RPC::request(context_, stub_, client_context, request, response);
 
-    spdlog::error("STATUS: {}", status.error_message());
+    spdlog::error("findObject reply: err:{}, code: {}", status.error_message(), static_cast<int>(status.error_code()));
 }
 } // namespace quite

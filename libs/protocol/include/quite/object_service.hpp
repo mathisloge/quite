@@ -12,6 +12,7 @@ class ObjectService
 
   protected:
     virtual void onSayHello(const quite::proto::HelloRequest& request, quite::proto::HelloReply& response) = 0;
+    virtual void onFindObject(const quite::proto::ObjectRequest& request, quite::proto::ObjectReply& response) = 0;
 
   private:
     proto::ObjectService::AsyncService service_;
