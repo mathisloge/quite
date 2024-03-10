@@ -1,14 +1,28 @@
 #include "context.hpp"
 #include <agrpc/asio_grpc.hpp>
+#include <spdlog/spdlog.h>
 namespace quite
 {
 
 Context::Context()
-    : io_context_thread_{[this] { io_context_.run(); }}
-    , grpc_context_thread_{[this] { grpc_context_.run(); }}
-{}
+    : asio_workguard_{asio::make_work_guard(io_context_)}
+    , grpc_workguard_{asio::make_work_guard(grpc_context_)}
+    , io_context_thread_{[this]() {
+        io_context_.run();
+        spdlog::warn("exiting io_context");
+    }}
+    , grpc_context_thread_{[this]() {
+        grpc_context_.run();
+        spdlog::warn("exiting grpc_context");
+    }}
+{
+}
+
 Context::~Context()
-{}
+{
+    grpc_context_.stop();
+    io_context_.stop();
+}
 
 asio::io_context &Context::ioContext()
 {
