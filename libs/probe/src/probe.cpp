@@ -8,6 +8,7 @@
 #include <grpcpp/server_builder.h>
 #include <quite/object_service.hpp>
 #include "object_tracker.hpp"
+#include <spdlog/spdlog.h>
 
 namespace
 {
@@ -86,6 +87,7 @@ void testRemoveObject(QObject *q)
 
 void testStartup()
 {
+    spdlog::set_level(spdlog::level::debug);
     std::cout << "startup" << std::endl;
 }
 
