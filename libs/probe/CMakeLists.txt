@@ -1,3 +1,6 @@
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+
 add_library(probe SHARED)
 add_library(quite::probe ALIAS probe)
 set_target_properties(probe PROPERTIES 
