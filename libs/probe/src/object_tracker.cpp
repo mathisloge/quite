@@ -90,6 +90,14 @@ void ObjectTracker::processNewObjects()
     for (auto obj : objects_to_track_)
     {
         dump_props(obj);
+        obj->dumpObjectInfo();
+        obj->dumpObjectTree();
+        if(obj->parent() == nullptr) {
+            tracked_objects_.emplace(obj);
+        }
+        //  for outstanding requests do: 
+        //      if outstanding request matches obj do:
+        //          handle_request. RequestHandler should call complete of coroutine.         
     }
     objects_to_track_.clear();
 }
