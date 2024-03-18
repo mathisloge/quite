@@ -1,6 +1,7 @@
 #pragma once
 #include <agrpc/grpc_context.hpp>
 #include "object/object.grpc.pb.h"
+#include <asio/awaitable.hpp>
 
 namespace quite
 {

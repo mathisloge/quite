@@ -21,5 +21,6 @@ message ObjectRequest {
 }
 
 message ObjectReply {
-  
+  bool object_found = 1;
+  map<string, string> properties = 2;
 }

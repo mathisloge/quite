@@ -3,35 +3,62 @@
 #include <thread>
 #include <QtCore/private/qhooks_p.h>
 #include <agrpc/asio_grpc.hpp>
+#include <asio/compose.hpp>
 #include <fmt/compile.h>
 #include <fmt/format.h>
 #include <grpcpp/server_builder.h>
 #include <quite/object_service.hpp>
-#include "object_tracker.hpp"
 #include <spdlog/spdlog.h>
-
+#include "object_tracker.hpp"
 namespace
 {
+/*
+struct async_find_object_implementation
+{
+    template <typename Self>
+    void operator()(Self &self, asio::error_code error = {}, std::size_t n = 0)
+    {
+        self.complete();
+    }
+};
 
+template <typename CompletionToken>
+auto async_find_object(CompletionToken &&token) ->
+    typename asio::async_result<typename std::decay<CompletionToken>::type,
+                                void(asio::error_code, std::size_t)>::return_type
+{
+    // create the request QObject, which binds to the object tracker track signal.
+    // as soon as the object is found, the implementations complete should be called, (e.g. when calling the
+find_object, ) return asio::async_compose<CompletionToken, void(asio::error_code, std::size_t)>(
+        async_find_object_implementation{}, token, socket);
+}
+*/
 class ProbeObjectService final : public quite::ObjectService
 {
   public:
-    using ObjectService::ObjectService;
+    explicit ProbeObjectService(agrpc::GrpcContext &context,
+                                grpc::ServerBuilder &builder,
+                                quite::ObjectTracker &object_tracker)
+        : ObjectService{context, builder}
+        , object_tracker_{object_tracker}
+    {}
 
     void onSayHello(const quite::proto::HelloRequest &request, quite::proto::HelloReply &response) override
     {
         *response.mutable_message() = fmt::format(FMT_COMPILE("{} <3 from probe"), request.name());
     }
 
-    void onFindObject(const quite::proto::ObjectRequest& request, quite::proto::ObjectReply& response) override {
+    void onFindObject(const quite::proto::ObjectRequest &request, quite::proto::ObjectReply &response) override
+    {}
 
-    }
+  private:
+    quite::ObjectTracker &object_tracker_;
 };
 struct ProbeData final
 {
     ProbeData(grpc::ServerBuilder builder)
         : grpc_context{builder.AddCompletionQueue()}
-        , object_service{grpc_context, builder}
+        , object_service{grpc_context, builder, tracker}
     {
         builder.AddListeningPort("0.0.0.0:50051", grpc::InsecureServerCredentials());
         server = builder.BuildAndStart();
@@ -41,8 +68,8 @@ struct ProbeData final
 
     agrpc::GrpcContext grpc_context;
     std::unique_ptr<grpc::Server> server;
-    ProbeObjectService object_service;
     quite::ObjectTracker tracker;
+    ProbeObjectService object_service;
 
   private:
     std::jthread grpc_runner;
