@@ -24,4 +24,6 @@ target_sources(probe
         src/object_tracker.cpp
         src/object_tracker.hpp
         src/probe.cpp
+        src/property_collector.cpp
+        src/property_collector.hpp
 )
