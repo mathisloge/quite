@@ -14,9 +14,11 @@ namespace
 {
 void dump_props(QObject *obj)
 {
+    obj->dumpObjectInfo();
+    obj->dumpObjectTree();
     auto object_meta = quite::ObjectMeta::fromQObject(obj);
     const auto properties = quite::collect_properties(std::move(object_meta));
-    spdlog::debug("Object properties: {}", properties);
+    spdlog::debug("Object properties of {}: {}", object_meta.meta_object->className(), properties);
 }
 
 } // namespace
@@ -33,11 +35,10 @@ ObjectTracker::~ObjectTracker() = default;
 
 void ObjectTracker::processNewObjects()
 {
+    std::unique_lock l{locker_};
     for (auto obj : objects_to_track_)
     {
-        dump_props(obj);
-        obj->dumpObjectInfo();
-        obj->dumpObjectTree();
+        // dump_props(obj);
         if (obj->parent() == nullptr)
         {
             tracked_objects_.emplace(obj);
@@ -65,8 +66,63 @@ void ObjectTracker::addObject(QObject *obj)
     startTimer();
     own_ctx_ = false;
 }
+
+void ObjectTracker::beginContext()
+{
+    own_ctx_ = true;
+}
+
+void ObjectTracker::endContext()
+{
+    own_ctx_ = false;
+}
+
+namespace
+{
+QObject *find_object(const std::string &object_name)
+{
+    return nullptr;
+}
+} // namespace
+
+std::unordered_map<std::string, std::string> ObjectTracker::findObject(const std::string &object_name)
+{
+    std::shared_lock l{locker_};
+    own_ctx_ = true;
+    spdlog::debug("got lock");
+    for (auto &&obj : tracked_objects_)
+    {
+        auto object_meta = quite::ObjectMeta::fromQObject(obj);
+        const auto properties = quite::collect_properties(object_meta);
+        spdlog::debug("got a lot of props");
+        if (const auto it = properties.find("object_name"); it != properties.end() && it->second == object_name)
+        {
+            spdlog::debug("return {}", object_meta.meta_object->className());
+            own_ctx_ = false;
+            return properties;
+        }
+    }
+    spdlog::debug("EXIT");
+    own_ctx_ = false;
+    return {};
+}
+
 void ObjectTracker::removeObject(QObject *obj)
-{}
+{
+    std::unique_lock l{locker_};
+    own_ctx_ = true;
+    if (const auto it = objects_to_track_.find(obj); it != objects_to_track_.end())
+    {
+        spdlog::debug("remove obj from objects_to_track");
+        objects_to_track_.erase(it);
+    }
+    else if (const auto it = tracked_objects_.find(obj); it != tracked_objects_.end())
+    {
+        spdlog::debug("remove obj from tracked_objects");
+        tracked_objects_.erase(it);
+    }
+    own_ctx_ = false;
+}
 
 void ObjectTracker::startTimer()
 {

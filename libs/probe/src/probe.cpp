@@ -1,5 +1,4 @@
 #include "quite/probe.hpp"
-#include <iostream>
 #include <thread>
 #include <QtCore/private/qhooks_p.h>
 #include <agrpc/asio_grpc.hpp>
@@ -10,6 +9,7 @@
 #include <quite/object_service.hpp>
 #include <spdlog/spdlog.h>
 #include "object_tracker.hpp"
+#include "property_collector.hpp"
 namespace
 {
 /*
@@ -49,7 +49,13 @@ class ProbeObjectService final : public quite::ObjectService
     }
 
     void onFindObject(const quite::proto::ObjectRequest &request, quite::proto::ObjectReply &response) override
-    {}
+    {
+        spdlog::error("start find obj with name {}", request.object_name());
+        // todo: this must be done on the qt thread.
+        // async_find_object?  
+        auto props = object_tracker_.findObject(request.object_name());
+        //response.mutable_properties()->insert(props.begin(), props.end());
+    }
 
   private:
     quite::ObjectTracker &object_tracker_;
@@ -115,7 +121,6 @@ void testRemoveObject(QObject *q)
 void testStartup()
 {
     spdlog::set_level(spdlog::level::debug);
-    std::cout << "startup" << std::endl;
 }
 
 } // namespace
