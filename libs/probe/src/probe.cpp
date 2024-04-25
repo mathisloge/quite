@@ -8,11 +8,13 @@
 #include <grpcpp/server_builder.h>
 #include <quite/object_service.hpp>
 #include <spdlog/spdlog.h>
+#include "asio_event.hpp"
 #include "object_tracker.hpp"
 #include "property_collector.hpp"
 namespace
 {
-/*
+// see https://cppalliance.org/richard/2020/10/31/RichardsOctoberUpdate.html
+// https://github.com/madmongo1/blog-october-2020/blob/stage-2/src/qt_net_application.cpp
 struct async_find_object_implementation
 {
     template <typename Self>
@@ -29,10 +31,11 @@ auto async_find_object(CompletionToken &&token) ->
 {
     // create the request QObject, which binds to the object tracker track signal.
     // as soon as the object is found, the implementations complete should be called, (e.g. when calling the
-find_object, ) return asio::async_compose<CompletionToken, void(asio::error_code, std::size_t)>(
+    // find_object, )
+    return asio::async_compose<CompletionToken, void(asio::error_code, std::size_t)>(
         async_find_object_implementation{}, token, socket);
 }
-*/
+
 class ProbeObjectService final : public quite::ObjectService
 {
   public:
@@ -52,13 +55,34 @@ class ProbeObjectService final : public quite::ObjectService
     {
         spdlog::error("start find obj with name {}", request.object_name());
         // todo: this must be done on the qt thread.
-        // async_find_object?  
+        // async_find_object?
         auto props = object_tracker_.findObject(request.object_name());
-        //response.mutable_properties()->insert(props.begin(), props.end());
+        // response.mutable_properties()->insert(props.begin(), props.end());
     }
 
   private:
     quite::ObjectTracker &object_tracker_;
+};
+
+class AsioEventHandler : public QObject
+{
+    Q_OBJECT
+  public:
+    using QObject::QObject;
+
+  protected:
+    bool event(QEvent *event) override
+    {
+        using namespace quite::probe;
+        if (event->type() == qt_work_event_base::generated_type())
+        {
+            auto p = static_cast<qt_work_event_base *>(event);
+            p->accept();
+            p->invoke();
+            return true;
+        }
+        return QObject::event(event);
+    }
 };
 struct ProbeData final
 {
@@ -71,7 +95,7 @@ struct ProbeData final
 
         grpc_runner = std::jthread{[this]() { grpc_context.run(); }};
     }
-
+    AsioEventHandler event_handler_;
     agrpc::GrpcContext grpc_context;
     std::unique_ptr<grpc::Server> server;
     quite::ObjectTracker tracker;
@@ -133,3 +157,5 @@ void setupHooks()
     installQHooks();
 }
 } // namespace quite
+
+#include "probe.moc"
