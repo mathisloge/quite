@@ -2,6 +2,7 @@
 #include <QObject>
 #include <QTimer>
 #include <unordered_set>
+#include <shared_mutex>
 
 namespace quite
 {
@@ -14,6 +15,10 @@ class ObjectTracker final : public QObject
 
     void addObject(QObject *);
     void removeObject(QObject *);
+    void beginContext();
+    void endContext();
+
+    std::unordered_map<std::string, std::string> findObject(const std::string& object_name);
 
   private:
     void startTimer();
@@ -21,7 +26,7 @@ class ObjectTracker final : public QObject
 
   private:
     std::atomic_bool own_ctx_{false};
-    std::mutex locker_;
+    std::shared_mutex locker_;
     QTimer init_timer_;
     std::unordered_set<QObject *> objects_to_track_;
     std::unordered_set<QObject *> tracked_objects_;
