@@ -1,4 +1,5 @@
 #pragma once
+#include <agrpc/detail/sender_of.hpp>
 #include <agrpc/grpc_context.hpp>
 #include "object/object.grpc.pb.h"
 #include <asio/awaitable.hpp>
@@ -17,5 +18,6 @@ class ObjectService
 
   private:
     proto::ObjectService::AsyncService service_;
+    agrpc::detail::SenderOf<void()> find_obj_;
 };
 } // namespace quite
