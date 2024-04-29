@@ -20,10 +20,9 @@ ObjectService::ObjectService(agrpc::GrpcContext &context, grpc::ServerBuilder &b
 
     find_obj_ = agrpc::register_sender_rpc_handler<RpcFindObjectSender>(
         context, service_, [this](RpcFindObjectSender &rpc, const RpcFindObjectSender::Request &request) {
-            return stdexec::then(stdexec::just(RpcFindObjectSender::Response{}), [this, &request](auto &&response) {
-                onFindObject(request, response);
-                return response;
-            });
+            RpcFindObjectSender::Response response {};
+            co_await onFindObject(request, response);
+            co_return rpc.finish(response, grpc::Status::OK);
         });
 
     agrpc::register_awaitable_rpc_handler<RpcSayHello>(
