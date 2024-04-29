@@ -11,6 +11,7 @@
 #include "object_tracker.hpp"
 #include "property_collector.hpp"
 #include "qtstdexec.h"
+#include <QCoreApplication>
 namespace
 {
 
@@ -24,8 +25,9 @@ class ProbeObjectService final : public quite::ObjectService
         , object_tracker_{object_tracker}
     {}
 
-    void onSayHello(const quite::proto::HelloRequest &request, quite::proto::HelloReply &response) override
+    exec::task<void> onSayHello(const quite::proto::HelloRequest &request, quite::proto::HelloReply &response) override
     {
+        QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()) | stdexec::then([this](){});
         *response.mutable_message() = fmt::format(FMT_COMPILE("{} <3 from probe"), request.name());
     }
 
