@@ -89,20 +89,21 @@ std::unordered_map<std::string, std::string> ObjectTracker::findObject(const std
 {
     std::shared_lock l{locker_};
     own_ctx_ = true;
-    spdlog::debug("got lock");
     for (auto &&obj : tracked_objects_)
     {
         auto object_meta = quite::ObjectMeta::fromQObject(obj);
         const auto properties = quite::collect_properties(object_meta);
-        spdlog::debug("got a lot of props");
-        if (const auto it = properties.find("object_name"); it != properties.end() && it->second == object_name)
+        if (const auto it = properties.find("objectName"); it != properties.end())
         {
-            spdlog::debug("return {}", object_meta.meta_object->className());
-            own_ctx_ = false;
-            return properties;
+            spdlog::debug("got {} searched for {}", it->second, object_name);   
+            if (it->second == object_name)
+            {
+                spdlog::debug("return {}", object_meta.meta_object->className());
+                own_ctx_ = false;
+                return properties;
+            }
         }
     }
-    spdlog::debug("EXIT");
     own_ctx_ = false;
     return {};
 }
