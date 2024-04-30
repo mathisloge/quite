@@ -31,13 +31,16 @@ asio::awaitable<void> ObjectClient::findObject()
     grpc::ClientContext client_context;
     setupClientContext(client_context);
     proto::ObjectRequest request;
-    *request.mutable_object_name() = "testRoot2";
+    *request.mutable_object_name() = "rootView";
 
     proto::ObjectReply response;
 
     spdlog::debug("start request");
     const auto status = co_await RPC::request(context_, stub_, client_context, request, response);
 
-    spdlog::error("findObject reply: err:{}, code: {}", status.error_message(), static_cast<int>(status.error_code()));
+    spdlog::error("findObject reply: err:{}, code: {} len {}", status.error_message(), static_cast<int>(status.error_code()), response.properties().size());
+    for(auto&& prop : response.properties()) {
+        spdlog::debug("property {}={}", prop.first, prop.second);
+    }
 }
 } // namespace quite

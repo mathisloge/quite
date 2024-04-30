@@ -7,6 +7,7 @@
 #include <exec/finally.hpp>
 #include <exec/inline_scheduler.hpp>
 #include <exec/static_thread_pool.hpp>
+#include <exec/task.hpp>
 #include <fmt/compile.h>
 #include <fmt/format.h>
 #include <grpcpp/server_builder.h>
@@ -71,28 +72,27 @@ struct ProbeData final
             auto find_obj = agrpc::register_sender_rpc_handler<RpcFindObjectSender>(
                 grpc_context,
                 object_service,
-                [this](RpcFindObjectSender &rpc, const RpcFindObjectSender::Request &request) {
+                [this](RpcFindObjectSender &rpc, const RpcFindObjectSender::Request &request) -> exec::task<void> {
                     spdlog::error("GOT FIND REQUEST");
-                    return stdexec::then(
-                               stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                               [this, &request]() {
-                                   RpcFindObjectSender::Response response{};
-                                   auto props = tracker.findObject(request.object_name());
-                                   response.mutable_properties()->insert(props.begin(), props.end());
-                                   return response;
-                               }) |
-                           stdexec::then([&](auto &&response) { return rpc.finish(response, grpc::Status::OK); });
+                    RpcFindObjectSender::Response response{};
+                    co_await stdexec::then(
+                        stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
+                        [&, this]() {
+                            auto props = tracker.findObject(request.object_name());
+                            spdlog::debug("GOT PROPS={}", props.size());
+                            props.emplace("test", "prop");
+                            response.mutable_properties()->insert(props.begin(), props.end());
+                        });
+                    spdlog::error("finished");
+                    co_await rpc.finish(response, grpc::Status::OK);
                 });
             spdlog::error("Start work");
             grpc_context.work_started();
-            auto snd = exec::finally(find_obj, stdexec::then(stdexec::just(), [this] {
+            auto snd = exec::finally(stdexec::when_all(find_obj), stdexec::then(stdexec::just(), [this] {
                                          spdlog::debug("grpc finished");
                                          grpc_context.work_finished();
                                      }));
-            stdexec::sync_wait(stdexec::when_all(snd,
-                                                 stdexec::then(stdexec::just(), [&] { grpc_context.run(); }),
-                                                 stdexec::get_scheduler(),
-                                                 stdexec::get_stop_token()));
+            stdexec::sync_wait(stdexec::when_all(snd, stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
             spdlog::error("ending!!!!!");
         }};
     }
