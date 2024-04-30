@@ -31,7 +31,7 @@ asio::awaitable<void> ObjectClient::findObject()
     grpc::ClientContext client_context;
     setupClientContext(client_context);
     proto::ObjectRequest request;
-    *request.mutable_object_name() = "rootView";
+    *request.mutable_object_name() = "testRoot2";
 
     proto::ObjectReply response;
 
