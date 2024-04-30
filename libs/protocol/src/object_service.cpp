@@ -5,6 +5,7 @@
 #include <stdexec/execution.hpp>
 #include "quite/detail/awaitable_server.hpp"
 #include "quite/detail/rethrow.hpp"
+#include <spdlog/spdlog.h>
 
 namespace quite
 {
@@ -18,23 +19,18 @@ ObjectService::ObjectService(agrpc::GrpcContext &context, grpc::ServerBuilder &b
 {
     builder.RegisterService(&service_);
 
-    find_obj_ = agrpc::register_sender_rpc_handler<RpcFindObjectSender>(
-        context, service_, [this](RpcFindObjectSender &rpc, const RpcFindObjectSender::Request &request) {
-            RpcFindObjectSender::Response response {};
-            co_await onFindObject(request, response);
-            co_return rpc.finish(response, grpc::Status::OK);
-        });
 
-    agrpc::register_awaitable_rpc_handler<RpcSayHello>(
-        context,
-        service_,
-        [this](RpcSayHello &rpc, RpcSayHello::Request &request) -> asio::awaitable<void> {
-            proto::HelloReply response;
-            request.name();
-            onSayHello(request, response);
-            co_await rpc.finish(response, grpc::Status::OK);
-        },
-        RethrowFirstArg{});
+
+    //agrpc::register_awaitable_rpc_handler<RpcSayHello>(
+    //    context,
+    //    service_,
+    //    [this](RpcSayHello &rpc, RpcSayHello::Request &request) -> asio::awaitable<void> {
+    //        proto::HelloReply response;
+    //        request.name();
+    //        onSayHello(request, response);
+    //        co_await rpc.finish(response, grpc::Status::OK);
+    //    },
+    //    RethrowFirstArg{});
 
     //agrpc::register_awaitable_rpc_handler<RpcFindObject>(
     //    context,

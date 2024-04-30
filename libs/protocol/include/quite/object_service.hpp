@@ -1,9 +1,9 @@
 #pragma once
 #include <agrpc/detail/sender_of.hpp>
 #include <agrpc/grpc_context.hpp>
-#include "object/object.grpc.pb.h"
 #include <asio/awaitable.hpp>
 #include <exec/task.hpp>
+#include "object/object.grpc.pb.h"
 
 namespace quite
 {
@@ -14,11 +14,14 @@ class ObjectService
     virtual ~ObjectService();
 
   protected:
-    virtual void onSayHello(const quite::proto::HelloRequest& request, quite::proto::HelloReply& response) = 0;
-    virtual exec::task<void> onFindObject(const quite::proto::ObjectRequest& request, quite::proto::ObjectReply& response) = 0;
+    virtual void onSayHello(const quite::proto::HelloRequest &request, quite::proto::HelloReply &response) = 0;
+    virtual exec::task<void> onFindObject(const quite::proto::ObjectRequest &request,
+                                          quite::proto::ObjectReply &response) = 0;
 
   private:
     proto::ObjectService::AsyncService service_;
+
+  public:
     agrpc::detail::SenderOf<void()> find_obj_;
 };
 } // namespace quite

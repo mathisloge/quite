@@ -1,20 +1,24 @@
 #include "quite/probe.hpp"
+#include <QCoreApplication>
 #include <thread>
 #include <QtCore/private/qhooks_p.h>
 #include <agrpc/asio_grpc.hpp>
 #include <asio/compose.hpp>
+#include <exec/finally.hpp>
+#include <exec/inline_scheduler.hpp>
+#include <exec/static_thread_pool.hpp>
 #include <fmt/compile.h>
 #include <fmt/format.h>
 #include <grpcpp/server_builder.h>
-#include <quite/object_service.hpp>
+#include <object/object.grpc.pb.h>
 #include <spdlog/spdlog.h>
 #include "object_tracker.hpp"
 #include "property_collector.hpp"
 #include "qtstdexec.h"
-#include <QCoreApplication>
 namespace
 {
 
+/*
 class ProbeObjectService final : public quite::ObjectService
 {
   public:
@@ -25,40 +29,79 @@ class ProbeObjectService final : public quite::ObjectService
         , object_tracker_{object_tracker}
     {}
 
-    exec::task<void> onSayHello(const quite::proto::HelloRequest &request, quite::proto::HelloReply &response) override
+    void onSayHello(const quite::proto::HelloRequest &request, quite::proto::HelloReply &response) override
     {
-        QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()) | stdexec::then([this](){});
+        // QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()) | stdexec::then([this](){});
         *response.mutable_message() = fmt::format(FMT_COMPILE("{} <3 from probe"), request.name());
     }
 
-    void onFindObject(const quite::proto::ObjectRequest &request, quite::proto::ObjectReply &response) override
+    exec::task<void> onFindObject(const quite::proto::ObjectRequest &request,
+                                  quite::proto::ObjectReply &response) override
     {
+
         spdlog::error("start find obj with name {}", request.object_name());
+        co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
+                               [this, &request, &response]() {
+                                   auto props = object_tracker_.findObject(request.object_name());
+                                   response.mutable_properties()->insert(props.begin(), props.end());
+                               });
+        spdlog::error("end find obj with name {}", request.object_name());
         // todo: this must be done on the qt thread.
         // async_find_object?
-        auto props = object_tracker_.findObject(request.object_name());
+        // auto props = object_tracker_.findObject(request.object_name());
         // response.mutable_properties()->insert(props.begin(), props.end());
     }
 
   private:
     quite::ObjectTracker &object_tracker_;
 };
+*/
+using RpcFindObjectSender = agrpc::ServerRPC<&quite::proto::ObjectService::AsyncService::RequestFindObject>;
+
 struct ProbeData final
 {
     ProbeData(grpc::ServerBuilder builder)
         : grpc_context{builder.AddCompletionQueue()}
-        , object_service{grpc_context, builder, tracker}
     {
+        builder.RegisterService(&object_service);
         builder.AddListeningPort("0.0.0.0:50051", grpc::InsecureServerCredentials());
         server = builder.BuildAndStart();
 
-        grpc_runner = std::jthread{[this]() { grpc_context.run(); }};
+        grpc_runner = std::jthread{[this]() {
+            auto find_obj = agrpc::register_sender_rpc_handler<RpcFindObjectSender>(
+                grpc_context,
+                object_service,
+                [this](RpcFindObjectSender &rpc, const RpcFindObjectSender::Request &request) {
+                    spdlog::error("GOT FIND REQUEST");
+                    return stdexec::then(
+                               stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
+                               [this, &request]() {
+                                   RpcFindObjectSender::Response response{};
+                                   auto props = tracker.findObject(request.object_name());
+                                   response.mutable_properties()->insert(props.begin(), props.end());
+                                   return response;
+                               }) |
+                           stdexec::then([&](auto &&response) { return rpc.finish(response, grpc::Status::OK); });
+                });
+            spdlog::error("Start work");
+            grpc_context.work_started();
+            auto snd = exec::finally(find_obj, stdexec::then(stdexec::just(), [this] {
+                                         spdlog::debug("grpc finished");
+                                         grpc_context.work_finished();
+                                     }));
+            stdexec::sync_wait(stdexec::when_all(snd,
+                                                 stdexec::then(stdexec::just(), [&] { grpc_context.run(); }),
+                                                 stdexec::get_scheduler(),
+                                                 stdexec::get_stop_token()));
+            spdlog::error("ending!!!!!");
+        }};
     }
-    
+
     agrpc::GrpcContext grpc_context;
     std::unique_ptr<grpc::Server> server;
     quite::ObjectTracker tracker;
-    ProbeObjectService object_service;
+    quite::proto::ObjectService::AsyncService object_service;
+    // ProbeObjectService object_service;
 
   private:
     std::jthread grpc_runner;
@@ -116,5 +159,3 @@ void setupHooks()
     installQHooks();
 }
 } // namespace quite
-
-#include "probe.moc"
