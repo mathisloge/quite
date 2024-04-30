@@ -16,9 +16,9 @@ void dump_props(QObject *obj)
 {
     obj->dumpObjectInfo();
     obj->dumpObjectTree();
-    auto object_meta = quite::ObjectMeta::fromQObject(obj);
-    const auto properties = quite::collect_properties(std::move(object_meta));
-    spdlog::debug("Object properties of {}: {}", object_meta.meta_object->className(), properties);
+    // auto object_meta = quite::ObjectMeta::fromQObject(obj);
+    // const auto properties = quite::collect_properties(std::move(object_meta));
+    // spdlog::debug("Object properties of {}: {}", object_meta.meta_object->className(), properties);
 }
 
 } // namespace
@@ -39,7 +39,7 @@ void ObjectTracker::processNewObjects()
     for (auto obj : objects_to_track_)
     {
         // dump_props(obj);
-        if (obj->parent() == nullptr)
+        // if (obj->parent() == nullptr)
         {
             tracked_objects_.emplace(obj);
         }
@@ -59,8 +59,9 @@ void ObjectTracker::addObject(QObject *obj)
     std::unique_lock l{locker_};
     own_ctx_ = true;
     connect(obj, &QObject::destroyed, this, [this, obj]() {
-        std::unique_lock l{locker_};
-        objects_to_track_.erase(obj);
+        // std::unique_lock l{locker_};
+        // objects_to_track_.erase(obj);
+        removeObject((obj));
     });
     objects_to_track_.emplace(obj);
     startTimer();
@@ -77,35 +78,26 @@ void ObjectTracker::endContext()
     own_ctx_ = false;
 }
 
-namespace
-{
-QObject *find_object(const std::string &object_name)
-{
-    return nullptr;
-}
-} // namespace
-
-std::unordered_map<std::string, std::string> ObjectTracker::findObject(const std::string &object_name)
+std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::string &object_name)
 {
     std::shared_lock l{locker_};
     own_ctx_ = true;
     for (auto &&obj : tracked_objects_)
     {
         auto object_meta = quite::ObjectMeta::fromQObject(obj);
-        const auto properties = quite::collect_properties(object_meta);
+        auto properties = quite::collect_properties(object_meta);
         if (const auto it = properties.find("objectName"); it != properties.end())
         {
-            spdlog::debug("got {} searched for {}", it->second, object_name);   
             if (it->second == object_name)
             {
-                spdlog::debug("return {}", object_meta.meta_object->className());
                 own_ctx_ = false;
-                return properties;
+                return ObjectInfo{.class_type = object_meta.meta_object->className(),
+                                  .properties = std::move(properties)};
             }
         }
     }
     own_ctx_ = false;
-    return {};
+    return std::unexpected(ObjectErrC::not_found);
 }
 
 void ObjectTracker::removeObject(QObject *obj)
@@ -114,12 +106,12 @@ void ObjectTracker::removeObject(QObject *obj)
     own_ctx_ = true;
     if (const auto it = objects_to_track_.find(obj); it != objects_to_track_.end())
     {
-        spdlog::debug("remove obj from objects_to_track");
+        spdlog::trace("remove obj from objects_to_track {}", obj->objectName().toStdString());
         objects_to_track_.erase(it);
     }
     else if (const auto it = tracked_objects_.find(obj); it != tracked_objects_.end())
     {
-        spdlog::debug("remove obj from tracked_objects");
+        spdlog::trace("remove obj from tracked_objects {}", obj->objectName().toStdString());
         tracked_objects_.erase(it);
     }
     own_ctx_ = false;

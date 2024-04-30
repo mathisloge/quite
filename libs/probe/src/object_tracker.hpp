@@ -1,11 +1,22 @@
 #pragma once
 #include <QObject>
 #include <QTimer>
-#include <unordered_set>
+#include <expected>
 #include <shared_mutex>
+#include <unordered_set>
 
 namespace quite
 {
+struct ObjectInfo
+{
+    std::string class_type;
+    std::unordered_map<std::string, std::string> properties;
+};
+
+enum class ObjectErrC
+{
+    not_found
+};
 class ObjectTracker final : public QObject
 {
     Q_OBJECT
@@ -18,7 +29,7 @@ class ObjectTracker final : public QObject
     void beginContext();
     void endContext();
 
-    std::unordered_map<std::string, std::string> findObject(const std::string& object_name);
+    std::expected<ObjectInfo, ObjectErrC> findObject(const std::string &object_name);
 
   private:
     void startTimer();
