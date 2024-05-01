@@ -14,11 +14,11 @@ namespace
 {
 void dump_props(QObject *obj)
 {
-    obj->dumpObjectInfo();
-    obj->dumpObjectTree();
-    // auto object_meta = quite::ObjectMeta::fromQObject(obj);
-    // const auto properties = quite::collect_properties(std::move(object_meta));
-    // spdlog::debug("Object properties of {}: {}", object_meta.meta_object->className(), properties);
+    // obj->dumpObjectInfo();
+    // obj->dumpObjectTree();
+    auto object_meta = quite::ObjectMeta::fromQObject(obj);
+    const auto properties = quite::collect_properties(std::move(object_meta));
+    spdlog::debug("Object properties of {}: {}", object_meta.meta_object->className(), properties);
 }
 
 } // namespace
@@ -38,7 +38,7 @@ void ObjectTracker::processNewObjects()
     std::unique_lock l{locker_};
     for (auto obj : objects_to_track_)
     {
-        // dump_props(obj);
+        dump_props(obj);
         // if (obj->parent() == nullptr)
         {
             tracked_objects_.emplace(obj);
@@ -58,11 +58,7 @@ void ObjectTracker::addObject(QObject *obj)
     }
     std::unique_lock l{locker_};
     own_ctx_ = true;
-    connect(obj, &QObject::destroyed, this, [this, obj]() {
-        // std::unique_lock l{locker_};
-        // objects_to_track_.erase(obj);
-        removeObject((obj));
-    });
+    connect(obj, &QObject::destroyed, this, [this, obj]() { removeObject((obj)); });
     objects_to_track_.emplace(obj);
     startTimer();
     own_ctx_ = false;
@@ -84,16 +80,17 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::strin
     own_ctx_ = true;
     for (auto &&obj : tracked_objects_)
     {
-        auto object_meta = quite::ObjectMeta::fromQObject(obj);
-        auto properties = quite::collect_properties(object_meta);
-        if (const auto it = properties.find("objectName"); it != properties.end())
+        // auto properties = quite::collect_properties(object_meta);
+        spdlog::debug("OBJ: {} search ", obj->objectName().toStdString(), object_name);
+        if (obj->objectName() == QString::fromStdString(object_name))
         {
-            if (it->second == object_name)
-            {
-                own_ctx_ = false;
-                return ObjectInfo{.class_type = object_meta.meta_object->className(),
-                                  .properties = std::move(properties)};
-            }
+            spdlog::info("FOund obj");
+            auto object_meta = quite::ObjectMeta::fromQObject(obj);
+            own_ctx_ = false;
+            return ObjectInfo{
+                .object_id = reinterpret_cast<std::uintptr_t>(obj),
+                .class_type = object_meta.meta_object->className(),
+            };
         }
     }
     own_ctx_ = false;

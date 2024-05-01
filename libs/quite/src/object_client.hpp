@@ -8,7 +8,6 @@ class ObjectClient final : public BasicObjectClient
   public:
     using BasicObjectClient::BasicObjectClient;
 
-    asio::awaitable<std::string> sayHello(const std::string &name);
     asio::awaitable<void> findObject();
 };
 } // namespace quite

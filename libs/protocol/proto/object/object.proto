@@ -3,24 +3,19 @@ syntax = "proto3";
 package quite.proto;
 
 service ObjectService {
-    rpc SayHello(HelloRequest) returns (HelloReply) {}
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
 }
 
-message HelloRequest {
-  string name = 1;
-}
-
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
-}
-
 message ObjectRequest {
-  string object_name = 1;
+  ObjectRequest parent = 1;
+  string object_name = 2;
 }
 
 message ObjectReply {
-  bool object_found = 1;
-  map<string, string> properties = 2;
+  uint64 id = 1; // the internal id assigned by the probe
+  string type_name = 2;
+}
+
+message ObjectDetails {
+  map<string, string> properties = 1;
 }
