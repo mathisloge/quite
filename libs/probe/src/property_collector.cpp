@@ -17,6 +17,7 @@ ObjectMeta ObjectMeta::fromQObject(QObject *object)
     }
     else
     {
+        spdlog::debug("before QQmlData::get");
         auto data = QQmlData::get(object);
         if (not data or not data->compilationUnit)
         {
@@ -25,7 +26,14 @@ ObjectMeta ObjectMeta::fromQObject(QObject *object)
         else
         {
             const auto qml_type = QQmlMetaType::qmlType(data->compilationUnit->url());
-            meta_object = qml_type.metaObject();
+            if (qml_type.isValid())
+            {
+                meta_object = qml_type.metaObject();
+            }
+            else
+            {
+                spdlog::warn("qml type not valid");
+            }
         }
     }
     return ObjectMeta{.object = object, .meta_object = meta_object};
@@ -43,13 +51,26 @@ std::unordered_map<std::string, std::string> collect_properties(ObjectMeta objec
             // const QByteArray sig = QByteArray("2") + prop.notifySignal().methodSignature();
             //  QObject::connect(o, sig, this, SLOT(propertyChanged()));
         }
-        try
+        if (prop.isReadable())
         {
-            properties.emplace(prop.name(), prop.read(object_meta.object).toString().toStdString());
+            try
+            {
+                spdlog::debug("Read prop {}", prop.name());
+                if (prop.name() == std::string{"inputDirection"} || prop.name() == std::string{"locale"} ||
+                    prop.name() == std::string{"fontInfo"})
+                {
+                    continue;
+                }
+                properties.emplace(prop.name(), prop.read(object_meta.object).toString().toStdString());
+            }
+            catch (const std::exception &exception)
+            {
+                spdlog::error("could not add prop={}", exception.what());
+            }
         }
-        catch (const std::exception &exception)
+        else
         {
-            spdlog::error("could not add prop={}", exception.what());
+            spdlog::debug("Property not readable");
         }
     }
     return properties;

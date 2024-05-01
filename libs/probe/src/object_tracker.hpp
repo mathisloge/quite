@@ -9,8 +9,8 @@ namespace quite
 {
 struct ObjectInfo
 {
+    std::uintptr_t object_id;
     std::string class_type;
-    std::unordered_map<std::string, std::string> properties;
 };
 
 enum class ObjectErrC

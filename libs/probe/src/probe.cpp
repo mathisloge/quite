@@ -12,7 +12,7 @@
 #include <object/object.grpc.pb.h>
 #include <spdlog/spdlog.h>
 #include "object_tracker.hpp"
-#include "qtstdexec.h"
+#include "rpc/find_object_rpc.hpp"
 namespace
 {
 
@@ -29,29 +29,10 @@ struct ProbeData final
         server = builder.BuildAndStart();
 
         grpc_runner = std::jthread{[this]() {
-            auto find_obj = agrpc::register_sender_rpc_handler<RpcFindObjectSender>(
-                grpc_context,
-                object_service,
-                [this](RpcFindObjectSender &rpc, const RpcFindObjectSender::Request &request) -> exec::task<void> {
-                    spdlog::trace("START RpcFindObject={}", request.object_name());
-                    RpcFindObjectSender::Response response{};
-                    auto obj_info = co_await stdexec::then(
-                        stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                        [&, this]() { return tracker.findObject(request.object_name()); });
-                    if (obj_info.has_value())
-                    {
-                        response.mutable_properties()->insert(obj_info->properties.begin(), obj_info->properties.end());
-                        co_await rpc.finish(response, grpc::Status::OK);
-                    }
-                    else
-                    {
-                        co_await rpc.finish(response,
-                                            grpc::Status{grpc::StatusCode::NOT_FOUND,
-                                                         fmt::format("could not find {}", request.object_name())});
-                    }
-                });
+            auto find_obj_rpc = quite::probe::find_object_rpc(grpc_context, object_service, tracker);
+
             grpc_context.work_started();
-            auto snd = exec::finally(stdexec::when_all(find_obj),
+            auto snd = exec::finally(stdexec::when_all(find_obj_rpc),
                                      stdexec::then(stdexec::just(), [this] { grpc_context.work_finished(); }));
             stdexec::sync_wait(stdexec::when_all(snd, stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
         }};
