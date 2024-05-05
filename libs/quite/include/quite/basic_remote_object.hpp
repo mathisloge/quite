@@ -1,13 +1,19 @@
 #pragma once
 #include <string>
-
+#include "quitelib_export.h"
 namespace quite
 {
 struct value_handle
 {}; // some kind of any datatype
-class BasicRemoteObject
+
+/**
+at 
+*/
+class QUITELIB_EXPORT BasicRemoteObject
 {
   public:
+    virtual ~BasicRemoteObject() = default;
+
     const std::string &getObjectName();
 
     value_handle getProperty(std::string_view property_name); // könnte awaitable sein

@@ -21,7 +21,7 @@ TEST_CASE("Test if a process application can be created")
             asio::steady_timer t(ex, std::chrono::seconds(2));
             co_await t.async_wait(asio::use_awaitable);
 
-            co_await app->test();
+            co_await app->find_object("testRoot2");
             co_return;
         },
         asio::detached);

@@ -14,14 +14,14 @@ ProcessApplication::ProcessApplication(Context &context, const std::string &path
 
 ProcessApplication::~ProcessApplication() = default;
 
-asio::awaitable<void> ProcessApplication::test()
+asio::awaitable<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> ProcessApplication::find_object(std::string_view object_name)
 {
-    co_await object_client_.findObject();
+    co_return co_await object_client_.findObject();
 }
 
 void ProcessApplication::do_read()
 {
-    spdlog::debug("do_read");
+    spdlog::trace("do_read");
     stdout_pipe_.async_read_some(asio::buffer(buffer), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {

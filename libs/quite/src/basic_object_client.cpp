@@ -1,4 +1,4 @@
-#include "quite/basic_object_client.hpp"
+#include "basic_object_client.hpp"
 #include <grpcpp/client_context.h>
 #include <grpcpp/create_channel.h>
 #include <spdlog/spdlog.h>

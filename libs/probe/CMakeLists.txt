@@ -18,7 +18,7 @@ target_link_libraries(probe PRIVATE
     Qt6::QuickPrivate
     fmt::fmt
     spdlog::spdlog
-    quite::protocol_proto
+    quite::protocol
     asio-grpc::asio-grpc-stdexec
 )
 
