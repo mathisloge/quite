@@ -26,7 +26,7 @@ class ProcessApplication final : public Application
     Process process_;
     asio::readable_pipe stdout_pipe_;
     asio::readable_pipe stderr_pipe_;
-    ObjectClient object_client_;
+    std::shared_ptr<ObjectClient> object_client_;
 
     std::array<char, 1024> buffer;
 };

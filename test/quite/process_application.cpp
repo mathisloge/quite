@@ -7,16 +7,16 @@
 #include <quite/quite.hpp>
 #include <spdlog/spdlog.h>
 #include <tester_app.hpp>
-#
+
 TEST_CASE("Test if a process application can be created")
 {
     spdlog::set_level(spdlog::level::level_enum::trace);
 
     auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
 
-
     auto [remote_obj] = stdexec::sync_wait(app->find_object("testRoot2")).value();
     REQUIRE(remote_obj.has_value());
 
-    // co_await app->test();
+    auto [property] = stdexec::sync_wait(remote_obj.value()->get_property("objectName")).value();
+    REQUIRE(property.value == "testRoot2");
 }
