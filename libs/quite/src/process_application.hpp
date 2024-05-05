@@ -1,10 +1,12 @@
 #pragma once
 #include <array>
+#include <expected>
 #include <asio/readable_pipe.hpp>
+#include "context.hpp"
+#include "object_client.hpp"
 #include "process.hpp"
 #include "quite/application.hpp"
-#include "object_client.hpp"
-#include "context.hpp"
+#include "quite/errors.hpp"
 
 namespace quite
 {
@@ -14,7 +16,8 @@ class ProcessApplication final : public Application
     explicit ProcessApplication(Context &context, const std::string &path_to_application);
     ~ProcessApplication() override;
 
-    asio::awaitable<void> test() override;
+    asio::awaitable<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> find_object(
+        std::string_view object_name) override;
 
   private:
     void do_read();
