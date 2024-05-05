@@ -5,28 +5,25 @@ namespace quite
 {
 
 Context::Context()
-    : asio_workguard_{asio::make_work_guard(io_context_)}
-    , grpc_workguard_{asio::make_work_guard(grpc_context_)}
-    , io_context_thread_{[this]() {
-        io_context_.run();
-        spdlog::warn("exiting io_context");
-    }}
-    , grpc_context_thread_{[this]() {
+    //: grpc_workguard_{asio::make_work_guard(grpc_context_)}
+{
+    asio_context_.start();
+    grpc_context_thread_ = std::jthread{[this]() {
+        grpc_context_.work_started();
         grpc_context_.run();
         spdlog::warn("exiting grpc_context");
-    }}
-{
+    }};
 }
 
 Context::~Context()
 {
     grpc_context_.stop();
-    io_context_.stop();
+    asio_context_.stop();
 }
 
-asio::io_context &Context::ioContext()
+asio2exec::asio_context &Context::asioContext()
 {
-    return io_context_;
+    return asio_context_;
 }
 
 agrpc::GrpcContext &Context::grpcContext()

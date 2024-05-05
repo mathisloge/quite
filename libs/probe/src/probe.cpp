@@ -35,6 +35,7 @@ struct ProbeData final
             auto snd = exec::finally(stdexec::when_all(find_obj_rpc),
                                      stdexec::then(stdexec::just(), [this] { grpc_context.work_finished(); }));
             stdexec::sync_wait(stdexec::when_all(snd, stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
+            spdlog::error("CLOSING GRPC");
         }};
     }
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <expected>
 #include <memory>
-#include <asio/awaitable.hpp>
+#include <exec/task.hpp>
 #include "basic_remote_object.hpp"
 #include "errors.hpp"
 #include "quitelib_export.h"
@@ -11,7 +11,7 @@ class QUITELIB_EXPORT Application
 {
   public:
     virtual ~Application();
-    virtual asio::awaitable<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> find_object(
+    virtual exec::task<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> find_object(
         std::string_view object_name) = 0;
 
   protected:
