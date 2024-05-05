@@ -16,7 +16,7 @@ class ProcessApplication final : public Application
     explicit ProcessApplication(Context &context, const std::string &path_to_application);
     ~ProcessApplication() override;
 
-    asio::awaitable<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> find_object(
+    exec::task<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> find_object(
         std::string_view object_name) override;
 
   private:

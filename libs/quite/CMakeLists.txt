@@ -12,7 +12,7 @@ target_include_directories(quitelib PUBLIC
 
 target_link_libraries(quitelib PRIVATE 
     asio::asio
-    asio-grpc::asio-grpc-standalone-asio
+    asio-grpc::asio-grpc-stdexec
     spdlog::spdlog
     quite::protocol
 )
@@ -25,10 +25,10 @@ target_sources(quitelib
         src/process_application.hpp
         src/process.cpp
         src/process.hpp
-        src/basic_object_client.hpp
-        src/basic_object_client.cpp
         src/object_client.cpp
         src/object_client.hpp
         src/context.cpp
         src/context.hpp
+        src/remote_object.cpp
+        src/remote_object.hpp
 )
