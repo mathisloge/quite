@@ -4,6 +4,7 @@ package quite.proto;
 
 service ObjectService {
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
+    rpc GetObjectProperty(PropertyRequest) returns (PropertyResponse) {}
 }
 
 message ObjectRequest {
@@ -16,6 +17,12 @@ message ObjectReply {
   string type_name = 2;
 }
 
-message ObjectDetails {
-  map<string, string> properties = 1;
+message PropertyRequest {
+  uint64 id = 1;
+  string property_name = 2;
+}
+
+message PropertyResponse {
+  string type_name = 1;
+  string value = 2;
 }
