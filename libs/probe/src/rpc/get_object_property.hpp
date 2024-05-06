@@ -9,7 +9,7 @@
 namespace quite::probe
 {
 
-auto find_object_rpc(agrpc::GrpcContext &grpc_context,
+auto get_object_property(agrpc::GrpcContext &grpc_context,
                      quite::proto::ObjectService::AsyncService &service,
                      ObjectTracker &tracker)
 {
@@ -20,21 +20,20 @@ auto find_object_rpc(agrpc::GrpcContext &grpc_context,
         [&](RPC &rpc, const RPC::Request &request) -> exec::task<void> {
             spdlog::trace("START RequestGetObjectProperty={}", request.id());
             RPC::Response response{};
-            auto obj_info = co_await stdexec::then(
+            auto property_value = co_await stdexec::then(
                 stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                [&]() { return tracker.findObject(request.id()); });
+                [&]() { return tracker.get_property(reinterpret_cast<QObject*>(request.id()), request.property_name()); });
 
-            if (obj_info.has_value())
+            if (property_value.has_value())
             {
-                response.set_id(obj_info->object_id);
-                *response.mutable_type_name() = obj_info->class_type;
+                *response.mutable_value() = std::move(*property_value);
                 co_await rpc.finish(response, grpc::Status::OK);
             }
             else
             {
                 co_await rpc.finish(
                     response,
-                    grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.object_name())});
+                    grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.id())});
             }
         });
 }

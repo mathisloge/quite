@@ -13,6 +13,7 @@
 #include <spdlog/spdlog.h>
 #include "object_tracker.hpp"
 #include "rpc/find_object_rpc.hpp"
+#include "rpc/get_object_property.hpp"
 namespace
 {
 
@@ -30,9 +31,10 @@ struct ProbeData final
 
         grpc_runner = std::jthread{[this]() {
             auto find_obj_rpc = quite::probe::find_object_rpc(grpc_context, object_service, tracker);
+            auto get_object_property = quite::probe::get_object_property(grpc_context, object_service, tracker);
 
             grpc_context.work_started();
-            auto snd = exec::finally(stdexec::when_all(find_obj_rpc),
+            auto snd = exec::finally(stdexec::when_all(find_obj_rpc, get_object_property),
                                      stdexec::then(stdexec::just(), [this] { grpc_context.work_finished(); }));
             stdexec::sync_wait(stdexec::when_all(snd, stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
             spdlog::error("CLOSING GRPC");

@@ -10,13 +10,17 @@
 
 TEST_CASE("Test if a process application can be created")
 {
-    spdlog::set_level(spdlog::level::level_enum::trace);
+    stdexec::sync_wait([]() -> exec::task<void> {
+        spdlog::set_level(spdlog::level::level_enum::trace);
 
-    auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
+        auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
 
-    auto [remote_obj] = stdexec::sync_wait(app->find_object("testRoot2")).value();
-    REQUIRE(remote_obj.has_value());
+        auto remote_obj = co_await app->find_object("testRoot2");
+        REQUIRE(remote_obj.has_value());
 
-    auto [property] = stdexec::sync_wait(remote_obj.value()->get_property("objectName")).value();
-    REQUIRE(property.value == "testRoot2");
+        auto property = co_await remote_obj.value()->get_property("objectName");
+        REQUIRE(property.value == "testRoot2");
+
+        co_return;
+    }());
 }

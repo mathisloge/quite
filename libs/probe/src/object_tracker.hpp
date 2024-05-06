@@ -30,6 +30,7 @@ class ObjectTracker final : public QObject
     void endContext();
 
     std::expected<ObjectInfo, ObjectErrC> findObject(const std::string &object_name);
+    std::expected<std::string, ObjectErrC> get_property(QObject *obj, const std::string &property_name);
 
   private:
     void startTimer();
