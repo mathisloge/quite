@@ -97,6 +97,20 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::strin
     return std::unexpected(ObjectErrC::not_found);
 }
 
+std::expected<std::string, ObjectErrC> ObjectTracker::get_property(QObject *obj, const std::string &property_name)
+{
+    std::shared_lock l{locker_};
+    own_ctx_ = true;
+    auto it = tracked_objects_.find(obj);
+    if(it != tracked_objects_.end()) {
+        auto prop =  obj->property(property_name.c_str()).toString().toStdString();
+        own_ctx_ = false;
+        return prop;
+    }
+    own_ctx_ = false;
+    return std::unexpected(ObjectErrC::not_found);
+}
+
 void ObjectTracker::removeObject(QObject *obj)
 {
     std::unique_lock l{locker_};
