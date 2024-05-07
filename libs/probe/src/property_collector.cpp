@@ -17,7 +17,6 @@ ObjectMeta ObjectMeta::fromQObject(QObject *object)
     }
     else
     {
-        spdlog::debug("before QQmlData::get");
         auto data = QQmlData::get(object);
         if (not data or not data->compilationUnit)
         {
@@ -55,7 +54,6 @@ std::unordered_map<std::string, std::string> collect_properties(ObjectMeta objec
         {
             try
             {
-                spdlog::debug("Read prop {}", prop.name());
                 if (prop.name() == std::string{"inputDirection"} || prop.name() == std::string{"locale"} ||
                     prop.name() == std::string{"fontInfo"})
                 {

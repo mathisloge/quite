@@ -16,6 +16,7 @@ target_include_directories(probe PUBLIC
 target_link_libraries(probe PRIVATE 
     Qt6::CorePrivate 
     Qt6::QuickPrivate
+    Qt6::Widgets
     fmt::fmt
     spdlog::spdlog
     quite::protocol

@@ -19,6 +19,8 @@ class QUITELIB_EXPORT BasicRemoteObject
 
     virtual exec::task<value_handle> get_property(std::string_view property_name) = 0; // könnte awaitable sein
 
+    virtual exec::task<void> mouse_click() = 0;
+
     // muss ein template mit beliebigen argumenten sein.
     // value_handle setProperty(std::string_view property_name, value_handle property_value);
 

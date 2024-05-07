@@ -11,6 +11,8 @@ class RemoteObject : public BasicRemoteObject
 
     exec::task<value_handle> get_property(std::string_view property_name) override;
 
+    exec::task<void> mouse_click() override;
+
   private:
     std::shared_ptr<ObjectClient> api_handle_;
     const ObjectId id_;
