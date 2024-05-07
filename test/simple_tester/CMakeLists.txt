@@ -9,6 +9,9 @@ qt_add_qml_module(tester
     URI hello
     QML_FILES
         main.qml
+    SOURCES
+        MyLogArea.hpp
+        MyLogArea.cpp
     NO_RESOURCE_TARGET_PATH
     DEPENDENCIES QtQuick
 )
@@ -18,6 +21,7 @@ target_link_libraries(tester PRIVATE
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
+    spdlog::spdlog
     probe
 )
 

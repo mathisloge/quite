@@ -3,6 +3,7 @@
 #include <QTimer>
 #include <QtQuick/QQuickView>
 #include <quite/probe.hpp>
+#include <spdlog/spdlog.h>
 
 int main(int argc, char *argv[])
 {
@@ -17,7 +18,7 @@ int main(int argc, char *argv[])
 
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [] {
-        qDebug() << "Hello from test app";
+        spdlog::debug("hello from test app");
     });
     timer.start(1000);
 
