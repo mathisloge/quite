@@ -17,15 +17,17 @@ TEST_CASE("Test if a process application can be created")
 
         auto remote_obj = co_await app->find_object("helloBtn");
         REQUIRE(remote_obj.has_value());
-
-        auto property = co_await remote_obj.value()->get_property("objectName");
-        REQUIRE(property.value == "helloBtn");
-
-        co_await remote_obj.value()->mouse_click();
-        std::this_thread::sleep_for(std::chrono::seconds{1});
         auto text_area = co_await app->find_object("textArea");
-        auto text_prop = co_await text_area.value()->get_property("text");
-        REQUIRE(text_prop.value == "Hello");
+        REQUIRE(text_area.has_value());
+        {
+            auto text_prop = co_await text_area.value()->get_property("text");
+            REQUIRE(text_prop.value == "...");
+        }
+        co_await remote_obj.value()->mouse_click();
+        {
+            auto text_prop = co_await text_area.value()->get_property("text");
+            REQUIRE(text_prop.value == "Hello");
+        }
         co_return;
     }());
 }
