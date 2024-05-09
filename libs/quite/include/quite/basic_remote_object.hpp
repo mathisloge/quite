@@ -21,6 +21,8 @@ class QUITELIB_EXPORT BasicRemoteObject
 
     virtual exec::task<void> mouse_click() = 0;
 
+    virtual exec::task<void> take_snapshot() = 0;
+
     // muss ein template mit beliebigen argumenten sein.
     // value_handle setProperty(std::string_view property_name, value_handle property_value);
 

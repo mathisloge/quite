@@ -7,6 +7,7 @@ service ObjectService {
     rpc GetObjectProperty(PropertyRequest) returns (PropertyResponse) {}
 
     rpc MouseClick(MouseClickRequest) returns (VoidResponse) {}
+    rpc CreateScreenshot(ScreenshotRequest) returns (ImageResponse) {};
 }
 
 message ObjectRequest {
@@ -36,4 +37,17 @@ message MouseClickRequest {
 
 message VoidResponse {
 
+}
+
+message ImageMetadata {
+  uint32 width = 1;
+  uint32 height = 2;
+}
+message ImageResponse {
+  ImageMetadata metadata = 1;
+  bytes data = 2;
+}
+
+message ScreenshotRequest {
+  uint64 id = 1;
 }

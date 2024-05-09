@@ -1,5 +1,6 @@
 #include "remote_object.hpp"
 #include <spdlog/spdlog.h>
+#include "rpc/make_create_screenshot_request.hpp"
 #include "rpc/make_get_object_property_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
 
@@ -23,8 +24,19 @@ exec::task<value_handle> RemoteObject::get_property(std::string_view property_na
 exec::task<void> RemoteObject::mouse_click()
 {
     const auto response = co_await make_mouse_click_request(api_handle_->context(), api_handle_->stub(), id_);
-    if(not response.has_value()) {
+    if (not response.has_value())
+    {
         spdlog::error("could not mouse_click object {}", id_);
+    }
+}
+
+exec::task<void> RemoteObject::take_snapshot()
+{
+    const auto response = co_await make_create_screenshot_request(api_handle_->context(), api_handle_->stub(), id_);
+    spdlog::error("XXX, take_snapshot has value: {}", response.has_value());
+    if(response.has_value()) {
+        spdlog::debug("Image {}x{}", response->metadata().width(), response->metadata().height());
+        spdlog::debug("Image size={}", response->data().size());
     }
 }
 

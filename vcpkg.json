@@ -5,6 +5,7 @@
         "asio-grpc",
         "spdlog",
         "catch2",
-        "stdexec"
+        "stdexec",
+        "stb"
     ]
 }

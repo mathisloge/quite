@@ -28,6 +28,7 @@ TEST_CASE("Test if a process application can be created")
             auto text_prop = co_await text_area.value()->get_property("text");
             REQUIRE(text_prop.value == "Hello");
         }
+        co_await text_area.value()->take_snapshot();
         co_return;
     }());
 }
