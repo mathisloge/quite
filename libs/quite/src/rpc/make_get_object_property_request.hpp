@@ -9,7 +9,7 @@
 
 namespace quite
 {
-exec::task<std::expected<proto::PropertyResponse, FindObjectErrorCode>> make_get_object_property_request(
+static exec::task<std::expected<proto::PropertyResponse, FindObjectErrorCode>> make_get_object_property_request(
     agrpc::GrpcContext &grpc_context, proto::ObjectService::Stub &stub, ObjectId id, std::string_view property_name)
 {
     using RPC = agrpc::ClientRPC<&proto::ObjectService::Stub::PrepareAsyncGetObjectProperty>;

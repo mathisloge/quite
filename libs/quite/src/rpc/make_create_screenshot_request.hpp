@@ -9,7 +9,7 @@
 
 namespace quite
 {
-exec::task<std::expected<proto::ImageResponse, FindObjectErrorCode>> make_create_screenshot_request(
+static exec::task<std::expected<proto::ImageResponse, FindObjectErrorCode>> make_create_screenshot_request(
     agrpc::GrpcContext &grpc_context, proto::ObjectService::Stub &stub, ObjectId id)
 {
     using RPC = agrpc::ClientRPC<&proto::ObjectService::Stub::PrepareAsyncCreateScreenshot>;

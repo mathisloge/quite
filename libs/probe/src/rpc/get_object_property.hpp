@@ -9,7 +9,7 @@
 namespace quite::probe
 {
 
-auto get_object_property(agrpc::GrpcContext &grpc_context,
+static auto get_object_property(agrpc::GrpcContext &grpc_context,
                      quite::proto::ObjectService::AsyncService &service,
                      ObjectTracker &tracker)
 {

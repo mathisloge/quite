@@ -45,7 +45,6 @@ exec::task<void> RemoteObject::take_snapshot()
         const bool written = stbi_write_png("/home/mathis/dev/ng-quite/test2.png", x, y, channels, response->data().data(), x*4);
 
         spdlog::debug("written={}", written);
-        
     }
 }
 
