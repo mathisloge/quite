@@ -8,6 +8,7 @@ generate_export_header(quitelib)
 target_include_directories(quitelib PUBLIC 
     "${CMAKE_CURRENT_BINARY_DIR}" 
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    ${Stb_INCLUDE_DIR}
 )
 
 target_link_libraries(quitelib PRIVATE 

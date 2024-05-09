@@ -31,6 +31,7 @@ class ObjectTracker final : public QObject
     void endContext();
 
     std::expected<ObjectInfo, ObjectErrC> findObject(const std::string &object_name);
+    std::expected<QObject*, ObjectErrC> get_object_by_id(QObject* obj);
     std::expected<std::string, ObjectErrC> get_property(QObject *obj, const std::string &property_name);
     void mouse_click(QObject* obj);
 
