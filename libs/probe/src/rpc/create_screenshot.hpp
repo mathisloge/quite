@@ -35,9 +35,12 @@ auto create_screenshot(agrpc::GrpcContext &grpc_context,
                 QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()), take_snapshot(*object));
             if (expected_image.has_value())
             {
+                expected_image->convertTo(QImage::Format::Format_RGBA8888);
                 response.mutable_metadata()->set_width(expected_image->width());
                 response.mutable_metadata()->set_height(expected_image->height());
-                std::copy(expected_image->bits(), expected_image->bits() + expected_image->sizeInBytes(), std::back_inserter(*response.mutable_data()));
+                std::copy(expected_image->bits(),
+                          expected_image->bits() + expected_image->sizeInBytes(),
+                          std::back_inserter(*response.mutable_data()));
                 expected_image.value().save("/home/mathis/dev/ng-quite/test.png");
                 co_await rpc.finish(response, grpc::Status::OK);
             }
