@@ -3,7 +3,8 @@
 #include "rpc/make_create_screenshot_request.hpp"
 #include "rpc/make_get_object_property_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
-
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
 namespace quite
 {
 RemoteObject::RemoteObject(const std::shared_ptr<ObjectClient> &api_handle, ObjectId id, std::string_view type_name)
@@ -37,6 +38,14 @@ exec::task<void> RemoteObject::take_snapshot()
     if(response.has_value()) {
         spdlog::debug("Image {}x{}", response->metadata().width(), response->metadata().height());
         spdlog::debug("Image size={}", response->data().size());
+
+        int x = response->metadata().width();
+        int y = response->metadata().height();
+        int channels = 4;
+        const bool written = stbi_write_png("/home/mathis/dev/ng-quite/test2.png", x, y, channels, response->data().data(), x*4);
+
+        spdlog::debug("written={}", written);
+        
     }
 }
 
