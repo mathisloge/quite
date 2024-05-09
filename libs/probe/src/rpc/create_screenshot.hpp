@@ -12,7 +12,7 @@
 namespace quite::probe
 {
 
-auto create_screenshot(agrpc::GrpcContext &grpc_context,
+static auto create_screenshot(agrpc::GrpcContext &grpc_context,
                        quite::proto::ObjectService::AsyncService &service,
                        ObjectTracker &tracker)
 {

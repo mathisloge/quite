@@ -9,7 +9,7 @@
 namespace quite::probe
 {
 
-auto find_object_rpc(agrpc::GrpcContext &grpc_context,
+static auto find_object_rpc(agrpc::GrpcContext &grpc_context,
                      quite::proto::ObjectService::AsyncService &service,
                      ObjectTracker &tracker)
 {

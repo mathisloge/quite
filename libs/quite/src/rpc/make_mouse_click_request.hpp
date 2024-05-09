@@ -9,7 +9,7 @@
 
 namespace quite
 {
-exec::task<std::expected<proto::VoidResponse, FindObjectErrorCode>> make_mouse_click_request(
+static exec::task<std::expected<proto::VoidResponse, FindObjectErrorCode>> make_mouse_click_request(
     agrpc::GrpcContext &grpc_context, proto::ObjectService::Stub &stub, ObjectId id)
 {
     using RPC = agrpc::ClientRPC<&proto::ObjectService::Stub::PrepareAsyncMouseClick>;

@@ -9,7 +9,7 @@
 namespace quite::probe
 {
 
-auto mouse_click(agrpc::GrpcContext &grpc_context,
+static auto mouse_click(agrpc::GrpcContext &grpc_context,
                  quite::proto::ObjectService::AsyncService &service,
                  ObjectTracker &tracker)
 {

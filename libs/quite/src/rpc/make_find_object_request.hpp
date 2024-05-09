@@ -8,7 +8,7 @@
 
 namespace quite
 {
-exec::task<std::expected<proto::ObjectReply, FindObjectErrorCode>> make_find_object_request(
+static exec::task<std::expected<proto::ObjectReply, FindObjectErrorCode>> make_find_object_request(
     agrpc::GrpcContext &grpc_context, proto::ObjectService::Stub &stub, std::string_view object_name)
 {
     using RPC = agrpc::ClientRPC<&proto::ObjectService::Stub::PrepareAsyncFindObject>;
