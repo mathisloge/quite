@@ -7,17 +7,16 @@ ProcessApplication::ProcessApplication(Context &context, const std::string &path
     : process_{path_to_application}
     , stdout_pipe_{context.asioContext().get_executor(), process_.stdoutPipe()}
     , stderr_pipe_{context.asioContext().get_executor(), process_.stderrPipe()}
-    , object_client_{std::make_shared<ObjectClient>(context.grpcContext())}
+    , api_handle_{std::make_shared<ApiHandle>(context.grpcContext())}
 {
     do_read();
 }
 
 ProcessApplication::~ProcessApplication() = default;
 
-exec::task<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> ProcessApplication::find_object(
-    std::string_view object_name)
+std::shared_ptr<ApiHandle> ProcessApplication::api_handle() const
 {
-    co_return co_await object_client_->find_object(object_name);
+    return api_handle_;
 }
 
 void ProcessApplication::do_read()

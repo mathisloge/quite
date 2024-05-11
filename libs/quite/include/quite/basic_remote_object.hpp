@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string_view>
 #include <exec/task.hpp>
+#include "api_handle_fwd.hpp"
 #include "quitelib_export.h"
 namespace quite
 {
@@ -17,7 +18,9 @@ class QUITELIB_EXPORT BasicRemoteObject
   public:
     virtual ~BasicRemoteObject() = default;
 
-    virtual exec::task<value_handle> get_property(std::string_view property_name) = 0; // könnte awaitable sein
+    virtual ObjectId id() const noexcept = 0;
+
+    virtual std::shared_ptr<ApiHandle> api_handle() const = 0;
 
     virtual exec::task<void> mouse_click() = 0;
 

@@ -1,9 +1,6 @@
 #pragma once
-#include <expected>
 #include <memory>
-#include <exec/task.hpp>
-#include "basic_remote_object.hpp"
-#include "errors.hpp"
+#include "api_handle_fwd.hpp"
 #include "quitelib_export.h"
 namespace quite
 {
@@ -11,8 +8,8 @@ class QUITELIB_EXPORT Application
 {
   public:
     virtual ~Application();
-    virtual exec::task<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> find_object(
-        std::string_view object_name) = 0;
+
+    virtual std::shared_ptr<ApiHandle> api_handle() const = 0;
 
   protected:
     Application();
