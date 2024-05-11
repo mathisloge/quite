@@ -33,3 +33,4 @@ target_sources(probe
         src/screenshot.hpp
         src/screenshot.cpp
 )
+add_subdirectory(src/injector)
