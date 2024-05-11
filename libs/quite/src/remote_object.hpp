@@ -1,21 +1,23 @@
 #pragma once
 #include <quite/basic_remote_object.hpp>
+#include "api_handle.hpp"
 #include "object_client.hpp"
 namespace quite
 {
 class RemoteObject : public BasicRemoteObject
 {
   public:
-    explicit RemoteObject(const std::shared_ptr<ObjectClient> &api_handle, ObjectId id, std::string_view type_name);
+    explicit RemoteObject(const std::shared_ptr<ApiHandle> &api_handle, ObjectId id, std::string_view type_name);
     ~RemoteObject() override;
 
-    exec::task<value_handle> get_property(std::string_view property_name) override;
+    ObjectId id() const noexcept override;
+    std::shared_ptr<ApiHandle> api_handle() const override;
 
     exec::task<void> mouse_click() override;
     exec::task<void> take_snapshot() override;
 
   private:
-    std::shared_ptr<ObjectClient> api_handle_;
+    std::shared_ptr<ApiHandle> api_handle_;
     const ObjectId id_;
     const std::string type_name_;
 };

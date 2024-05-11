@@ -5,6 +5,10 @@ set_target_properties(quitelib PROPERTIES
 )
 generate_export_header(quitelib)
 
+target_compile_definitions(quitelib PUBLIC
+    SPDLOG_ACTIVE_LEVEL=${log_level}
+)
+
 target_include_directories(quitelib PUBLIC 
     "${CMAKE_CURRENT_BINARY_DIR}" 
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
@@ -16,6 +20,7 @@ target_link_libraries(quitelib PRIVATE
     asio-grpc::asio-grpc-stdexec
     spdlog::spdlog
     quite::protocol
+    quite::logger
 )
 
 target_sources(quitelib
@@ -32,4 +37,7 @@ target_sources(quitelib
         src/context.hpp
         src/remote_object.cpp
         src/remote_object.hpp
+        src/api_handle.hpp
+        src/api_handle.cpp
 )
+add_subdirectory(src/low)

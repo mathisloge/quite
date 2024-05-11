@@ -1,12 +1,10 @@
 #pragma once
 #include <array>
-#include <expected>
 #include <asio/readable_pipe.hpp>
 #include "context.hpp"
-#include "object_client.hpp"
 #include "process.hpp"
 #include "quite/application.hpp"
-#include "quite/errors.hpp"
+#include "api_handle.hpp"
 
 namespace quite
 {
@@ -16,8 +14,7 @@ class ProcessApplication final : public Application
     explicit ProcessApplication(Context &context, const std::string &path_to_application);
     ~ProcessApplication() override;
 
-    exec::task<std::expected<std::shared_ptr<BasicRemoteObject>, FindObjectErrorCode>> find_object(
-        std::string_view object_name) override;
+    std::shared_ptr<ApiHandle> api_handle() const override;
 
   private:
     void do_read();
@@ -26,7 +23,7 @@ class ProcessApplication final : public Application
     Process process_;
     asio::readable_pipe stdout_pipe_;
     asio::readable_pipe stderr_pipe_;
-    std::shared_ptr<ObjectClient> object_client_;
+    std::shared_ptr<ApiHandle> api_handle_;
 
     std::array<char, 1024> buffer;
 };
