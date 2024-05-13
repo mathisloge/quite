@@ -23,7 +23,7 @@ static auto create_screenshot(agrpc::GrpcContext &grpc_context,
             RPC::Response response{};
             auto object = co_await stdexec::then(
                 stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                [&]() { return tracker.get_object_by_id(reinterpret_cast<QObject *>(request.id())); });
+                [&]() { return tracker.get_object_by_id(request.id()); });
 
             if (!object.has_value())
             {

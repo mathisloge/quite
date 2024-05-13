@@ -16,6 +16,8 @@
 #include "rpc/find_object_rpc.hpp"
 #include "rpc/get_object_property.hpp"
 #include "rpc/mouse_click.hpp"
+
+#include "injector/mouse_injector.hpp"
 namespace
 {
 
@@ -25,6 +27,8 @@ struct ProbeData final
 {
     ProbeData(grpc::ServerBuilder builder)
         : grpc_context{builder.AddCompletionQueue()}
+        , tracker{std::make_shared<quite::ObjectTracker>()}
+        , mouse_injector{std::make_shared<quite::probe::MouseInjector>(tracker)}
     {
         using namespace quite;
         builder.RegisterService(&object_service);
@@ -32,23 +36,25 @@ struct ProbeData final
         server = builder.BuildAndStart();
 
         grpc_runner = std::jthread{[this]() {
-            auto find_obj_rpc = quite::probe::find_object_rpc(grpc_context, object_service, tracker);
-            auto get_object_property = quite::probe::get_object_property(grpc_context, object_service, tracker);
-            auto mouse_click_rpc = quite::probe::mouse_click(grpc_context, object_service, tracker);
-            auto create_snapshot_rpc = quite::probe::create_screenshot(grpc_context, object_service, tracker);
+            auto find_obj_rpc = quite::probe::find_object_rpc(grpc_context, object_service, *tracker);
+            auto get_object_property = quite::probe::get_object_property(grpc_context, object_service, *tracker);
+            auto mouse_click_rpc = quite::probe::mouse_click(grpc_context, object_service, *tracker);
+            auto create_snapshot_rpc = quite::probe::create_screenshot(grpc_context, object_service, *tracker);
 
             grpc_context.work_started();
             auto snd = exec::finally(
                 stdexec::when_all(find_obj_rpc, get_object_property, mouse_click_rpc, create_snapshot_rpc),
                 stdexec::then(stdexec::just(), [this] { grpc_context.work_finished(); }));
-            stdexec::sync_wait(stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
+            stdexec::sync_wait(
+                stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
             spdlog::error("CLOSING GRPC");
         }};
     }
 
     agrpc::GrpcContext grpc_context;
     std::unique_ptr<grpc::Server> server;
-    quite::ObjectTracker tracker;
+    std::shared_ptr<quite::ObjectTracker> tracker;
+    std::shared_ptr<quite::probe::MouseInjector> mouse_injector;
     quite::proto::ProbeService::AsyncService object_service;
 
   private:
@@ -84,12 +90,12 @@ void installQHooks()
 
 void testAddObject(QObject *q)
 {
-    probeData().tracker.addObject(q);
+    probeData().tracker->addObject(q);
 }
 
 void testRemoveObject(QObject *q)
 {
-    probeData().tracker.removeObject(q);
+    probeData().tracker->removeObject(q);
 }
 
 void testStartup()

@@ -1,18 +1,26 @@
 #pragma once
 #include <QPointingDevice>
-
+#include <quite/proto/common.pb.h>
+#include <quite/proto/keyboard.pb.h>
+#include <quite/proto/mouse.pb.h>
+#include "../object_id.hpp"
+#include "../object_tracker.hpp"
 namespace quite::probe
 {
 
 class MouseInjector final
 {
   public:
-    MouseInjector();
+    explicit MouseInjector(std::shared_ptr<ObjectTracker> object_tracker);
     ~MouseInjector();
 
-    void click_object(QObject* target, QPointF local_click_point);
+    void perform_action(ObjectId target_id,
+                        const proto::MouseButton &mouse_button,
+                        const proto::KeyboardModifierKey &mod_key,
+                        const proto::Vector2F &local_click_point);
 
   private:
+    std::shared_ptr<ObjectTracker> object_tracker_;
     QPointingDevice mouse_;
 };
 } // namespace quite::probe
