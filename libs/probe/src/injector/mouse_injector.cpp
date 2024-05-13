@@ -25,7 +25,7 @@ void MouseInjector::click_object(QObject *target, QPointF local_click_point)
                               Qt::MouseButton::LeftButton,
                               {},
                               &mouse_);
-    QCoreApplication::postEvent(target, ev);
+    QCoreApplication::postEvent(target, std::move(ev));
     ev = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
                          local_click_point,
                          QPointF{0, 0},
@@ -33,6 +33,6 @@ void MouseInjector::click_object(QObject *target, QPointF local_click_point)
                          Qt::MouseButton::LeftButton,
                          {},
                          &mouse_);
-    QCoreApplication::postEvent(target, ev);
+    QCoreApplication::postEvent(target, std::move(ev));
 }
 } // namespace quite::probe

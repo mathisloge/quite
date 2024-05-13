@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package quite.proto;
+
+enum KeyboardModifierKey {
+    no = 0;
+    shift = 1;
+    crtl = 2;
+    alt = 3;
+    meta = 4;
+    keypad = 5;
+}
+
+enum KeyboardKey {
+    escape = 0;
+    tab = 1;
+    backspace = 2;
+    return = 3;
+
+}

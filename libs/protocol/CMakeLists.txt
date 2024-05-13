@@ -1,9 +1,12 @@
+set(proto_inc_dir "${CMAKE_CURRENT_LIST_DIR}/quite/proto")
 asio_grpc_protobuf_generate(
-    GENERATE_GRPC GENERATE_MOCK_CODE
+    GENERATE_GRPC
     OUT_VAR "quite_protocol_proto_srcs"
     OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated"
     IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"
-    PROTOS "${CMAKE_CURRENT_LIST_DIR}/object/object.proto"
+    PROTOS 
+        "${proto_inc_dir}/probe.proto"
+        "${proto_inc_dir}/keyboard.proto"
 )
 
 add_library(quite_protocol_proto STATIC)

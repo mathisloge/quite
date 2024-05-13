@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package quite.proto;
+
+enum MouseButton {
+    left_button = 0;
+    right_button = 1;
+    middle_button = 2;
+}
