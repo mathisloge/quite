@@ -1,7 +1,9 @@
 syntax = "proto3";
 package quite.proto;
 
+import "quite/proto/common.proto";
 import "quite/proto/keyboard.proto";
+import "quite/proto/mouse.proto";
 
 service ProbeService {
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
@@ -33,7 +35,11 @@ message PropertyResponse {
 
 message MouseClickRequest {
   uint64 target_id = 1;
-  KeyboardKey key = 2;
+  MouseButton mouse_button = 2;
+  KeyboardModifierKey modifier_key = 3;
+  optional uint32 delay_ms = 4; // delay between press and release
+  optional Vector2F relative_point = 5; // the (click) point relative to the object coordinates. 
+  // todo?: add message for action type e.g. ClickAction, DClickAction, PressAction, ReleaseAction => Could chain those later on: PressAction->MouseMoveTo(object)->ReleaseAction 
 }
 
 

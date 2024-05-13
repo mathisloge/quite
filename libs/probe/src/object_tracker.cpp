@@ -124,11 +124,11 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::strin
     return std::unexpected(ObjectErrC::not_found);
 }
 
-std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(QObject *obj)
+std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::ObjectId obj_id)
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
-    auto it = tracked_objects_.find(obj);
+    auto it = tracked_objects_.find(reinterpret_cast<QObject *>(obj_id));
     if (it != tracked_objects_.end())
     {
         return *it;

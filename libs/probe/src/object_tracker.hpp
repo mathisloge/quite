@@ -1,10 +1,11 @@
 #pragma once
 #include <QObject>
+#include <QPointingDevice>
 #include <QTimer>
 #include <expected>
 #include <shared_mutex>
 #include <unordered_set>
-#include <QPointingDevice>
+#include "object_id.hpp"
 
 namespace quite
 {
@@ -31,9 +32,9 @@ class ObjectTracker final : public QObject
     void endContext();
 
     std::expected<ObjectInfo, ObjectErrC> findObject(const std::string &object_name);
-    std::expected<QObject*, ObjectErrC> get_object_by_id(QObject* obj);
+    std::expected<QObject *, ObjectErrC> get_object_by_id(probe::ObjectId obj_id);
     std::expected<std::string, ObjectErrC> get_property(QObject *obj, const std::string &property_name);
-    void mouse_click(QObject* obj);
+    void mouse_click(QObject *obj);
 
   private:
     void startTimer();
