@@ -2,7 +2,7 @@
 #include <QCoreApplication>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <exec/task.hpp>
-#include <object/object.grpc.pb.h>
+#include <quite/proto/probe.grpc.pb.h>
 #include <spdlog/spdlog.h>
 #include "../object_tracker.hpp"
 #include "../qtstdexec.h"
@@ -10,10 +10,10 @@ namespace quite::probe
 {
 
 static auto get_object_property(agrpc::GrpcContext &grpc_context,
-                     quite::proto::ObjectService::AsyncService &service,
+                     quite::proto::ProbeService::AsyncService &service,
                      ObjectTracker &tracker)
 {
-    using RPC = agrpc::ServerRPC<&quite::proto::ObjectService::AsyncService::RequestGetObjectProperty>;
+    using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestGetObjectProperty>;
     return agrpc::register_sender_rpc_handler<RPC>(
         grpc_context,
         service,

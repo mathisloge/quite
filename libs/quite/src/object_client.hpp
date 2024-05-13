@@ -1,8 +1,8 @@
 #pragma once
 #include <expected>
 #include <agrpc/grpc_context.hpp>
-#include <object/object.grpc.pb.h>
 #include <quite/basic_remote_object.hpp>
+#include <quite/proto/probe.grpc.pb.h>
 namespace quite
 {
 class ObjectClient final : public std::enable_shared_from_this<ObjectClient>
@@ -15,13 +15,13 @@ class ObjectClient final : public std::enable_shared_from_this<ObjectClient>
         return grpc_context_;
     }
     
-    proto::ObjectService::Stub &stub()
+    proto::ProbeService::Stub &stub()
     {
         return stub_;
     }
 
   private:
     agrpc::GrpcContext &grpc_context_;
-    proto::ObjectService::Stub stub_;
+    proto::ProbeService::Stub stub_;
 };
 } // namespace quite

@@ -1,8 +1,9 @@
 syntax = "proto3";
-
 package quite.proto;
 
-service ObjectService {
+import "quite/proto/keyboard.proto";
+
+service ProbeService {
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
     rpc GetObjectProperty(PropertyRequest) returns (PropertyResponse) {}
 
@@ -32,6 +33,7 @@ message PropertyResponse {
 
 message MouseClickRequest {
   uint64 target_id = 1;
+  KeyboardKey key = 2;
 }
 
 

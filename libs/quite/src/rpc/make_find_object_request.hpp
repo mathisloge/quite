@@ -3,15 +3,15 @@
 #include <agrpc/client_rpc.hpp>
 #include <agrpc/grpc_context.hpp>
 #include <exec/task.hpp>
-#include <object/object.grpc.pb.h>
+#include <quite/proto/probe.grpc.pb.h>
 #include <quite/errors.hpp>
 
 namespace quite
 {
 static exec::task<std::expected<proto::ObjectReply, FindObjectErrorCode>> make_find_object_request(
-    agrpc::GrpcContext &grpc_context, proto::ObjectService::Stub &stub, std::string_view object_name)
+    agrpc::GrpcContext &grpc_context, proto::ProbeService::Stub &stub, std::string_view object_name)
 {
-    using RPC = agrpc::ClientRPC<&proto::ObjectService::Stub::PrepareAsyncFindObject>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncFindObject>;
     grpc::ClientContext client_context;
     client_context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds{5});
     client_context.set_wait_for_ready(true);

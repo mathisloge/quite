@@ -3,16 +3,16 @@
 #include <agrpc/client_rpc.hpp>
 #include <agrpc/grpc_context.hpp>
 #include <exec/task.hpp>
-#include <object/object.grpc.pb.h>
+#include <quite/proto/probe.grpc.pb.h>
 #include <quite/errors.hpp>
 #include "quite/basic_remote_object.hpp"
 
 namespace quite
 {
 static exec::task<std::expected<proto::PropertyResponse, FindObjectErrorCode>> make_get_object_property_request(
-    agrpc::GrpcContext &grpc_context, proto::ObjectService::Stub &stub, ObjectId id, std::string_view property_name)
+    agrpc::GrpcContext &grpc_context, proto::ProbeService::Stub &stub, ObjectId id, std::string_view property_name)
 {
-    using RPC = agrpc::ClientRPC<&proto::ObjectService::Stub::PrepareAsyncGetObjectProperty>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncGetObjectProperty>;
     grpc::ClientContext client_context;
     client_context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds{5});
     client_context.set_wait_for_ready(true);

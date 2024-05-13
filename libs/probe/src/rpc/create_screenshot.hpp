@@ -4,7 +4,7 @@
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <exec/async_scope.hpp>
 #include <exec/task.hpp>
-#include <object/object.grpc.pb.h>
+#include <quite/proto/probe.grpc.pb.h>
 #include <spdlog/spdlog.h>
 #include "../object_tracker.hpp"
 #include "../qtstdexec.h"
@@ -13,10 +13,10 @@ namespace quite::probe
 {
 
 static auto create_screenshot(agrpc::GrpcContext &grpc_context,
-                       quite::proto::ObjectService::AsyncService &service,
-                       ObjectTracker &tracker)
+                              quite::proto::ProbeService::AsyncService &service,
+                              ObjectTracker &tracker)
 {
-    using RPC = agrpc::ServerRPC<&quite::proto::ObjectService::AsyncService::RequestCreateScreenshot>;
+    using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestCreateScreenshot>;
     return agrpc::register_sender_rpc_handler<RPC>(
         grpc_context, service, [&](RPC &rpc, const RPC::Request &request) -> exec::task<void> {
             spdlog::trace("START RequestMouseClick={}", request.id());

@@ -9,7 +9,7 @@
 #include <fmt/compile.h>
 #include <fmt/format.h>
 #include <grpcpp/server_builder.h>
-#include <object/object.grpc.pb.h>
+#include <quite/proto/probe.grpc.pb.h>
 #include <spdlog/spdlog.h>
 #include "object_tracker.hpp"
 #include "rpc/create_screenshot.hpp"
@@ -19,7 +19,7 @@
 namespace
 {
 
-using RpcFindObjectSender = agrpc::ServerRPC<&quite::proto::ObjectService::AsyncService::RequestFindObject>;
+using RpcFindObjectSender = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestFindObject>;
 
 struct ProbeData final
 {
@@ -49,7 +49,7 @@ struct ProbeData final
     agrpc::GrpcContext grpc_context;
     std::unique_ptr<grpc::Server> server;
     quite::ObjectTracker tracker;
-    quite::proto::ObjectService::AsyncService object_service;
+    quite::proto::ProbeService::AsyncService object_service;
 
   private:
     std::jthread grpc_runner;
