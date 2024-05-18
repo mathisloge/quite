@@ -1,5 +1,16 @@
-#include "remote_object.hpp"
+#include <quite/remote_object.hpp>
+namespace quite
+{
+RemoteObject::RemoteObject(ObjectId id)
+    : id_{id}
+{}
+
+RemoteObject::~RemoteObject() = default;
+} // namespace quite
+/*
+
 #include <spdlog/spdlog.h>
+#include "remote_object.hpp"
 #include "rpc/make_create_screenshot_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -55,3 +66,4 @@ exec::task<void> RemoteObject::take_snapshot()
 }
 
 } // namespace quite
+*/

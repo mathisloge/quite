@@ -31,13 +31,9 @@ target_sources(quitelib
         src/process_application.hpp
         src/process.cpp
         src/process.hpp
-        src/object_client.cpp
-        src/object_client.hpp
         src/context.cpp
         src/context.hpp
         src/remote_object.cpp
-        src/remote_object.hpp
-        src/api_handle.hpp
-        src/api_handle.cpp
 )
-add_subdirectory(src/low)
+#add_subdirectory(src/low)
+add_subdirectory(src/grpc_impl)

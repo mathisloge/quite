@@ -4,7 +4,7 @@
 #include "context.hpp"
 #include "process.hpp"
 #include "quite/application.hpp"
-#include "api_handle.hpp"
+#include "grpc_impl/probe_handle.hpp"
 
 namespace quite
 {
@@ -14,7 +14,7 @@ class ProcessApplication final : public Application
     explicit ProcessApplication(Context &context, const std::string &path_to_application);
     ~ProcessApplication() override;
 
-    std::shared_ptr<ApiHandle> api_handle() const override;
+    exec::task<std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode>> find_object(std::string_view object_name) override;
 
   private:
     void do_read();
@@ -23,8 +23,9 @@ class ProcessApplication final : public Application
     Process process_;
     asio::readable_pipe stdout_pipe_;
     asio::readable_pipe stderr_pipe_;
-    std::shared_ptr<ApiHandle> api_handle_;
 
     std::array<char, 1024> buffer;
+
+    grpc_impl::ProbeServiceHandle probe_handle_;
 };
 } // namespace quite
