@@ -1,15 +1,16 @@
 #pragma once
 #include <memory>
-#include "api_handle_fwd.hpp"
+#include "errors.hpp"
 #include "quitelib_export.h"
+#include "remote_object.hpp"
 namespace quite
 {
 class QUITELIB_EXPORT Application
 {
   public:
     virtual ~Application();
-
-    virtual std::shared_ptr<ApiHandle> api_handle() const = 0;
+    virtual exec::task<std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode>> find_object(
+        std::string_view object_name) = 0;
 
   protected:
     Application();

@@ -1,14 +1,12 @@
 #pragma once
-#include <expected>
 #include <agrpc/grpc_context.hpp>
-#include <quite/basic_remote_object.hpp>
 #include <quite/proto/probe.grpc.pb.h>
-namespace quite
+namespace quite::grpc_impl
 {
-class ObjectClient final : public std::enable_shared_from_this<ObjectClient>
+class ProbeClient final : public std::enable_shared_from_this<ProbeClient>
 {
   public:
-    ObjectClient(agrpc::GrpcContext &grpc_context);
+    ProbeClient(agrpc::GrpcContext &grpc_context);
 
     agrpc::GrpcContext &context()
     {

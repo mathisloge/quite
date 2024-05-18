@@ -1,3 +1,4 @@
+/*
 #pragma once
 #include <quite/basic_remote_object.hpp>
 #include "api_handle.hpp"
@@ -22,3 +23,4 @@ class RemoteObject : public BasicRemoteObject
     const std::string type_name_;
 };
 } // namespace quite
+*/

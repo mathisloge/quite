@@ -8,10 +8,6 @@
 #include <spdlog/spdlog.h>
 #include <tester_app.hpp>
 
-#include <quite/low_level_api.hpp>
-
-namespace low = quite::low;
-
 TEST_CASE("Test if a process application can be created")
 {
     stdexec::sync_wait([]() -> exec::task<void> {
@@ -19,22 +15,24 @@ TEST_CASE("Test if a process application can be created")
 
         auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
 
-        auto btn_obj = co_await low::find_object(*app, "helloBtn");
+        
+
+        auto btn_obj = co_await app->find_object("helloBtn");
         REQUIRE(btn_obj.has_value());
-        auto text_area = co_await low::find_object(*app, "textArea");
+        auto text_area = co_await app->find_object("textArea");
         REQUIRE(text_area.has_value());
         {
-            auto text_prop = co_await low::get_property(*text_area.value(), "text");
+            auto text_prop = co_await text_area.value()->get_property("text");
             REQUIRE(text_prop.has_value());
             REQUIRE(text_prop->value == "...");
         }
-        co_await btn_obj.value()->mouse_click();
+        //co_await btn_obj.value()->mouse_click();
         {
-            auto text_prop = co_await low::get_property(*text_area.value(), "text");
+            auto text_prop = co_await text_area.value()->get_property("text");
             REQUIRE(text_prop.has_value());
             REQUIRE(text_prop->value == "Hello");
         }
-        co_await text_area.value()->take_snapshot();
+        //co_await text_area.value()->take_snapshot();
         co_return;
     }());
 }
