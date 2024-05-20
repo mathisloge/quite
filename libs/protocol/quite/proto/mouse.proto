@@ -7,3 +7,12 @@ enum MouseButton {
     right_button = 1;
     middle_button = 2;
 }
+
+enum MouseAction {
+    none = 0;
+    click = 1;
+    double_click = 2;
+    press = 3;
+    release = 4;
+    move = 5;
+}

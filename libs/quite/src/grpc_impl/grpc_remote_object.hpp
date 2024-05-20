@@ -13,6 +13,8 @@ class GrpcRemoteObject final : public RemoteObject
 
     exec::task<std::expected<ValueHandle, FindObjectErrorCode>> get_property(std::string_view property_name) override;
 
+    exec::task<std::expected<void, FindObjectErrorCode>> mouse_action() override;
+
   private:
     ProbeServiceHandle probe_service_;
 };

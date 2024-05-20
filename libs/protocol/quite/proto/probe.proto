@@ -9,7 +9,7 @@ service ProbeService {
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
     rpc GetObjectProperty(PropertyRequest) returns (PropertyResponse) {}
 
-    rpc MouseClick(MouseClickRequest) returns (VoidResponse) {}
+    rpc MouseAction(MouseActionRequest) returns (VoidResponse) {}
     rpc CreateScreenshot(ScreenshotRequest) returns (ImageResponse) {};
 }
 
@@ -33,13 +33,13 @@ message PropertyResponse {
   string value = 2;
 }
 
-message MouseClickRequest {
+message MouseActionRequest {
   uint64 target_id = 1;
-  MouseButton mouse_button = 2;
-  KeyboardModifierKey modifier_key = 3;
-  optional uint32 delay_ms = 4; // delay between press and release
-  optional Vector2F relative_point = 5; // the (click) point relative to the object coordinates. 
-  // todo?: add message for action type e.g. ClickAction, DClickAction, PressAction, ReleaseAction => Could chain those later on: PressAction->MouseMoveTo(object)->ReleaseAction 
+  MouseAction mouse_action = 2;
+  MouseButton mouse_button = 3;
+  optional KeyboardModifierKey modifier_key = 4;
+  optional uint32 delay_ms = 5; // delay between press and release
+  optional Vector2F relative_point = 6; // the (click) point relative to the object coordinates. 
 }
 
 

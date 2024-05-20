@@ -19,6 +19,8 @@ class QUITELIB_EXPORT RemoteObject
     virtual exec::task<std::expected<ValueHandle, FindObjectErrorCode>> get_property(
         std::string_view property_name) = 0;
 
+    virtual exec::task<std::expected<void, FindObjectErrorCode>> mouse_action() = 0;
+
     // virtual exec::task<void> take_snapshot() = 0;
 
     // muss ein template mit beliebigen argumenten sein.

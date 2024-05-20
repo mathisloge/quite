@@ -19,16 +19,17 @@ TEST_CASE("Test if a process application can be created")
 
         auto btn_obj = co_await app->find_object("helloBtn");
         REQUIRE(btn_obj.has_value());
-        auto text_area = co_await app->find_object("textArea");
-        REQUIRE(text_area.has_value());
+        auto text_area_res = co_await app->find_object("textArea");
+        REQUIRE(text_area_res.has_value());
+        auto text_area = text_area_res.value();
         {
-            auto text_prop = co_await text_area.value()->get_property("text");
+            auto text_prop = co_await text_area->get_property("text");
             REQUIRE(text_prop.has_value());
             REQUIRE(text_prop->value == "...");
         }
-        //co_await btn_obj.value()->mouse_click();
+        co_await btn_obj.value()->mouse_action();
         {
-            auto text_prop = co_await text_area.value()->get_property("text");
+            auto text_prop = co_await text_area->get_property("text");
             REQUIRE(text_prop.has_value());
             REQUIRE(text_prop->value == "Hello");
         }
