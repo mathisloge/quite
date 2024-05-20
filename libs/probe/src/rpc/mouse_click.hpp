@@ -13,7 +13,7 @@ static auto mouse_click(agrpc::GrpcContext &grpc_context,
                  quite::proto::ProbeService::AsyncService &service,
                  ObjectTracker &tracker)
 {
-    using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestMouseClick>;
+    using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestMouseAction>;
     return agrpc::register_sender_rpc_handler<RPC>(
         grpc_context, service, [&](RPC &rpc, const RPC::Request &request) -> exec::task<void> {
             spdlog::trace("START RequestMouseClick={}", request.target_id());
