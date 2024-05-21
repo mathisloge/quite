@@ -14,6 +14,6 @@ struct ObjectMeta
 
     [[nodiscard]] static ObjectMeta fromQObject(QObject *object);
 };
-[[nodiscard]]  std::unordered_map<std::string, std::string> collect_properties(ObjectMeta object_meta);
+[[nodiscard]] std::unordered_map<std::string, std::string> collect_properties(ObjectMeta object_meta);
 
 } // namespace quite

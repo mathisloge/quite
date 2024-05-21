@@ -1,8 +1,10 @@
 #include "grpc_remote_object.hpp"
 #include <quite/create_logger.hpp>
+#include <quite/image.hpp>
 #include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
 #include "probe_client.hpp"
+#include "rpc/make_create_snapshot_request.hpp"
 #include "rpc/make_get_object_property_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
 
@@ -41,5 +43,20 @@ exec::task<std::expected<void, FindObjectErrorCode>> GrpcRemoteObject::mouse_act
         .or_else([](auto &&error) -> std::expected<void, FindObjectErrorCode> {
             return std::unexpected(FindObjectErrorCode::object_not_found);
         });
+}
+
+exec::task<std::expected<Image, FindObjectErrorCode>> GrpcRemoteObject::take_snapshot()
+{
+    auto response = co_await make_create_snapshot_request(probe_service_->context(), probe_service_->stub(), id_);
+    if (response.has_value())
+    {
+        SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "Got image for obj={}", id_);
+        std::vector<std::byte> image_data;
+        auto image_view = std::as_bytes(std::span{response->data().data(), response->data().size()});
+        image_data.reserve(image_view.size());
+        image_data.insert(image_data.begin(), image_view.begin(), image_view.end());
+        co_return Image{std::move(image_data), response->metadata().width(), response->metadata().height(), 4};
+    }
+    co_return std::unexpected(FindObjectErrorCode::object_not_found);
 }
 } // namespace quite::grpc_impl

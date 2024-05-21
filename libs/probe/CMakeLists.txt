@@ -30,7 +30,7 @@ target_sources(probe
         src/probe.cpp
         src/property_collector.cpp
         src/property_collector.hpp
-        src/screenshot.hpp
-        src/screenshot.cpp
+        src/snapshot.hpp
+        src/snapshot.cpp
 )
 add_subdirectory(src/injector)

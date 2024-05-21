@@ -15,9 +15,7 @@ TEST_CASE("Test if a process application can be created")
 
         auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
 
-        
-
-        auto btn_obj = co_await app->find_object("helloBtn");
+        auto btn_obj = co_await app->find_object("worldBtn");
         REQUIRE(btn_obj.has_value());
         auto text_area_res = co_await app->find_object("textArea");
         REQUIRE(text_area_res.has_value());
@@ -31,9 +29,11 @@ TEST_CASE("Test if a process application can be created")
         {
             auto text_prop = co_await text_area->get_property("text");
             REQUIRE(text_prop.has_value());
-            REQUIRE(text_prop->value == "Hello");
+            REQUIRE(text_prop->value == "World");
         }
-        //co_await text_area.value()->take_snapshot();
+        auto img = co_await btn_obj.value()->take_snapshot();
+        REQUIRE(img.has_value());
+        img->save_to("/home/mathis/dev/ng-quite/test2.png");
         co_return;
     }());
 }

@@ -15,7 +15,9 @@ class GrpcRemoteObject final : public RemoteObject
 
     exec::task<std::expected<void, FindObjectErrorCode>> mouse_action() override;
 
+    exec::task<std::expected<Image, FindObjectErrorCode>> take_snapshot() override;
+
   private:
     ProbeServiceHandle probe_service_;
 };
-} // namespace quite::grpc
+} // namespace quite::grpc_impl
