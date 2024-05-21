@@ -101,7 +101,7 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::strin
         // auto properties = quite::collect_properties(object_meta);
         if (obj->objectName() == QString::fromStdString(object_name))
         {
-            auto object_meta = quite::ObjectMeta::fromQObject(obj);
+            auto object_meta = quite::ObjectMeta::from_qobject(obj);
             return ObjectInfo{
                 .object_id = reinterpret_cast<std::uintptr_t>(obj),
                 .class_type = object_meta.meta_object->className(),

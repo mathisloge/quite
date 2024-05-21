@@ -6,3 +6,9 @@ message Vector2F {
     float x = 1;
     float y = 2; 
 }
+
+
+message ObjectSearchQuery {
+    map<string, string> properties = 1;
+    optional ObjectSearchQuery parent = 2;
+}
