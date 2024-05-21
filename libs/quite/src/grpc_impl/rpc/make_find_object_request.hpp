@@ -17,7 +17,7 @@ static exec::task<std::expected<proto::ObjectReply, FindObjectErrorCode>> make_f
     client_context.set_wait_for_ready(true);
 
     proto::ObjectRequest request;
-    *request.mutable_object_name() = object_name;
+    request.mutable_query()->mutable_properties()->emplace("objectName", std::string{object_name});
 
     proto::ObjectReply response;
     const auto status = co_await RPC::request(grpc_context, stub, client_context, request, response);

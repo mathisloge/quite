@@ -10,31 +10,26 @@ namespace quite::probe
 {
 
 static auto get_object_property(agrpc::GrpcContext &grpc_context,
-                     quite::proto::ProbeService::AsyncService &service,
-                     ObjectTracker &tracker)
+                                quite::proto::ProbeService::AsyncService &service,
+                                ObjectTracker &tracker)
 {
     using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestGetObjectProperty>;
     return agrpc::register_sender_rpc_handler<RPC>(
-        grpc_context,
-        service,
-        [&](RPC &rpc, const RPC::Request &request) -> exec::task<void> {
-            spdlog::trace("START RequestGetObjectProperty={}", request.id());
+        grpc_context, service, [&](RPC &rpc, const RPC::Request &request) -> exec::task<void> {
+            spdlog::trace("START RequestGetObjectProperty={}", request.object_id());
             RPC::Response response{};
-            auto property_value = co_await stdexec::then(
-                stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                [&]() { return tracker.get_property(reinterpret_cast<QObject*>(request.id()), request.property_name()); });
-
-            if (property_value.has_value())
-            {
-                *response.mutable_value() = std::move(*property_value);
-                co_await rpc.finish(response, grpc::Status::OK);
-            }
-            else
-            {
-                co_await rpc.finish(
-                    response,
-                    grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.id())});
-            }
+            co_await stdexec::then(
+                stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())), [&]() {
+                    for (auto &&property_name : request.property_names())
+                    {
+                        auto prop = tracker.get_property(request.object_id(), property_name);
+                        if (prop.has_value())
+                        {
+                            response.mutable_property_values()->emplace(property_name, prop.value());
+                        }
+                    }
+                });
+            co_await rpc.finish(response, grpc::Status::OK);
         });
 }
 } // namespace quite::probe

@@ -3,8 +3,8 @@
 #include <agrpc/client_rpc.hpp>
 #include <agrpc/grpc_context.hpp>
 #include <exec/task.hpp>
-#include <quite/proto/probe.grpc.pb.h>
 #include <quite/errors.hpp>
+#include <quite/proto/probe.grpc.pb.h>
 #include <quite/remote_object.hpp>
 
 namespace quite
@@ -18,8 +18,8 @@ static exec::task<std::expected<proto::PropertyResponse, FindObjectErrorCode>> m
     client_context.set_wait_for_ready(true);
 
     proto::PropertyRequest request;
-    request.set_id(id);
-    *request.mutable_property_name() = property_name;
+    request.set_object_id(id);
+    request.mutable_property_names()->Add(std::string{property_name});
 
     proto::PropertyResponse response;
     const auto status = co_await RPC::request(grpc_context, stub, client_context, request, response);
@@ -28,6 +28,5 @@ static exec::task<std::expected<proto::PropertyResponse, FindObjectErrorCode>> m
         co_return response;
     }
     co_return std::unexpected(FindObjectErrorCode::object_not_found);
-
 }
-}
+} // namespace quite

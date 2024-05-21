@@ -10,7 +10,7 @@ Item {
     Text {
         id: "text"
         objectName: "textArea"
-        anchors { bottom: logview.top; horizontalCenter: parent.horizontalCenter; bottomMargin: 20 }
+        anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter; bottomMargin: 20 }
         text: "..."
     }
     RowLayout {
@@ -23,25 +23,6 @@ Item {
             objectName: "worldBtn"
             text: "World"
             onClicked: text.text = "World"
-        }
-    }
-
-    MyLogArea {
-        objectName: "logArea"
-        id: logArea
-    }
-    ScrollView {
-        id: logview
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: 200
-
-        background: Rectangle {
-            color: "grey"
-        }
-        TextArea {
-            text: logArea.text
         }
     }
 }

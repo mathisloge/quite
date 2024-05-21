@@ -30,8 +30,8 @@ exec::task<std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode>> Pr
     SPDLOG_LOGGER_TRACE(logger_process_application(), "Starting request with object_name={}", object_name);
     auto response = co_await make_find_object_request(probe_handle_->context(), probe_handle_->stub(), object_name);
     co_return response
-        .and_then([&](auto &&reply) -> std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode> {
-            return std::make_shared<grpc_impl::GrpcRemoteObject>(reply.id(), probe_handle_);
+        .and_then([&](proto::ObjectReply &reply) -> std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode> {
+            return std::make_shared<grpc_impl::GrpcRemoteObject>(reply.object_id(), probe_handle_);
         })
         .or_else([](auto &&error) -> std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode> {
             return std::unexpected(FindObjectErrorCode::object_not_found);
@@ -52,7 +52,7 @@ void ProcessApplication::do_read()
     stderr_pipe_.async_read_some(asio::buffer(buffer), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {
-            // spdlog::debug("err {}", std::string_view{buffer.begin(), length});
+            spdlog::debug("err {}", std::string_view{buffer.begin(), length});
             do_read();
         }
     });

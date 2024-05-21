@@ -18,7 +18,7 @@ static exec::task<std::expected<proto::ImageResponse, FindObjectErrorCode>> make
     client_context.set_wait_for_ready(true);
 
     proto::ScreenshotRequest request;
-    request.set_id(id);
+    request.set_object_id(id);
 
     proto::ImageResponse response;
     const auto status = co_await RPC::request(grpc_context, stub, client_context, request, response);

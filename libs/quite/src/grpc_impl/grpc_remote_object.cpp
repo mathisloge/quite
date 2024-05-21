@@ -27,7 +27,7 @@ exec::task<std::expected<ValueHandle, FindObjectErrorCode>> GrpcRemoteObject::ge
         probe_service_->context(), probe_service_->stub(), id_, property_name);
     co_return response
         .and_then([&](auto &&reply) -> std::expected<ValueHandle, FindObjectErrorCode> {
-            return ValueHandle{.value = response->value()};
+            return ValueHandle{.value = response->property_values().begin()->second};
         })
         .or_else([](auto &&error) -> std::expected<ValueHandle, FindObjectErrorCode> {
             return std::unexpected(FindObjectErrorCode::object_not_found);

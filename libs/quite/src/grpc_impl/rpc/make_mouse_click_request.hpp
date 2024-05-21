@@ -18,7 +18,7 @@ static exec::task<std::expected<proto::VoidResponse, FindObjectErrorCode>> make_
     client_context.set_wait_for_ready(true);
 
     proto::MouseActionRequest request;
-    request.set_target_id(id);
+    request.set_object_id(id);
     request.set_mouse_action(::quite::proto::MouseAction::click);
 
     proto::VoidResponse response;
