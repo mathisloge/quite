@@ -15,14 +15,6 @@
 
 namespace
 {
-void dump_props(QObject *obj)
-{
-    // obj->dumpObjectInfo();
-    // obj->dumpObjectTree();
-    auto object_meta = quite::ObjectMeta::fromQObject(obj);
-    const auto properties = quite::collect_properties(std::move(object_meta));
-}
-
 class InOwnContext final
 {
   public:
@@ -123,15 +115,14 @@ std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::Obje
     return std::unexpected(ObjectErrC::not_found);
 }
 
-std::expected<std::string, ObjectErrC> ObjectTracker::get_property(QObject *obj, const std::string &property_name)
+std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::ObjectId obj_id, const std::string &property_name)
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
-    auto it = tracked_objects_.find(obj);
+    auto it = tracked_objects_.find(reinterpret_cast<QObject *>(obj_id));
     if (it != tracked_objects_.end())
     {
-        auto prop = obj->property(property_name.c_str()).toString().toStdString();
-        return prop;
+        return (*it)->property(property_name.c_str()).toString().toStdString();
     }
     return std::unexpected(ObjectErrC::not_found);
 }

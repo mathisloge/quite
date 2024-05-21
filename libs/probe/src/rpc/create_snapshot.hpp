@@ -19,17 +19,17 @@ static auto create_snapshot(agrpc::GrpcContext &grpc_context,
     using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestCreateScreenshot>;
     return agrpc::register_sender_rpc_handler<RPC>(
         grpc_context, service, [&](RPC &rpc, const RPC::Request &request) -> exec::task<void> {
-            spdlog::trace("START RequestCreateScreenshot={}", request.id());
+            spdlog::trace("START RequestCreateScreenshot={}", request.object_id());
             RPC::Response response{};
             auto object = co_await stdexec::then(
                 stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                [&]() { return tracker.get_object_by_id(request.id()); });
+                [&]() { return tracker.get_object_by_id(request.object_id()); });
 
             if (!object.has_value())
             {
                 co_await rpc.finish(
                     response,
-                    grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.id())});
+                    grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.object_id())});
             }
             auto expected_image = co_await stdexec::on(
                 QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()), take_snapshot(*object));
@@ -45,7 +45,7 @@ static auto create_snapshot(agrpc::GrpcContext &grpc_context,
             }
             co_await rpc.finish(response,
                                 grpc::Status{grpc::StatusCode::RESOURCE_EXHAUSTED,
-                                             fmt::format("could not take image snapshot {}", request.id())});
+                                             fmt::format("could not take image snapshot {}", request.object_id())});
         });
 }
 } // namespace quite::probe
