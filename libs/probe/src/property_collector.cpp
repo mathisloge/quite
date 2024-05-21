@@ -54,8 +54,8 @@ std::unordered_map<std::string, std::string> collect_properties(ObjectMeta objec
         {
             try
             {
-                if (prop.name() == std::string{"inputDirection"} || prop.name() == std::string{"locale"} ||
-                    prop.name() == std::string{"fontInfo"})
+                if (prop.name() == std::string_view{"inputDirection"} || prop.name() == std::string_view{"locale"} ||
+                    prop.name() == std::string_view{"fontInfo"})
                 {
                     continue;
                 }

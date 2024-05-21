@@ -45,13 +45,6 @@ namespace quite
 {
 
 ObjectTracker::ObjectTracker()
-    : test_mouse_{QStringLiteral("TestingMouse"),
-                  100,
-                  QInputDevice::DeviceType::Mouse,
-                  QPointingDevice::PointerType::Generic,
-                  QInputDevice::Capability::MouseEmulation,
-                  1,
-                  2}
 {
     init_timer_.setInterval(0);
     init_timer_.setSingleShot(true);
@@ -67,12 +60,6 @@ void ObjectTracker::processNewObjects()
         // dump_props(obj);
         //  if (obj->parent() == nullptr)
         {
-            if (obj->objectName() == "logArea")
-            {
-                spdlog::error("XXXX GOT LOGAREA");
-                // spdlog::default_logger()->sinks().emplace_back(std::make_shared<spdlog::sinks::qt_sink_st>(obj,
-                // "setText"));
-            }
             tracked_objects_.emplace(obj);
         }
         //  for outstanding requests do:
@@ -147,35 +134,6 @@ std::expected<std::string, ObjectErrC> ObjectTracker::get_property(QObject *obj,
         return prop;
     }
     return std::unexpected(ObjectErrC::not_found);
-}
-
-void ObjectTracker::mouse_click(QObject *obj)
-{
-    std::shared_lock l{locker_};
-    InOwnContext c{own_ctx_};
-    auto it = tracked_objects_.find(obj);
-    if (it != tracked_objects_.end())
-    {
-        spdlog::debug("click!");
-        auto ev = new QMouseEvent(QMouseEvent::Type::MouseButtonPress,
-                                  QPointF{0, 0},
-                                  QPointF{0, 0},
-                                  Qt::MouseButton::LeftButton,
-                                  Qt::MouseButton::LeftButton,
-                                  {},
-                                  &test_mouse_);
-        spdlog::debug("click2!");
-        QCoreApplication::postEvent(obj, ev);
-        spdlog::debug("click3! {}-{}", obj->property("x").toInt(), obj->property("y").toInt());
-        ev = new QMouseEvent(QMouseEvent::Type::MouseButtonRelease,
-                             QPointF{0, 0},
-                             QPointF{0, 0},
-                             Qt::MouseButton::LeftButton,
-                             Qt::MouseButton::LeftButton,
-                             {},
-                             &test_mouse_);
-        QCoreApplication::postEvent(obj, ev);
-    }
 }
 
 void ObjectTracker::removeObject(QObject *obj)

@@ -3,6 +3,7 @@
 #include <expected>
 #include <exec/task.hpp>
 #include "errors.hpp"
+#include "image.hpp"
 #include "quitelib_export.h"
 #include "value_handle.hpp"
 namespace quite
@@ -20,6 +21,8 @@ class QUITELIB_EXPORT RemoteObject
         std::string_view property_name) = 0;
 
     virtual exec::task<std::expected<void, FindObjectErrorCode>> mouse_action() = 0;
+
+    virtual exec::task<std::expected<Image, FindObjectErrorCode>> take_snapshot() = 0;
 
     // virtual exec::task<void> take_snapshot() = 0;
 

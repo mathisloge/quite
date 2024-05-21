@@ -8,18 +8,18 @@
 #include <spdlog/spdlog.h>
 #include "../object_tracker.hpp"
 #include "../qtstdexec.h"
-#include "../screenshot.hpp"
+#include "../snapshot.hpp"
 namespace quite::probe
 {
 
-static auto create_screenshot(agrpc::GrpcContext &grpc_context,
-                              quite::proto::ProbeService::AsyncService &service,
-                              ObjectTracker &tracker)
+static auto create_snapshot(agrpc::GrpcContext &grpc_context,
+                            quite::proto::ProbeService::AsyncService &service,
+                            ObjectTracker &tracker)
 {
     using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestCreateScreenshot>;
     return agrpc::register_sender_rpc_handler<RPC>(
         grpc_context, service, [&](RPC &rpc, const RPC::Request &request) -> exec::task<void> {
-            spdlog::trace("START RequestMouseClick={}", request.id());
+            spdlog::trace("START RequestCreateScreenshot={}", request.id());
             RPC::Response response{};
             auto object = co_await stdexec::then(
                 stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
@@ -41,7 +41,6 @@ static auto create_screenshot(agrpc::GrpcContext &grpc_context,
                 std::copy(expected_image->bits(),
                           expected_image->bits() + expected_image->sizeInBytes(),
                           std::back_inserter(*response.mutable_data()));
-                expected_image.value().save("/home/mathis/dev/ng-quite/test.png");
                 co_await rpc.finish(response, grpc::Status::OK);
             }
             co_await rpc.finish(response,

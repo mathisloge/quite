@@ -1,4 +1,4 @@
-#include "screenshot.hpp"
+#include "snapshot.hpp"
 #include <QQuickItem>
 #include <QQuickItemGrabResult>
 #include "qtstdexec.h"

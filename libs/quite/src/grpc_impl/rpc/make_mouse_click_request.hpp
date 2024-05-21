@@ -19,6 +19,7 @@ static exec::task<std::expected<proto::VoidResponse, FindObjectErrorCode>> make_
 
     proto::MouseActionRequest request;
     request.set_target_id(id);
+    request.set_mouse_action(::quite::proto::MouseAction::click);
 
     proto::VoidResponse response;
     const auto status = co_await RPC::request(grpc_context, stub, client_context, request, response);
