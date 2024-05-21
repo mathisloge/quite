@@ -12,7 +12,7 @@ struct ObjectMeta
     QObject *object;
     const QMetaObject *meta_object;
 
-    [[nodiscard]] static ObjectMeta fromQObject(QObject *object);
+    [[nodiscard]] static ObjectMeta from_qobject(QObject *object);
 };
 [[nodiscard]] std::unordered_map<std::string, std::string> collect_properties(ObjectMeta object_meta);
 

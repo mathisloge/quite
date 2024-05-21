@@ -14,27 +14,24 @@ service ProbeService {
 }
 
 message ObjectRequest {
-  ObjectRequest parent = 1;
-  string object_name = 2;
+  ObjectSearchQuery query = 1;
 }
 
 message ObjectReply {
-  uint64 id = 1; // the internal id assigned by the probe
-  string type_name = 2;
+  uint64 object_id = 1; // the internal id assigned by the probe
 }
 
 message PropertyRequest {
-  uint64 id = 1;
-  string property_name = 2;
+  uint64 object_id = 1;
+  repeated string property_name = 2;
 }
 
 message PropertyResponse {
-  string type_name = 1;
-  string value = 2;
+  map<string, string> property_values = 1;
 }
 
 message MouseActionRequest {
-  uint64 target_id = 1;
+  uint64 object_id = 1;
   MouseAction mouse_action = 2;
   MouseButton mouse_button = 3;
   optional KeyboardModifierKey modifier_key = 4;
@@ -57,5 +54,5 @@ message ImageResponse {
 }
 
 message ScreenshotRequest {
-  uint64 id = 1;
+  uint64 object_id = 1;
 }

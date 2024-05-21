@@ -7,7 +7,7 @@
 
 namespace quite
 {
-ObjectMeta ObjectMeta::fromQObject(QObject *object)
+ObjectMeta ObjectMeta::from_qobject(QObject *object)
 {
     const QMetaObject *meta_object{nullptr};
     if (object->metaObject())
