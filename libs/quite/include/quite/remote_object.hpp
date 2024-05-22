@@ -17,8 +17,8 @@ class QUITELIB_EXPORT RemoteObject
     explicit RemoteObject(ObjectId id);
     virtual ~RemoteObject();
 
-    virtual exec::task<std::expected<ValueHandle, FindObjectErrorCode>> get_property(
-        std::string_view property_name) = 0;
+    virtual exec::task<std::expected<std::vector<Property>, FindObjectErrorCode>> fetch_properties(
+        const std::vector<std::string_view>& properties) = 0;
 
     virtual exec::task<std::expected<void, FindObjectErrorCode>> mouse_action() = 0;
 

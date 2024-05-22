@@ -7,7 +7,7 @@ import "quite/proto/mouse.proto";
 
 service ProbeService {
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
-    rpc GetObjectProperty(PropertyRequest) returns (PropertyResponse) {}
+    rpc GetObjectProperties(GetObjectPropertiesRequest) returns (GetObjectPropertiesResponse) {}
 
     rpc MouseAction(MouseActionRequest) returns (VoidResponse) {}
     rpc CreateScreenshot(ScreenshotRequest) returns (ImageResponse) {};
@@ -21,12 +21,12 @@ message ObjectReply {
   uint64 object_id = 1; // the internal id assigned by the probe
 }
 
-message PropertyRequest {
+message GetObjectPropertiesRequest {
   uint64 object_id = 1;
   repeated string property_names = 2;
 }
 
-message PropertyResponse {
+message GetObjectPropertiesResponse {
   map<string, string> property_values = 1;
 }
 
