@@ -9,11 +9,11 @@
 namespace quite::probe
 {
 
-static auto get_object_property(agrpc::GrpcContext &grpc_context,
+static auto get_object_properties(agrpc::GrpcContext &grpc_context,
                                 quite::proto::ProbeService::AsyncService &service,
                                 ObjectTracker &tracker)
 {
-    using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestGetObjectProperty>;
+    using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestGetObjectProperties>;
     return agrpc::register_sender_rpc_handler<RPC>(
         grpc_context, service, [&](RPC &rpc, const RPC::Request &request) -> exec::task<void> {
             spdlog::trace("START RequestGetObjectProperty={}", request.object_id());

@@ -1,11 +1,12 @@
 #include "grpc_remote_object.hpp"
+#include <ranges>
 #include <quite/create_logger.hpp>
 #include <quite/image.hpp>
 #include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
 #include "probe_client.hpp"
 #include "rpc/make_create_snapshot_request.hpp"
-#include "rpc/make_get_object_property_request.hpp"
+#include "rpc/make_get_object_properties_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
 
 namespace
@@ -19,17 +20,24 @@ GrpcRemoteObject::GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service
     , probe_service_{std::move(probe_service_handle)}
 {}
 
-exec::task<std::expected<ValueHandle, FindObjectErrorCode>> GrpcRemoteObject::get_property(
-    std::string_view property_name)
+exec::task<std::expected<std::vector<Property>, FindObjectErrorCode>> GrpcRemoteObject::fetch_properties(
+    const std::vector<std::string_view> &properties)
 {
-    SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "get property[{}] for object={}", property_name, id_);
-    const auto response = co_await make_get_object_property_request(
-        probe_service_->context(), probe_service_->stub(), id_, property_name);
+    SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "get properties[{}] for object={}", fmt::join(properties, ","), id_);
+    const auto response =
+        co_await make_get_object_properties_request(probe_service_->context(), probe_service_->stub(), id_, properties);
     co_return response
-        .and_then([&](auto &&reply) -> std::expected<ValueHandle, FindObjectErrorCode> {
-            return ValueHandle{.value = response->property_values().begin()->second};
+        .and_then([&](auto &&reply) -> std::expected<std::vector<Property>, FindObjectErrorCode> {
+            std::vector<Property> values;
+            std::ranges::copy(std::views::transform(response->property_values(),
+                                                    [](auto &&value) {
+                                                        return Property{.name = value.first,
+                                                                        .value = ValueHandle{.value = value.second}};
+                                                    }),
+                              std::back_inserter(values));
+            return values;
         })
-        .or_else([](auto &&error) -> std::expected<ValueHandle, FindObjectErrorCode> {
+        .or_else([](auto &&error) -> std::expected<std::vector<Property>, FindObjectErrorCode> {
             return std::unexpected(FindObjectErrorCode::object_not_found);
         });
 }

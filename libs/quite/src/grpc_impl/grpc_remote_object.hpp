@@ -11,7 +11,7 @@ class GrpcRemoteObject final : public RemoteObject
   public:
     explicit GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service_handle);
 
-    exec::task<std::expected<ValueHandle, FindObjectErrorCode>> get_property(std::string_view property_name) override;
+    exec::task<std::expected<std::vector<Property>, FindObjectErrorCode>> fetch_properties(const std::vector<std::string_view>& properties) override;
 
     exec::task<std::expected<void, FindObjectErrorCode>> mouse_action() override;
 
