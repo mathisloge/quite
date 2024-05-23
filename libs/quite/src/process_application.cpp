@@ -1,11 +1,10 @@
 #include "process_application.hpp"
-#include <quite/logger_macros.hpp>
 #include <quite/create_logger.hpp>
-#include <spawn.h>
+#include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
+#include "grpc_impl/grpc_remote_object.hpp"
 #include "grpc_impl/probe_client.hpp"
 #include "grpc_impl/rpc/make_find_object_request.hpp"
-#include "grpc_impl/grpc_remote_object.hpp"
 
 namespace
 {
@@ -25,17 +24,14 @@ ProcessApplication::ProcessApplication(Context &context, const std::string &path
 
 ProcessApplication::~ProcessApplication() = default;
 
-exec::task<std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode>> ProcessApplication::find_object(std::string_view object_name)
+exec::task<Result<std::shared_ptr<RemoteObject>>> ProcessApplication::find_object(std::string_view object_name)
 {
     SPDLOG_LOGGER_TRACE(logger_process_application(), "Starting request with object_name={}", object_name);
-    auto response = co_await make_find_object_request(probe_handle_->context(), probe_handle_->stub(), object_name);
-    co_return response
-        .and_then([&](proto::ObjectReply &reply) -> std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode> {
-            return std::make_shared<grpc_impl::GrpcRemoteObject>(reply.object_id(), probe_handle_);
-        })
-        .or_else([](auto &&error) -> std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode> {
-            return std::unexpected(FindObjectErrorCode::object_not_found);
-        });
+    auto response =
+        co_await grpc_impl::make_find_object_request(probe_handle_->context(), probe_handle_->stub(), object_name);
+    co_return response.and_then([&](proto::ObjectReply &reply) -> Result<std::shared_ptr<RemoteObject>> {
+        return std::make_shared<grpc_impl::GrpcRemoteObject>(reply.object_id(), probe_handle_);
+    });
 }
 
 void ProcessApplication::do_read()

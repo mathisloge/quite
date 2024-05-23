@@ -5,13 +5,14 @@
 #include <quite/proto/probe.grpc.pb.h>
 #include <spdlog/spdlog.h>
 #include "../object_tracker.hpp"
+#include "../property_collector.hpp"
 #include "../qtstdexec.h"
 namespace quite::probe
 {
 
 static auto get_object_properties(agrpc::GrpcContext &grpc_context,
-                                quite::proto::ProbeService::AsyncService &service,
-                                ObjectTracker &tracker)
+                                  quite::proto::ProbeService::AsyncService &service,
+                                  ObjectTracker &tracker)
 {
     using RPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestGetObjectProperties>;
     return agrpc::register_sender_rpc_handler<RPC>(
@@ -20,12 +21,21 @@ static auto get_object_properties(agrpc::GrpcContext &grpc_context,
             RPC::Response response{};
             co_await stdexec::then(
                 stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())), [&]() {
-                    for (auto &&property_name : request.property_names())
+                    if (request.property_names_size() == 0)
                     {
-                        auto prop = tracker.get_property(request.object_id(), property_name);
-                        if (prop.has_value())
+                        auto obj = tracker.get_object_by_id(request.object_id());
+                        auto properties = collect_properties(ObjectMeta::from_qobject(*obj));
+                        response.mutable_property_values()->insert(properties.begin(), properties.end());
+                    }
+                    else
+                    {
+                        for (auto &&property_name : request.property_names())
                         {
-                            response.mutable_property_values()->emplace(property_name, prop.value());
+                            auto prop = tracker.get_property(request.object_id(), property_name);
+                            if (prop.has_value())
+                            {
+                                response.mutable_property_values()->emplace(property_name, prop.value());
+                            }
                         }
                     }
                 });

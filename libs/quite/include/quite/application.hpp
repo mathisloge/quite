@@ -9,8 +9,7 @@ class QUITELIB_EXPORT Application
 {
   public:
     virtual ~Application();
-    virtual exec::task<std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode>> find_object(
-        std::string_view object_name) = 0;
+    virtual exec::task<Result<std::shared_ptr<RemoteObject>>> find_object(std::string_view object_name) = 0;
 
   protected:
     Application();
