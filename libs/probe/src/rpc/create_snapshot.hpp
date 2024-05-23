@@ -25,11 +25,12 @@ static auto create_snapshot(agrpc::GrpcContext &grpc_context,
                 stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
                 [&]() { return tracker.get_object_by_id(request.object_id()); });
 
-            if (!object.has_value())
+            if (not object.has_value())
             {
                 co_await rpc.finish(
                     response,
                     grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.object_id())});
+                co_return;
             }
             auto expected_image = co_await stdexec::on(
                 QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()), take_snapshot(*object));
@@ -42,6 +43,7 @@ static auto create_snapshot(agrpc::GrpcContext &grpc_context,
                           expected_image->bits() + expected_image->sizeInBytes(),
                           std::back_inserter(*response.mutable_data()));
                 co_await rpc.finish(response, grpc::Status::OK);
+                co_return;
             }
             co_await rpc.finish(response,
                                 grpc::Status{grpc::StatusCode::RESOURCE_EXHAUSTED,

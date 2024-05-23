@@ -2,9 +2,9 @@
 #include <array>
 #include <asio/readable_pipe.hpp>
 #include "context.hpp"
+#include "grpc_impl/probe_handle.hpp"
 #include "process.hpp"
 #include "quite/application.hpp"
-#include "grpc_impl/probe_handle.hpp"
 
 namespace quite
 {
@@ -14,7 +14,7 @@ class ProcessApplication final : public Application
     explicit ProcessApplication(Context &context, const std::string &path_to_application);
     ~ProcessApplication() override;
 
-    exec::task<std::expected<std::shared_ptr<RemoteObject>, FindObjectErrorCode>> find_object(std::string_view object_name) override;
+    exec::task<Result<std::shared_ptr<RemoteObject>>> find_object(std::string_view object_name) override;
 
   private:
     void do_read();

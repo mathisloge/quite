@@ -5,10 +5,11 @@
 #include <exec/task.hpp>
 #include <quite/proto/probe.grpc.pb.h>
 #include <quite/errors.hpp>
+#include "error_helper.hpp"
 
-namespace quite
+namespace quite::grpc_impl
 {
-static exec::task<std::expected<proto::ObjectReply, FindObjectErrorCode>> make_find_object_request(
+static exec::task<Result<proto::ObjectReply>> make_find_object_request(
     agrpc::GrpcContext &grpc_context, proto::ProbeService::Stub &stub, std::string_view object_name)
 {
     using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncFindObject>;
@@ -25,7 +26,7 @@ static exec::task<std::expected<proto::ObjectReply, FindObjectErrorCode>> make_f
     {
         co_return response;
     }
-    co_return std::unexpected(FindObjectErrorCode::object_not_found);
+    co_return std::unexpected(status2error(status));
 }
 
 } // namespace quite

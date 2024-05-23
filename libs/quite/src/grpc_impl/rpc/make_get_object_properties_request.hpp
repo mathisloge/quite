@@ -6,10 +6,11 @@
 #include <quite/errors.hpp>
 #include <quite/proto/probe.grpc.pb.h>
 #include <quite/remote_object.hpp>
+#include "error_helper.hpp"
 
-namespace quite
+namespace quite::grpc_impl
 {
-static exec::task<std::expected<proto::GetObjectPropertiesResponse, FindObjectErrorCode>> make_get_object_properties_request(
+static exec::task<Result<proto::GetObjectPropertiesResponse>> make_get_object_properties_request(
     agrpc::GrpcContext &grpc_context,
     proto::ProbeService::Stub &stub,
     ObjectId id,
@@ -34,6 +35,6 @@ static exec::task<std::expected<proto::GetObjectPropertiesResponse, FindObjectEr
     {
         co_return response;
     }
-    co_return std::unexpected(FindObjectErrorCode::object_not_found);
+    co_return std::unexpected(status2error(status));
 }
 } // namespace quite

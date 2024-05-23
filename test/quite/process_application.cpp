@@ -34,6 +34,21 @@ TEST_CASE("Test if a process application can be created")
         auto img = co_await btn_obj.value()->take_snapshot();
         REQUIRE(img.has_value());
         img->save_to("/home/mathis/dev/ng-quite/test2.png");
+
+        auto xxxx = co_await app->find_object("testRoot");
+        if (xxxx.has_value())
+        {
+            auto all_props = co_await xxxx.value()->fetch_properties({});
+            REQUIRE(all_props.has_value());
+            for (auto &&p : all_props.value())
+            {
+                spdlog::info("P {}={}", p.name, p.value.value);
+            }
+        }
+        else
+        {
+            spdlog::error("Error {}", xxxx.error().message);
+        }
         co_return;
     }());
 }
