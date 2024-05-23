@@ -4,6 +4,7 @@ package quite.proto;
 import "quite/proto/common.proto";
 import "quite/proto/keyboard.proto";
 import "quite/proto/mouse.proto";
+import "quite/proto/types.proto";
 
 service ProbeService {
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
@@ -41,7 +42,6 @@ message MouseActionRequest {
 
 
 message VoidResponse {
-
 }
 
 message ImageMetadata {

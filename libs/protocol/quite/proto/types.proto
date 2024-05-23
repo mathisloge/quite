@@ -1,0 +1,17 @@
+syntax = "proto3";
+package quite.proto;
+
+message ClassValue {
+    string type_name = 1;
+}
+
+message PropertyValue {
+    oneof value_oneof {
+        string string_val = 1;
+        int64 int_val = 2;
+        uint64 uint_val = 3;
+        double double_val = 4;
+        bool bool_val = 5;
+        ClassValue class_val = 6;
+    }
+}
