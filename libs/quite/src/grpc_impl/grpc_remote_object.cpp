@@ -31,7 +31,9 @@ exec::task<Result<std::vector<Property>>> GrpcRemoteObject::fetch_properties(
         std::ranges::copy(std::views::transform(response->property_values(),
                                                 [](auto &&value) {
                                                     return Property{.name = value.first,
-                                                                    .value = ValueHandle{.value = value.second}};
+                                                                    .value = ValueHandle{
+                                                                        .value = "unknown", //value.second,
+                                                                    }};
                                                 }),
                           std::back_inserter(values));
         return values;

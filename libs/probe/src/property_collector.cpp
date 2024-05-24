@@ -1,5 +1,6 @@
 #include "property_collector.hpp"
 #include <QMetaProperty>
+#include <ranges>
 #include <QtQml/private/qqmldata_p.h>
 #include <QtQml/private/qqmlmetatype_p.h>
 #include <private/qv4executablecompilationunit_p.h>
@@ -38,40 +39,41 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
     return ObjectMeta{.object = object, .meta_object = meta_object};
 }
 
-std::unordered_map<std::string, std::string> collect_properties(ObjectMeta object_meta)
+namespace
 {
-    std::unordered_map<std::string, std::string> properties;
-    const auto prop_count = object_meta.meta_object->propertyCount();
-    for (int i = 0; i < prop_count; ++i)
-    {
-        const auto prop{object_meta.meta_object->property(i)};
-        if (prop.hasNotifySignal())
-        {
-            // const QByteArray sig = QByteArray("2") + prop.notifySignal().methodSignature();
-            //  QObject::connect(o, sig, this, SLOT(propertyChanged()));
-        }
-        if (prop.isReadable())
-        {
-            try
-            {
-                if (prop.name() == std::string_view{"inputDirection"} || prop.name() == std::string_view{"locale"} ||
-                    prop.name() == std::string_view{"fontInfo"})
-                {
-                    continue;
-                }
-                properties.emplace(prop.name(), prop.read(object_meta.object).toString().toStdString());
-            }
-            catch (const std::exception &exception)
-            {
-                spdlog::error("could not add prop={}", exception.what());
-            }
-        }
-        else
-        {
-            spdlog::debug("Property not readable");
-        }
-    }
+proto::Value construct_value(const QMetaProperty &property)
+{
+    proto::Value value;
+
+    spdlog::debug("prop {}={}", property.name(), property.typeName());
+
+    // property.metaType();
+
+    return value;
+}
+
+bool can_be_read(const QMetaProperty &prop)
+{
+    return not(prop.name() == std::string_view{"inputDirection"} or prop.name() == std::string_view{"locale"} or
+               prop.name() == std::string_view{"fontInfo"});
+}
+} // namespace
+
+std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta object_meta)
+{
+    std::unordered_map<std::string, proto::Value> properties;
+
+    std::ranges::for_each(
+        std::ranges::iota_view(0, object_meta.meta_object->propertyCount()) |
+            std::views::transform([&](int prop_idx) { return object_meta.meta_object->property(prop_idx); }) |
+            std::views::filter([](const QMetaProperty &prop) { return prop.isValid() and prop.isReadable(); }) |
+            std::views::filter(can_be_read),
+        construct_value);
+
     return properties;
 }
+
+void test(ObjectMeta object_meta)
+{}
 
 } // namespace quite

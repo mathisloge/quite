@@ -28,7 +28,7 @@ message GetObjectPropertiesRequest {
 }
 
 message GetObjectPropertiesResponse {
-  map<string, string> property_values = 1;
+  map<string, Value> property_values = 1;
 }
 
 message MouseActionRequest {
