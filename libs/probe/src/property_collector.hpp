@@ -1,9 +1,9 @@
 #pragma once
-#include <string>
-#include <unordered_map>
-
 #include <QMetaObject>
 #include <QObject>
+#include <string>
+#include <unordered_map>
+#include <quite/proto/types.pb.h>
 
 namespace quite
 {
@@ -14,6 +14,6 @@ struct ObjectMeta
 
     [[nodiscard]] static ObjectMeta from_qobject(QObject *object);
 };
-[[nodiscard]] std::unordered_map<std::string, std::string> collect_properties(ObjectMeta object_meta);
+[[nodiscard]] std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta object_meta);
 
 } // namespace quite

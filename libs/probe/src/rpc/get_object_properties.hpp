@@ -34,7 +34,7 @@ static auto get_object_properties(agrpc::GrpcContext &grpc_context,
                             auto prop = tracker.get_property(request.object_id(), property_name);
                             if (prop.has_value())
                             {
-                                response.mutable_property_values()->emplace(property_name, prop.value());
+                                //response.mutable_property_values()->emplace(property_name, prop.value());
                             }
                         }
                     }

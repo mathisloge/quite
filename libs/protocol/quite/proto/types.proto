@@ -5,7 +5,7 @@ message ClassValue {
     string type_name = 1;
 }
 
-message PropertyValue {
+message Value {
     oneof value_oneof {
         string string_val = 1;
         int64 int_val = 2;

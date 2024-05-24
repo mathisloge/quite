@@ -15,6 +15,23 @@ TEST_CASE("Test if a process application can be created")
 
         auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
 
+        {
+            auto xxxx = co_await app->find_object("testRoot");
+            if (xxxx.has_value())
+            {
+                auto all_props = co_await xxxx.value()->fetch_properties({});
+                REQUIRE(all_props.has_value());
+                for (auto &&p : all_props.value())
+                {
+                    spdlog::info("P {}={}", p.name, p.value.value);
+                }
+            }
+            else
+            {
+                spdlog::error("Error {}", xxxx.error().message);
+            }
+        }
+
         auto btn_obj = co_await app->find_object("worldBtn");
         REQUIRE(btn_obj.has_value());
         auto text_area_res = co_await app->find_object("textArea");
@@ -35,20 +52,6 @@ TEST_CASE("Test if a process application can be created")
         REQUIRE(img.has_value());
         img->save_to("/home/mathis/dev/ng-quite/test2.png");
 
-        auto xxxx = co_await app->find_object("testRoot");
-        if (xxxx.has_value())
-        {
-            auto all_props = co_await xxxx.value()->fetch_properties({});
-            REQUIRE(all_props.has_value());
-            for (auto &&p : all_props.value())
-            {
-                spdlog::info("P {}={}", p.name, p.value.value);
-            }
-        }
-        else
-        {
-            spdlog::error("Error {}", xxxx.error().message);
-        }
         co_return;
     }());
 }
