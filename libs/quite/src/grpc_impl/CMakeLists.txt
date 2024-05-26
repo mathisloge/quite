@@ -1,4 +1,6 @@
 target_sources(quitelib PRIVATE
+    grpc_value.hpp
+    grpc_value.cpp
     grpc_remote_object.hpp
     grpc_remote_object.cpp
     probe_client.hpp

@@ -35,5 +35,6 @@ target_sources(quitelib
         src/context.hpp
         src/remote_object.cpp
         src/image.cpp
+        src/value_handle.cpp
 )
 add_subdirectory(src/grpc_impl)

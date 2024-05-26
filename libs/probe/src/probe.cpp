@@ -17,6 +17,7 @@
 #include "rpc/find_object_rpc.hpp"
 #include "rpc/get_object_properties.hpp"
 #include "rpc/mouse_click.hpp"
+#include "value_converters.hpp"
 namespace
 {
 
@@ -74,6 +75,8 @@ void installQHooks()
 {
     Q_ASSERT(qtHookData[QHooks::HookDataVersion] >= 1);
     Q_ASSERT(qtHookData[QHooks::HookDataSize] >= 6);
+
+    quite::probe::register_converters();
 
     // gammaray_next_addObject =
     // reinterpret_cast<QHooks::AddQObjectCallback>(qtHookData[QHooks::AddQObject]);
