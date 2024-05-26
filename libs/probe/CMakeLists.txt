@@ -32,5 +32,7 @@ target_sources(probe
         src/property_collector.hpp
         src/snapshot.hpp
         src/snapshot.cpp
+        src/value_converters.hpp
+        src/value_converters.cpp
 )
 add_subdirectory(src/injector)

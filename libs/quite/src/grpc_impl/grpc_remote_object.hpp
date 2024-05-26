@@ -11,7 +11,7 @@ class GrpcRemoteObject final : public RemoteObject
   public:
     explicit GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service_handle);
 
-    exec::task<Result<std::vector<Property>>> fetch_properties(
+    exec::task<Result<std::unordered_map<std::string, std::unique_ptr<Value>>>> fetch_properties(
         const std::vector<std::string_view> &properties) override;
 
     exec::task<Result<void>> mouse_action() override;

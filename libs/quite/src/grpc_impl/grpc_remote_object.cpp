@@ -4,6 +4,7 @@
 #include <quite/image.hpp>
 #include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
+#include "grpc_value.hpp"
 #include "probe_client.hpp"
 #include "rpc/make_create_snapshot_request.hpp"
 #include "rpc/make_get_object_properties_request.hpp"
@@ -20,22 +21,19 @@ GrpcRemoteObject::GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service
     , probe_service_{std::move(probe_service_handle)}
 {}
 
-exec::task<Result<std::vector<Property>>> GrpcRemoteObject::fetch_properties(
+exec::task<Result<std::unordered_map<std::string, std::unique_ptr<Value>>>> GrpcRemoteObject::fetch_properties(
     const std::vector<std::string_view> &properties)
 {
+    using RetVal = std::unordered_map<std::string, std::unique_ptr<Value>>;
     SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "get properties[{}] for object={}", fmt::join(properties, ","), id_);
     const auto response =
         co_await make_get_object_properties_request(probe_service_->context(), probe_service_->stub(), id_, properties);
-    co_return response.and_then([&](auto &&reply) -> Result<std::vector<Property>> {
-        std::vector<Property> values;
-        std::ranges::copy(std::views::transform(response->property_values(),
-                                                [](auto &&value) {
-                                                    return Property{.name = value.first,
-                                                                    .value = ValueHandle{
-                                                                        .value = "unknown", //value.second,
-                                                                    }};
-                                                }),
-                          std::back_inserter(values));
+    co_return response.and_then([&](auto &&reply) -> Result<RetVal> {
+        RetVal values;
+        for(auto&& val : response->property_values()) {
+            SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "Got prop res {}", val.first);
+            values[val.first] = std::make_unique<GrpcValue>(std::move(val.second));
+        }
         return values;
     });
 }

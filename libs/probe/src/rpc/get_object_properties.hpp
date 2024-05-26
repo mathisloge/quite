@@ -1,5 +1,6 @@
 #pragma once
 #include <QCoreApplication>
+#include <QVariant>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <exec/task.hpp>
 #include <quite/proto/probe.grpc.pb.h>
@@ -31,10 +32,26 @@ static auto get_object_properties(agrpc::GrpcContext &grpc_context,
                     {
                         for (auto &&property_name : request.property_names())
                         {
-                            auto prop = tracker.get_property(request.object_id(), property_name);
-                            if (prop.has_value())
+                            auto obj_exp = tracker.get_object_by_id(request.object_id());
+                            if (obj_exp.has_value())
                             {
-                                //response.mutable_property_values()->emplace(property_name, prop.value());
+                                auto &&obj = obj_exp.value();
+
+                                constexpr auto value_meta = QMetaType::fromType<proto::Value>();
+                                proto::Value value;
+                                auto prop = obj->property(property_name.c_str());
+                                const bool convertable = QMetaType::canConvert(prop.metaType(), value_meta);
+                                spdlog::debug("prop {}={} convertable={}", property_name, prop.typeName(), convertable);
+                                if (convertable)
+                                {
+                                    QMetaType::convert(prop.metaType(), &prop, value_meta, &value);
+                                }
+                                else
+                                {
+                                    *value.mutable_class_val()->mutable_type_name() = prop.typeName();
+                                }
+
+                                response.mutable_property_values()->emplace(property_name, std::move(value));
                             }
                         }
                     }

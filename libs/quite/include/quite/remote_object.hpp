@@ -17,7 +17,7 @@ class QUITELIB_EXPORT RemoteObject
     explicit RemoteObject(ObjectId id);
     virtual ~RemoteObject();
 
-    virtual exec::task<Result<std::vector<Property>>> fetch_properties(
+    virtual exec::task<Result<std::unordered_map<std::string, std::unique_ptr<Value>>>> fetch_properties(
         const std::vector<std::string_view> &properties) = 0;
 
     virtual exec::task<Result<void>> mouse_action() = 0;

@@ -4,6 +4,8 @@
 #include <QtQml/private/qqmldata_p.h>
 #include <QtQml/private/qqmlmetatype_p.h>
 #include <private/qv4executablecompilationunit_p.h>
+#include <qjsondocument.h>
+#include <qjsonobject.h>
 #include <spdlog/spdlog.h>
 
 namespace quite
@@ -39,19 +41,26 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
     return ObjectMeta{.object = object, .meta_object = meta_object};
 }
 
-namespace
+proto::Value construct_value(ObjectMeta &object_meta, const QMetaProperty &property)
 {
-proto::Value construct_value(const QMetaProperty &property)
-{
+    constexpr auto value_meta = QMetaType::fromType<proto::Value>();
     proto::Value value;
-
-    spdlog::debug("prop {}={}", property.name(), property.typeName());
-
-    // property.metaType();
-
+    const bool convertable = QMetaType::canConvert(property.metaType(), value_meta);
+    spdlog::debug("prop {}={} convertable={}", property.name(), property.typeName(), convertable);
+    if (convertable)
+    {
+        const auto property_value = property.read(object_meta.object);
+        QMetaType::convert(property.metaType(), &property_value, value_meta, &value);
+    }
+    else
+    {
+        *value.mutable_class_val()->mutable_type_name() = property.typeName();
+    }
     return value;
 }
 
+namespace
+{
 bool can_be_read(const QMetaProperty &prop)
 {
     return not(prop.name() == std::string_view{"inputDirection"} or prop.name() == std::string_view{"locale"} or
@@ -68,7 +77,7 @@ std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta obje
             std::views::transform([&](int prop_idx) { return object_meta.meta_object->property(prop_idx); }) |
             std::views::filter([](const QMetaProperty &prop) { return prop.isValid() and prop.isReadable(); }) |
             std::views::filter(can_be_read),
-        construct_value);
+        std::bind(construct_value, object_meta, std::placeholders::_1));
 
     return properties;
 }

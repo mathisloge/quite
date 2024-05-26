@@ -23,7 +23,7 @@ TEST_CASE("Test if a process application can be created")
                 REQUIRE(all_props.has_value());
                 for (auto &&p : all_props.value())
                 {
-                    spdlog::info("P {}={}", p.name, p.value.value);
+                    spdlog::info("P {}={}", p.first, p.second->to_str());
                 }
             }
             else
@@ -38,20 +38,19 @@ TEST_CASE("Test if a process application can be created")
         REQUIRE(text_area_res.has_value());
         auto text_area = text_area_res.value();
         {
-            auto text_prop = co_await text_area->fetch_properties({"text"});
+            const auto text_prop = co_await text_area->fetch_properties({"text"});
             REQUIRE(text_prop.has_value());
-            REQUIRE(text_prop.value()[0].value.value == "...");
+            REQUIRE(std::get<std::string>(text_prop.value().at("text")->value()) == "...");
         }
         co_await btn_obj.value()->mouse_action();
         {
             auto text_prop = co_await text_area->fetch_properties({"text"});
             REQUIRE(text_prop.has_value());
-            REQUIRE(text_prop.value()[0].value.value == "World");
+            REQUIRE(std::get<std::string>(text_prop.value().at("text")->value()) == "World");
         }
         auto img = co_await btn_obj.value()->take_snapshot();
         REQUIRE(img.has_value());
         img->save_to("/home/mathis/dev/ng-quite/test2.png");
-
         co_return;
     }());
 }
