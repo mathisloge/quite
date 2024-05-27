@@ -24,7 +24,4 @@ struct Error
     ErrorCode code;
     std::string message;
 };
-
-template <typename T>
-using Result = std::expected<T, Error>;
 } // namespace quite
