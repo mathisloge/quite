@@ -6,17 +6,17 @@
 
 namespace quite::grpc_impl
 {
-class GrpcRemoteObject final : public RemoteObject
+class GrpcRemoteObject final : public RemoteObject, public std::enable_shared_from_this<GrpcRemoteObject>
 {
   public:
     explicit GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service_handle);
 
-    exec::task<Result<std::unordered_map<std::string, std::unique_ptr<Value>>>> fetch_properties(
+    AsyncResult<std::unordered_map<std::string, std::unique_ptr<Value>>> fetch_properties(
         const std::vector<std::string_view> &properties) override;
 
-    exec::task<Result<void>> mouse_action() override;
+    AsyncResult<void> mouse_action() override;
 
-    exec::task<Result<Image>> take_snapshot() override;
+    AsyncResult<Image> take_snapshot() override;
 
   private:
     ProbeServiceHandle probe_service_;
