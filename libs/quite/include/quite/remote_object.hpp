@@ -6,6 +6,7 @@
 #include "image.hpp"
 #include "quitelib_export.h"
 #include "value_handle.hpp"
+#include "property.hpp"
 namespace quite
 {
 
@@ -19,6 +20,8 @@ class QUITELIB_EXPORT RemoteObject
 
     virtual AsyncResult<std::unordered_map<std::string, std::unique_ptr<Value>>> fetch_properties(
         const std::vector<std::string_view> &properties) = 0;
+
+    virtual AsyncResult<std::shared_ptr<Property>> property(std::string property_name) = 0;
 
     virtual AsyncResult<void> mouse_action() = 0;
 

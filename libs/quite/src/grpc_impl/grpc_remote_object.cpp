@@ -4,12 +4,12 @@
 #include <quite/image.hpp>
 #include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
+#include "grpc_property.hpp"
 #include "grpc_value.hpp"
 #include "probe_client.hpp"
 #include "rpc/make_create_snapshot_request.hpp"
 #include "rpc/make_get_object_properties_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
-
 namespace
 {
 LOGGER_IMPL(grpc_remote_obj)
@@ -21,7 +21,7 @@ GrpcRemoteObject::GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service
     , probe_service_{std::move(probe_service_handle)}
 {}
 
-exec::task<Result<std::unordered_map<std::string, std::unique_ptr<Value>>>> GrpcRemoteObject::fetch_properties(
+AsyncResult<std::unordered_map<std::string, std::unique_ptr<Value>>> GrpcRemoteObject::fetch_properties(
     const std::vector<std::string_view> &properties)
 {
     using RetVal = std::unordered_map<std::string, std::unique_ptr<Value>>;
@@ -30,7 +30,8 @@ exec::task<Result<std::unordered_map<std::string, std::unique_ptr<Value>>>> Grpc
         co_await make_get_object_properties_request(probe_service_->context(), probe_service_->stub(), id_, properties);
     co_return response.and_then([&](auto &&reply) -> Result<RetVal> {
         RetVal values;
-        for(auto&& val : response->property_values()) {
+        for (auto &&val : response->property_values())
+        {
             SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "Got prop res {}", val.first);
             values[val.first] = std::make_unique<GrpcValue>(std::move(val.second));
         }
@@ -38,7 +39,26 @@ exec::task<Result<std::unordered_map<std::string, std::unique_ptr<Value>>>> Grpc
     });
 }
 
-exec::task<Result<void>> GrpcRemoteObject::mouse_action()
+AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string property_name)
+{
+    SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "get property[{}] for object={}", property_name, id_);
+
+    // even though it is not really necessary to fetch the property here, it will get fetch, to verify that the property
+    // exists. Otherwise an unexpected event is returned.
+    const auto response = co_await make_get_object_properties_request(
+        probe_service_->context(), probe_service_->stub(), id_, {property_name});
+    co_return response.and_then(
+        [&](const proto::GetObjectPropertiesResponse &reply) -> Result<std::shared_ptr<Property>> {
+            auto it = reply.property_values().find(property_name);
+            if (it == reply.property_values().end())
+            {
+                return std::unexpected(Error{ErrorCode::not_found, "Server did not return the expected property."});
+            }
+            return std::make_shared<GrpcProperty>(shared_from_this(), property_name);
+        });
+}
+
+AsyncResult<void> GrpcRemoteObject::mouse_action()
 {
     SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "mouse_action for object={}", id_);
     const auto response = co_await make_mouse_click_request(probe_service_->context(), probe_service_->stub(), id_);
@@ -46,7 +66,7 @@ exec::task<Result<void>> GrpcRemoteObject::mouse_action()
     co_return response.and_then([&](auto &&reply) -> Result<void> { return {}; });
 }
 
-exec::task<Result<Image>> GrpcRemoteObject::take_snapshot()
+AsyncResult<Image> GrpcRemoteObject::take_snapshot()
 {
     auto response = co_await make_create_snapshot_request(probe_service_->context(), probe_service_->stub(), id_);
     co_return response.and_then([id = id_](auto &&image_response) -> Result<Image> {
