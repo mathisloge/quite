@@ -3,7 +3,6 @@
 #include "grpc_remote_object.hpp"
 namespace quite::grpc_impl
 {
-
 class GrpcProperty final : public Property
 {
   public:
