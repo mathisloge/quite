@@ -32,30 +32,12 @@
             }
         },
         {
-            "name": "use-clang",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "VCPKG_TARGET_TRIPLET": "x64-linux-clang"
-            }
-        },
-        {
             "name": "use-gcc",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++"
             }
-        },
-        {
-            "name": "developer-clang",
-            "displayName": "Developer clang",
-            "inherits": [
-                "common",
-                "use-clang",
-                "debug-build"
-            ]
         },
         {
             "name": "developer-gcc",
@@ -69,19 +51,11 @@
     ],
     "buildPresets": [
         {
-            "name": "developer-clang",
-            "configurePreset": "developer-clang"
-        },
-        {
             "name": "developer-gcc",
             "configurePreset": "developer-gcc"
         }
     ],
     "testPresets": [
-        {
-            "name": "developer-clang",
-            "configurePreset": "developer-clang"
-        },
         {
             "name": "developer-gcc",
             "configurePreset": "developer-gcc"
