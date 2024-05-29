@@ -45,8 +45,9 @@ AsyncResult<Property::Value> GrpcProperty::read()
 
     // even though it is not really necessary to fetch the property here, it will get fetch, to verify that the property
     // exists. Otherwise an unexpected event is returned.
+    const std::vector<std::string_view> prop_vec{name_}; // workaround for gcc-13, (compiler crash when inlining this)
     const auto response = co_await make_get_object_properties_request(
-        probe_service_->context(), probe_service_->stub(), parent_->id(), {name_});
+        probe_service_->context(), probe_service_->stub(), parent_->id(), prop_vec);
     co_return response.and_then([&](auto &&reply) -> Result<Property::Value> {
         auto it = reply.property_values().find(name_);
         if (it == reply.property_values().end())

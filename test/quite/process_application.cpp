@@ -38,9 +38,9 @@ TEST_CASE("Test if a process application can be created")
         REQUIRE(text_area_res.has_value());
         auto text_area = text_area_res.value();
         {
-            const auto text_prop = co_await text_area->fetch_properties({"text"});
+            const auto text_prop = co_await text_area->property("text");
             REQUIRE(text_prop.has_value());
-            REQUIRE(std::get<std::string>(text_prop.value().at("text")->value()) == "...");
+            REQUIRE(std::get<std::string>((co_await text_prop.value()->read()).value_or("xxx")) == "...");
         }
         co_await btn_obj.value()->mouse_action();
         {
