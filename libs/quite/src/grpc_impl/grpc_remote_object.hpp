@@ -20,6 +20,8 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
 
     AsyncResult<Image> take_snapshot() override;
 
+    ObjectId id() const noexcept;
+
   private:
     ProbeServiceHandle probe_service_;
 };

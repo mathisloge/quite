@@ -10,10 +10,10 @@ namespace quite
 class QUITELIB_EXPORT Property
 {
   public:
-    using Value = std::variant<bool, std::int64_t, double, std::string>;
+    using Value = std::variant<std::int64_t, double, bool, std::string>;
 
     virtual ~Property();
     virtual AsyncResult<Value> read() = 0;
-    virtual AsyncResult<bool> write(const Value &value) = 0;
+    virtual AsyncResult<Value> write(const Value &value) = 0;
 };
 } // namespace quite
