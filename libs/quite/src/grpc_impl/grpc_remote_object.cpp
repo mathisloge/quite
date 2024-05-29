@@ -54,7 +54,7 @@ AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string pr
             {
                 return std::unexpected(Error{ErrorCode::not_found, "Server did not return the expected property."});
             }
-            return std::make_shared<GrpcProperty>(shared_from_this(), property_name);
+            return std::make_shared<GrpcProperty>(probe_service_, shared_from_this(), property_name);
         });
 }
 
@@ -77,5 +77,10 @@ AsyncResult<Image> GrpcRemoteObject::take_snapshot()
         image_data.insert(image_data.begin(), image_view.begin(), image_view.end());
         return Image{std::move(image_data), image_response.metadata().width(), image_response.metadata().height(), 4};
     });
+}
+
+ObjectId GrpcRemoteObject::id() const noexcept
+{
+    return id_;
 }
 } // namespace quite::grpc_impl

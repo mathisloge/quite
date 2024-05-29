@@ -6,12 +6,13 @@ namespace quite::grpc_impl
 class GrpcProperty final : public Property
 {
   public:
-    explicit GrpcProperty(std::shared_ptr<GrpcRemoteObject> parent, std::string name);
+    explicit GrpcProperty(ProbeServiceHandle probe_service, std::shared_ptr<GrpcRemoteObject> parent, std::string name);
 
     AsyncResult<Value> read() override;
-    AsyncResult<bool> write(const Value &value) override;
+    AsyncResult<Value> write(const Value &value) override;
 
   private:
+    ProbeServiceHandle probe_service_;
     std::shared_ptr<GrpcRemoteObject> parent_;
     std::string name_;
 };

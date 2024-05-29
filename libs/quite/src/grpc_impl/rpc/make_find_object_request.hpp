@@ -3,14 +3,15 @@
 #include <agrpc/client_rpc.hpp>
 #include <agrpc/grpc_context.hpp>
 #include <exec/task.hpp>
+#include <quite/async_result.hpp>
 #include <quite/proto/probe.grpc.pb.h>
-#include <quite/errors.hpp>
 #include "error_helper.hpp"
 
 namespace quite::grpc_impl
 {
-static exec::task<Result<proto::ObjectReply>> make_find_object_request(
-    agrpc::GrpcContext &grpc_context, proto::ProbeService::Stub &stub, std::string_view object_name)
+static AsyncResult<proto::ObjectReply> make_find_object_request(agrpc::GrpcContext &grpc_context,
+                                                                proto::ProbeService::Stub &stub,
+                                                                std::string_view object_name)
 {
     using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncFindObject>;
     grpc::ClientContext client_context;
@@ -29,4 +30,4 @@ static exec::task<Result<proto::ObjectReply>> make_find_object_request(
     co_return std::unexpected(status2error(status));
 }
 
-} // namespace quite
+} // namespace quite::grpc_impl
