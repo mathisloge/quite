@@ -5,7 +5,6 @@
 #include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
 #include "grpc_property.hpp"
-#include "grpc_value.hpp"
 #include "probe_client.hpp"
 #include "rpc/make_create_snapshot_request.hpp"
 #include "rpc/make_get_object_properties_request.hpp"
@@ -21,10 +20,10 @@ GrpcRemoteObject::GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service
     , probe_service_{std::move(probe_service_handle)}
 {}
 
-AsyncResult<std::unordered_map<std::string, std::unique_ptr<Value>>> GrpcRemoteObject::fetch_properties(
+AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemoteObject::fetch_properties(
     const std::vector<std::string_view> &properties)
 {
-    using RetVal = std::unordered_map<std::string, std::unique_ptr<Value>>;
+    using RetVal = std::unordered_map<std::string, std::shared_ptr<Property>>;
     SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "get properties[{}] for object={}", fmt::join(properties, ","), id_);
     const auto response =
         co_await make_get_object_properties_request(probe_service_->context(), probe_service_->stub(), id_, properties);
@@ -32,8 +31,8 @@ AsyncResult<std::unordered_map<std::string, std::unique_ptr<Value>>> GrpcRemoteO
         RetVal values;
         for (auto &&val : response->property_values())
         {
-            SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "Got prop res {}", val.first);
-            values[val.first] = std::make_unique<GrpcValue>(std::move(val.second));
+            values.emplace(val.first,
+                           std::make_shared<GrpcProperty>(probe_service_, shared_from_this(), val.first, val.second));
         }
         return values;
     });
@@ -54,7 +53,7 @@ AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string pr
             {
                 return std::unexpected(Error{ErrorCode::not_found, "Server did not return the expected property."});
             }
-            return std::make_shared<GrpcProperty>(probe_service_, shared_from_this(), property_name);
+            return std::make_shared<GrpcProperty>(probe_service_, shared_from_this(), property_name, it->second);
         });
 }
 

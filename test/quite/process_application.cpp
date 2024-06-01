@@ -4,6 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <quite/application.hpp>
 #include <quite/asio2exec.hpp>
+#include <quite/property.hpp>
 #include <quite/quite.hpp>
 #include <spdlog/spdlog.h>
 #include <tester_app.hpp>
@@ -17,18 +18,13 @@ TEST_CASE("Test if a process application can be created")
 
         {
             auto xxxx = co_await app->find_object("testRoot");
-            if (xxxx.has_value())
+            REQUIRE(xxxx.has_value());
+            auto all_props = co_await xxxx.value()->fetch_properties({});
+            REQUIRE(all_props.has_value());
+            REQUIRE(all_props.value().size() > 0);
+            for (auto &&p : all_props.value())
             {
-                auto all_props = co_await xxxx.value()->fetch_properties({});
-                REQUIRE(all_props.has_value());
-                for (auto &&p : all_props.value())
-                {
-                    spdlog::info("P {}={}", p.first, p.second->to_str());
-                }
-            }
-            else
-            {
-                spdlog::error("Error {}", xxxx.error().message);
+                spdlog::info("P {}={}", p.first, p.second->value().value());
             }
         }
 
@@ -46,7 +42,7 @@ TEST_CASE("Test if a process application can be created")
         {
             auto text_prop = co_await text_area->fetch_properties({"text"});
             REQUIRE(text_prop.has_value());
-            REQUIRE(std::get<std::string>(text_prop.value().at("text")->value()) == "World");
+            REQUIRE(std::get<std::string>(text_prop.value().at("text")->value().value()) == "World");
         }
         auto img = co_await btn_obj.value()->take_snapshot();
         REQUIRE(img.has_value());

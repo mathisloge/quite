@@ -16,6 +16,4 @@ struct ObjectMeta
 };
 [[nodiscard]] std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta object_meta);
 
-proto::Value construct_value(ObjectMeta &object_meta, const QMetaProperty &property);
-
 } // namespace quite
