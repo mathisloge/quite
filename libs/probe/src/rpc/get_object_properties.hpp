@@ -41,7 +41,6 @@ static auto get_object_properties(agrpc::GrpcContext &grpc_context,
                                 proto::Value value;
                                 auto prop = obj->property(property_name.c_str());
                                 const bool convertable = QMetaType::canConvert(prop.metaType(), value_meta);
-                                spdlog::debug("prop {}={} convertable={}", property_name, prop.typeName(), convertable);
                                 if (convertable)
                                 {
                                     QMetaType::convert(prop.metaType(), &prop, value_meta, &value);

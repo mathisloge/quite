@@ -41,12 +41,16 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
     return ObjectMeta{.object = object, .meta_object = meta_object};
 }
 
-proto::Value construct_value(ObjectMeta &object_meta, const QMetaProperty &property)
+namespace
+{
+void insert_value(std::unordered_map<std::string, proto::Value> *properties,
+                  ObjectMeta &object_meta,
+                  const QMetaProperty &property)
 {
     constexpr auto value_meta = QMetaType::fromType<proto::Value>();
     proto::Value value;
     const bool convertable = QMetaType::canConvert(property.metaType(), value_meta);
-    spdlog::debug("prop {}={} convertable={}", property.name(), property.typeName(), convertable);
+    spdlog::trace("prop {}={} convertable={}", property.name(), property.typeName(), convertable);
     if (convertable)
     {
         const auto property_value = property.read(object_meta.object);
@@ -56,11 +60,9 @@ proto::Value construct_value(ObjectMeta &object_meta, const QMetaProperty &prope
     {
         *value.mutable_class_val()->mutable_type_name() = property.typeName();
     }
-    return value;
+    properties->emplace(property.name(), std::move(value));
 }
 
-namespace
-{
 bool can_be_read(const QMetaProperty &prop)
 {
     return not(prop.name() == std::string_view{"inputDirection"} or prop.name() == std::string_view{"locale"} or
@@ -77,12 +79,9 @@ std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta obje
             std::views::transform([&](int prop_idx) { return object_meta.meta_object->property(prop_idx); }) |
             std::views::filter([](const QMetaProperty &prop) { return prop.isValid() and prop.isReadable(); }) |
             std::views::filter(can_be_read),
-        std::bind(construct_value, object_meta, std::placeholders::_1));
-
+        std::bind(insert_value, &properties, object_meta, std::placeholders::_1));
+    // Q: why doesn't a reference work here? Somehow a copy of the map will be created. Use a pointer for now.
     return properties;
 }
-
-void test(ObjectMeta object_meta)
-{}
 
 } // namespace quite

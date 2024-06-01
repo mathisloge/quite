@@ -9,7 +9,7 @@ namespace
 {
 LOGGER_IMPL(grpc_property)
 
-quite::Property::Value cnv_value(const quite::proto::Value &value)
+quite::Value cnv_value(const quite::proto::Value &value)
 {
     if (value.has_bool_val())
     {
@@ -33,13 +33,24 @@ quite::Property::Value cnv_value(const quite::proto::Value &value)
 } // namespace
 namespace quite::grpc_impl
 {
-GrpcProperty::GrpcProperty(ProbeServiceHandle probe_service, std::shared_ptr<GrpcRemoteObject> parent, std::string name)
+GrpcProperty::GrpcProperty(ProbeServiceHandle probe_service,
+                           std::shared_ptr<GrpcRemoteObject> parent,
+                           std::string name,
+                           const proto::Value &initial_value)
     : probe_service_{probe_service}
     , parent_{parent}
-    , name_{name}
+    , name_{std::move(name)}
+    , last_value_{cnv_value(initial_value)}
 {}
 
-AsyncResult<Property::Value> GrpcProperty::read()
+GrpcProperty::~GrpcProperty() = default;
+
+const Result<Value> &GrpcProperty::value() const noexcept
+{
+    return last_value_;
+}
+
+AsyncResult<Value> GrpcProperty::read() noexcept
 {
     SPDLOG_LOGGER_TRACE(logger_grpc_property(), "get property[{}] for object={}", name_, parent_->id());
 
@@ -48,17 +59,18 @@ AsyncResult<Property::Value> GrpcProperty::read()
     const std::vector<std::string_view> prop_vec{name_}; // workaround for gcc-13, (compiler crash when inlining this)
     const auto response = co_await make_get_object_properties_request(
         probe_service_->context(), probe_service_->stub(), parent_->id(), prop_vec);
-    co_return response.and_then([&](auto &&reply) -> Result<Property::Value> {
+    co_return response.and_then([&](auto &&reply) -> Result<Value> {
         auto it = reply.property_values().find(name_);
         if (it == reply.property_values().end())
         {
             return std::unexpected(Error{ErrorCode::not_found, "Server did not return the expected property."});
         }
-        return cnv_value(it->second);
+        last_value_ = cnv_value(it->second);
+        return last_value_;
     });
 }
 
-AsyncResult<Property::Value> GrpcProperty::write(const Value &value)
+AsyncResult<Value> GrpcProperty::write(const Value &value) noexcept
 {
     co_return std::unexpected(Error{ErrorCode::unimplemented, "Client does not implement the write yet."});
 }
