@@ -6,6 +6,15 @@
         "spdlog",
         "catch2",
         "stdexec",
-        "stb"
+        "stb",
+        {
+            "name": "imgui",
+            "features":[
+                "freetype",
+                "docking-experimental",
+                "sdl2-binding",
+                "sdl2-renderer-binding"
+            ]
+        }
     ]
 }
