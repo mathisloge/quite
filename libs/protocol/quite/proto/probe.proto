@@ -5,6 +5,7 @@ import "quite/proto/common.proto";
 import "quite/proto/keyboard.proto";
 import "quite/proto/mouse.proto";
 import "quite/proto/types.proto";
+import "quite/proto/metatype.proto";
 
 service ProbeService {
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
@@ -12,6 +13,8 @@ service ProbeService {
 
     rpc MouseAction(MouseActionRequest) returns (VoidResponse) {}
     rpc CreateScreenshot(ScreenshotRequest) returns (ImageResponse) {};
+
+    rpc MetaTypeFromObject(MetaTypeFromObjectRequest) returns (MetaTypeFromObjectResponse) {};
 }
 
 message ObjectRequest {
@@ -55,4 +58,12 @@ message ImageResponse {
 
 message ScreenshotRequest {
   uint64 object_id = 1;
+}
+
+message MetaTypeFromObjectRequest {
+  uint64 object_id = 1;
+}
+
+message MetaTypeFromObjectResponse {
+  MetaObject meta_object = 1;
 }

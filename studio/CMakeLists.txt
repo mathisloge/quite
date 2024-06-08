@@ -12,4 +12,5 @@ target_sources(quite-studio PRIVATE
     app.cpp 
     app.hpp
 )
+add_subdirectory(logic)
 add_subdirectory(windows)

@@ -8,13 +8,13 @@
 
 namespace quite::probe
 {
-using GetObjectPropertiesRPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestGetObjectProperties>;
-struct GetObjectPropertiesRpcHandler
+using FindObjectRPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestFindObject>;
+struct FindObjectRpcHandler
 {
     ObjectTracker &tracker;
-    exec::task<void> operator()(GetObjectPropertiesRPC &rpc, const GetObjectPropertiesRPC::Request &request);
+    exec::task<void> operator()(FindObjectRPC &rpc, const FindObjectRPC::Request &request);
 };
 
-agrpc::detail::RPCHandlerSender<GetObjectPropertiesRPC, GetObjectPropertiesRpcHandler> get_object_properties(
+agrpc::detail::RPCHandlerSender<FindObjectRPC, FindObjectRpcHandler> find_object(
     agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service, ObjectTracker &tracker);
 } // namespace quite::probe

@@ -36,3 +36,4 @@ target_sources(probe
         src/value_converters.cpp
 )
 add_subdirectory(src/injector)
+add_subdirectory(src/rpc)

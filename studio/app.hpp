@@ -1,4 +1,5 @@
 #pragma once
+#include "application_manager.hpp"
 #include "windows/aut_connector.hpp"
 
 namespace quite::studio
@@ -12,6 +13,7 @@ class App final
     void showMainMenu();
 
   private:
-    AutConnector aut_connector_;
+    std::shared_ptr<ApplicationManager> app_manager_{std::make_shared<ApplicationManager>()};
+    AutConnector aut_connector_{app_manager_};
 };
-} // namespace quite::ide
+} // namespace quite::studio

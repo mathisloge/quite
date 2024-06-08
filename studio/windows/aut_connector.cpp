@@ -8,6 +8,10 @@ constexpr auto kConnectPopupId = "Connect...";
 }
 namespace quite::studio
 {
+AutConnector::AutConnector(std::shared_ptr<ApplicationManager> app_manager)
+    : app_manager_{app_manager}
+{}
+
 void AutConnector::showConnectPopup()
 {
     // id stack workaround
@@ -32,6 +36,7 @@ void AutConnector::connectPopup()
 
     if (ImGui::Button("Connect##Button") or address_accepted)
     {
+        app_manager_->addApplication("/home/mathis/dev/ng-quite/build/test/simple_tester/tester");
         ImGui::CloseCurrentPopup();
     }
 

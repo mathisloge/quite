@@ -7,9 +7,6 @@
 #include <QtQml/private/qqmlmetatype_p.h>
 #include <fmt/ranges.h>
 #include <private/qv4executablecompilationunit_p.h>
-#include <qcoreapplication.h>
-#include <qevent.h>
-#include <spdlog/sinks/qt_sinks.h>
 #include <spdlog/spdlog.h>
 #include "property_collector.hpp"
 
@@ -50,7 +47,15 @@ void ObjectTracker::processNewObjects()
     for (auto obj : objects_to_track_)
     {
         // dump_props(obj);
-        //  if (obj->parent() == nullptr)
+        if (obj->parent() == nullptr)
+        {
+            if (obj->isWindowType())
+            {
+                spdlog::info("OBJ {}", obj->objectName().toStdString());
+                obj->dumpObjectInfo();
+            }
+        }
+        // if (obj->parent() == nullptr)
         {
             tracked_objects_.emplace(obj);
         }
@@ -115,7 +120,8 @@ std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::Obje
     return std::unexpected(ObjectErrC::not_found);
 }
 
-std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::ObjectId obj_id, const std::string &property_name)
+std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::ObjectId obj_id,
+                                                                   const std::string &property_name)
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
