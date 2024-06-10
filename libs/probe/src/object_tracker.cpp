@@ -47,21 +47,12 @@ void ObjectTracker::processNewObjects()
     for (auto obj : objects_to_track_)
     {
         // dump_props(obj);
-        if (obj->parent() == nullptr)
+        if (obj->parent() == nullptr and obj->isWindowType())
         {
-            if (obj->isWindowType())
-            {
-                spdlog::info("OBJ {}", obj->objectName().toStdString());
-                obj->dumpObjectInfo();
-            }
+            obj->dumpObjectInfo();
+            top_level_views_.emplace(obj);
         }
-        // if (obj->parent() == nullptr)
-        {
-            tracked_objects_.emplace(obj);
-        }
-        //  for outstanding requests do:
-        //      if outstanding request matches obj do:
-        //          handle_request. RequestHandler should call complete of coroutine.
+        tracked_objects_.emplace(obj);
     }
     objects_to_track_.clear();
 }
@@ -87,6 +78,11 @@ void ObjectTracker::beginContext()
 void ObjectTracker::endContext()
 {
     own_ctx_ = false;
+}
+
+const std::unordered_set<QObject *> &ObjectTracker::top_level_views() const
+{
+    return top_level_views_;
 }
 
 std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::string &object_name)
@@ -146,6 +142,10 @@ void ObjectTracker::removeObject(QObject *obj)
     {
         spdlog::trace("remove obj from tracked_objects {}", obj->objectName().toStdString());
         tracked_objects_.erase(it);
+    }
+    if (const auto it = top_level_views_.find(obj); it != top_level_views_.end())
+    {
+        top_level_views_.erase(it);
     }
 }
 

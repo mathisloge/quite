@@ -1,4 +1,5 @@
 #include "mouse_action.hpp"
+#include <QCoreApplication>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <spdlog/spdlog.h>
 #include "../qtstdexec.h"

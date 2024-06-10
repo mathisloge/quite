@@ -30,6 +30,8 @@ class ObjectTracker final : public QObject
     void beginContext();
     void endContext();
 
+    const std::unordered_set<QObject *> &top_level_views() const;
+
     std::expected<ObjectInfo, ObjectErrC> findObject(const std::string &object_name);
     std::expected<QObject *, ObjectErrC> get_object_by_id(probe::ObjectId obj_id);
     std::expected<std::string, ObjectErrC> get_property(probe::ObjectId obj_id, const std::string &property_name);
@@ -44,5 +46,6 @@ class ObjectTracker final : public QObject
     QTimer init_timer_;
     std::unordered_set<QObject *> objects_to_track_;
     std::unordered_set<QObject *> tracked_objects_;
+    std::unordered_set<QObject *> top_level_views_;
 };
 } // namespace quite
