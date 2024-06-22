@@ -14,7 +14,8 @@ class ProcessApplication final : public Application
     explicit ProcessApplication(Context &context, const std::string &path_to_application);
     ~ProcessApplication() override;
 
-    exec::task<Result<std::shared_ptr<RemoteObject>>> find_object(std::string_view object_name) override;
+    AsyncResult<std::shared_ptr<RemoteObject>> find_object(std::string_view object_name) override;
+    AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> get_views() override;
 
   private:
     void do_read();

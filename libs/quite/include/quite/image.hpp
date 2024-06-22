@@ -7,6 +7,14 @@
 
 namespace quite
 {
+
+struct ImageView
+{
+    std::uint32_t width;
+    std::uint32_t height;
+    int channels;
+    std::span<const std::byte> data;
+};
 class QUITELIB_EXPORT Image
 {
   public:
@@ -15,6 +23,7 @@ class QUITELIB_EXPORT Image
     virtual ~Image();
 
     void save_to(const std::filesystem::path &destination);
+    ImageView data() const;
 
   private:
     class Impl;

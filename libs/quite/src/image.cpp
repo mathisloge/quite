@@ -42,4 +42,14 @@ void Image::save_to(const std::filesystem::path &destination)
                                         impl_->image_data_.data(),
                                         impl_->width_ * impl_->channels_);
 }
+
+ImageView Image::data() const
+{
+    return ImageView{
+        .width = impl_->width_,
+        .height = impl_->height_,
+        .channels = impl_->channels_,
+        .data = impl_->image_data_,
+    };
+}
 } // namespace quite

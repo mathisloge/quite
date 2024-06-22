@@ -4,11 +4,17 @@
 
 namespace quite::studio
 {
+App::App(SDL_Renderer *renderer)
+    : renderer_{renderer}
+{
+    spdlog::set_level(spdlog::level::debug);
+}
 
 void App::show()
 {
     showMainMenu();
     aut_connector_.connectPopup();
+    app_manager_->draw();
 }
 
 void App::showMainMenu()
@@ -19,7 +25,6 @@ void App::showMainMenu()
         {
             if (ImGui::MenuItem("Connect"))
             {
-                spdlog::debug("connect");
                 aut_connector_.showConnectPopup();
             }
             if (ImGui::BeginMenu("Connect recent"))

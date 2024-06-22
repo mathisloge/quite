@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     QObject::connect(&timer, &QTimer::timeout, [] {
         spdlog::debug("hello from test app");
     });
-    timer.start(1000);
+    //timer.start(1000);
 
     return QGuiApplication::exec();
 }

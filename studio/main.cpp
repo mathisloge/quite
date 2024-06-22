@@ -92,7 +92,7 @@ int main(int, char **)
     bool show_demo_window = true;
     constexpr ImVec4 clear_color{0.22f, 0.22f, 0.22f, 1.00f};
 
-    quite::studio::App app{};
+    quite::studio::App app{renderer};
     // Main loop
     bool done = false;
     while (!done)
