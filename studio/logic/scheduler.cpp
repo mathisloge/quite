@@ -1,9 +1,9 @@
 #include "scheduler.hpp"
 namespace quite::studio
 {
-exec::static_thread_pool::scheduler get_scheduler()
+stdexec::__loop::run_loop::__scheduler get_scheduler()
 {
-    static exec::static_thread_pool thread_pool_{8};
+    static exec::single_thread_context thread_pool_;
     return thread_pool_.get_scheduler();
 }
-}
+} // namespace quite::studio
