@@ -17,8 +17,7 @@ namespace quite::studio
 ApplicationOverview::ApplicationOverview(SDL_Renderer *renderer, std::shared_ptr<Application> application)
     : renderer_{renderer}
     , application_(std::move(application))
-{
-}
+{}
 
 ApplicationOverview::~ApplicationOverview()
 {
@@ -40,9 +39,11 @@ void ApplicationOverview::drawWindow()
             auto view_result = co_await self->application_->get_views();
             if (view_result.has_value())
             {
-                SPDLOG_LOGGER_DEBUG(logger_application_overview(), "GOT VIEW");
-                self->views_ = std::move(*view_result);
-                co_await self->fetchImage();
+                SPDLOG_LOGGER_DEBUG(logger_application_overview(), "GOT VIEWS");
+                for (auto &&v : *view_result)
+                {
+                    self->views_[v->id()] = std::make_unique<View>(self->renderer_, v);
+                }
             }
             else
             {
@@ -52,49 +53,25 @@ void ApplicationOverview::drawWindow()
             co_return;
         }(this)));
     }
-    for (auto &&view : views_)
-    {
-        ImGui::Text("Got view\n");
-        if (tex_ == nullptr && img_)
-        {
-            auto image_data = img_->img.data();
-            w = image_data.width;
-            h = image_data.height;
-            SDL_Surface *surface = SDL_CreateRGBSurfaceFrom((void *)image_data.data.data(),
-                                                            image_data.width,
-                                                            image_data.height,
-                                                            8 * image_data.channels,
-                                                            image_data.channels * image_data.width,
-                                                            0x000000ff,
-                                                            0x0000ff00,
-                                                            0x00ff0000,
-                                                            0xff000000);
 
-            tex_ = SDL_CreateTextureFromSurface(renderer_, surface);
-            SDL_FreeSurface(surface);
-        }
-        if (tex_)
+    constexpr ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_FittingPolicyScroll;
+    // ImGuiTabBarFlags_TabListPopupButton | ImGuiTabBarFlags_FittingPolicyScroll;
+    if (ImGui::BeginTabBar("ViewsList", tab_bar_flags))
+    {
+        for (auto &&view : views_)
         {
-            ImGui::Image((void *)tex_, ImVec2(w, h));
+            // ImGui::PushID(view.second.get());
+            const auto label = fmt::format("View {}", view.first);
+            if (ImGui::BeginTabItem("View"))
+            {
+                view.second->draw();
+                ImGui::EndTabItem();
+            }
+
+            // ImGui::PopID();
         }
+        ImGui::EndTabBar();
     }
     ImGui::End();
-}
-
-exec::task<void> ApplicationOverview::fetchImage()
-{
-    SPDLOG_LOGGER_DEBUG(logger_application_overview(), "Get image for view");
-    auto &&view = views_[0];
-
-    auto snapshot = co_await view->take_snapshot();
-
-    if (snapshot.has_value())
-    {
-        img_.reset(new ImgWrapper{std::move(snapshot.value())});
-    }
-    else
-    {
-        SPDLOG_LOGGER_ERROR(logger_application_overview(), "Failed to view image: {}", snapshot.error().message);
-    }
 }
 } // namespace quite::studio

@@ -1,6 +1,4 @@
 target_sources(quite-studio PRIVATE
-    aut_connector.cpp
-    aut_connector.hpp
-    application_overview.hpp
-    application_overview.cpp
+    view.cpp
+    view.hpp
 )

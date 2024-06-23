@@ -4,3 +4,4 @@ target_sources(quite-studio PRIVATE
     application_overview.hpp
     application_overview.cpp
 )
+add_subdirectory(components)
