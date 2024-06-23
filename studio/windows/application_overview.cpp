@@ -18,14 +18,12 @@ ApplicationOverview::ApplicationOverview(SDL_Renderer *renderer, std::shared_ptr
     : renderer_{renderer}
     , application_(std::move(application))
 {
-    SPDLOG_LOGGER_DEBUG(logger_application_overview(), "Createe");
-    application_->test();
 }
 
 ApplicationOverview::~ApplicationOverview()
 {
-    auto cleanupSender = scope_.on_empty();
-    stdexec::sync_wait(cleanupSender);
+    auto wait_senders = scope_.on_empty();
+    stdexec::sync_wait(wait_senders);
 }
 
 void ApplicationOverview::drawWindow()
@@ -39,25 +37,11 @@ void ApplicationOverview::drawWindow()
     {
         scope_.spawn(stdexec::on(get_scheduler(), [](ApplicationOverview *self) -> exec::task<void> {
             SPDLOG_LOGGER_DEBUG(logger_application_overview(), "Start");
-            self->application_->test();
-            /*
             auto view_result = co_await self->application_->get_views();
             if (view_result.has_value())
             {
                 SPDLOG_LOGGER_DEBUG(logger_application_overview(), "GOT VIEW");
                 self->views_ = std::move(*view_result);
-                co_await self->fetchImage();
-            }
-            else
-            {
-                SPDLOG_LOGGER_ERROR(
-                    logger_application_overview(), "Failed to get views: {}", view_result.error().message);
-            }*/
-            auto view_result = co_await self->application_->find_object("testRoot");
-            if (view_result.has_value())
-            {
-                SPDLOG_LOGGER_DEBUG(logger_application_overview(), "GOT VIEW");
-                self->views_.emplace_back(std::move(*view_result));
                 co_await self->fetchImage();
             }
             else
