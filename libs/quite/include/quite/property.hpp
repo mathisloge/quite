@@ -13,6 +13,7 @@ class QUITELIB_EXPORT Property
 {
   public:
     virtual ~Property();
+    virtual const std::string &name() const noexcept = 0;
     virtual const Result<Value> &value() const noexcept = 0;
     virtual AsyncResult<Value> read() noexcept = 0;
     virtual AsyncResult<Value> write(const Value &value) noexcept = 0;

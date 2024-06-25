@@ -50,7 +50,7 @@ void insert_value(std::unordered_map<std::string, proto::Value> *properties,
     constexpr auto value_meta = QMetaType::fromType<proto::Value>();
     proto::Value value;
     const bool convertable = QMetaType::canConvert(property.metaType(), value_meta);
-    spdlog::trace("prop {}={} convertable={}", property.name(), property.typeName(), convertable);
+    spdlog::debug("prop {}={} convertable={}", property.name(), property.typeName(), convertable);
     if (convertable)
     {
         const auto property_value = property.read(object_meta.object);

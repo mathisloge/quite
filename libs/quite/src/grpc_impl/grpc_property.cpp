@@ -45,6 +45,11 @@ GrpcProperty::GrpcProperty(ProbeServiceHandle probe_service,
 
 GrpcProperty::~GrpcProperty() = default;
 
+const std::string &GrpcProperty::name() const noexcept
+{
+    return name_;
+}
+
 const Result<Value> &GrpcProperty::value() const noexcept
 {
     return last_value_;

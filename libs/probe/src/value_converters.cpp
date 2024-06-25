@@ -1,4 +1,5 @@
 #include "value_converters.hpp"
+#include <QColor>
 #include <QMetaType>
 #include <quite/proto/types.pb.h>
 
@@ -16,8 +17,16 @@ void register_trivial_converter()
 
 void register_converters()
 {
+    register_trivial_converter<float, &proto::Value::set_double_val>();
     register_trivial_converter<double, &proto::Value::set_double_val>();
     register_trivial_converter<bool, &proto::Value::set_bool_val>();
+    register_trivial_converter<qint8, &proto::Value::set_int_val>();
+    register_trivial_converter<qint16, &proto::Value::set_int_val>();
+    register_trivial_converter<qint32, &proto::Value::set_int_val>();
+    register_trivial_converter<qint64, &proto::Value::set_int_val>();
+    register_trivial_converter<quint8, &proto::Value::set_int_val>();
+    register_trivial_converter<quint16, &proto::Value::set_int_val>();
+    register_trivial_converter<quint32, &proto::Value::set_int_val>();
 
     QMetaType::registerConverter<QString, proto::Value>([](const QString &value) {
         proto::Value cnv;

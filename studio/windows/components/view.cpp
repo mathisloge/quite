@@ -12,10 +12,11 @@ LOGGER_IMPL(comp_view)
 
 namespace quite::studio
 {
-View::View(SDL_Renderer *renderer, std::shared_ptr<RemoteObject> view)
+View::View(SDL_Renderer *renderer, const std::shared_ptr<RemoteObject> &view)
     : renderer_{renderer}
-    , view_{std::move(view)}
+    , view_{view}
     , image_{renderer_}
+    , prop_editor_{view}
 {
     fetch_image();
 };
@@ -28,12 +29,21 @@ View::~View()
 
 void View::draw()
 {
-    ImGui::Text("Hello there");
+    ImGui::BeginChild("property pane", ImVec2{350, 0}, ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX);
+    prop_editor_.draw();
+    ImGui::EndChild();
+
+    ImGui::SameLine();
+
+    ImGui::BeginGroup();
+    ImGui::BeginChild("display view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
     if (ImGui::Button("Refresh image"))
     {
         fetch_image();
     }
     image_.show();
+    ImGui::EndChild();
+    ImGui::EndGroup();
 }
 
 void View::fetch_properties()

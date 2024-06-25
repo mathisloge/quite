@@ -3,12 +3,13 @@
 #include <exec/async_scope.hpp>
 #include <imgui.h>
 #include <quite/application.hpp>
+#include "property_editor.hpp"
 namespace quite::studio
 {
-class View
+class View final
 {
   public:
-    explicit View(SDL_Renderer *renderer, std::shared_ptr<RemoteObject> view);
+    explicit View(SDL_Renderer *renderer, const std::shared_ptr<RemoteObject>& view);
     ~View();
 
     void draw();
@@ -33,5 +34,8 @@ class View
         void show();
     };
     AsyncImage image_;
+
+
+    PropertyEditor prop_editor_;
 };
 } // namespace quite::studio

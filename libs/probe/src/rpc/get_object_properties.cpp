@@ -12,7 +12,7 @@ namespace quite::probe
 exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRPC &rpc,
                                                            const GetObjectPropertiesRPC::Request &request)
 {
-    spdlog::trace("START RequestGetObjectProperty={}", request.object_id());
+    spdlog::debug("START RequestGetObjectProperty={}", request.object_id());
     GetObjectPropertiesRPC::Response response{};
     co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
                            [&]() {

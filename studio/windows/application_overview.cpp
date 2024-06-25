@@ -17,7 +17,9 @@ namespace quite::studio
 ApplicationOverview::ApplicationOverview(SDL_Renderer *renderer, std::shared_ptr<Application> application)
     : renderer_{renderer}
     , application_(std::move(application))
-{}
+{
+    fetchViews();
+}
 
 ApplicationOverview::~ApplicationOverview()
 {
@@ -32,46 +34,47 @@ void ApplicationOverview::drawWindow()
         ImGui::End();
         return;
     }
-    if (ImGui::Button("Test"))
-    {
-        scope_.spawn(stdexec::on(get_scheduler(), [](ApplicationOverview *self) -> exec::task<void> {
-            SPDLOG_LOGGER_DEBUG(logger_application_overview(), "Start");
-            auto view_result = co_await self->application_->get_views();
-            if (view_result.has_value())
-            {
-                SPDLOG_LOGGER_DEBUG(logger_application_overview(), "GOT VIEWS");
-                for (auto &&v : *view_result)
-                {
-                    self->views_[v->id()] = std::make_unique<View>(self->renderer_, v);
-                }
-            }
-            else
-            {
-                SPDLOG_LOGGER_ERROR(
-                    logger_application_overview(), "Failed to get views: {}", view_result.error().message);
-            }
-            co_return;
-        }(this)));
-    }
-
     constexpr ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_FittingPolicyScroll;
-    // ImGuiTabBarFlags_TabListPopupButton | ImGuiTabBarFlags_FittingPolicyScroll;
     if (ImGui::BeginTabBar("ViewsList", tab_bar_flags))
     {
         for (auto &&view : views_)
         {
-            // ImGui::PushID(view.second.get());
+            // todo: cache this one
             const auto label = fmt::format("View {}", view.first);
-            if (ImGui::BeginTabItem("View"))
+            if (ImGui::BeginTabItem(label.c_str()))
             {
                 view.second->draw();
                 ImGui::EndTabItem();
             }
-
-            // ImGui::PopID();
         }
         ImGui::EndTabBar();
     }
+    if(fetch_in_progress_) {
+        ImGui::Text("Loading views...");
+    }
     ImGui::End();
+}
+
+void ApplicationOverview::fetchViews()
+{
+    scope_.spawn(stdexec::on(get_scheduler(), [](ApplicationOverview *self) -> exec::task<void> {
+        SPDLOG_LOGGER_DEBUG(logger_application_overview(), "Fetching views...");
+        self->fetch_in_progress_ = true;
+        auto view_result = co_await self->application_->get_views();
+        if (view_result.has_value())
+        {
+            SPDLOG_LOGGER_DEBUG(logger_application_overview(), "got views");
+            for (auto &&v : *view_result)
+            {
+                self->views_[v->id()] = std::make_unique<View>(self->renderer_, v);
+            }
+        }
+        else
+        {
+            SPDLOG_LOGGER_ERROR(logger_application_overview(), "Failed to get views: {}", view_result.error().message);
+        }
+        self->fetch_in_progress_ = false;
+        co_return;
+    }(this)));
 }
 } // namespace quite::studio
