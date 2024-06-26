@@ -1,4 +1,6 @@
 #include "property_editor.hpp"
+#include <algorithm>
+#include <ranges>
 #include <imgui.h>
 #include <quite/create_logger.hpp>
 #include <quite/logger_macros.hpp>
@@ -12,17 +14,105 @@ LOGGER_IMPL(comp_prop_editor)
 
 namespace quite::studio
 {
-PropertyEditor::PropertyEditor(std::shared_ptr<RemoteObject> root)
-    : root_{std::move(root)}
+class PropertyEditor::PropertyUi
 {
-    fetch_root_properties();
-}
+  public:
+    ~PropertyUi() = default;
+    virtual void draw() {};
+};
+
+class PropertyPrimitiveValue final : public PropertyEditor::PropertyUi
+{
+    struct PropertyValueVisitor final
+    {
+        void operator()(std::int64_t value) const noexcept
+        {
+            ImGui::Text("%lu", value);
+        }
+        void operator()(double value) const noexcept
+        {
+            ImGui::InputDouble("##value", &value);
+        }
+        void operator()(bool value) const noexcept
+        {
+            ImGui::Checkbox("##value", &value);
+        }
+        void operator()(const std::string &value) const noexcept
+        {
+            ImGui::Text("%s", value.c_str());
+        }
+        void operator()(const std::shared_ptr<RemoteObject> &value) const noexcept
+        {
+            ImGui::Text("%s", "BUG: this should be a PropertyObjectValue");
+        }
+    };
+
+  public:
+    explicit PropertyPrimitiveValue(std::shared_ptr<Property> property)
+        : property_{std::move(property)}
+    {}
+
+    void draw() override
+    {
+        ImGui::PushID(property_.get());
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex(0);
+        ImGui::AlignTextToFramePadding();
+        constexpr ImGuiTreeNodeFlags flags =
+            ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet;
+        ImGui::TreeNodeEx("Field", flags, "%s", property_->name().c_str());
+
+        ImGui::TableSetColumnIndex(1);
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        if (property_->value().has_value())
+        {
+            std::visit(PropertyValueVisitor{}, property_->value().value());
+        }
+        ImGui::NextColumn();
+        ImGui::PopID();
+    }
+
+  private:
+    std::shared_ptr<Property> property_;
+};
+
+class PropertyObjectValue final : public PropertyEditor::PropertyUi
+{
+  public:
+    explicit PropertyObjectValue(std::string name, std::shared_ptr<RemoteObject> object, bool initial_fetch = false)
+        : name_{std::move(name)}
+        , object_{std::move(object)}
+    {
+        if (initial_fetch)
+        {
+            fetch_properties();
+        }
+    }
+
+    ~PropertyObjectValue()
+    {
+        auto wait_senders = scope_.on_empty();
+        stdexec::sync_wait(wait_senders);
+    }
+
+    void draw() override;
+
+  private:
+    void fetch_properties();
+
+  private:
+    exec::async_scope scope_;
+    std::string name_;
+    std::shared_ptr<RemoteObject> object_;
+    std::unordered_map<std::string, std::shared_ptr<PropertyUi>> properties_;
+};
+
+PropertyEditor::PropertyEditor(std::shared_ptr<RemoteObject> root)
+    : root_{std::make_unique<PropertyObjectValue>("Root", std::move(root), true)}
+{}
 
 PropertyEditor::~PropertyEditor()
-{
-    auto wait_senders = scope_.on_empty();
-    stdexec::sync_wait(wait_senders);
-}
+{}
 
 void PropertyEditor::draw()
 {
@@ -35,97 +125,63 @@ void PropertyEditor::draw()
         ImGui::TableSetupColumn("Value");
         ImGui::TableHeadersRow();
 
-        draw_object(*root_);
+        root_->draw();
 
-        // Iterate placeholder objects (all the same data)
-        // for (int obj_i = 0; obj_i < 4; obj_i++)
-        //    ShowPlaceholderObject("Object", obj_i);
-        //
         ImGui::EndTable();
     }
     ImGui::PopStyleVar();
 }
 
-namespace
+void PropertyObjectValue::draw()
 {
-struct PropertyValueVisitor final
-{
-    void operator()(std::int64_t value) const noexcept
-    {
-        ImGui::Text("%lu", value);
-    }
-    void operator()(double value) const noexcept
-    {
-        ImGui::InputDouble("##value", &value);
-    }
-    void operator()(bool value) const noexcept
-    {
-        ImGui::Checkbox("##value", &value);
-    }
-    void operator()(const std::string &value) const noexcept
-    {
-        ImGui::Text("%s", value.c_str());
-    }
-};
-} // namespace
-
-void PropertyEditor::draw_object(RemoteObject &object)
-{
-    ImGui::PushID(&object);
+    ImGui::PushID(object_.get());
 
     // Text and Tree nodes are less high than framed widgets, using AlignTextToFramePadding() we add vertical spacing to
     // make the tree lines equal high.
     ImGui::TableNextRow();
     ImGui::TableSetColumnIndex(0);
     ImGui::AlignTextToFramePadding();
-    const bool node_open = ImGui::TreeNode("Object", "%s_%lu", "", reinterpret_cast<uint64_t>(&object));
+    const bool node_open = ImGui::TreeNode("Object", "%s", name_.c_str());
     if (node_open)
     {
-        for (auto &&prop : root_properties_)
+        if (ImGui::Button("Fetch"))
         {
-            draw_property(*prop.second);
+            fetch_properties();
+        }
+        ImGui::SameLine();
+        for (auto &&prop : properties_)
+        {
+            prop.second->draw();
         }
         ImGui::TreePop();
     }
     ImGui::PopID();
 }
 
-void PropertyEditor::draw_property(Property &property)
+namespace
 {
-    ImGui::PushID(&property);
-    /*
-    if(complex_unit) {
-        draw_property();
-    } else {
-    */
-    ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex(0);
-    ImGui::AlignTextToFramePadding();
-    ImGuiTreeNodeFlags flags =
-        ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet;
-    ImGui::TreeNodeEx("Field", flags, "%s", property.name().c_str());
-
-    ImGui::TableSetColumnIndex(1);
-    ImGui::SetNextItemWidth(-FLT_MIN);
-    if (property.value().has_value())
+std::pair<std::string, std::shared_ptr<quite::studio::PropertyEditor::PropertyUi>> make_property_wrapper(
+    const std::pair<std::string, std::shared_ptr<quite::Property>> &p)
+{
+    if (std::holds_alternative<std::shared_ptr<RemoteObject>>(p.second->value().value()))
     {
-        std::visit(PropertyValueVisitor{}, property.value().value());
+        return {p.first,
+                std::make_shared<PropertyObjectValue>(
+                    p.first, std::get<std::shared_ptr<RemoteObject>>(p.second->value().value()))};
     }
-    ImGui::NextColumn();
-    /*
-    }
-    */
-    ImGui::PopID();
+    return {p.first, std::make_shared<PropertyPrimitiveValue>(p.second)};
 }
+} // namespace
 
-void PropertyEditor::fetch_root_properties()
+void PropertyObjectValue::fetch_properties()
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](PropertyEditor *self) -> exec::task<void> {
+    scope_.spawn(stdexec::on(get_scheduler(), [](PropertyObjectValue *self) -> exec::task<void> {
         SPDLOG_LOGGER_DEBUG(logger_comp_prop_editor(), "Fetching properties...");
-        auto props = co_await self->root_->fetch_properties({});
+        auto props = co_await self->object_->fetch_properties({});
         if (props.has_value())
         {
-            self->root_properties_ = std::move(props.value());
+            const auto insert_property = [self](auto &&prop_ui) { self->properties_.insert(std::move(prop_ui)); };
+            std::ranges::for_each(props.value() | std::views::transform(make_property_wrapper), insert_property);
         }
         else
         {

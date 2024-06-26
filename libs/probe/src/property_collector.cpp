@@ -7,6 +7,7 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <spdlog/spdlog.h>
+#include "object_id.hpp"
 
 namespace quite
 {
@@ -49,16 +50,24 @@ void insert_value(std::unordered_map<std::string, proto::Value> *properties,
 {
     constexpr auto value_meta = QMetaType::fromType<proto::Value>();
     proto::Value value;
-    const bool convertable = QMetaType::canConvert(property.metaType(), value_meta);
-    spdlog::debug("prop {}={} convertable={}", property.name(), property.typeName(), convertable);
-    if (convertable)
+    const auto property_value = property.read(object_meta.object);
+    if (property_value.canConvert<QObject *>())
     {
-        const auto property_value = property.read(object_meta.object);
-        QMetaType::convert(property.metaType(), &property_value, value_meta, &value);
+        spdlog::debug("prop {}={} convertable to QObject*", property.name(), property.typeName());
+        value.mutable_object_val()->set_object_id(reinterpret_cast<probe::ObjectId>(property_value.value<QObject*>()));
     }
     else
     {
-        *value.mutable_class_val()->mutable_type_name() = property.typeName();
+        const bool convertable = QMetaType::canConvert(property.metaType(), value_meta);
+        spdlog::debug("prop {}={} convertable={}", property.name(), property.typeName(), convertable);
+        if (convertable)
+        {
+            QMetaType::convert(property.metaType(), &property_value, value_meta, &value);
+        }
+        else
+        {
+            *value.mutable_class_val()->mutable_type_name() = property.typeName();
+        }
     }
     properties->emplace(property.name(), std::move(value));
 }

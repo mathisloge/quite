@@ -7,20 +7,13 @@ namespace quite::studio
 class PropertyEditor final
 {
   public:
+    class PropertyUi;
+
     explicit PropertyEditor(std::shared_ptr<RemoteObject> root);
     ~PropertyEditor();
     void draw();
 
   private:
-    void fetch_root_properties();
-    void draw_object(RemoteObject& object);
-    void draw_property(Property& property);
-
-  private:
-    std::shared_ptr<RemoteObject> root_;
-    exec::async_scope scope_;
-
-    std::unordered_map<std::string, std::shared_ptr<Property>> root_properties_;
+    std::unique_ptr<PropertyUi> root_;
 };
-
 } // namespace quite::studio

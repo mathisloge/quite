@@ -8,7 +8,9 @@
 
 namespace quite
 {
-using Value = std::variant<std::int64_t, double, bool, std::string>;
+class RemoteObject;
+
+using Value = std::variant<std::int64_t, double, bool, std::string, std::shared_ptr<RemoteObject>>;
 class QUITELIB_EXPORT Property
 {
   public:
@@ -20,7 +22,7 @@ class QUITELIB_EXPORT Property
 };
 } // namespace quite
 template <>
-struct QUITELIB_EXPORT fmt::formatter<std::variant<std::int64_t, double, bool, std::string>> : formatter<string_view>
+struct QUITELIB_EXPORT fmt::formatter<quite::Value> : formatter<string_view>
 {
     auto format(const quite::Value &v, format_context &ctx) const -> format_context::iterator;
 };

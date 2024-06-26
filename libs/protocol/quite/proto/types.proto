@@ -19,5 +19,6 @@ message Value {
         double double_val = 4;
         bool bool_val = 5;
         ClassValue class_val = 6;
+        ObjectValue object_val = 7;
     }
 }
