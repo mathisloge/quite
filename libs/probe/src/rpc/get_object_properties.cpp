@@ -19,8 +19,12 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                                if (request.property_names_size() == 0)
                                {
                                    auto obj = tracker.get_object_by_id(request.object_id());
-                                   auto properties = collect_properties(ObjectMeta::from_qobject(*obj));
-                                   response.mutable_property_values()->insert(properties.begin(), properties.end());
+                                   if (obj.has_value())
+                                   {
+                                       auto properties = collect_properties(ObjectMeta::from_qobject(*obj));
+                                       response.mutable_property_values()->insert(properties.begin(), properties.end());
+                                   }
+                                   // todo: return error and make this a bit better code
                                }
                                else
                                {
