@@ -4,13 +4,20 @@
 #include <variant>
 #include <fmt/core.h>
 #include "async_result.hpp"
+#include "indirect.hpp"
 #include "quitelib_export.h"
 
 namespace quite
 {
 class RemoteObject;
 
-using Value = std::variant<std::int64_t, double, bool, std::string, std::shared_ptr<RemoteObject>>;
+using Value = std::
+    variant<std::int64_t, double, bool, std::string, std::shared_ptr<RemoteObject>, xyz::indirect<struct ArrayObject>>;
+
+struct ArrayObject
+{
+    std::vector<Value> values;
+};
 class QUITELIB_EXPORT Property
 {
   public:

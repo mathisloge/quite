@@ -1,6 +1,10 @@
 #include "value_converters.hpp"
 #include <QColor>
 #include <QMetaType>
+#include <QObject>
+#include <QQmlListProperty>
+#include <QQmlListReference>
+#include <QQuickItem>
 #include <quite/proto/types.pb.h>
 
 namespace quite::probe
@@ -31,6 +35,16 @@ void register_converters()
     QMetaType::registerConverter<QString, proto::Value>([](const QString &value) {
         proto::Value cnv;
         *cnv.mutable_string_val() = value.toStdString();
+        return cnv;
+    });
+
+    QMetaType::registerConverter<QObjectList, proto::Value>([](const QObjectList &values) {
+        proto::Value cnv;
+        for (auto &&value : std::as_const(values))
+        {
+            cnv.mutable_array_val()->add_value()->mutable_object_val()->set_object_id(
+                reinterpret_cast<std::uint64_t>(value));
+        }
         return cnv;
     });
 }

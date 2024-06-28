@@ -19,8 +19,14 @@ struct ToStrVisitor
         return fmt::format_to(ctx.out(), "{}", value);
     }
 
-    auto operator()(const std::shared_ptr<quite::RemoteObject>& object) const {
+    auto operator()(const std::shared_ptr<quite::RemoteObject> &object) const
+    {
         return fmt::format_to(ctx.out(), "{}", "remote_object");
+    }
+
+    auto operator()(const xyz::indirect<quite::ArrayObject> &array) const
+    {
+        return fmt::format_to(ctx.out(), "{}", "array");
     }
 };
 } // namespace

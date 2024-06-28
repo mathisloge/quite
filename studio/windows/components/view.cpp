@@ -46,12 +46,6 @@ void View::draw()
     ImGui::EndGroup();
 }
 
-void View::fetch_properties()
-{
-    scope_.spawn(stdexec::on(get_scheduler(), view_->fetch_properties({})) |
-                 stdexec::then([](auto &&properties) { SPDLOG_LOGGER_DEBUG(logger_comp_view(), "got properties"); }));
-}
-
 void View::fetch_image()
 {
     scope_.spawn(stdexec::on(get_scheduler(), [](View *self) -> exec::task<void> {

@@ -15,7 +15,6 @@ class View final
     void draw();
 
   private:
-    void fetch_properties();
     void fetch_image();
 
   private:

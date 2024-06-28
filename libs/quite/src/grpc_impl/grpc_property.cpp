@@ -32,6 +32,17 @@ quite::Value cnv_value(const quite::proto::Value &value, quite::grpc_impl::Probe
         return std::make_shared<quite::grpc_impl::GrpcRemoteObject>(value.object_val().object_id(),
                                                                     std::move(probe_service));
     }
+    else if (value.has_array_val())
+    {
+        SPDLOG_LOGGER_DEBUG(logger_grpc_property(), "array");
+        quite::ArrayObject array{};
+        array.values.reserve(value.array_val().value_size());
+        for (auto &&val : value.array_val().value())
+        {
+            array.values.emplace_back(cnv_value(val, probe_service));
+        }
+        return xyz::indirect<quite::ArrayObject>(std::move(array));
+    }
     return {};
 }
 
@@ -62,7 +73,7 @@ const Result<Value> &GrpcProperty::value() const noexcept
 
 AsyncResult<Value> GrpcProperty::read() noexcept
 {
-    SPDLOG_LOGGER_TRACE(logger_grpc_property(), "get property[{}] for object={}", name_, parent_->id());
+    SPDLOG_LOGGER_DEBUG(logger_grpc_property(), "get property[{}] for object={}", name_, parent_->id());
 
     // even though it is not really necessary to fetch the property here, it will get fetch, to verify that the property
     // exists. Otherwise an unexpected event is returned.

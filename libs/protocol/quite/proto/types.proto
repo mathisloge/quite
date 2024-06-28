@@ -11,6 +11,10 @@ message ObjectValue {
     uint64 object_id = 1;
 }
 
+message ArrayValue {
+    repeated Value value = 1;
+}
+
 message Value {
     oneof value_oneof {
         string string_val = 1;
@@ -20,5 +24,6 @@ message Value {
         bool bool_val = 5;
         ClassValue class_val = 6;
         ObjectValue object_val = 7;
+        ArrayValue array_val = 8;
     }
 }

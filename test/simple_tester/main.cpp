@@ -5,6 +5,8 @@
 #include <quite/probe.hpp>
 #include <spdlog/spdlog.h>
 
+#include <QQuickItem>
+
 int main(int argc, char *argv[])
 {
     quite::setupHooks();
@@ -15,6 +17,8 @@ int main(int argc, char *argv[])
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QUrl("qrc:///main.qml"));
     view.show();
+
+    view.children();
 
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [] {
