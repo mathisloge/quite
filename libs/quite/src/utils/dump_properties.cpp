@@ -26,7 +26,6 @@ struct ValueVisitor
 
     AsyncResult<void> operator()(const RemoteObjectPtr &object)
     {
-        spdlog::info("visit object {}", object->id());
         auto props = co_await dump_properties(visited_objects, object, properties);
         if (props.has_value())
         {
@@ -42,7 +41,6 @@ struct ValueVisitor
         for (auto &&value : array->values)
         {
             auto&& target = out.emplace_back(nlohmann::json::object());
-            spdlog::info("visit next value in array");
             auto prop_result = co_await std::visit(ValueVisitor{visited_objects, properties, target}, value);
             if (not prop_result.has_value())
             {
@@ -59,7 +57,6 @@ AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visite
 {
     if (visited_objects.contains(remote_object->id()))
     {
-        spdlog::info("object with id {} already exists", remote_object->id());
         co_return nlohmann::json{};
     }
     visited_objects.emplace(remote_object->id());
@@ -84,7 +81,7 @@ AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visite
         }
         else
         {
-            spdlog::info("no value for {}", prop.first);
+            out[prop.first] = nlohmann::json{};
         }
     }
 
