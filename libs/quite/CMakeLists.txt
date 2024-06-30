@@ -38,3 +38,4 @@ target_sources(quitelib
         src/image.cpp
 )
 add_subdirectory(src/grpc_impl)
+add_subdirectory(src/utils)
