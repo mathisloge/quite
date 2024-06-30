@@ -18,12 +18,20 @@ set(log_level SPDLOG_LEVEL_TRACE)
 
 find_package(stdexec CONFIG REQUIRED)
 set_package_properties(stdexec PROPERTIES URL "https://github.com/NVIDIA/stdexec" PURPOSE "needed for async code. should be disabled for *hopefully* c++26.")
-find_package(Catch2 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
+set_package_properties(spdlog PROPERTIES URL "https://github.com/gabime/spdlog")
 find_package(asio-grpc CONFIG REQUIRED)
+set_package_properties(asio PROPERTIES URL "https://github.com/Tradias/asio-grpc")
 find_package(asio CONFIG REQUIRED)
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
+set_package_properties(asio PROPERTIES URL "https://github.com/chriskohlhoff/asio/" PURPOSE "only the pipe object for the process application")
 find_package(Stb REQUIRED)
+set_package_properties(Stb PROPERTIES URL "https://github.com/nothings/stb" PURPOSE "saving and loading of images")
+find_package(nlohmann_json CONFIG REQUIRED)
+set_package_properties(nlohmann_json PROPERTIES URL "https://github.com/nlohmann/json")
+
+find_package(Catch2 CONFIG REQUIRED)
+
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 
 add_subdirectory(libs)
 add_subdirectory(studio)

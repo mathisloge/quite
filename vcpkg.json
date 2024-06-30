@@ -15,6 +15,7 @@
                 "sdl2-binding",
                 "sdl2-renderer-binding"
             ]
-        }
+        },
+        "nlohmann-json"
     ]
 }
