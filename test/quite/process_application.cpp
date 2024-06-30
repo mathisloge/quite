@@ -26,7 +26,11 @@ TEST_CASE("Test if a process application can be created")
             {
                 spdlog::info("P {}={}", p.first, p.second->value().value());
             }
+
+            auto snapshot = co_await xxxx.value()->take_snapshot();
+            REQUIRE(snapshot.has_value());
         }
+        co_await app->get_views();
 
         auto btn_obj = co_await app->find_object("worldBtn");
         REQUIRE(btn_obj.has_value());

@@ -23,6 +23,10 @@ class Image::Impl final
     int channels_;
 };
 
+Image::Image()
+    : impl_{std::make_unique<Impl>(std::vector<std::byte>{}, 0, 0, 0)}
+{}
+
 Image::Image(std::vector<std::byte> image_data, std::uint32_t width, std::uint32_t height, int channels)
     : impl_{std::make_unique<Impl>(std::move(image_data), width, height, channels)}
 {}
@@ -30,6 +34,12 @@ Image::Image(std::vector<std::byte> image_data, std::uint32_t width, std::uint32
 Image::Image(Image &&other)
     : impl_{std::exchange(other.impl_, nullptr)}
 {}
+
+Image &Image::operator=(Image &&other)
+{
+    impl_ = std::exchange(other.impl_, nullptr);
+    return *this;
+}
 
 Image::~Image() = default;
 
@@ -41,5 +51,15 @@ void Image::save_to(const std::filesystem::path &destination)
                                         impl_->channels_,
                                         impl_->image_data_.data(),
                                         impl_->width_ * impl_->channels_);
+}
+
+ImageView Image::data() const
+{
+    return ImageView{
+        .width = impl_->width_,
+        .height = impl_->height_,
+        .channels = impl_->channels_,
+        .data = impl_->image_data_,
+    };
 }
 } // namespace quite

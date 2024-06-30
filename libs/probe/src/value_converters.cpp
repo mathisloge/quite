@@ -1,5 +1,10 @@
 #include "value_converters.hpp"
+#include <QColor>
 #include <QMetaType>
+#include <QObject>
+#include <QQmlListProperty>
+#include <QQmlListReference>
+#include <QQuickItem>
 #include <quite/proto/types.pb.h>
 
 namespace quite::probe
@@ -16,12 +21,30 @@ void register_trivial_converter()
 
 void register_converters()
 {
+    register_trivial_converter<float, &proto::Value::set_double_val>();
     register_trivial_converter<double, &proto::Value::set_double_val>();
     register_trivial_converter<bool, &proto::Value::set_bool_val>();
+    register_trivial_converter<qint8, &proto::Value::set_int_val>();
+    register_trivial_converter<qint16, &proto::Value::set_int_val>();
+    register_trivial_converter<qint32, &proto::Value::set_int_val>();
+    register_trivial_converter<qint64, &proto::Value::set_int_val>();
+    register_trivial_converter<quint8, &proto::Value::set_int_val>();
+    register_trivial_converter<quint16, &proto::Value::set_int_val>();
+    register_trivial_converter<quint32, &proto::Value::set_int_val>();
 
     QMetaType::registerConverter<QString, proto::Value>([](const QString &value) {
         proto::Value cnv;
         *cnv.mutable_string_val() = value.toStdString();
+        return cnv;
+    });
+
+    QMetaType::registerConverter<QObjectList, proto::Value>([](const QObjectList &values) {
+        proto::Value cnv;
+        for (auto &&value : std::as_const(values))
+        {
+            cnv.mutable_array_val()->add_value()->mutable_object_val()->set_object_id(
+                reinterpret_cast<std::uint64_t>(value));
+        }
         return cnv;
     });
 }

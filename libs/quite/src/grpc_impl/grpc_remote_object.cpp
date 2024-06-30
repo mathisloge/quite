@@ -77,9 +77,4 @@ AsyncResult<Image> GrpcRemoteObject::take_snapshot()
         return Image{std::move(image_data), image_response.metadata().width(), image_response.metadata().height(), 4};
     });
 }
-
-ObjectId GrpcRemoteObject::id() const noexcept
-{
-    return id_;
-}
 } // namespace quite::grpc_impl

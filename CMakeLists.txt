@@ -26,6 +26,7 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 find_package(Stb REQUIRED)
 
 add_subdirectory(libs)
+add_subdirectory(studio)
 add_subdirectory(test)
 
 feature_summary(WHAT ENABLED_FEATURES DESCRIPTION "Enabled features:")
