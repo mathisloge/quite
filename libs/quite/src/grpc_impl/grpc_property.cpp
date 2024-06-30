@@ -35,7 +35,6 @@ quite::Result<quite::Value> cnv_value(const quite::proto::Value &value,
     }
     else if (value.has_array_val())
     {
-        SPDLOG_LOGGER_DEBUG(logger_grpc_property(), "array");
         quite::ArrayObject array{};
         array.values.reserve(value.array_val().value_size());
         for (auto &&val : value.array_val().value())

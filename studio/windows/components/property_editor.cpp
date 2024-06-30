@@ -254,7 +254,10 @@ void PropertyObjectValue::fetch_properties()
         if (props.has_value())
         {
             const auto insert_property = [self](auto &&prop_ui) { self->properties_.insert(std::move(prop_ui)); };
-            std::ranges::for_each(props.value() | std::views::transform(make_property_wrapper), insert_property);
+            std::ranges::for_each(props.value() | std::views::filter([](auto &&prop_pair) {
+                                      return prop_pair.second->value().has_value();
+                                  }) | std::views::transform(make_property_wrapper),
+                                  insert_property);
         }
         else
         {
