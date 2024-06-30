@@ -9,7 +9,8 @@ namespace
 {
 LOGGER_IMPL(grpc_property)
 
-quite::Value cnv_value(const quite::proto::Value &value, quite::grpc_impl::ProbeServiceHandle probe_service)
+quite::Result<quite::Value> cnv_value(const quite::proto::Value &value,
+                                      quite::grpc_impl::ProbeServiceHandle probe_service)
 {
     if (value.has_bool_val())
     {
@@ -39,11 +40,17 @@ quite::Value cnv_value(const quite::proto::Value &value, quite::grpc_impl::Probe
         array.values.reserve(value.array_val().value_size());
         for (auto &&val : value.array_val().value())
         {
-            array.values.emplace_back(cnv_value(val, probe_service));
+            // todo: propagate potential error up
+            array.values.emplace_back(*cnv_value(val, probe_service));
         }
         return xyz::indirect<quite::ArrayObject>(std::move(array));
     }
-    return {};
+    value.value_oneof_case();
+    return std::unexpected(quite::Error{
+        .code = quite::ErrorCode::invalid_argument,
+        .message =
+            fmt::format("Could not convert value. Has value field={}",
+                        (value.value_oneof_case() != quite::proto::Value::ValueOneofCase::VALUE_ONEOF_NOT_SET))});
 }
 
 } // namespace
