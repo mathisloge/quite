@@ -11,10 +11,10 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
   public:
     explicit GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service_handle);
 
-    AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> fetch_properties(
+    AsyncResult<std::unordered_map<std::string, PropertyPtr>> fetch_properties(
         const std::vector<std::string_view> &properties) override;
 
-    AsyncResult<std::shared_ptr<Property>> property(std::string property_name) override;
+    AsyncResult<PropertyPtr> property(std::string property_name) override;
 
     AsyncResult<void> mouse_action() override;
 

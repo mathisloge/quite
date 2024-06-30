@@ -19,7 +19,7 @@ struct ToStrVisitor
         return fmt::format_to(ctx.out(), "{}", value);
     }
 
-    auto operator()(const std::shared_ptr<quite::RemoteObject> &object) const
+    auto operator()(const quite::RemoteObjectPtr &object) const
     {
         return fmt::format_to(ctx.out(), "{}", "remote_object");
     }

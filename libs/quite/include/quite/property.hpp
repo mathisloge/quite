@@ -27,6 +27,8 @@ class QUITELIB_EXPORT Property
     virtual AsyncResult<Value> read() noexcept = 0;
     virtual AsyncResult<Value> write(const Value &value) noexcept = 0;
 };
+
+using PropertyPtr = std::shared_ptr<Property>;
 } // namespace quite
 template <>
 struct QUITELIB_EXPORT fmt::formatter<quite::Value> : formatter<string_view>
