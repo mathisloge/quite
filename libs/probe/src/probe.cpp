@@ -57,6 +57,18 @@ struct ProbeData final
         }};
     }
 
+    ~ProbeData() = default;
+
+    void exit()
+    {
+        server->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{2});
+        server->Wait();
+        grpc_context.stop();
+
+        server = nullptr;
+        mouse_injector = nullptr;
+    }
+
     agrpc::GrpcContext grpc_context;
     std::unique_ptr<grpc::Server> server;
     std::shared_ptr<quite::ObjectTracker> tracker;
@@ -77,6 +89,13 @@ void testAddObject(QObject *q);
 void testRemoveObject(QObject *q);
 void testStartup();
 
+void installApplicationHooks()
+{
+    QObject::connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, []() {
+        probeData().exit();
+    });
+}
+
 void installQHooks()
 {
     Q_ASSERT(qtHookData[QHooks::HookDataVersion] >= 1);
@@ -94,6 +113,10 @@ void installQHooks()
     qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&testAddObject);
     qtHookData[QHooks::RemoveQObject] = reinterpret_cast<quintptr>(&testRemoveObject);
     qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(&testStartup);
+    if (QCoreApplication::instance() != nullptr)
+    {
+        installApplicationHooks();
+    }
 }
 
 void testAddObject(QObject *q)
@@ -109,6 +132,7 @@ void testRemoveObject(QObject *q)
 void testStartup()
 {
     spdlog::set_level(spdlog::level::debug);
+    installApplicationHooks();
 }
 
 } // namespace
