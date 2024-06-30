@@ -19,10 +19,10 @@ class QUITELIB_EXPORT RemoteObject
 
     ObjectId id() const noexcept;
 
-    virtual AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> fetch_properties(
+    virtual AsyncResult<std::unordered_map<std::string, PropertyPtr>> fetch_properties(
         const std::vector<std::string_view> &properties) = 0;
 
-    virtual AsyncResult<std::shared_ptr<Property>> property(std::string property_name) = 0;
+    virtual AsyncResult<PropertyPtr> property(std::string property_name) = 0;
 
     virtual AsyncResult<void> mouse_action() = 0;
 
@@ -31,4 +31,5 @@ class QUITELIB_EXPORT RemoteObject
   protected:
     const ObjectId id_;
 };
+using RemoteObjectPtr = std::shared_ptr<RemoteObject>;
 } // namespace quite

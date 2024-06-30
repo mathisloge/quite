@@ -9,8 +9,8 @@ class QUITELIB_EXPORT Application
 {
   public:
     virtual ~Application();
-    virtual AsyncResult<std::shared_ptr<RemoteObject>> find_object(std::string_view object_name) = 0;
-    virtual AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> get_views() = 0;
+    virtual AsyncResult<RemoteObjectPtr> find_object(std::string_view object_name) = 0;
+    virtual AsyncResult<std::vector<RemoteObjectPtr>> get_views() = 0;
 
   protected:
     Application();
