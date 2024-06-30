@@ -11,7 +11,7 @@ class GrpcProperty final : public Property
                           std::string name,
                           const proto::Value &initial_value);
     ~GrpcProperty() override;
-
+    const std::string &name() const noexcept override;
     const Result<Value> &value() const noexcept override;
     AsyncResult<Value> read() noexcept override;
     AsyncResult<Value> write(const Value &value) noexcept override;

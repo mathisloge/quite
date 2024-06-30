@@ -10,7 +10,7 @@ target_include_directories(loggerlib PUBLIC
     "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
-target_link_libraries(loggerlib PRIVATE
+target_link_libraries(loggerlib PUBLIC
     spdlog::spdlog
 )
 

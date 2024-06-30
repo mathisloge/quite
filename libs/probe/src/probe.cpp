@@ -14,9 +14,10 @@
 #include "injector/mouse_injector.hpp"
 #include "object_tracker.hpp"
 #include "rpc/create_snapshot.hpp"
-#include "rpc/find_object_rpc.hpp"
+#include "rpc/find_object.hpp"
 #include "rpc/get_object_properties.hpp"
-#include "rpc/mouse_click.hpp"
+#include "rpc/get_views.hpp"
+#include "rpc/mouse_action.hpp"
 #include "value_converters.hpp"
 namespace
 {
@@ -36,15 +37,20 @@ struct ProbeData final
         server = builder.BuildAndStart();
 
         grpc_runner = std::jthread{[this]() {
-            auto find_obj_rpc = quite::probe::find_object_rpc(grpc_context, object_service, *tracker);
-            auto get_object_properties = quite::probe::get_object_properties(grpc_context, object_service, *tracker);
-            auto mouse_click_rpc = quite::probe::mouse_click(grpc_context, object_service, *mouse_injector);
+            auto find_obj_rpc = quite::probe::find_object(grpc_context, object_service, *tracker);
+            auto get_object_properties_rpc =
+                quite::probe::get_object_properties(grpc_context, object_service, *tracker);
+            auto mouse_action_rpc = quite::probe::mouse_action(grpc_context, object_service, *mouse_injector);
             auto create_snapshot_rpc = quite::probe::create_snapshot(grpc_context, object_service, *tracker);
+            auto get_views_rpc = quite::probe::get_views(grpc_context, object_service, *tracker);
 
             grpc_context.work_started();
-            auto snd = exec::finally(
-                stdexec::when_all(find_obj_rpc, get_object_properties, mouse_click_rpc, create_snapshot_rpc),
-                stdexec::then(stdexec::just(), [this] { grpc_context.work_finished(); }));
+            auto snd = exec::finally(stdexec::when_all(std::move(find_obj_rpc),
+                                                       std::move(get_object_properties_rpc),
+                                                       std::move(mouse_action_rpc),
+                                                       std::move(create_snapshot_rpc),
+                                                       std::move(get_views_rpc)),
+                                     stdexec::then(stdexec::just(), [this] { grpc_context.work_finished(); }));
             stdexec::sync_wait(
                 stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
             spdlog::error("CLOSING GRPC");

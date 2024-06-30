@@ -6,4 +6,9 @@ RemoteObject::RemoteObject(ObjectId id)
 {}
 
 RemoteObject::~RemoteObject() = default;
+
+ObjectId RemoteObject::id() const noexcept
+{
+    return id_;
+}
 } // namespace quite

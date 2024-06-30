@@ -7,9 +7,6 @@
 #include <QtQml/private/qqmlmetatype_p.h>
 #include <fmt/ranges.h>
 #include <private/qv4executablecompilationunit_p.h>
-#include <qcoreapplication.h>
-#include <qevent.h>
-#include <spdlog/sinks/qt_sinks.h>
 #include <spdlog/spdlog.h>
 #include "property_collector.hpp"
 
@@ -50,13 +47,12 @@ void ObjectTracker::processNewObjects()
     for (auto obj : objects_to_track_)
     {
         // dump_props(obj);
-        //  if (obj->parent() == nullptr)
+        if (obj->parent() == nullptr and obj->isWindowType())
         {
-            tracked_objects_.emplace(obj);
+            obj->dumpObjectInfo();
+            top_level_views_.emplace(obj);
         }
-        //  for outstanding requests do:
-        //      if outstanding request matches obj do:
-        //          handle_request. RequestHandler should call complete of coroutine.
+        tracked_objects_.emplace(obj);
     }
     objects_to_track_.clear();
 }
@@ -82,6 +78,11 @@ void ObjectTracker::beginContext()
 void ObjectTracker::endContext()
 {
     own_ctx_ = false;
+}
+
+const std::unordered_set<QObject *> &ObjectTracker::top_level_views() const
+{
+    return top_level_views_;
 }
 
 std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::string &object_name)
@@ -115,7 +116,8 @@ std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::Obje
     return std::unexpected(ObjectErrC::not_found);
 }
 
-std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::ObjectId obj_id, const std::string &property_name)
+std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::ObjectId obj_id,
+                                                                   const std::string &property_name)
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -140,6 +142,10 @@ void ObjectTracker::removeObject(QObject *obj)
     {
         spdlog::trace("remove obj from tracked_objects {}", obj->objectName().toStdString());
         tracked_objects_.erase(it);
+    }
+    if (const auto it = top_level_views_.find(obj); it != top_level_views_.end())
+    {
+        top_level_views_.erase(it);
     }
 }
 

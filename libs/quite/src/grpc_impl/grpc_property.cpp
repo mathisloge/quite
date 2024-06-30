@@ -9,7 +9,7 @@ namespace
 {
 LOGGER_IMPL(grpc_property)
 
-quite::Value cnv_value(const quite::proto::Value &value)
+quite::Value cnv_value(const quite::proto::Value &value, quite::grpc_impl::ProbeServiceHandle probe_service)
 {
     if (value.has_bool_val())
     {
@@ -27,6 +27,22 @@ quite::Value cnv_value(const quite::proto::Value &value)
     {
         return value.string_val();
     }
+    else if (value.has_object_val())
+    {
+        return std::make_shared<quite::grpc_impl::GrpcRemoteObject>(value.object_val().object_id(),
+                                                                    std::move(probe_service));
+    }
+    else if (value.has_array_val())
+    {
+        SPDLOG_LOGGER_DEBUG(logger_grpc_property(), "array");
+        quite::ArrayObject array{};
+        array.values.reserve(value.array_val().value_size());
+        for (auto &&val : value.array_val().value())
+        {
+            array.values.emplace_back(cnv_value(val, probe_service));
+        }
+        return xyz::indirect<quite::ArrayObject>(std::move(array));
+    }
     return {};
 }
 
@@ -40,10 +56,15 @@ GrpcProperty::GrpcProperty(ProbeServiceHandle probe_service,
     : probe_service_{probe_service}
     , parent_{parent}
     , name_{std::move(name)}
-    , last_value_{cnv_value(initial_value)}
+    , last_value_{cnv_value(initial_value, probe_service)}
 {}
 
 GrpcProperty::~GrpcProperty() = default;
+
+const std::string &GrpcProperty::name() const noexcept
+{
+    return name_;
+}
 
 const Result<Value> &GrpcProperty::value() const noexcept
 {
@@ -52,7 +73,7 @@ const Result<Value> &GrpcProperty::value() const noexcept
 
 AsyncResult<Value> GrpcProperty::read() noexcept
 {
-    SPDLOG_LOGGER_TRACE(logger_grpc_property(), "get property[{}] for object={}", name_, parent_->id());
+    SPDLOG_LOGGER_DEBUG(logger_grpc_property(), "get property[{}] for object={}", name_, parent_->id());
 
     // even though it is not really necessary to fetch the property here, it will get fetch, to verify that the property
     // exists. Otherwise an unexpected event is returned.
@@ -65,7 +86,7 @@ AsyncResult<Value> GrpcProperty::read() noexcept
         {
             return std::unexpected(Error{ErrorCode::not_found, "Server did not return the expected property."});
         }
-        last_value_ = cnv_value(it->second);
+        last_value_ = cnv_value(it->second, probe_service_);
         return last_value_;
     });
 }

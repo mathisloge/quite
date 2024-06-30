@@ -4,8 +4,8 @@
 #include <exec/task.hpp>
 #include "async_result.hpp"
 #include "image.hpp"
-#include "quitelib_export.h"
 #include "property.hpp"
+#include "quitelib_export.h"
 namespace quite
 {
 
@@ -16,6 +16,8 @@ class QUITELIB_EXPORT RemoteObject
   public:
     explicit RemoteObject(ObjectId id);
     virtual ~RemoteObject();
+
+    ObjectId id() const noexcept;
 
     virtual AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> fetch_properties(
         const std::vector<std::string_view> &properties) = 0;

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package quite.proto;
+
+// Nachricht zur Definition eines primitiven Datentyps
+enum PrimitiveType {
+    unknown = 0;
+    int = 1;
+    float = 2;
+    double = 3;
+    bool = 4;
+    string = 5;
+}
+
+// Nachricht zur Definition eines Listentyps
+message ListType {
+    Type element_type = 1; // Typ der Listenelemente
+}
+
+// Nachricht zur Definition eines Maptyps
+message MapType {
+    Type key_type = 1; // Typ der Schlüssel
+    Type value_type = 2; // Typ der Werte
+}
+
+// Nachricht zur Definition eines allgemeinen Typs
+message Type {
+    oneof type {
+        PrimitiveType primitive_type = 1;
+        MetaObject complex_type = 2;
+        ListType list_type = 3;
+        MapType map_type = 4;
+    }
+}
+
+// Nachricht zur Definition einer Eigenschaft
+message Property {
+    string name = 1; // Name der Eigenschaft
+    Type type = 2; // Typ der Eigenschaft
+}
+
+// Nachricht zur Definition eines Signals oder Slots
+message Method {
+    string name = 1; // Name des Signals oder Slots
+    Type return_type = 2; // Rückgabedatentyp
+    repeated Type parameter_types = 3; // Liste der Parameterdatentypen
+}
+
+message MetaObject {
+    string type_name = 1; // Name der Klasse
+    repeated Property properties = 2; // Liste der Eigenschaften
+    repeated Method meta_signals = 3; // Liste der Signale - do not name it without meta_, to not get in conflict with Qt
+    repeated Method meta_slots = 4; // Liste der Slots - do not name it without meta_, to not get in conflict with Qt
+}
