@@ -26,7 +26,7 @@ using RpcFindObjectSender = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncS
 
 struct ProbeData final
 {
-    ProbeData(grpc::ServerBuilder builder)
+    ProbeData(grpc::ServerBuilder builder = {})
         : grpc_context{builder.AddCompletionQueue()}
         , tracker{std::make_shared<quite::ObjectTracker>()}
         , mouse_injector{std::make_shared<quite::probe::MouseInjector>(tracker)}
@@ -75,25 +75,27 @@ struct ProbeData final
     std::shared_ptr<quite::probe::MouseInjector> mouse_injector;
     quite::proto::ProbeService::AsyncService object_service;
 
+    QHooks::AddQObjectCallback next_add_qobject_hook_{nullptr};
+    QHooks::RemoveQObjectCallback next_remove_qobject_hook_{nullptr};
+    QHooks::StartupCallback next_startup_hook_{nullptr};
+
   private:
     std::jthread grpc_runner;
 };
 
 ProbeData &probeData()
 {
-    static ProbeData data{{}};
+    static ProbeData data{};
     return data;
 }
 
-void testAddObject(QObject *q);
-void testRemoveObject(QObject *q);
-void testStartup();
+void quite_add_object(QObject *q);
+void quite_remove_object(QObject *q);
+void quite_app_startup();
 
 void installApplicationHooks()
 {
-    QObject::connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, []() {
-        probeData().exit();
-    });
+    QObject::connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, []() { probeData().exit(); });
 }
 
 void installQHooks()
@@ -101,38 +103,48 @@ void installQHooks()
     Q_ASSERT(qtHookData[QHooks::HookDataVersion] >= 1);
     Q_ASSERT(qtHookData[QHooks::HookDataSize] >= 6);
 
+    probeData().next_add_qobject_hook_ = reinterpret_cast<QHooks::AddQObjectCallback>(qtHookData[QHooks::AddQObject]);
+    probeData().next_remove_qobject_hook_ =
+        reinterpret_cast<QHooks::RemoveQObjectCallback>(qtHookData[QHooks::RemoveQObject]);
+    probeData().next_startup_hook_ = reinterpret_cast<QHooks::StartupCallback>(qtHookData[QHooks::Startup]);
+
+    qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&quite_add_object);
+    qtHookData[QHooks::RemoveQObject] = reinterpret_cast<quintptr>(&quite_remove_object);
+    qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(&quite_app_startup);
+
     quite::probe::register_converters();
-
-    // gammaray_next_addObject =
-    // reinterpret_cast<QHooks::AddQObjectCallback>(qtHookData[QHooks::AddQObject]);
-    // gammaray_next_removeObject =
-    // reinterpret_cast<QHooks::RemoveQObjectCallback>(qtHookData[QHooks::RemoveQObject]);
-    // gammaray_next_startup_hook =
-    // reinterpret_cast<QHooks::StartupCallback>(qtHookData[QHooks::Startup]);
-
-    qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&testAddObject);
-    qtHookData[QHooks::RemoveQObject] = reinterpret_cast<quintptr>(&testRemoveObject);
-    qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(&testStartup);
     if (QCoreApplication::instance() != nullptr)
     {
         installApplicationHooks();
     }
 }
 
-void testAddObject(QObject *q)
+void quite_add_object(QObject *q)
 {
     probeData().tracker->addObject(q);
+    if (probeData().next_add_qobject_hook_ != nullptr)
+    {
+        probeData().next_add_qobject_hook_(q);
+    }
 }
 
-void testRemoveObject(QObject *q)
+void quite_remove_object(QObject *q)
 {
     probeData().tracker->removeObject(q);
+    if (probeData().next_remove_qobject_hook_ != nullptr)
+    {
+        probeData().next_remove_qobject_hook_(q);
+    }
 }
 
-void testStartup()
+void quite_app_startup()
 {
     spdlog::set_level(spdlog::level::debug);
     installApplicationHooks();
+    if (probeData().next_startup_hook_ != nullptr)
+    {
+        probeData().next_startup_hook_();
+    }
 }
 
 } // namespace
@@ -141,7 +153,7 @@ namespace quite
 {
 void setupHooks()
 {
-    probeData();
+    probeData(); // just create it at the beginnging
     installQHooks();
 }
 } // namespace quite
