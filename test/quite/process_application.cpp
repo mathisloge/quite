@@ -71,7 +71,7 @@ TEST_CASE("Test if a process application can be created")
         }
         auto img = co_await btn_obj.value()->take_snapshot();
         REQUIRE(img.has_value());
-        img->save_to("/home/mathis/dev/ng-quite/test2.png");
+        img->save_to("test2.png");
         co_return;
     }());
 }
