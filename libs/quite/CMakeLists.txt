@@ -18,7 +18,7 @@ target_include_directories(quitelib PUBLIC
 target_link_libraries(quitelib PRIVATE 
     asio::asio
     asio-grpc::asio-grpc-stdexec
-    spdlog::spdlog
+    nlohmann_json::nlohmann_json
     quite::protocol
     quite::logger
 )
@@ -38,3 +38,4 @@ target_sources(quitelib
         src/image.cpp
 )
 add_subdirectory(src/grpc_impl)
+add_subdirectory(src/utils)
