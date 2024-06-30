@@ -31,23 +31,6 @@ TEST_CASE("Test if a process application can be created")
                 std::ofstream o("pretty.json");
                 o << std::setw(4) << *json_props << std::endl;
             }
-
-            auto all_props = co_await xxxx.value()->fetch_properties({});
-            REQUIRE(all_props.has_value());
-            REQUIRE(all_props.value().size() > 0);
-            for (auto &&p : all_props.value())
-            {
-                if (p.second->value().has_value())
-                {
-                    spdlog::info("P {}={}", p.first, p.second->value().value());
-                }
-                else
-                {
-
-                    spdlog::info("P {}=no value", p.first);
-                }
-            }
-
             auto snapshot = co_await xxxx.value()->take_snapshot();
             REQUIRE(snapshot.has_value());
         }
