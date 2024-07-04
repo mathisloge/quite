@@ -52,7 +52,8 @@ std::pair<std::string, proto::Value> read_property(ObjectMeta &object_meta, cons
         spdlog::debug("prop {}={} convertable to QObject*", property.name(), property.typeName());
         value.mutable_object_val()->set_object_id(reinterpret_cast<probe::ObjectId>(property_value.value<QObject *>()));
     }
-    else if (QQmlListReference qml_list{property_value}; qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
+    else if (QQmlListReference qml_list{property_value};
+             qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
     {
         spdlog::debug("prop {}={} convertable to QQmlListReference", property.name(), property.typeName());
         const auto size = qml_list.count();
@@ -63,13 +64,14 @@ std::pair<std::string, proto::Value> read_property(ObjectMeta &object_meta, cons
                 reinterpret_cast<std::uint64_t>(obj));
         }
     }
-    else if(QMetaType::canConvert(property.metaType(), value_meta))
+    else if (QMetaType::canConvert(property.metaType(), value_meta))
     {
         spdlog::debug("prop {}={} convertable with valueconverters", property.name(), property.typeName());
         QMetaType::convert(property.metaType(), &property_value, value_meta, &value);
-    } else {
+    }
+    else
+    {
         spdlog::debug("prop {}={} not convertable", property.name(), property.typeName());
-        
     }
     return {property.name(), std::move(value)};
 }
