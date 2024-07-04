@@ -35,7 +35,6 @@ quite::Result<quite::Value> cnv_value(const quite::proto::Value &value,
     }
     else if (value.has_array_val())
     {
-        SPDLOG_LOGGER_DEBUG(logger_grpc_property(), "array");
         quite::ArrayObject array{};
         array.values.reserve(value.array_val().value_size());
         for (auto &&val : value.array_val().value())
@@ -45,7 +44,19 @@ quite::Result<quite::Value> cnv_value(const quite::proto::Value &value,
         }
         return xyz::indirect<quite::ArrayObject>(std::move(array));
     }
-    value.value_oneof_case();
+    else if (value.has_class_val())
+    {
+        quite::ClassObject class_obj{};
+        class_obj.type_name = value.class_val().type_name();
+        class_obj.members.reserve(value.class_val().value_size());
+        for (auto &&val : value.class_val().value())
+        {
+            // todo: propagate potential error up
+            class_obj.members.emplace_back(val.name(), *cnv_value(val.value(), probe_service));
+        }
+        return xyz::indirect<quite::ClassObject>(std::move(class_obj));
+    }
+
     return std::unexpected(quite::Error{
         .code = quite::ErrorCode::invalid_argument,
         .message =

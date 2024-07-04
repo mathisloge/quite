@@ -28,6 +28,11 @@ struct ToStrVisitor
     {
         return fmt::format_to(ctx.out(), "{}", "array");
     }
+
+    auto operator()(const xyz::indirect<quite::ClassObject> &class_obj) const
+    {
+        return fmt::format_to(ctx.out(), "{}->{}", "class", class_obj->type_name);
+    }
 };
 } // namespace
 

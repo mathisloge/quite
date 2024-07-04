@@ -9,6 +9,11 @@
 
 namespace quite::probe
 {
+namespace
+{
+constexpr auto value_meta = QMetaType::fromType<proto::Value>();
+}
+
 template <typename TBase, auto TFncPtr>
 void register_trivial_converter()
 {
@@ -18,6 +23,27 @@ void register_trivial_converter()
         return cnv;
     });
 }
+
+#define ADD_CLASS_MEMBER(member_name)                                                                                  \
+    {                                                                                                                  \
+        auto &&member_val = object_val->add_value();                                                                   \
+        *member_val->mutable_name() = #member_name;                                                                    \
+        auto &&read_member = value.member_name();                                                                      \
+        QMetaType::convert(QMetaType::fromType<std::remove_cvref_t<decltype(read_member)>>(),                          \
+                           &read_member,                                                                               \
+                           value_meta,                                                                                 \
+                           member_val->mutable_value());                                                               \
+    }
+
+#define ADD_CLASS_CONVERTER(class_name)                                                                                \
+    QMetaType::registerConverter<class_name, proto::Value>([](const class_name &value) {                               \
+    proto::Value cnv;                                                                                                  \
+    auto &&object_val = cnv.mutable_class_val();                                                                       \
+    *object_val->mutable_type_name() = #class_name;
+
+#define END_CLASS_CONVERTER                                                                                            \
+    return cnv;                                                                                                        \
+    });
 
 void register_converters()
 {
@@ -47,5 +73,24 @@ void register_converters()
         }
         return cnv;
     });
+
+    ADD_CLASS_CONVERTER(QRect)
+    ADD_CLASS_MEMBER(x);
+    ADD_CLASS_MEMBER(y);
+    ADD_CLASS_MEMBER(width);
+    ADD_CLASS_MEMBER(height);
+    END_CLASS_CONVERTER
+
+    ADD_CLASS_CONVERTER(QRectF)
+    ADD_CLASS_MEMBER(x);
+    ADD_CLASS_MEMBER(y);
+    ADD_CLASS_MEMBER(width);
+    ADD_CLASS_MEMBER(height);
+    END_CLASS_CONVERTER
+
+    ADD_CLASS_CONVERTER(QPoint)
+    ADD_CLASS_MEMBER(x);
+    ADD_CLASS_MEMBER(y);
+    END_CLASS_CONVERTER
 }
 } // namespace quite::probe

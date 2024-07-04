@@ -11,12 +11,28 @@ namespace quite
 {
 class RemoteObject;
 
-using Value = std::
-    variant<std::int64_t, double, bool, std::string, std::shared_ptr<RemoteObject>, xyz::indirect<struct ArrayObject>>;
+using Value = std::variant<std::int64_t,
+                           double,
+                           bool,
+                           std::string,
+                           std::shared_ptr<RemoteObject>,
+                           xyz::indirect<struct ArrayObject>,
+                           xyz::indirect<struct ClassObject>>;
 
 struct ArrayObject
 {
     std::vector<Value> values;
+};
+
+struct ClassMember
+{
+    std::string name;
+    Value value;
+};
+struct ClassObject
+{
+    std::string type_name;
+    std::vector<ClassMember> members;
 };
 class QUITELIB_EXPORT Property
 {
