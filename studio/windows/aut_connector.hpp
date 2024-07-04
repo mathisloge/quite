@@ -7,7 +7,7 @@ namespace quite::studio
 class AutConnector final
 {
   public:
-   explicit AutConnector(std::shared_ptr<ApplicationManager> app_manager);
+    explicit AutConnector(std::shared_ptr<ApplicationManager> app_manager);
     void showConnectPopup();
     void connectPopup();
 

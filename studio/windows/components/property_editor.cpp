@@ -1,12 +1,12 @@
 #include "property_editor.hpp"
 #include <algorithm>
+#include <map>
 #include <ranges>
 #include <imgui.h>
 #include <quite/create_logger.hpp>
 #include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
 #include "scheduler.hpp"
-#include <map>
 namespace
 {
 LOGGER_IMPL(comp_prop_editor)

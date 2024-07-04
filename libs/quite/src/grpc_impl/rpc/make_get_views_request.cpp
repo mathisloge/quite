@@ -5,7 +5,7 @@
 namespace quite::grpc_impl
 {
 AsyncResult<proto::GetViewsResponse> make_get_views_request(agrpc::GrpcContext &grpc_context,
-                                                         proto::ProbeService::Stub &stub)
+                                                            proto::ProbeService::Stub &stub)
 {
     using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncGetViews>;
     grpc::ClientContext client_context;

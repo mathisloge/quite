@@ -1,7 +1,7 @@
 #pragma once
-#include "quitelib_export.h"
 #include <asio/any_io_executor.hpp>
 #include <asio/executor.hpp>
+#include "quitelib_export.h"
 
 namespace quite
 {

@@ -36,7 +36,7 @@ void AutConnector::connectPopup()
 
     if (ImGui::Button("Connect##Button") or address_accepted)
     {
-        app_manager_->addApplication(""/*"/home/mathis/dev/ng-quite/build/test/simple_tester/tester"*/);
+        app_manager_->addApplication("" /*"/home/mathis/dev/ng-quite/build/test/simple_tester/tester"*/);
         ImGui::CloseCurrentPopup();
     }
 

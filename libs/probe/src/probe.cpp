@@ -55,8 +55,8 @@ struct ProbeData final
                 stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
             spdlog::error("CLOSING GRPC");
         }};
-    
-    QRect x;
+
+        QRect x;
     }
 
     ~ProbeData() = default;

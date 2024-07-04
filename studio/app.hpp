@@ -8,7 +8,7 @@ namespace quite::studio
 class App final
 {
   public:
-   explicit App(SDL_Renderer *renderer);
+    explicit App(SDL_Renderer *renderer);
     void show();
 
   private:

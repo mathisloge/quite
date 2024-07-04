@@ -9,6 +9,6 @@ target_sources(quitelib PRIVATE
     make_find_object_request.hpp
     make_mouse_click_request.cpp
     make_mouse_click_request.hpp
-    make_get_views_request.hpp 
+    make_get_views_request.hpp
     make_get_views_request.cpp
 )

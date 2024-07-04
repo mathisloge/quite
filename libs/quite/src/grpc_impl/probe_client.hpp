@@ -12,7 +12,7 @@ class ProbeClient final : public std::enable_shared_from_this<ProbeClient>
     {
         return grpc_context_;
     }
-    
+
     proto::ProbeService::Stub &stub()
     {
         return stub_;
@@ -22,4 +22,4 @@ class ProbeClient final : public std::enable_shared_from_this<ProbeClient>
     agrpc::GrpcContext &grpc_context_;
     proto::ProbeService::Stub stub_;
 };
-} // namespace quite
+} // namespace quite::grpc_impl

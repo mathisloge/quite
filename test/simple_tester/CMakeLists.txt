@@ -16,7 +16,7 @@ qt_add_qml_module(tester
     DEPENDENCIES QtQuick
 )
 
-target_link_libraries(tester PRIVATE 
+target_link_libraries(tester PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Qml

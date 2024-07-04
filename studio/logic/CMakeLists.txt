@@ -1,5 +1,5 @@
-target_sources(quite-studio PRIVATE 
-    application_manager.hpp 
+target_sources(quite-studio PRIVATE
+    application_manager.hpp
     application_manager.cpp
     scheduler.hpp
     scheduler.cpp

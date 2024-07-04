@@ -10,4 +10,4 @@ ProbeClient::ProbeClient(agrpc::GrpcContext &grpc_context)
     : grpc_context_{grpc_context}
     , stub_{::grpc::CreateChannel(std::string("localhost:50051"), ::grpc::InsecureChannelCredentials())}
 {}
-} // namespace quite::grpc
+} // namespace quite::grpc_impl
