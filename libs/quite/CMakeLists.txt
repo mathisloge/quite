@@ -1,6 +1,6 @@
 add_library(quitelib SHARED)
 add_library(quite::quite ALIAS quitelib)
-set_target_properties(quitelib PROPERTIES 
+set_target_properties(quitelib PROPERTIES
     POSITION_INDEPENDENT_CODE ON
 )
 generate_export_header(quitelib)
@@ -9,13 +9,13 @@ target_compile_definitions(quitelib PUBLIC
     SPDLOG_ACTIVE_LEVEL=${log_level}
 )
 
-target_include_directories(quitelib PUBLIC 
-    "${CMAKE_CURRENT_BINARY_DIR}" 
+target_include_directories(quitelib PUBLIC
+    "${CMAKE_CURRENT_BINARY_DIR}"
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
     ${Stb_INCLUDE_DIR}
 )
 
-target_link_libraries(quitelib PRIVATE 
+target_link_libraries(quitelib PRIVATE
     asio::asio
     asio-grpc::asio-grpc-stdexec
     nlohmann_json::nlohmann_json

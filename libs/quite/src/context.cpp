@@ -5,7 +5,7 @@ namespace quite
 {
 
 Context::Context()
-    //: grpc_workguard_{asio::make_work_guard(grpc_context_)}
+//: grpc_workguard_{asio::make_work_guard(grpc_context_)}
 {
     asio_context_.start();
     grpc_context_thread_ = std::jthread{[this]() {

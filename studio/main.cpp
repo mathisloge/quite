@@ -45,12 +45,8 @@ int main(int, char **)
 
     // Create window with SDL_Renderer graphics context
     SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-    SDL_Window *window = SDL_CreateWindow("quite studio",
-                                          SDL_WINDOWPOS_CENTERED,
-                                          SDL_WINDOWPOS_CENTERED,
-                                          1280,
-                                          720,
-                                          window_flags);
+    SDL_Window *window =
+        SDL_CreateWindow("quite studio", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
     if (window == nullptr)
     {
         SPDLOG_LOGGER_ERROR(logger_quiteide(), "SDL_CreateWindow(): {}", SDL_GetError());

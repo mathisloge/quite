@@ -21,10 +21,8 @@ int main(int argc, char *argv[])
     view.children();
 
     QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, [] {
-        spdlog::debug("hello from test app");
-    });
-    //timer.start(1000);
+    QObject::connect(&timer, &QTimer::timeout, [] { spdlog::debug("hello from test app"); });
+    // timer.start(1000);
 
     return QGuiApplication::exec();
 }

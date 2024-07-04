@@ -4,8 +4,8 @@
 namespace quite::grpc_impl
 {
 AsyncResult<proto::VoidResponse> make_mouse_click_request(agrpc::GrpcContext &grpc_context,
-                                                                        proto::ProbeService::Stub &stub,
-                                                                        ObjectId id)
+                                                          proto::ProbeService::Stub &stub,
+                                                          ObjectId id)
 {
     using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncMouseAction>;
     grpc::ClientContext client_context;
@@ -24,4 +24,4 @@ AsyncResult<proto::VoidResponse> make_mouse_click_request(agrpc::GrpcContext &gr
     }
     co_return std::unexpected(status2error(status));
 }
-} // namespace quite
+} // namespace quite::grpc_impl

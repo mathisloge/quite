@@ -49,7 +49,8 @@ void ApplicationOverview::drawWindow()
         }
         ImGui::EndTabBar();
     }
-    if(fetch_in_progress_) {
+    if (fetch_in_progress_)
+    {
         ImGui::Text("Loading views...");
     }
     ImGui::End();

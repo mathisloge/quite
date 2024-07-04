@@ -142,7 +142,7 @@ class QObjectSender
     using completion_signatures =
         stdexec::completion_signatures<stdexec::set_value_t(Args...), stdexec::set_error_t(std::exception_ptr)>;
 
-    using m_ptr_type = Ret (QObj:: *)(Args...);
+    using m_ptr_type = Ret (QObj::*)(Args...);
     QObjectSender(QObj *obj, m_ptr_type ptr)
         : m_obj(obj)
         , m_ptr(ptr)
@@ -172,7 +172,7 @@ template <class Recv, class QObj, class Ret, class... Args>
 class QObjectOperationState
 {
   public:
-    using m_ptr_type = Ret (QObj:: *)(Args...);
+    using m_ptr_type = Ret (QObj::*)(Args...);
     QObjectOperationState(Recv &&receiver, QObj *obj, m_ptr_type ptr)
         : m_receiver(std::move(receiver))
         , m_obj(obj)
@@ -197,13 +197,13 @@ class QObjectOperationState
 };
 
 template <class QObj, class Ret, class... Args>
-inline QObjectSender<QObj, Ret, Args...> qObjectAsSender(QObj *obj, Ret (QObj:: *ptr)(Args...))
+inline QObjectSender<QObj, Ret, Args...> qObjectAsSender(QObj *obj, Ret (QObj::*ptr)(Args...))
 {
     return QObjectSender<QObj, Ret, Args...>(obj, ptr);
 }
 
 template <class QObj, class Ret, class... Args>
-inline auto qObjectAsTupleSender(QObj *obj, Ret (QObj:: *ptr)(Args...))
+inline auto qObjectAsTupleSender(QObj *obj, Ret (QObj::*ptr)(Args...))
 {
     return QObjectSender<QObj, Ret, Args...>(obj, ptr) |
            stdexec::then([](Args... args) { return std::tuple<std::remove_reference_t<Args>...>(std::move(args)...); });

@@ -9,7 +9,7 @@ namespace quite::studio
 class View final
 {
   public:
-    explicit View(SDL_Renderer *renderer, const std::shared_ptr<RemoteObject>& view);
+    explicit View(SDL_Renderer *renderer, const std::shared_ptr<RemoteObject> &view);
     ~View();
 
     void draw();
@@ -33,7 +33,6 @@ class View final
         void show();
     };
     AsyncImage image_;
-
 
     PropertyEditor prop_editor_;
 };
