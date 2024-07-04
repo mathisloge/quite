@@ -38,7 +38,8 @@ void register_trivial_converter()
 #define ADD_CLASS_CONVERTER(class_name)                                                                                \
     QMetaType::registerConverter<class_name, proto::Value>([](const class_name &value) {                               \
     proto::Value cnv;                                                                                                  \
-    auto &&object_val = cnv.mutable_class_val();
+    auto &&object_val = cnv.mutable_class_val();                                                                       \
+    *object_val->mutable_type_name() = #class_name;
 
 #define END_CLASS_CONVERTER                                                                                            \
     return cnv;                                                                                                        \
