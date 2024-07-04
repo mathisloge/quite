@@ -26,7 +26,11 @@ TEST_CASE("Test if a process application can be created")
 
             {
                 auto json_props = co_await quite::dump_properties(
-                    xxxx.value(), {"objectName", "width", "height", "children", "visible"});
+                    xxxx.value(), {"objectName", "width", "height", "children", "visible", "childrenRect"});
+                if (not json_props.has_value())
+                {
+                    spdlog::error("Json error: {}", json_props.error().message);
+                }
                 REQUIRE(json_props.has_value());
                 std::ofstream o("pretty.json");
                 o << std::setw(4) << *json_props << std::endl;

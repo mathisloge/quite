@@ -6,7 +6,7 @@
 #include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
 #include "scheduler.hpp"
-
+#include <map>
 namespace
 {
 LOGGER_IMPL(comp_prop_editor)
@@ -48,8 +48,9 @@ class PropertyEditor::PropertyUi
 class SimplePrimitiveValue final : public PropertyEditor::PropertyUi
 {
   public:
-    explicit SimplePrimitiveValue(Value value)
-        : value_{std::move(value)}
+    explicit SimplePrimitiveValue(std::string name, Value value)
+        : name_{std::move(name)}
+        , value_{std::move(value)}
     {}
 
     void draw() override
@@ -60,7 +61,7 @@ class SimplePrimitiveValue final : public PropertyEditor::PropertyUi
         ImGui::AlignTextToFramePadding();
         constexpr ImGuiTreeNodeFlags flags =
             ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet;
-        ImGui::TreeNodeEx("Field", flags, "");
+        ImGui::TreeNodeEx("Field", flags, "%s", name_.c_str());
 
         ImGui::TableSetColumnIndex(1);
         ImGui::SetNextItemWidth(-FLT_MIN);
@@ -70,6 +71,7 @@ class SimplePrimitiveValue final : public PropertyEditor::PropertyUi
     }
 
   private:
+    std::string name_;
     Value value_;
 };
 
@@ -132,7 +134,7 @@ class PropertyObjectValue final : public PropertyEditor::PropertyUi
     exec::async_scope scope_;
     std::string name_;
     std::shared_ptr<RemoteObject> object_;
-    std::unordered_map<std::string, std::shared_ptr<PropertyUi>> properties_;
+    std::map<std::string, std::shared_ptr<PropertyUi>> properties_;
 };
 
 class PropertyArrayValue final : public PropertyEditor::PropertyUi
@@ -228,7 +230,8 @@ std::pair<std::string, std::shared_ptr<quite::studio::PropertyEditor::PropertyUi
                 std::make_shared<PropertyObjectValue>(
                     p.first, std::get<std::shared_ptr<RemoteObject>>(p.second->value().value()))};
     }
-    else if (std::holds_alternative<xyz::indirect<ArrayObject>>(p.second->value().value()))
+    else if (std::holds_alternative<xyz::indirect<ArrayObject>>(p.second->value().value()) or
+             std::holds_alternative<xyz::indirect<ClassObject>>(p.second->value().value()))
     {
         return {p.first, std::make_shared<PropertyArrayValue>(p.first, p.second, true)};
     }
@@ -242,17 +245,18 @@ std::unique_ptr<quite::studio::PropertyEditor::PropertyUi> make_value_wrapper(st
         auto obj = std::get<std::shared_ptr<RemoteObject>>(value);
         return std::make_unique<PropertyObjectValue>(std::move(name), obj);
     }
-    return std::make_unique<SimplePrimitiveValue>(value);
+    return std::make_unique<SimplePrimitiveValue>(std::move(name), value);
 }
 } // namespace
 
 void PropertyObjectValue::fetch_properties()
 {
     scope_.spawn(stdexec::on(get_scheduler(), [](PropertyObjectValue *self) -> exec::task<void> {
-        SPDLOG_LOGGER_DEBUG(logger_comp_prop_editor(), "Fetching properties...");
         auto props = co_await self->object_->fetch_properties({});
+        SPDLOG_LOGGER_DEBUG(logger_comp_prop_editor(), "Got properties.");
         if (props.has_value())
         {
+            self->properties_.clear();
             const auto insert_property = [self](auto &&prop_ui) { self->properties_.insert(std::move(prop_ui)); };
             std::ranges::for_each(props.value() | std::views::filter([](auto &&prop_pair) {
                                       return prop_pair.second->value().has_value();
@@ -298,23 +302,33 @@ void PropertyArrayValue::fetch_properties()
     scope_.spawn(stdexec::on(get_scheduler(), [](PropertyArrayValue *self) -> exec::task<void> {
         auto values = co_await self->property_->read();
 
-        auto ui_elements =
-            values.transform([](auto &&value) -> std::expected<std::vector<std::unique_ptr<PropertyUi>>, Error> {
-                if (std::holds_alternative<xyz::indirect<ArrayObject>>(value))
+        auto ui_elements = values.transform([](auto &&value) -> Result<std::vector<std::unique_ptr<PropertyUi>>> {
+            if (std::holds_alternative<xyz::indirect<ArrayObject>>(value))
+            {
+                std::vector<std::unique_ptr<PropertyUi>> ui;
+                const auto &values = (*std::get<xyz::indirect<ArrayObject>>(value)).values;
+                ui.reserve(values.size());
+
+                for (auto &&[index, v] : std::views::enumerate(values))
                 {
-                    std::vector<std::unique_ptr<PropertyUi>> ui;
-                    const auto &values = (*std::get<xyz::indirect<ArrayObject>>(value)).values;
-                    ui.reserve(values.size());
-
-                    for (auto &&[index, v] : std::views::enumerate(values))
-                    {
-                        ui.emplace_back(make_value_wrapper(std::format("[{}]", index), v));
-                    }
-                    return ui;
+                    ui.emplace_back(make_value_wrapper(std::format("[{}]", index), std::move(v)));
                 }
-
-                return std::unexpected{Error{.code = ErrorCode::invalid_argument, .message = "Expected an array type"}};
-            });
+                return ui;
+            }
+            else if (std::holds_alternative<xyz::indirect<ClassObject>>(value))
+            {
+                std::vector<std::unique_ptr<PropertyUi>> ui;
+                const auto &class_obj = (*std::get<xyz::indirect<ClassObject>>(value));
+                ui.reserve(class_obj.members.size());
+                for (auto &&[index, member] : std::views::enumerate(class_obj.members))
+                {
+                    ui.emplace_back(make_value_wrapper(std::move(member.name), std::move(member.value)));
+                }
+                return ui;
+            }
+            return std::unexpected{
+                Error{.code = ErrorCode::invalid_argument, .message = "Expected an array or class type"}};
+        });
         if (ui_elements->has_value())
         {
             self->properties_ = std::move(ui_elements->value());
