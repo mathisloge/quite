@@ -4,6 +4,12 @@ package quite.proto;
 // If the value is a non queryable object, use the metatypes
 message ClassValue {
     string type_name = 1;
+
+    message ClassMember {
+        string name = 1;
+        Value value = 2;
+    };
+    repeated ClassMember value = 2;
 }
 
 // If the value is a queryable object (RemoteObject) just return the object_id.

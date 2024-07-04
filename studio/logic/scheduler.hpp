@@ -1,7 +1,7 @@
 #pragma once
-#include <exec/single_thread_context.hpp>
+#include <exec/static_thread_pool.hpp>
 
 namespace quite::studio
 {
-stdexec::__loop::run_loop::__scheduler get_scheduler();
+exec::static_thread_pool::scheduler get_scheduler();
 }

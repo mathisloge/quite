@@ -40,13 +40,30 @@ struct ValueVisitor
         out = nlohmann::json::array();
         for (auto &&value : array->values)
         {
-            auto&& target = out.emplace_back(nlohmann::json::object());
+            auto &&target = out.emplace_back(nlohmann::json::object());
             auto prop_result = co_await std::visit(ValueVisitor{visited_objects, properties, target}, value);
             if (not prop_result.has_value())
             {
                 co_return std::unexpected(prop_result.error());
             }
         }
+        co_return {};
+    }
+    AsyncResult<void> operator()(const xyz::indirect<ClassObject> &class_obj)
+    {
+        out = nlohmann::json::object();
+        out["type_name"] = class_obj->type_name;
+        auto members = nlohmann::json::object();
+        for (auto &&member : class_obj->members)
+        {
+            auto &&target = members[member.name];
+            auto prop_result = co_await std::visit(ValueVisitor{visited_objects, properties, target}, member.value);
+            if (not prop_result.has_value())
+            {
+                co_return std::unexpected(prop_result.error());
+            }
+        }
+        out["members"] = std::move(members);
         co_return {};
     }
 };
