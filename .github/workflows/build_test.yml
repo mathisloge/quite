@@ -54,7 +54,9 @@ jobs:
             sudo apt-get update
             sudo apt-get -y install \
               ninja-build \
-              qt6-base-dev
+              qt6-base-dev \
+              libqt6qml6 \
+              libqt6gui6
           elif [ "${RUNNER_OS}" == "macOS" ]; then
             brew install \
               ninja
