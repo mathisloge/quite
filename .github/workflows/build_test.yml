@@ -32,7 +32,6 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: seanmiddleditch/gha-setup-ninja@v5
       - uses: actions/checkout@v4
 
       - name: Checkout vcpkg
@@ -48,7 +47,20 @@ jobs:
           script: |
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
-
+      - name: Install required system packages
+        shell: bash
+        run: |
+          if [ "${RUNNER_OS}" == "Linux" ]; then
+            sudo apt-get update
+            sudo apt-get -y install \
+              ninja-build
+          elif [ "${RUNNER_OS}" == "macOS" ]; then
+            brew install \
+              ninja
+          elif [ "${RUNNER_OS}" == "Windows" ]; then
+            choco install \
+              ninja
+          fi
       - name: Build
         run: > 
           cmake --preset developer-gcc
