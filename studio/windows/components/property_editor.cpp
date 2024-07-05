@@ -232,7 +232,7 @@ std::pair<std::string, std::shared_ptr<quite::studio::PropertyEditor::PropertyUi
                     p.first, std::get<std::shared_ptr<RemoteObject>>(p.second->value().value()))};
     }
     if (std::holds_alternative<xyz::indirect<ArrayObject>>(p.second->value().value()) or
-             std::holds_alternative<xyz::indirect<ClassObject>>(p.second->value().value()))
+        std::holds_alternative<xyz::indirect<ClassObject>>(p.second->value().value()))
     {
         return {p.first, std::make_shared<PropertyArrayValue>(p.first, p.second, true)};
     }
