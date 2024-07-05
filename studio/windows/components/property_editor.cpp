@@ -17,7 +17,7 @@ namespace quite::studio
 
 struct PropertyValueVisitor final
 {
-    void operator()(auto &&value) const noexcept
+    void operator()(auto && /*value*/) const noexcept
     {
         ImGui::Text("%s", "BUG: this should not be a PropertyPrimitiveValue");
     }
@@ -41,7 +41,8 @@ struct PropertyValueVisitor final
 class PropertyEditor::PropertyUi
 {
   public:
-    ~PropertyUi() = default;
+    PropertyUi() = default;
+    virtual ~PropertyUi() = default;
     virtual void draw() {};
 };
 
@@ -59,9 +60,9 @@ class SimplePrimitiveValue final : public PropertyEditor::PropertyUi
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex(0);
         ImGui::AlignTextToFramePadding();
-        constexpr ImGuiTreeNodeFlags flags =
+        constexpr ImGuiTreeNodeFlags kFlags =
             ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet;
-        ImGui::TreeNodeEx("Field", flags, "%s", name_.c_str());
+        ImGui::TreeNodeEx("Field", kFlags, "%s", name_.c_str());
 
         ImGui::TableSetColumnIndex(1);
         ImGui::SetNextItemWidth(-FLT_MIN);
@@ -230,7 +231,7 @@ std::pair<std::string, std::shared_ptr<quite::studio::PropertyEditor::PropertyUi
                 std::make_shared<PropertyObjectValue>(
                     p.first, std::get<std::shared_ptr<RemoteObject>>(p.second->value().value()))};
     }
-    else if (std::holds_alternative<xyz::indirect<ArrayObject>>(p.second->value().value()) or
+    if (std::holds_alternative<xyz::indirect<ArrayObject>>(p.second->value().value()) or
              std::holds_alternative<xyz::indirect<ClassObject>>(p.second->value().value()))
     {
         return {p.first, std::make_shared<PropertyArrayValue>(p.first, p.second, true)};
@@ -257,7 +258,9 @@ void PropertyObjectValue::fetch_properties()
         if (props.has_value())
         {
             self->properties_.clear();
-            const auto insert_property = [self](auto &&prop_ui) { self->properties_.insert(std::move(prop_ui)); };
+            const auto insert_property = [self](auto &&prop_ui) {
+                self->properties_.insert(std::forward<decltype(prop_ui)>(prop_ui));
+            };
             std::ranges::for_each(props.value() | std::views::filter([](auto &&prop_pair) {
                                       return prop_pair.second->value().has_value();
                                   }) | std::views::transform(make_property_wrapper),
@@ -315,7 +318,7 @@ void PropertyArrayValue::fetch_properties()
                 }
                 return ui;
             }
-            else if (std::holds_alternative<xyz::indirect<ClassObject>>(value))
+            if (std::holds_alternative<xyz::indirect<ClassObject>>(value))
             {
                 std::vector<std::unique_ptr<PropertyUi>> ui;
                 const auto &class_obj = (*std::get<xyz::indirect<ClassObject>>(value));
