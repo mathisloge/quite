@@ -11,7 +11,7 @@
             "hidden": true,
             "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
-            "toolchainFile": "~/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "toolchainFile": "$env{VCPKG_HOME}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake/vcpkg"
