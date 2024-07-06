@@ -36,11 +36,13 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                     {
                         auto &&obj = obj_exp.value();
                         auto meta_obj = ObjectMeta::from_qobject(obj);
-                        auto prop = read_property(meta_obj,
-                                                  meta_obj.meta_object->property(
-                                                      meta_obj.meta_object->indexOfProperty(property_name.c_str())));
+                        const auto property_index = meta_obj.meta_object->indexOfProperty(property_name.c_str());
+                        if (property_index >= 0)
+                        {
+                            auto prop = read_property(meta_obj, meta_obj.meta_object->property(property_index));
 
-                        response.mutable_property_values()->emplace(std::move(prop.first), std::move(prop.second));
+                            response.mutable_property_values()->emplace(std::move(prop.first), std::move(prop.second));
+                        }
                     }
                 }
             }

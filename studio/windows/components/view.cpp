@@ -17,6 +17,7 @@ View::View(SDL_Renderer *renderer, const std::shared_ptr<RemoteObject> &view)
     , view_{view}
     , image_{renderer_}
     , prop_editor_{view}
+    , element_view_{view}
 {
     fetch_image();
 };
@@ -29,14 +30,20 @@ View::~View()
 
 void View::draw()
 {
-    ImGui::BeginChild("property pane", ImVec2{350, 0}, ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX);
+    ImGui::BeginChild("visual tree", ImVec2{350, 0}, ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX);
+    element_view_.draw();
+    ImGui::EndChild();
+
+    ImGui::SameLine();
+
+    ImGui::BeginChild("property_view", ImVec2(150, 0), ImGuiChildFlags_Border | ImGuiChildFlags_ResizeX);
     prop_editor_.draw();
     ImGui::EndChild();
 
     ImGui::SameLine();
 
     ImGui::BeginGroup();
-    ImGui::BeginChild("display view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()));
+    ImGui::BeginChild("display view", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), ImGuiChildFlags_Border);
     if (ImGui::Button("Refresh image"))
     {
         fetch_image();
