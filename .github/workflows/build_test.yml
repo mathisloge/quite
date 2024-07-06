@@ -65,3 +65,11 @@ jobs:
       - name: Build
         run: > 
           cmake --preset developer-gcc
+          
+      - name: Upload vcpkg logs
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: logs
+          path: vcpkg/buildtrees/*/*.log
+          retention-days: 2
