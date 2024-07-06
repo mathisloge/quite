@@ -4,6 +4,7 @@
 #include <imgui.h>
 #include <quite/application.hpp>
 #include "property_editor.hpp"
+#include "element_tree_view.hpp"
 namespace quite::studio
 {
 class View final
@@ -35,5 +36,6 @@ class View final
     AsyncImage image_;
 
     PropertyEditor prop_editor_;
+    ElementTreeView element_view_;
 };
 } // namespace quite::studio

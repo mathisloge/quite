@@ -13,6 +13,8 @@ class PropertyEditor final
     ~PropertyEditor();
     void draw();
 
+    void set_root(std::shared_ptr<RemoteObject> new_root);
+
   private:
     std::unique_ptr<PropertyUi> root_;
 };
