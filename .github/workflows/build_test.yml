@@ -53,7 +53,8 @@ jobs:
           if [ "${RUNNER_OS}" == "Linux" ]; then
             sudo apt-get update
             sudo apt-get -y install \
-              ninja-build autoconf automake autoconf-archive
+              ninja-build autoconf automake autoconf-archive \
+              libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libegl1-mesa-dev
           elif [ "${RUNNER_OS}" == "macOS" ]; then
             brew install \
               ninja autoconf automake autoconf-archive
