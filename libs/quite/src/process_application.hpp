@@ -20,6 +20,6 @@ class ProcessApplication final : public grpc_impl::GrpcApplication
     asio::readable_pipe stdout_pipe_;
     asio::readable_pipe stderr_pipe_;
 
-    std::array<char, 1024> buffer;
+    std::array<char, 1024> buffer_{};
 };
 } // namespace quite

@@ -23,18 +23,18 @@ ProcessApplication::~ProcessApplication() = default;
 
 void ProcessApplication::do_read()
 {
-    stdout_pipe_.async_read_some(asio::buffer(buffer), [this](std::error_code ec, std::size_t length) {
+    stdout_pipe_.async_read_some(asio::buffer(buffer_), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {
-            spdlog::debug("out {}", std::string_view{buffer.begin(), length});
+            spdlog::debug("out {}", std::string_view{buffer_.begin(), length});
             do_read();
         }
     });
 
-    stderr_pipe_.async_read_some(asio::buffer(buffer), [this](std::error_code ec, std::size_t length) {
+    stderr_pipe_.async_read_some(asio::buffer(buffer_), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {
-            spdlog::debug("err {}", std::string_view{buffer.begin(), length});
+            spdlog::debug("err {}", std::string_view{buffer_.begin(), length});
             do_read();
         }
     });
