@@ -14,7 +14,8 @@
             "toolchainFile": "$env{VCPKG_HOME}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake/vcpkg"
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake/vcpkg",
+                "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays"
             }
         },
         {
