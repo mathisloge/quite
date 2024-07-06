@@ -53,10 +53,10 @@ jobs:
           if [ "${RUNNER_OS}" == "Linux" ]; then
             sudo apt-get update
             sudo apt-get -y install \
-              ninja-build
+              ninja-build autoconf automake autoconf-archive
           elif [ "${RUNNER_OS}" == "macOS" ]; then
             brew install \
-              ninja
+              ninja autoconf automake autoconf-archive
           elif [ "${RUNNER_OS}" == "Windows" ]; then
             choco install \
               ninja
