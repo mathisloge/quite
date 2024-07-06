@@ -7,6 +7,7 @@ qt_add_executable(tester
 
 qt_add_qml_module(tester
     URI hello
+    VERSION 1.0
     QML_FILES
         main.qml
     SOURCES
