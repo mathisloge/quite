@@ -14,7 +14,7 @@ void ApplicationManager::addApplication(const std::string &application)
 
 void ApplicationManager::draw()
 {
-    for (auto &&o : overviews_)
+    for (const auto &o : overviews_)
     {
         o->drawWindow();
     }

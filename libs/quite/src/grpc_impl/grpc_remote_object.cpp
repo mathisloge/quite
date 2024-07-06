@@ -1,11 +1,10 @@
 #include "grpc_remote_object.hpp"
-#include <ranges>
 #include <quite/create_logger.hpp>
 #include <quite/image.hpp>
 #include <quite/logger_macros.hpp>
 #include <spdlog/spdlog.h>
 #include "grpc_property.hpp"
-#include "probe_client.hpp"
+#include "probe_client.hpp" // NOLINT
 #include "rpc/make_create_snapshot_request.hpp"
 #include "rpc/make_get_object_properties_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
@@ -27,7 +26,7 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
     SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "get properties[{}] for object={}", fmt::join(properties, ","), id_);
     const auto response =
         co_await make_get_object_properties_request(probe_service_->context(), probe_service_->stub(), id_, properties);
-    co_return response.and_then([&](auto &&reply) -> Result<RetVal> {
+    co_return response.and_then([&](auto && /*reply*/) -> Result<RetVal> {
         RetVal values;
         for (auto &&val : response->property_values())
         {
@@ -62,7 +61,7 @@ AsyncResult<void> GrpcRemoteObject::mouse_action()
     SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "mouse_action for object={}", id_);
     const auto response = co_await make_mouse_click_request(probe_service_->context(), probe_service_->stub(), id_);
 
-    co_return response.and_then([&](auto &&reply) -> Result<void> { return {}; });
+    co_return response.and_then([&](auto && /*reply*/) -> Result<void> { return {}; });
 }
 
 AsyncResult<Image> GrpcRemoteObject::take_snapshot()
