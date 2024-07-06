@@ -16,6 +16,7 @@
                 "sdl2-renderer-binding"
             ]
         },
-        "nlohmann-json"
+        "nlohmann-json",
+        "qtbase"
     ]
 }
