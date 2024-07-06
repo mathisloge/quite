@@ -62,7 +62,7 @@ jobs:
               ninja
           fi
       - name: Build
-        run: > 
+        run: |
           cmake --preset developer-gcc
           cmake --build --preset developer-gcc
           
