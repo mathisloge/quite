@@ -63,6 +63,7 @@ jobs:
           fi
       - name: Build
         run: > 
+          cmake --preset developer-gcc
           cmake --build --preset developer-gcc
           
       - name: Upload vcpkg logs
