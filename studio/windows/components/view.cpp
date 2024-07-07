@@ -17,9 +17,7 @@ View::View(SDL_Renderer *renderer, const std::shared_ptr<RemoteObject> &view)
     , tree_{view}
     , prop_editor_{view}
     , image_view_{tree_, renderer_}
-    , element_view_{tree_, prop_editor_, image_view_}
-{
-};
+    , element_view_{tree_, prop_editor_, image_view_} {};
 
 View::~View() = default;
 
