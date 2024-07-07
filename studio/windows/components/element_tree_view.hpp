@@ -1,21 +1,24 @@
 #pragma once
 #include <quite/remote_object.hpp>
-
+#include "object_tree.hpp"
+#include "property_editor.hpp"
+#include "image_view.hpp"
 namespace quite::studio
 {
 class ElementTreeView
 {
   public:
-    explicit ElementTreeView(std::shared_ptr<RemoteObject> root);
+    explicit ElementTreeView(ObjectTree& tree, PropertyEditor& property_editor, ImageView& image_view);
     ~ElementTreeView();
     void draw();
 
   private:
-    class TreeElement;
-    void set_selected_element(std::shared_ptr<TreeElement> element);
+    void draw_tree_node(const ObjectTree::ObjectNode &node);
 
   private:
-    std::shared_ptr<TreeElement> root_;
-    std::shared_ptr<TreeElement> current_;
+    ObjectTree& tree_;
+    const ObjectTree::ObjectNode *current_{nullptr};
+    PropertyEditor& property_editor_;
+    ImageView& image_view_;
 };
 } // namespace quite::studio

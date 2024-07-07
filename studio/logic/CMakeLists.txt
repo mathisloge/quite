@@ -1,6 +1,8 @@
 target_sources(quite-studio PRIVATE
     application_manager.hpp
     application_manager.cpp
+    object_tree.hpp
+    object_tree.cpp
     scheduler.hpp
     scheduler.cpp
 )
