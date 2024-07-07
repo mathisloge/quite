@@ -3,8 +3,8 @@
 #include <imgui.h>
 #include <quite/application.hpp>
 #include "element_tree_view.hpp"
-#include "property_editor.hpp"
 #include "image_view.hpp"
+#include "property_editor.hpp"
 namespace quite::studio
 {
 class View final
