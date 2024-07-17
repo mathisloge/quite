@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <memory>
 #include <vector>
+#include <span>
 #include "quitelib_export.h"
 
 namespace quite
