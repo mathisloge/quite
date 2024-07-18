@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.28)
-project(quite CXX)
+project(quite VERSION 0.0.1 LANGUAGES CXX)
 
 include(CTest)
 include(GenerateExportHeader)
 include(FeatureSummary)
-
-
+include(GNUInstallDirs)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -41,3 +40,40 @@ add_subdirectory(test)
 
 feature_summary(WHAT ENABLED_FEATURES DESCRIPTION "Enabled features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
+
+
+include(CMakePackageConfigHelpers)
+
+install(TARGETS probe
+    EXPORT quiteTargets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/quite")
+
+install(EXPORT quiteTargets
+    FILE quiteTargets.cmake
+    NAMESPACE quite::
+    DESTINATION "${config_install_dir}"
+)
+
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/quiteConfig.cmake"
+    INSTALL_DESTINATION "${config_install_dir}"
+)
+
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/quiteConfigVersion.cmake"
+  VERSION "${CMAKE_PROJECT_VERSION}"
+  COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES
+          "${CMAKE_CURRENT_BINARY_DIR}/quiteConfig.cmake"
+          "${CMAKE_CURRENT_BINARY_DIR}/quiteConfigVersion.cmake"
+        DESTINATION "${config_install_dir}"
+)
