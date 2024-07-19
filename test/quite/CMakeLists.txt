@@ -10,4 +10,5 @@ catch_discover_tests(api_test)
 
 target_sources(api_test PRIVATE
     process_application.cpp
+    remote_object_test.cpp
 )

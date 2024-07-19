@@ -1,17 +1,16 @@
+#include <fstream>
 #include <asio/co_spawn.hpp>
 #include <asio/detached.hpp>
 #include <asio/steady_timer.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <nlohmann/json.hpp>
 #include <quite/application.hpp>
 #include <quite/asio2exec.hpp>
 #include <quite/property.hpp>
 #include <quite/quite.hpp>
+#include <quite/utils/dump_properties.hpp>
 #include <spdlog/spdlog.h>
 #include <tester_app.hpp>
-#include "quite/utils/dump_properties.hpp"
-
-#include <fstream>
-#include <nlohmann/json.hpp>
 
 TEST_CASE("Test if a process application can be created")
 {
@@ -19,6 +18,9 @@ TEST_CASE("Test if a process application can be created")
         spdlog::set_level(spdlog::level::level_enum::trace);
 
         auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
+
+        auto views = co_await app->get_views();
+        REQUIRE(views.has_value());
 
         {
             auto xxxx = co_await app->find_object("testRoot");

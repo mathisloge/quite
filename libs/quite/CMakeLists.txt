@@ -10,8 +10,9 @@ target_compile_definitions(quitelib PUBLIC
 )
 
 target_include_directories(quitelib PUBLIC
-    "${CMAKE_CURRENT_BINARY_DIR}"
-    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
     ${Stb_INCLUDE_DIR}
 )
 

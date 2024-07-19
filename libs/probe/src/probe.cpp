@@ -33,7 +33,7 @@ struct ProbeData final
     {
         using namespace quite;
         builder.RegisterService(&object_service);
-        builder.AddListeningPort("0.0.0.0:50051", grpc::InsecureServerCredentials());
+        builder.AddListeningPort("unix:///tmp/grpc_probe.sock", grpc::InsecureServerCredentials());
         server = builder.BuildAndStart();
 
         grpc_runner = std::jthread{[this]() {

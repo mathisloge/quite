@@ -5,6 +5,9 @@
 #include "remote_object.hpp"
 namespace quite
 {
+
+class Application;
+using ApplicationPtr = std::shared_ptr<Application>;
 class QUITELIB_EXPORT Application
 {
   public:
@@ -16,6 +19,6 @@ class QUITELIB_EXPORT Application
     Application();
 
   public:
-    static std::shared_ptr<Application> CreateApplication(const std::string &path_to_application);
+    static ApplicationPtr CreateApplication(const std::string &path_to_application);
 };
 } // namespace quite
