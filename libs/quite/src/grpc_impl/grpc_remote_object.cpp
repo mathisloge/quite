@@ -23,7 +23,7 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
     const std::vector<std::string_view> &properties)
 {
     using RetVal = std::unordered_map<std::string, std::shared_ptr<Property>>;
-    SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "get properties[{}] for object={}", fmt::join(properties, ","), id_);
+    SPDLOG_LOGGER_DEBUG(logger_grpc_remote_obj(), "get properties[{}] for object={}", fmt::join(properties, ","), id_);
     const auto response =
         co_await make_get_object_properties_request(probe_service_->context(), probe_service_->stub(), id_, properties);
     co_return response.and_then([&](auto && /*reply*/) -> Result<RetVal> {

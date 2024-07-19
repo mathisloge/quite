@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <memory>
+#include <span>
 #include <vector>
 #include "quitelib_export.h"
 
