@@ -2,8 +2,8 @@
 #include <cstdint>
 #include <filesystem>
 #include <memory>
-#include <vector>
 #include <span>
+#include <vector>
 #include "quitelib_export.h"
 
 namespace quite
