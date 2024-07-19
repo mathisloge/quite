@@ -194,6 +194,11 @@ void PropertyEditor::draw()
     ImGui::PopStyleVar();
 }
 
+void PropertyEditor::set_root(std::shared_ptr<RemoteObject> new_root)
+{
+    root_ = std::make_unique<PropertyObjectValue>("Root", std::move(new_root), true);
+}
+
 void PropertyObjectValue::draw()
 {
     ImGui::PushID(object_.get());
