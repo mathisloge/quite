@@ -23,7 +23,7 @@ TEST_CASE("Test if a process application can be created")
         REQUIRE(views.has_value());
 
         {
-            auto xxxx = co_await app->find_object("testRoot");
+            auto xxxx = co_await app->find_object({.properties = {{"objectName", "testRoot"}}});
             REQUIRE(xxxx.has_value());
 
             {
@@ -42,9 +42,9 @@ TEST_CASE("Test if a process application can be created")
         }
         co_await app->get_views();
 
-        auto btn_obj = co_await app->find_object("worldBtn");
+        auto btn_obj = co_await app->find_object({.properties = {"objectName", "worldBtn"}});
         REQUIRE(btn_obj.has_value());
-        auto text_area_res = co_await app->find_object("textArea");
+        auto text_area_res = co_await app->find_object({.properties = {"objectName", "textArea"}});
         REQUIRE(text_area_res.has_value());
         auto text_area = text_area_res.value();
         {
