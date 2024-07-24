@@ -9,7 +9,7 @@ class GrpcApplication : public Application
 {
   public:
     explicit GrpcApplication(Context &context);
-    AsyncResult<std::shared_ptr<RemoteObject>> find_object(std::string_view object_name) override;
+    AsyncResult<std::shared_ptr<RemoteObject>> find_object(const ObjectQuery &query) override;
     AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> get_views() override;
 
   private:

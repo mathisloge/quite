@@ -18,11 +18,11 @@ GrpcApplication::GrpcApplication(Context &context)
     : probe_handle_{std::make_shared<grpc_impl::ProbeClient>(context.grpcContext())}
 {}
 
-AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(std::string_view object_name)
+AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(const ObjectQuery &query)
 {
-    SPDLOG_LOGGER_TRACE(logger_grpc_application(), "Starting request with object_name={}", object_name);
-    auto response =
-        co_await grpc_impl::make_find_object_request(probe_handle_->context(), probe_handle_->stub(), object_name);
+    SPDLOG_LOGGER_TRACE(logger_grpc_application(), "Starting request with object_name={}", query);
+    auto response = co_await grpc_impl::make_find_object_request(
+        probe_handle_->context(), probe_handle_->stub(), std::get<std::string>(query.properties.at("objectName")));
     co_return response.and_then([&](proto::ObjectReply &reply) -> Result<std::shared_ptr<RemoteObject>> {
         return std::make_shared<GrpcRemoteObject>(reply.object_id(), probe_handle_);
     });
