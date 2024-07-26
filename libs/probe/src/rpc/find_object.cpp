@@ -18,7 +18,7 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
                                    auto it = request.query().properties().find("objectName");
                                    if (it != request.query().properties().end())
                                    {
-                                       return tracker.findObject(it->second);
+                                       return tracker.findObject(it->second.string_val());
                                    }
                                    return std::unexpected(ObjectErrC::not_found);
                                });

@@ -18,6 +18,11 @@ service ProbeService {
     rpc MetaTypeFromObject(MetaTypeFromObjectRequest) returns (MetaTypeFromObjectResponse) {};
 }
 
+message ObjectSearchQuery {
+    map<string, Value> properties = 1;
+    optional ObjectSearchQuery parent = 2;
+}
+
 message ObjectRequest {
   ObjectSearchQuery query = 1;
 }
