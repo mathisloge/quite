@@ -21,9 +21,9 @@ GrpcApplication::GrpcApplication(Context &context)
 AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(const ObjectQuery &query)
 {
     SPDLOG_LOGGER_TRACE(logger_grpc_application(), "Starting request with object_name={}", query);
-    auto response = co_await grpc_impl::make_find_object_request(
-        probe_handle_->context(), probe_handle_->stub(), std::get<std::string>(query.properties.at("objectName")));
-    co_return response.and_then([&](proto::ObjectReply &reply) -> Result<std::shared_ptr<RemoteObject>> {
+    const auto response =
+        co_await grpc_impl::make_find_object_request(probe_handle_->context(), probe_handle_->stub(), query);
+    co_return response.and_then([&](const proto::ObjectReply &reply) -> Result<std::shared_ptr<RemoteObject>> {
         return std::make_shared<GrpcRemoteObject>(reply.object_id(), probe_handle_);
     });
 }
@@ -31,9 +31,9 @@ AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(const Ob
 AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> GrpcApplication::get_views()
 {
     SPDLOG_LOGGER_TRACE(logger_grpc_application(), "Requesting top level views from {}", "[TODO:APPNAME]");
-    auto response = co_await grpc_impl::make_get_views_request(probe_handle_->context(), probe_handle_->stub());
+    const auto response = co_await grpc_impl::make_get_views_request(probe_handle_->context(), probe_handle_->stub());
     co_return response.and_then(
-        [&](proto::GetViewsResponse &reply) -> Result<std::vector<std::shared_ptr<RemoteObject>>> {
+        [&](const proto::GetViewsResponse &reply) -> Result<std::vector<std::shared_ptr<RemoteObject>>> {
             std::vector<std::shared_ptr<RemoteObject>> views;
             views.reserve(reply.object_id_size());
             for (auto &&obj : reply.object_id())

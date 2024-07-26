@@ -29,11 +29,13 @@ struct ClassMember
     std::string name;
     Value value;
 };
+
 struct ClassObject
 {
     std::string type_name;
     std::vector<ClassMember> members;
 };
+
 class QUITELIB_EXPORT Property
 {
   public:

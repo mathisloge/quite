@@ -49,7 +49,6 @@ void ObjectTracker::processNewObjects()
         // dump_props(obj);
         if (obj->parent() == nullptr and obj->isWindowType())
         {
-            obj->dumpObjectInfo();
             top_level_views_.emplace(obj);
         }
         tracked_objects_.emplace(obj);
