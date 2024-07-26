@@ -42,9 +42,9 @@ TEST_CASE("Test if a process application can be created")
         }
         co_await app->get_views();
 
-        auto btn_obj = co_await app->find_object({.properties = {"objectName", "worldBtn"}});
+        auto btn_obj = co_await app->find_object({.properties = {{"objectName", "worldBtn"}}});
         REQUIRE(btn_obj.has_value());
-        auto text_area_res = co_await app->find_object({.properties = {"objectName", "textArea"}});
+        auto text_area_res = co_await app->find_object({.properties = {{"objectName", "textArea"}}});
         REQUIRE(text_area_res.has_value());
         auto text_area = text_area_res.value();
         {
