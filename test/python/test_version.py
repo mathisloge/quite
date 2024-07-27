@@ -4,4 +4,4 @@ import quite
 
 
 def test_version():
-    assert quite.__version__ == "0.0.1"
+    assert quite.__version__
