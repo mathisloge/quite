@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.28)
 project(quite VERSION 0.0.1 LANGUAGES CXX)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 include(CTest)
 include(GenerateExportHeader)
 include(FeatureSummary)
 include(GNUInstallDirs)
+include(GitVersionDetect)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -15,7 +18,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(log_level SPDLOG_LEVEL_TRACE)
 
-message(STATUS "Using log level: ${log_level}")
+message(STATUS "Using log level: ${GITVERSIONDETECT_VERSION_COMMIT_NUM}")
 
 find_package(stdexec CONFIG REQUIRED)
 set_package_properties(stdexec PROPERTIES URL "https://github.com/NVIDIA/stdexec" PURPOSE "needed for async code. should be disabled for *hopefully* c++26.")
@@ -35,6 +38,7 @@ find_package(Catch2 CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 
 add_subdirectory(libs)
+add_subdirectory(python)
 add_subdirectory(studio)
 add_subdirectory(test)
 

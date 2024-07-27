@@ -9,7 +9,7 @@
         "stb",
         {
             "name": "imgui",
-            "features":[
+            "features": [
                 "freetype",
                 "docking-experimental",
                 "sdl2-binding",
@@ -17,6 +17,7 @@
             ]
         },
         "nlohmann-json",
-        "qtbase"
+        "qtbase",
+        "pybind11"
     ]
 }
