@@ -12,6 +12,7 @@
             "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
             "toolchainFile": "$env{VCPKG_HOME}/scripts/buildsystems/vcpkg.cmake",
+            "installDir": "/home/mathis/dev/dev-install/",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake/vcpkg",
