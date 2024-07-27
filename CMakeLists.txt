@@ -7,7 +7,7 @@ include(CTest)
 include(GenerateExportHeader)
 include(FeatureSummary)
 include(GNUInstallDirs)
-include(GitVersionDetect)
+include(GetGitRevisionDescription)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -18,7 +18,10 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(log_level SPDLOG_LEVEL_TRACE)
 
-message(STATUS "Using log level: ${GITVERSIONDETECT_VERSION_COMMIT_NUM}")
+get_git_head_revision(git_branch git_sha)
+message(STATUS "git_sha: ${git_sha}")
+message(STATUS "git_branch: ${git_branch}")
+message(STATUS "Using log level: ${log_level}")
 
 find_package(stdexec CONFIG REQUIRED)
 set_package_properties(stdexec PROPERTIES URL "https://github.com/NVIDIA/stdexec" PURPOSE "needed for async code. should be disabled for *hopefully* c++26.")
