@@ -11,6 +11,7 @@ class GrpcApplication : public Application
     explicit GrpcApplication(Context &context);
     AsyncResult<std::shared_ptr<RemoteObject>> find_object(const ObjectQuery &query) override;
     AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> get_views() override;
+    AsyncResult<void> exit() override;
 
   private:
     ProbeServiceHandle probe_handle_;

@@ -1,6 +1,8 @@
 target_sources(probe PRIVATE
     create_snapshot.cpp
     create_snapshot.hpp
+    exit_request.cpp
+    exit_request.hpp
     find_object.cpp
     find_object.hpp
     get_object_properties.cpp

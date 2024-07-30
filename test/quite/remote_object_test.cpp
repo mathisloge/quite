@@ -16,9 +16,10 @@ TEST_CASE("Remote object can be invoked")
 {
     spdlog::set_level(spdlog::level::level_enum::trace);
     auto app = Application::CreateApplication(TESTER_APP_PATH);
-    auto obj = std::get<RemoteObjectPtr>(stdexec::sync_wait([&app]() -> exec::task<RemoteObjectPtr> {
-                                             auto obj = co_await app->find_object(
-                                                 {.properties = {{"objectName", Value{"helloBtn"}}}});
+
+    const ObjectQuery btn_query{.properties = {{"objectName", Value{"helloBtn"}}}};
+    auto obj = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {
+                                             auto obj = co_await app->find_object(btn_query);
                                              REQUIRE(obj.has_value());
                                              co_return obj.value();
                                          }())
@@ -40,9 +41,10 @@ TEST_CASE("Remote object can be invoked")
 
     SECTION("Click the Button, then the text should have changed")
     {
-        ASYNC_BLOCK
+        const ObjectQuery query{.properties = {{"objectName", "textArea"}}};
 
-        auto text_area = co_await app->find_object({.properties = {{"objectName", "textArea"}}});
+        ASYNC_BLOCK
+        auto text_area = co_await app->find_object(query);
         REQUIRE(std::get<std::string>(*(co_await text_area.value()->property("text")).value()->value()) == "...");
         co_await obj->mouse_action();
         REQUIRE(std::get<std::string>(*(co_await text_area.value()->property("text")).value()->value()) == "Hello");
@@ -61,6 +63,13 @@ TEST_CASE("Remote object can be invoked")
         REQUIRE(img->data().width == 100);
         REQUIRE(img->data().height == 30);
 
+        ASYNC_BLOCK_END
+    }
+
+    SECTION("App can be quit")
+    {
+        ASYNC_BLOCK
+        co_await app->exit();
         ASYNC_BLOCK_END
     }
 }

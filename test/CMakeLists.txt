@@ -6,8 +6,8 @@ add_subdirectory(quite)
 
 find_package(Python REQUIRED COMPONENTS Interpreter)
 add_test(NAME PythonTests
-    COMMAND ${Python_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND ${Python_EXECUTABLE} -X faulthandler -m pytest ${CMAKE_CURRENT_SOURCE_DIR} -p no:faulthandler
 )
 set_tests_properties(PythonTests PROPERTIES
-    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:_quite>/../"
+    ENVIRONMENT "PYTHONPATH=$<TARGET_FILE_DIR:_quite>/../;PYTHONUNBUFFERED=1"
 )

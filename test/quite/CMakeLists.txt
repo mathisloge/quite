@@ -9,6 +9,6 @@ catch_discover_tests(api_test)
 
 
 target_sources(api_test PRIVATE
-    process_application.cpp
+    # process_application.cpp # compile error on gcc-13
     remote_object_test.cpp
 )

@@ -4,6 +4,7 @@
 #include <spdlog/spdlog.h>
 #include "grpc_remote_object.hpp"
 #include "probe_client.hpp"
+#include "rpc/make_exit_request.hpp"
 #include "rpc/make_find_object_request.hpp"
 #include "rpc/make_get_views_request.hpp"
 
@@ -42,6 +43,13 @@ AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> GrpcApplication::get_vie
             }
             return views;
         });
+}
+
+AsyncResult<void> GrpcApplication::exit()
+{
+    SPDLOG_LOGGER_TRACE(logger_grpc_application(), "Request exiting application {}", "[TODO:APPNAME]");
+    const auto response = co_await grpc_impl::make_exit_request(probe_handle_->context(), probe_handle_->stub());
+    co_return response.and_then([&](const proto::ExitReponse & /*reply*/) -> Result<void> { return {}; });
 }
 
 } // namespace quite::grpc_impl
