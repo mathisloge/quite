@@ -8,6 +8,8 @@ import "quite/proto/types.proto";
 import "quite/proto/metatype.proto";
 
 service ProbeService {
+    rpc Exit(ExitRequest) returns (ExitReponse) {}
+
     rpc FindObject(ObjectRequest) returns (ObjectReply) {}
     rpc GetObjectProperties(GetObjectPropertiesRequest) returns (GetObjectPropertiesResponse) {}
 
@@ -17,6 +19,10 @@ service ProbeService {
     rpc GetViews(GetViewsRequest) returns (GetViewsResponse) {};
     rpc MetaTypeFromObject(MetaTypeFromObjectRequest) returns (MetaTypeFromObjectResponse) {};
 }
+
+message ExitRequest {};
+
+message ExitReponse {};
 
 message ObjectSearchQuery {
     map<string, Value> properties = 1;

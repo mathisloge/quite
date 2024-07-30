@@ -17,6 +17,7 @@ class QUITELIB_EXPORT Application
     virtual ~Application();
     virtual AsyncResult<RemoteObjectPtr> find_object(const ObjectQuery &query) = 0;
     virtual AsyncResult<std::vector<RemoteObjectPtr>> get_views() = 0;
+    virtual AsyncResult<void> exit() = 0;
 
   protected:
     Application();
