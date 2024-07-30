@@ -1,21 +1,21 @@
 from __future__ import annotations
 
-import time
-
 import pytest
 
 import quite
 
+APP_PATH = "/home/mathis/dev/ng-quite/build/test/simple_tester/tester"
+
 
 def test_launch_application():
-    app = quite.Application("/home/mlogemann/dev/quite/build/test/simple_tester/tester")
-    time.sleep(1)
-    # btn = app.find_object("helloBtn")
-    # btn.reset()
+    app = quite.Application(APP_PATH)
+    assert app
 
-    app.exit()
 
-    time.sleep(1)
-    return
+def test_find_object():
+    app = quite.Application(APP_PATH)
     with pytest.raises(RuntimeError):
         app.find_object("adsdadssad")
+
+    btn = app.find_object("helloBtn")
+    assert btn

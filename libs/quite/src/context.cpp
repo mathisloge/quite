@@ -11,7 +11,6 @@ Context::Context()
     grpc_context_thread_ = std::jthread{[this]() {
         grpc_context_.work_started();
         grpc_context_.run();
-        spdlog::warn("exiting grpc_context");
     }};
 }
 

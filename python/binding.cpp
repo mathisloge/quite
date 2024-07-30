@@ -7,22 +7,16 @@ namespace quite::python
 class PyRemoteObject
 {
   public:
-    ~PyRemoteObject() = default;
-
-    void reset()
-    {
-        remote_obj_ = nullptr;
-    }
-
-    static PyRemoteObject Create(RemoteObjectPtr obj)
-    {
-        return PyRemoteObject{std::move(obj)};
-    }
-
-  private:
     PyRemoteObject(RemoteObjectPtr obj)
         : remote_obj_{std::move(obj)}
     {}
+
+    ObjectId id() const
+    {
+        return remote_obj_->id();
+    }
+
+    ~PyRemoteObject() = default;
 
   private:
     RemoteObjectPtr remote_obj_;
@@ -51,7 +45,7 @@ class PyApplication
                 fmt::format("Could not find object with query {}. Failed with error: {}", query, obj.error().message));
         }
 
-        return PyRemoteObject::Create(obj.value());
+        return PyRemoteObject{obj.value()};
     }
 
     void exit()
@@ -59,10 +53,7 @@ class PyApplication
         stdexec::sync_wait([this]() -> exec::task<void> { co_await application_->exit(); }());
     }
 
-    ~PyApplication()
-    {
-        exit();
-    }
+    ~PyApplication() = default;
 
   private:
     ApplicationPtr application_;
@@ -81,7 +72,7 @@ PYBIND11_MODULE(_quite, m)
         .def("exit", &PyApplication::exit);
 
     py::class_<PyRemoteObject>(m, "RemoteObject") //
-        .def("reset", &PyRemoteObject::reset);
+        .def_property_readonly("id", &PyRemoteObject::id);
 
     m.attr("__version__") = quite::kVersion;
 }
