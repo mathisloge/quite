@@ -8,6 +8,13 @@ target_link_libraries(_quite PRIVATE
     fmt::fmt
 )
 target_compile_definitions(_quite PRIVATE VERSION_INFO=${PROJECT_VERSION})
+
+add_custom_command(TARGET _quite POST_BUILD
+    BYPRODUCTS quite/_quite.pyi quite/__init__.pyi
+    COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:_quite>/../ pybind11-stubgen -o ./ quite
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 # enables loading when directly executing the module
 file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/quite ${CMAKE_CURRENT_BINARY_DIR}/quite SYMBOLIC)
 
