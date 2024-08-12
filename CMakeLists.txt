@@ -51,7 +51,7 @@ feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
 include(CMakePackageConfigHelpers)
 
-install(TARGETS probe
+install(TARGETS quite-studio probe
     EXPORT quiteTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
