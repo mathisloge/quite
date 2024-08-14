@@ -1,4 +1,5 @@
 #include "grpc_remote_object.hpp"
+#include <fmt/ranges.h>
 #include <quite/create_logger.hpp>
 #include <quite/image.hpp>
 #include <quite/logger_macros.hpp>
