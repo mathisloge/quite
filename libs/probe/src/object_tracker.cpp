@@ -103,6 +103,30 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::strin
     return std::unexpected(ObjectErrC::not_found);
 }
 
+std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const proto::ObjectSearchQuery &query)
+{
+    std::shared_lock l{locker_};
+    InOwnContext c{own_ctx_};
+
+    for (auto &&obj : tracked_objects_)
+    {
+        bool property_matches = true;
+        for (auto &&prop : query.properties())
+        {
+            if (obj->metaObject()->indexOfProperty(prop.first.c_str()) < 0)
+            {
+                property_matches = false;
+                break;
+            }
+            if (obj->property(prop.first.c_str()).isValid())
+            {
+            }
+        }
+    }
+
+    return std::unexpected(ObjectErrC::not_found);
+}
+
 std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::ObjectId obj_id)
 {
     std::shared_lock l{locker_};

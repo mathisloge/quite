@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace quite
@@ -20,7 +21,9 @@ enum class PrimitveType
 
 struct EnumType
 {
-    TypeId enum_type;
+    using Key = std::string;
+    using Value = int;
+    std::unordered_map<Key, Value> enum_members;
 };
 
 struct ListType

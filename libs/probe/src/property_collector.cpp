@@ -14,10 +14,9 @@ namespace quite
 ObjectMeta ObjectMeta::from_qobject(QObject *object)
 {
     const QMetaObject *meta_object{nullptr};
-    if (object->metaObject())
+    if (object->metaObject() != nullptr)
     {
         meta_object = object->metaObject();
-        // auto collector = new QMetaPropertyCollector(obj);
     }
     else
     {
@@ -44,7 +43,7 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
 
 std::pair<std::string, proto::Value> read_property(ObjectMeta &object_meta, const QMetaProperty &property)
 {
-    constexpr auto value_meta = QMetaType::fromType<proto::Value>();
+    constexpr auto kValueMeta = QMetaType::fromType<proto::Value>();
     proto::Value value;
     const auto property_value = property.read(object_meta.object);
     if (property_value.canConvert<QObject *>())
@@ -64,10 +63,10 @@ std::pair<std::string, proto::Value> read_property(ObjectMeta &object_meta, cons
                 reinterpret_cast<std::uint64_t>(obj));
         }
     }
-    else if (QMetaType::canConvert(property.metaType(), value_meta))
+    else if (QMetaType::canConvert(property.metaType(), kValueMeta))
     {
         spdlog::debug("prop {}={} convertable with valueconverters", property.name(), property.typeName());
-        QMetaType::convert(property.metaType(), &property_value, value_meta, &value);
+        QMetaType::convert(property.metaType(), &property_value, kValueMeta, &value);
     }
     else
     {
@@ -103,6 +102,11 @@ std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta obje
         std::bind(insert_value, &properties, std::placeholders::_1));
     // Q: why doesn't a reference work here? Somehow a copy of the map will be created. Use a pointer for now.
     return properties;
+}
+
+QVariant convert_value(const proto::Value &value)
+{
+    value.class_val().type_name();
 }
 
 } // namespace quite
