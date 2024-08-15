@@ -92,5 +92,28 @@ void register_converters()
     ADD_CLASS_MEMBER(x);
     ADD_CLASS_MEMBER(y);
     END_CLASS_CONVERTER
+
+    QMetaType::registerConverter<proto::Value, QRect>([](const proto::Value &value) -> std::optional<QRect> {
+        if (not(value.has_class_val() and value.class_val().type_name() == "QRect"))
+        {
+            return std::nullopt;
+        }
+        auto &&class_val = value.class_val().value();
+
+        QRect rect;
+
+        {
+            auto it = std::find_if(class_val.begin(), class_val.end(), [](auto &&kv) {
+                return (kv.name() == "x" and kv.value().has_int_val());
+            });
+            if (it != class_val.end())
+            {
+                decltype(rect.x()) x{};
+                QMetaType::convert(
+                    value_meta, &it->value(), QMetaType::fromType<std::remove_cvref_t<decltype(x)>>(), &x);
+                rect.setX(x);
+            }
+        }
+    });
 }
 } // namespace quite::probe
