@@ -18,6 +18,7 @@
         },
         "nlohmann-json",
         "qtbase",
-        "pybind11"
+        "pybind11",
+        "cmakerc"
     ]
 }
