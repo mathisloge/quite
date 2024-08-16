@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <exec/task.hpp>
 #include <quite/application.hpp>
+#include <quite/testing/verification_point.hpp>
 #include <spdlog/spdlog.h>
 #include "tester_app.hpp"
 
@@ -62,6 +63,19 @@ TEST_CASE("Remote object can be invoked")
         REQUIRE(img->data().channels == 4);
         REQUIRE(img->data().width == 100);
         REQUIRE(img->data().height == 30);
+
+        ASYNC_BLOCK_END
+    }
+
+    SECTION("A verification point is checked")
+    {
+        ASYNC_BLOCK
+
+        co_await testing::create_verification_point(obj, "btn_test");
+
+        const auto res = co_await testing::verify_verification_point(obj, "btn_test");
+        REQUIRE(res.has_value());
+        REQUIRE(res.value());
 
         ASYNC_BLOCK_END
     }
