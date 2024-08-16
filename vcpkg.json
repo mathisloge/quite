@@ -19,6 +19,19 @@
         "nlohmann-json",
         "qtbase",
         "pybind11",
-        "cmakerc"
+        "cmakerc",
+        {
+            "name": "tracy", 
+            "features": [
+                "gui-tools"
+            ]
+        },
+        {
+            "name": "glad",
+            "features": [
+                "gl-api-latest",
+                "extensions"
+            ]
+        }
     ]
 }

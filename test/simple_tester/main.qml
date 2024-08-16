@@ -27,4 +27,6 @@ Item {
             onClicked: text.text = "World"
         }
     }
+
+    TracyQmlInjection{}
 }
