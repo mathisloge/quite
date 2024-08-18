@@ -22,6 +22,7 @@ target_link_libraries(probe PRIVATE
     spdlog::spdlog
     quite::protocol
     asio-grpc::asio-grpc-stdexec
+    EnTT::EnTT
 )
 
 target_sources(probe

@@ -7,6 +7,8 @@
 #include <QQuickItem>
 #include <quite/proto/types.pb.h>
 
+#include <entt/meta/factory.hpp>
+#include <entt/meta/meta.hpp>
 namespace quite::probe
 {
 namespace
@@ -57,6 +59,8 @@ void register_converters()
     register_trivial_converter<quint8, &proto::Value::set_int_val>();
     register_trivial_converter<quint16, &proto::Value::set_int_val>();
     register_trivial_converter<quint32, &proto::Value::set_int_val>();
+
+    entt::meta<QColor>();
 
     QMetaType::registerConverter<QString, proto::Value>([](const QString &value) {
         proto::Value cnv;

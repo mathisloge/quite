@@ -19,6 +19,7 @@
         "nlohmann-json",
         "qtbase",
         "pybind11",
-        "cmakerc"
+        "cmakerc",
+        "entt"
     ]
 }
