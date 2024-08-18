@@ -36,6 +36,8 @@ set_package_properties(Stb PROPERTIES URL "https://github.com/nothings/stb" PURP
 find_package(nlohmann_json CONFIG REQUIRED)
 set_package_properties(nlohmann_json PROPERTIES URL "https://github.com/nlohmann/json")
 
+find_package(EnTT CONFIG REQUIRED)
+
 find_package(CMakeRC CONFIG REQUIRED)
 
 find_package(Catch2 CONFIG REQUIRED)

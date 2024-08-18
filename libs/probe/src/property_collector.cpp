@@ -3,6 +3,7 @@
 #include <ranges>
 #include <QtQml/private/qqmldata_p.h>
 #include <QtQml/private/qqmlmetatype_p.h>
+#include <entt/meta/factory.hpp>
 #include <private/qv4executablecompilationunit_p.h>
 #include <qjsondocument.h>
 #include <qjsonobject.h>
@@ -70,7 +71,15 @@ std::pair<std::string, proto::Value> read_property(ObjectMeta &object_meta, cons
     }
     else
     {
-        spdlog::debug("prop {}={} not convertable", property.name(), property.typeName());
+        auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()});
+        if (not custom_meta_type)
+        {
+            spdlog::debug("prop {}={} not convertable", property.name(), property.typeName());
+        }
+        else
+        {
+            // convert meta object
+        }
     }
     return {property.name(), std::move(value)};
 }
@@ -107,6 +116,7 @@ std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta obje
 QVariant convert_value(const proto::Value &value)
 {
     value.class_val().type_name();
+    return {};
 }
 
 } // namespace quite

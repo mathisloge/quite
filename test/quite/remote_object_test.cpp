@@ -46,6 +46,7 @@ TEST_CASE("Remote object can be invoked")
 
         ASYNC_BLOCK
         auto text_area = co_await app->find_object(query);
+        REQUIRE(text_area.has_value());
         REQUIRE(std::get<std::string>(*(co_await text_area.value()->property("text")).value()->value()) == "...");
         co_await obj->mouse_action();
         REQUIRE(std::get<std::string>(*(co_await text_area.value()->property("text")).value()->value()) == "Hello");

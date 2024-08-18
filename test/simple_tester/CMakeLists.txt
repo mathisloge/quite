@@ -24,6 +24,7 @@ target_link_libraries(tester PRIVATE
     Qt6::Quick
     spdlog::spdlog
     probe
+    EnTT::EnTT
 )
 
 file(GENERATE OUTPUT tester_app.hpp INPUT tester_app.in.hpp TARGET tester)
