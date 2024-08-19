@@ -71,7 +71,7 @@ std::pair<std::string, proto::Value> read_property(ObjectMeta &object_meta, cons
     }
     else
     {
-        auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()});
+        auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()}.value());
         if (not custom_meta_type)
         {
             spdlog::debug("prop {}={} not convertable", property.name(), property.typeName());
