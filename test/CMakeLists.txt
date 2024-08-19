@@ -2,6 +2,7 @@ include(Catch)
 
 add_subdirectory(simple_tester)
 
+add_subdirectory(meta)
 add_subdirectory(quite)
 
 find_package(Python REQUIRED COMPONENTS Interpreter)

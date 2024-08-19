@@ -60,8 +60,6 @@ void register_converters()
     register_trivial_converter<quint16, &proto::Value::set_int_val>();
     register_trivial_converter<quint32, &proto::Value::set_int_val>();
 
-    entt::meta<QColor>();
-
     QMetaType::registerConverter<QString, proto::Value>([](const QString &value) {
         proto::Value cnv;
         *cnv.mutable_string_val() = value.toStdString();
@@ -77,6 +75,8 @@ void register_converters()
         }
         return cnv;
     });
+
+    //! TODO: get rid of all those manually written things when *hopefully* P2996 gets into action.
 
     ADD_CLASS_CONVERTER(QRect)
     ADD_CLASS_MEMBER(x);
