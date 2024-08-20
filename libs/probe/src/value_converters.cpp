@@ -47,6 +47,124 @@ void register_trivial_converter()
     return cnv;                                                                                                        \
     });
 
+using namespace entt::literals;
+
+namespace
+{
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, float data)
+{
+    auto &&val = member.mutable_value();
+    val->set_double_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, double data)
+{
+    auto &&val = member.mutable_value();
+    val->set_double_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, bool data)
+{
+    auto &&val = member.mutable_value();
+    val->set_bool_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, qint8 data)
+{
+    auto &&val = member.mutable_value();
+    val->set_int_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, qint16 data)
+{
+    auto &&val = member.mutable_value();
+    val->set_int_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, qint32 data)
+{
+    auto &&val = member.mutable_value();
+    val->set_int_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, qint64 data)
+{
+    auto &&val = member.mutable_value();
+    val->set_int_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, quint8 data)
+{
+    auto &&val = member.mutable_value();
+    val->set_uint_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, quint16 data)
+{
+    auto &&val = member.mutable_value();
+    val->set_uint_val(data);
+}
+auto set_trivial_member(quite::proto::ClassValue_ClassMember &member, quint32 data)
+{
+    auto &&val = member.mutable_value();
+    val->set_uint_val(data);
+}
+
+proto::Value convert_qrectf(const QRectF &data)
+{
+    constexpr auto kType = QMetaType::fromType<QRectF>();
+    proto::Value value;
+    auto &&class_val = value.mutable_class_val();
+    class_val->set_type_name(kType.name());
+    {
+        auto &&member = class_val->add_value();
+        member->set_name("x");
+        set_trivial_member(*member, data.x());
+    }
+    {
+        auto &&member = class_val->add_value();
+        member->set_name("y");
+        member->mutable_value()->set_double_val(data.y());
+    }
+    {
+        auto &&member = class_val->add_value();
+        member->set_name("width");
+        member->mutable_value()->set_double_val(data.width());
+    }
+    {
+        auto &&member = class_val->add_value();
+        member->set_name("height");
+        member->mutable_value()->set_double_val(data.height());
+    }
+    return value;
+}
+proto::Value convert_qpointf(const QPointF &data)
+{
+    constexpr auto kType = QMetaType::fromType<QPointF>();
+    proto::Value value;
+    auto &&class_val = value.mutable_class_val();
+    class_val->set_type_name(kType.name());
+    {
+        auto &&member = class_val->add_value();
+        member->set_name("x");
+        member->mutable_value()->set_double_val(data.x());
+    }
+    {
+        auto &&member = class_val->add_value();
+        member->set_name("y");
+        member->mutable_value()->set_double_val(data.y());
+    }
+    return value;
+}
+
+proto::Value convert_qurl(const QUrl &data)
+{
+    constexpr auto kType = QMetaType::fromType<QUrl>();
+    proto::Value value;
+    auto &&class_val = value.mutable_class_val();
+    class_val->set_type_name(kType.name());
+    {
+        auto &&member = class_val->add_value();
+        member->set_name("url");
+        member->mutable_value()->set_string_val(data.toDisplayString().toStdString());
+    }
+    return value;
+}
+
+} // namespace
+
 void register_converters()
 {
     register_trivial_converter<float, &proto::Value::set_double_val>();
@@ -76,48 +194,37 @@ void register_converters()
         return cnv;
     });
 
-    //! TODO: get rid of all those manually written things when *hopefully* P2996 gets into action.
+    entt::meta<QString>().type("QString"_hs).conv<&QString::toStdString>();
 
-    ADD_CLASS_CONVERTER(QRect)
-    ADD_CLASS_MEMBER(x);
-    ADD_CLASS_MEMBER(y);
-    ADD_CLASS_MEMBER(width);
-    ADD_CLASS_MEMBER(height);
-    END_CLASS_CONVERTER
+    entt::meta<QRect>()
+        .type("QRect"_hs)
+        .ctor<qreal, qreal, qreal, qreal>()
+        .data<&QRectF::setX, &QRectF::x>("x"_hs)
+        .data<&QRectF::setY, &QRectF::y>("y"_hs)
+        .data<&QRectF::setWidth, &QRectF::width>("width"_hs)
+        .data<&QRectF::setHeight, &QRectF::height>("height"_hs)
+        .conv<convert_qrectf>();
 
-    ADD_CLASS_CONVERTER(QRectF)
-    ADD_CLASS_MEMBER(x);
-    ADD_CLASS_MEMBER(y);
-    ADD_CLASS_MEMBER(width);
-    ADD_CLASS_MEMBER(height);
-    END_CLASS_CONVERTER
+    entt::meta<QRectF>()
+        .type("QRectF"_hs)
+        .ctor<qreal, qreal, qreal, qreal>()
+        .data<&QRectF::setX, &QRectF::x>("x"_hs)
+        .data<&QRectF::setY, &QRectF::y>("y"_hs)
+        .data<&QRectF::setWidth, &QRectF::width>("width"_hs)
+        .data<&QRectF::setHeight, &QRectF::height>("height"_hs)
+        .conv<convert_qrectf>();
 
-    ADD_CLASS_CONVERTER(QPoint)
-    ADD_CLASS_MEMBER(x);
-    ADD_CLASS_MEMBER(y);
-    END_CLASS_CONVERTER
+    entt::meta<QPointF>()
+        .type("QPointF"_hs)
+        .ctor<int, int>()
+        .data<&QPointF::setX, &QPointF::x>("x"_hs)
+        .data<&QPointF::setY, &QPointF::y>("y"_hs)
+        .conv<convert_qpointf>();
 
-    QMetaType::registerConverter<proto::Value, QRect>([](const proto::Value &value) -> std::optional<QRect> {
-        if (not(value.has_class_val() and value.class_val().type_name() == "QRect"))
-        {
-            return std::nullopt;
-        }
-        auto &&class_val = value.class_val().value();
-
-        QRect rect;
-
-        {
-            auto it = std::find_if(class_val.begin(), class_val.end(), [](auto &&kv) {
-                return (kv.name() == "x" and kv.value().has_int_val());
-            });
-            if (it != class_val.end())
-            {
-                decltype(rect.x()) x{};
-                QMetaType::convert(
-                    value_meta, &it->value(), QMetaType::fromType<std::remove_cvref_t<decltype(x)>>(), &x);
-                rect.setX(x);
-            }
-        }
-    });
+    entt::meta<QUrl>() //
+        .type("QUrl"_hs)
+        .ctor<[](const std::string &url) { return QUrl{QString::fromStdString(url)}; }>()
+        .data<nullptr, [](const QUrl &url) { return url.toDisplayString().toStdString(); }>("url"_hs)
+        .conv<convert_qurl>();
 }
 } // namespace quite::probe
