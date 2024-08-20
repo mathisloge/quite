@@ -65,10 +65,16 @@ void ImageView::higlight_object(const ObjectTree::ObjectNode *object)
     image_.end_point_.y = get_number_property(object->properties, "height");
 
     auto parent = object->parent;
-    while (parent)
+    SPDLOG_LOGGER_DEBUG(logger_image_view(), "highlight object. has parent={}", (parent != nullptr));
+    while (parent != nullptr)
     {
         image_.start_point_.x += get_number_property(parent->properties, "x");
         image_.start_point_.y += get_number_property(parent->properties, "y");
+        SPDLOG_LOGGER_DEBUG(logger_image_view(), "highlight: x={} y={}", image_.start_point_.x, image_.start_point_.y);
+        if (parent->position_root)
+        {
+            break;
+        }
         parent = parent->parent;
     }
 }

@@ -16,6 +16,7 @@ class ObjectTree final
         std::unordered_map<std::string, PropertyPtr> properties;
         std::shared_ptr<ObjectNode> parent{nullptr};
         std::vector<std::shared_ptr<ObjectNode>> leafs;
+        bool position_root{false}; // if true, the x and y coordinates are starting from here
     };
     using ObjectNodePtr = std::shared_ptr<ObjectNode>;
 
