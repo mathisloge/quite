@@ -78,7 +78,16 @@ std::pair<std::string, proto::Value> read_property(ObjectMeta &object_meta, cons
         }
         else
         {
-            // convert meta object
+            auto &&any_obj = custom_meta_type.from_void(&property_value);
+            if (any_obj.allow_cast<proto::Value>())
+            {
+                spdlog::debug("prop {}({}) convertible via meta", property.name(), property.metaType().name());
+                value = any_obj.cast<proto::Value>();
+            }
+            else
+            {
+                spdlog::error("could not cast {} to proto::Value", property.metaType().name());
+            }
         }
     }
     return {property.name(), std::move(value)};
