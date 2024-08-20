@@ -54,10 +54,13 @@ void ObjectTree::construct_node_from_properties(const ObjectNodePtr &node)
 {
     if (node->properties.contains(kContentItemKey.data()))
     {
+        //! TODO: set root position for view to false
+        node->position_root = true;
         auto child = create_from_property(node->properties.at(kContentItemKey.data()));
         if (child != nullptr)
         {
             init_from_properties(child);
+            child->parent = node;
             node->leafs.emplace_back(std::move(child));
         }
     }
@@ -88,7 +91,7 @@ void ObjectTree::construct_node_from_properties(const ObjectNodePtr &node)
         {
             init_from_properties(child_node);
             child_node->parent = node;
-            node->leafs.emplace_back(std::forward<decltype(child_node)>(child_node));
+            node->leafs.emplace_back(child_node);
         }
     }
     else
