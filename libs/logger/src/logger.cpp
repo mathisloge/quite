@@ -12,6 +12,8 @@ quill::Logger *create_logger(std::string_view logger_name)
 
     auto &&logger = quill::Frontend::create_or_get_logger(logger_name.data(), std::move(console_sink));
 
+    logger->set_log_level(quill::LogLevel::Debug);
+
     return logger;
 }
 

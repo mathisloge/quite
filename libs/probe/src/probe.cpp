@@ -10,6 +10,7 @@
 #include <fmt/format.h>
 #include <grpcpp/server_builder.h>
 #include <quite/proto/probe.grpc.pb.h>
+#include <quite/setup_logger.hpp>
 #include <spdlog/spdlog.h>
 #include "injector/mouse_injector.hpp"
 #include "object_tracker.hpp"
@@ -155,6 +156,7 @@ namespace quite
 {
 void setupHooks()
 {
+    setup_logger();
     probeData(); // just create it at the beginnging
     installQHooks();
 }
