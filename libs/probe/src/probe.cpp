@@ -58,8 +58,6 @@ struct ProbeData final
                 stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
             spdlog::error("CLOSING GRPC");
         }};
-
-        QRect x;
     }
 
     ~ProbeData() = default;
@@ -144,7 +142,6 @@ void quite_remove_object(QObject *q)
 
 void quite_app_startup()
 {
-    spdlog::set_level(spdlog::level::debug);
     installApplicationHooks();
     if (probeData().next_startup_hook_ != nullptr)
     {
