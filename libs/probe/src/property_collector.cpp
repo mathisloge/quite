@@ -8,7 +8,6 @@
 #include <qjsondocument.h>
 #include <qjsonobject.h>
 #include <spdlog/spdlog.h>
-#include "object_id.hpp"
 
 namespace quite
 {
@@ -18,12 +17,6 @@ void insert_value(std::unordered_map<std::string, proto::Value> *properties,
                   std::pair<std::string, proto::Value> property)
 {
     properties->emplace(std::move(property));
-}
-
-bool can_be_read(const QMetaProperty &prop)
-{
-    return not(prop.name() == std::string_view{"inputDirection"} or prop.name() == std::string_view{"locale"} or
-               prop.name() == std::string_view{"fontInfo"});
 }
 } // namespace
 
@@ -36,8 +29,8 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
     }
     else
     {
-        auto data = QQmlData::get(object);
-        if (not data or not data->compilationUnit)
+        auto &&data = QQmlData::get(object);
+        if (data != nullptr or not data->compilationUnit)
         {
             spdlog::warn("got no data for qml object");
         }
@@ -59,18 +52,12 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
 
 std::pair<std::string, proto::Value> read_property(const QVariant property_value, const QMetaProperty &property)
 {
-    constexpr auto kValueMeta = QMetaType::fromType<proto::Value>();
     proto::Value value;
 
-    if (property_value.canConvert<QObject *>())
-    {
-        spdlog::debug("prop {}={} convertable to QObject*", property.name(), property.typeName());
-        value.mutable_object_val()->set_object_id(reinterpret_cast<probe::ObjectId>(property_value.value<QObject *>()));
-    }
     // important: check for explicit conversions first. E.g. QQuickAnchorLine is a QGadget but should be converted with
     // the explicit converter.
-    else if (auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()}.value());
-             custom_meta_type)
+    if (auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()}.value());
+        custom_meta_type)
     {
         auto &&any_obj = custom_meta_type.from_void(&property_value);
         if (any_obj.allow_cast<proto::Value>())
@@ -102,7 +89,6 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
             std::ranges::iota_view(0, gadget_metaobj->propertyCount()) |
                 std::views::transform([&](int prop_idx) { return gadget_metaobj->property(prop_idx); }) |
                 std::views::filter([](const QMetaProperty &prop) { return prop.isValid() and prop.isReadable(); }) |
-                std::views::filter(can_be_read) | //
                 std::views::transform([&](auto &&prop) {
                     spdlog::info("read on gadget");
                     return std::tuple{prop.readOnGadget(property_value.data()), std::forward<decltype(prop)>(prop)};
@@ -122,11 +108,6 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
                 reinterpret_cast<std::uint64_t>(obj));
         }
     }
-    else if (QMetaType::canConvert(property.metaType(), kValueMeta))
-    {
-        spdlog::debug("prop {}={} convertable with valueconverters", property.name(), property.typeName());
-        QMetaType::convert(property.metaType(), &property_value, kValueMeta, &value);
-    }
     else
     {
         spdlog::debug("prop {}={} not convertable", property.name(), property.typeName());
@@ -139,23 +120,16 @@ std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta obje
     std::unordered_map<std::string, proto::Value> properties;
 
     std::ranges::for_each(
-        std::ranges::iota_view(0, object_meta.meta_object->propertyCount()) |
-            std::views::transform([&](int prop_idx) { return object_meta.meta_object->property(prop_idx); }) |
-            std::views::filter([](auto &&prop) { return prop.isValid() and prop.isReadable(); }) |
-            std::views::filter(can_be_read) | //
-            std::views::transform([&](auto &&prop) {
-                return std::tuple{prop.read(object_meta.object), std::forward<decltype(prop)>(prop)};
-            }) |
-            std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); }),
+        std::ranges::iota_view(0, object_meta.meta_object->propertyCount()) | std::views::transform([&](int prop_idx) {
+            return object_meta.meta_object->property(prop_idx);
+        }) | std::views::filter([](auto &&prop) {
+            return prop.isValid() and prop.isReadable();
+        }) | std::views::transform([&](auto &&prop) {
+            return std::tuple{prop.read(object_meta.object), std::forward<decltype(prop)>(prop)};
+        }) | std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); }),
         std::bind(insert_value, &properties, std::placeholders::_1));
     // Q: why doesn't a reference work here? Somehow a copy of the map will be created. Use a pointer for now.
     return properties;
-}
-
-QVariant convert_value(const proto::Value &value)
-{
-    value.class_val().type_name();
-    return {};
 }
 
 } // namespace quite

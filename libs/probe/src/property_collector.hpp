@@ -18,6 +18,4 @@ struct ObjectMeta
                                                                  const QMetaProperty &property);
 [[nodiscard]] std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta object_meta);
 
-QVariant convert_value(const proto::Value &value);
-
 } // namespace quite
