@@ -174,6 +174,9 @@ void ObjectTracker::removeObject(QObject *obj)
 
 void ObjectTracker::startTimer()
 {
+    static const auto kStartFncIdx = QTimer::staticMetaObject.indexOfMethod("start()");
+    Q_ASSERT(kStartFncIdx >= 0);
+
     if (init_timer_.isActive())
     {
         return;
@@ -187,9 +190,7 @@ void ObjectTracker::startTimer()
     static QMetaMethod m;
     if (m.methodIndex() < 0)
     {
-        const auto idx = QTimer::staticMetaObject.indexOfMethod("start()");
-        Q_ASSERT(idx >= 0);
-        m = QTimer::staticMetaObject.method(idx);
+        m = QTimer::staticMetaObject.method(kStartFncIdx);
         Q_ASSERT(m.methodIndex() >= 0);
     }
     m.invoke(&init_timer_, Qt::QueuedConnection);

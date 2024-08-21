@@ -5,19 +5,14 @@
 #include <QQmlListProperty>
 #include <QQmlListReference>
 #include <QQuickItem>
-#include <private/qquickanchors_p_p.h>
-#include <quite/proto/types.pb.h>
-
 #include <entt/meta/factory.hpp>
 #include <entt/meta/meta.hpp>
+#include <private/qquickanchors_p_p.h>
+#include <quite/proto/types.pb.h>
 #include "object_id.hpp"
 
 namespace quite::probe
 {
-namespace
-{
-constexpr auto value_meta = QMetaType::fromType<proto::Value>();
-}
 
 template <typename TBase, auto TFncPtr>
 void register_trivial_converter()
@@ -130,19 +125,21 @@ void register_converters()
     register_trivial_converter<qint16, &proto::Value::set_int_val>();
     register_trivial_converter<qint32, &proto::Value::set_int_val>();
     register_trivial_converter<qint64, &proto::Value::set_int_val>();
-    register_trivial_converter<quint8, &proto::Value::set_int_val>();
-    register_trivial_converter<quint16, &proto::Value::set_int_val>();
-    register_trivial_converter<quint32, &proto::Value::set_int_val>();
+    register_trivial_converter<quint8, &proto::Value::set_uint_val>();
+    register_trivial_converter<quint16, &proto::Value::set_uint_val>();
+    register_trivial_converter<quint32, &proto::Value::set_uint_val>();
 
-    QMetaType::registerConverter<QObjectList, proto::Value>([](const QObjectList &values) {
-        proto::Value cnv;
-        for (auto &&value : std::as_const(values))
-        {
-            cnv.mutable_array_val()->add_value()->mutable_object_val()->set_object_id(
-                reinterpret_cast<std::uint64_t>(value));
-        }
-        return cnv;
-    });
+    entt::meta<QObjectList>()
+        .type("QObjectList*"_hs) //
+        .conv<[](const QObjectList &values) {
+            proto::Value cnv;
+            for (auto &&value : std::as_const(values))
+            {
+                cnv.mutable_array_val()->add_value()->mutable_object_val()->set_object_id(
+                    reinterpret_cast<std::uint64_t>(value));
+            }
+            return cnv;
+        }>();
 
     entt::meta<QObject *>()
         .type("QObject*"_hs) //
