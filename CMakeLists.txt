@@ -16,6 +16,8 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+set(BUILD_SHARED_LIBS ON)
+
 set(log_level SPDLOG_LEVEL_TRACE)
 
 get_git_head_revision(git_branch git_sha)
@@ -25,8 +27,8 @@ message(STATUS "Using log level: ${log_level}")
 
 find_package(stdexec CONFIG REQUIRED)
 set_package_properties(stdexec PROPERTIES URL "https://github.com/NVIDIA/stdexec" PURPOSE "needed for async code. should be disabled for *hopefully* c++26.")
-find_package(spdlog CONFIG REQUIRED)
-set_package_properties(spdlog PROPERTIES URL "https://github.com/gabime/spdlog")
+find_package(quill CONFIG REQUIRED)
+set_package_properties(quill PROPERTIES URL "https://github.com/odygrd/quill")
 find_package(asio-grpc CONFIG REQUIRED)
 set_package_properties(asio-grpc PROPERTIES URL "https://github.com/Tradias/asio-grpc")
 find_package(asio CONFIG REQUIRED)
@@ -35,8 +37,8 @@ find_package(Stb REQUIRED)
 set_package_properties(Stb PROPERTIES URL "https://github.com/nothings/stb" PURPOSE "saving and loading of images")
 find_package(nlohmann_json CONFIG REQUIRED)
 set_package_properties(nlohmann_json PROPERTIES URL "https://github.com/nlohmann/json")
-
 find_package(EnTT CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 
 find_package(CMakeRC CONFIG REQUIRED)
 
@@ -55,7 +57,7 @@ feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
 include(CMakePackageConfigHelpers)
 
-install(TARGETS quite-studio probe
+install(TARGETS loggerlib quite-studio probe quite_protocol_proto
     EXPORT quiteTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

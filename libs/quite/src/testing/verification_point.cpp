@@ -1,15 +1,10 @@
 #include "quite/testing/verification_point.hpp"
 #include <fstream>
 #include <nlohmann/json.hpp>
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "quite/utils/dump_properties.hpp"
 
-namespace
-{
-LOGGER_IMPL(vp)
-}
+DEFINE_LOGGER(vp_logger)
 
 namespace quite::testing
 {
@@ -41,14 +36,14 @@ AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::s
     const auto snapshot = co_await object->take_snapshot();
     if (not snapshot.has_value())
     {
-        SPDLOG_LOGGER_ERROR(logger_vp(), "Error while creating the snapshot: {}", snapshot.error().message);
+        LOG_ERROR(vp_logger, "Error while creating the snapshot: {}", snapshot.error().message);
         co_return std::unexpected(snapshot.error());
     }
 
     const auto props = co_await dump_properties(object, {"objectName", "width", "height", "children", "visible"});
     if (not props.has_value())
     {
-        SPDLOG_LOGGER_ERROR(logger_vp(), "Error while fetching the properties: {}", props.error().message);
+        LOG_ERROR(vp_logger, "Error while fetching the properties: {}", props.error().message);
         co_return std::unexpected(props.error());
     }
 
@@ -61,7 +56,7 @@ AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::s
     verified = (*props == expected_props);
     if (not verified)
     {
-        SPDLOG_LOGGER_INFO(logger_vp(), "Properties do not match.");
+        LOG_INFO(vp_logger, "Properties do not match.");
         std::ofstream o{fmt::format("{}_current.json", name)};
         o << std::setw(4) << *props << std::endl;
     }
@@ -70,14 +65,14 @@ AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::s
     const auto diff_pixels = pixel_match(expected_snapshot.data(), snapshot->data(), PixelCompareOptions{}, diff_img);
     if (not diff_pixels.has_value())
     {
-        SPDLOG_LOGGER_ERROR(logger_vp(), "Error while comparing the images: {}", diff_pixels.error().message);
+        LOG_ERROR(vp_logger, "Error while comparing the images: {}", diff_pixels.error().message);
         co_return std::unexpected(diff_pixels.error());
     }
 
     verified = (verified && diff_pixels == 0);
     if (not verified)
     {
-        SPDLOG_LOGGER_INFO(logger_vp(), "Images does not match. Failed with compare {}", *diff_pixels);
+        LOG_INFO(vp_logger, "Images does not match. Failed with compare {}", *diff_pixels);
         diff_img.save_to(fmt::format("{}_diff.png", name));
         snapshot->save_to(fmt::format("{}_current.png", name));
     }

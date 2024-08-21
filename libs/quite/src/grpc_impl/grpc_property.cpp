@@ -1,15 +1,11 @@
 #include "grpc_property.hpp"
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "grpc_value.hpp"
 #include "probe_client.hpp"
 #include "rpc/make_get_object_properties_request.hpp"
 
-namespace
-{
-LOGGER_IMPL(grpc_property)
-} // namespace
+DEFINE_LOGGER(grpc_property_logger)
+
 namespace quite::grpc_impl
 {
 GrpcProperty::GrpcProperty(ProbeServiceHandle probe_service,
@@ -36,7 +32,7 @@ const Result<Value> &GrpcProperty::value() const noexcept
 
 AsyncResult<Value> GrpcProperty::read() noexcept
 {
-    SPDLOG_LOGGER_DEBUG(logger_grpc_property(), "get property[{}] for object={}", name_, parent_->id());
+    LOG_DEBUG(grpc_property_logger, "get property[{}] for object={}", name_, parent_->id());
 
     // even though it is not really necessary to fetch the property here, it will get fetched, to verify that the
     // property exists.

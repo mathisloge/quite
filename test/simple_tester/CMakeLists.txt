@@ -22,9 +22,10 @@ target_link_libraries(tester PRIVATE
     Qt6::Gui
     Qt6::Qml
     Qt6::Quick
-    spdlog::spdlog
-    probe
-    EnTT::EnTT
+    quite::probe
+    quite::protocol
+    quite::logger
+    asio-grpc::asio-grpc-stdexec
 )
 
 file(GENERATE OUTPUT tester_app.hpp INPUT tester_app.in.hpp TARGET tester)
