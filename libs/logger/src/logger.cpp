@@ -1,14 +1,24 @@
-#include <quite/create_logger.hpp>
-#include <spdlog/spdlog.h>
+#include <quill/Backend.h>
+#include <quill/Frontend.h>
+#include <quill/sinks/ConsoleSink.h>
+#include <quite/logger.hpp>
+#include <quite/setup_logger.hpp>
+
 namespace quite
 {
-std::shared_ptr<spdlog::logger> create_logger(std::string_view logger_name)
+quill::Logger *create_logger(std::string_view logger_name)
 {
-    auto logger = std::make_shared<spdlog::logger>(std::string{logger_name});
-    logger->set_level(spdlog::default_logger()->level());
-    logger->sinks() = spdlog::default_logger()->sinks();
-    spdlog::register_logger(logger);
+    auto console_sink = quill::Frontend::create_or_get_sink<quill::ConsoleSink>("console_sink");
+
+    auto &&logger = quill::Frontend::create_or_get_logger(logger_name.data(), std::move(console_sink));
 
     return logger;
 }
+
+void setup_logger()
+{
+    quill::Backend::start();
+    quill::Frontend::preallocate();
+}
+
 } // namespace quite

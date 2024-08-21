@@ -12,8 +12,8 @@
 // For a multi-platform app consider using e.g. SDL+DirectX on Windows and SDL+OpenGL on Linux/OSX.
 
 #include <SDL.h>
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
+#include <quite/logger.hpp>
+#include <quite/setup_logger.hpp>
 #include <spdlog/spdlog.h>
 #include <stdio.h>
 #include "imgui.h"
@@ -26,15 +26,17 @@
 #error This backend requires SDL 2.0.17+ because of SDL_RenderGeometry() function
 #endif
 
-LOGGER_IMPL(quiteide)
+DEFINE_LOGGER(quiteide_logger)
 
 // Main code
 int main(int, char **)
 {
+    quite::setup_logger();
+
     // Setup SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
     {
-        printf("Error: %s\n", SDL_GetError());
+        LOG_ERROR(quiteide_logger, "Error while initializing SDL2: {}", SDL_GetError());
         return -1;
     }
 
@@ -49,19 +51,19 @@ int main(int, char **)
         SDL_CreateWindow("quite studio", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
     if (window == nullptr)
     {
-        SPDLOG_LOGGER_ERROR(logger_quiteide(), "SDL_CreateWindow(): {}", SDL_GetError());
+        LOG_ERROR(quiteide_logger, "SDL_CreateWindow(): {}", SDL_GetError());
         return -1;
     }
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
     if (renderer == nullptr)
     {
-        SPDLOG_LOGGER_ERROR(logger_quiteide(), "Error creating SDL_Renderer!");
+        LOG_ERROR(quiteide_logger, "Error creating SDL_Renderer!");
         return 0;
     }
     {
         SDL_RendererInfo info;
         SDL_GetRendererInfo(renderer, &info);
-        SPDLOG_LOGGER_DEBUG(logger_quiteide(), "Current SDL_Renderer: {}", info.name);
+        LOG_INFO(quiteide_logger, "Current SDL_Renderer: {}", info.name);
     }
 
     // Setup Dear ImGui context

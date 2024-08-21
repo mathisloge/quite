@@ -1,13 +1,11 @@
 #include "object_tree.hpp"
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "scheduler.hpp"
+
+DEFINE_LOGGER(logic_object_tree);
 
 namespace
 {
-LOGGER_IMPL(object_tree)
-
 constexpr std::string_view kContentItemKey = "contentItem";
 constexpr std::string_view kChildrenKey = "children";
 } // namespace
@@ -44,8 +42,7 @@ void ObjectTree::init_from_properties(const ObjectNodePtr &node)
         }
         else
         {
-            SPDLOG_LOGGER_ERROR(
-                logger_object_tree(), "Could not fetch properties. Failed with {}", properties.error().message);
+            LOG_ERROR(logic_object_tree, "Could not fetch properties. Failed with {}", properties.error().message);
         }
     }(this, node)));
 }
@@ -69,17 +66,17 @@ void ObjectTree::construct_node_from_properties(const ObjectNodePtr &node)
         auto childs = node->properties.at(kChildrenKey.data());
         if (not childs->value().has_value())
         {
-            SPDLOG_LOGGER_ERROR(logger_object_tree(),
-                                "property {} does not contain any value. Value error: {}",
-                                childs->name(),
-                                childs->value().error().message);
+            LOG_ERROR(logic_object_tree,
+                      "property {} does not contain any value. Value error: {}",
+                      childs->name(),
+                      childs->value().error().message);
             return;
         }
 
         auto &&value = childs->value().value();
         if (not std::holds_alternative<xyz::indirect<ArrayObject>>(value))
         {
-            SPDLOG_LOGGER_ERROR(logger_object_tree(), "property {} does not contain a array value.", childs->name());
+            LOG_ERROR(logic_object_tree, "property {} does not contain a array value.", childs->name());
             return;
         }
 
@@ -96,10 +93,10 @@ void ObjectTree::construct_node_from_properties(const ObjectNodePtr &node)
     }
     else
     {
-        SPDLOG_LOGGER_ERROR(logger_object_tree(),
-                            "Could not create object from properties. Neither {} or {} present",
-                            kContentItemKey,
-                            kChildrenKey);
+        LOG_ERROR(logic_object_tree,
+                  "Could not create object from properties. Neither {} or {} present",
+                  kContentItemKey,
+                  kChildrenKey);
     }
 }
 
@@ -107,10 +104,10 @@ ObjectTree::ObjectNodePtr ObjectTree::create_from_property(PropertyPtr property)
 {
     if (not property->value().has_value())
     {
-        SPDLOG_LOGGER_ERROR(logger_object_tree(),
-                            "property {} does not contain any value. Value error: {}",
-                            property->name(),
-                            property->value().error().message);
+        LOG_ERROR(logic_object_tree,
+                  "property {} does not contain any value. Value error: {}",
+                  property->name(),
+                  property->value().error().message);
         return nullptr;
     }
 
@@ -122,7 +119,7 @@ ObjectTree::ObjectNodePtr ObjectTree::create_from_value(const Value &value)
 {
     if (not std::holds_alternative<RemoteObjectPtr>(value))
     {
-        SPDLOG_LOGGER_ERROR(logger_object_tree(), "value does not contain a remote object value.");
+        LOG_ERROR(logic_object_tree, "value does not contain a remote object value.");
         return nullptr;
     }
 

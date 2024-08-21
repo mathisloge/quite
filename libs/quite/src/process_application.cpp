@@ -1,12 +1,7 @@
 #include "process_application.hpp"
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 
-namespace
-{
-LOGGER_IMPL(process_application)
-}
+DEFINE_LOGGER(process_application_logger)
 
 namespace quite
 {
@@ -26,7 +21,7 @@ void ProcessApplication::do_read()
     stdout_pipe_.async_read_some(asio::buffer(buffer_), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {
-            spdlog::debug("out {}", std::string_view{buffer_.begin(), length});
+            LOG_DEBUG(process_application_logger, "stdout: {}", std::string_view{buffer_.begin(), length});
             do_read();
         }
     });
@@ -34,7 +29,7 @@ void ProcessApplication::do_read()
     stderr_pipe_.async_read_some(asio::buffer(buffer_), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {
-            spdlog::debug("err {}", std::string_view{buffer_.begin(), length});
+            LOG_DEBUG(process_application_logger, "stderr: {}", std::string_view{buffer_.begin(), length});
             do_read();
         }
     });

@@ -1,4 +1,4 @@
-add_library(quitelib SHARED)
+add_library(quitelib)
 add_library(quite::quite ALIAS quitelib)
 set_target_properties(quitelib PROPERTIES
     POSITION_INDEPENDENT_CODE ON

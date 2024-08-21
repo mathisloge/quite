@@ -5,7 +5,7 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "quite"
 version = "0.0.1"
-cription="A minimal example package (with pybind11)"
+description="A minimal example package (with pybind11)"
 readme = "README.md"
 authors = [
   { name = "Mathis Logemann", email = "mathis.opensource@gmail.com" },

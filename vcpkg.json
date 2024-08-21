@@ -3,7 +3,8 @@
     "dependencies": [
         "asio",
         "asio-grpc",
-        "spdlog",
+        "fmt",
+        "quill",
         "catch2",
         "stdexec",
         "stb",

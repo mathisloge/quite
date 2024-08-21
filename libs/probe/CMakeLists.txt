@@ -1,7 +1,7 @@
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-add_library(probe SHARED)
+add_library(probe)
 add_library(quite::probe ALIAS probe)
 set_target_properties(probe PROPERTIES
     POSITION_INDEPENDENT_CODE ON
@@ -19,8 +19,8 @@ target_link_libraries(probe PRIVATE
     Qt6::QuickPrivate
     Qt6::Widgets
     fmt::fmt
-    spdlog::spdlog
     quite::protocol
+    quite::logger
     asio-grpc::asio-grpc-stdexec
     EnTT::EnTT
 )

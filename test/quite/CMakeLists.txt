@@ -10,7 +10,7 @@ target_link_libraries(api_test PRIVATE
     Catch2::Catch2WithMain
     quite::tester_app
     quite::quite
-    spdlog::spdlog
+    quite::logger
     quite::testrc
 )
 catch_discover_tests(api_test)
