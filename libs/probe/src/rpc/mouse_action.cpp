@@ -1,14 +1,16 @@
 #include "mouse_action.hpp"
 #include <QCoreApplication>
 #include <agrpc/register_sender_rpc_handler.hpp>
-#include <spdlog/spdlog.h>
+#include <fmt/format.h>
+#include <quite/logger.hpp>
 #include "../qtstdexec.h"
 
+DEFINE_LOGGER(rpc_mouse_action_logger)
 namespace quite::probe
 {
 exec::task<void> MouseActionRpcHandler::operator()(MouseActionRPC &rpc, const MouseActionRPC::Request &request)
 {
-    spdlog::trace("START RequestMouseAction={}", request.object_id());
+    LOG_TRACE_L1(rpc_mouse_action_logger, "START RequestMouseAction={}", request.object_id());
     MouseActionRPC::Response response{};
     co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
                            [&]() {

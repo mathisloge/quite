@@ -5,10 +5,9 @@
 #include <QtQml/private/qqmlmetatype_p.h>
 #include <entt/meta/factory.hpp>
 #include <private/qv4executablecompilationunit_p.h>
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 
+DEFINE_LOGGER(property_collector_logger)
 namespace quite
 {
 namespace
@@ -32,7 +31,7 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
         auto &&data = QQmlData::get(object);
         if (data != nullptr or not data->compilationUnit)
         {
-            spdlog::warn("got no data for qml object");
+            LOG_WARNING(property_collector_logger, "got no data for qml object");
         }
         else
         {
@@ -43,7 +42,7 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
             }
             else
             {
-                spdlog::warn("qml type not valid");
+                LOG_WARNING(property_collector_logger, "qml type not valid");
             }
         }
     }
@@ -62,21 +61,25 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
         auto &&any_obj = custom_meta_type.from_void(&property_value);
         if (any_obj.allow_cast<proto::Value>())
         {
-            spdlog::debug("prop {}({}) convertible via meta", property.name(), property.metaType().name());
+            LOG_DEBUG(property_collector_logger,
+                      "prop {}({}) convertible via meta",
+                      property.name(),
+                      property.metaType().name());
             value = any_obj.cast<proto::Value>();
         }
         else
         {
-            spdlog::error("could not cast {} to proto::Value", property.metaType().name());
+            LOG_ERROR(property_collector_logger, "could not cast {} to proto::Value", property.metaType().name());
         }
     }
     else if (property.metaType().flags().testAnyFlags(QMetaType::IsGadget | QMetaType::PointerToGadget))
     {
         auto &&gadget_metaobj = property.metaType().metaObject();
-        spdlog::debug("prop {}={} convertable to QGadget (props={})",
-                      property.name(),
-                      property.typeName(),
-                      gadget_metaobj->propertyCount());
+        LOG_DEBUG(property_collector_logger,
+                  "prop {}={} convertable to QGadget (props={})",
+                  property.name(),
+                  property.typeName(),
+                  gadget_metaobj->propertyCount());
         auto &&class_val = value.mutable_class_val();
         class_val->set_type_name(property.typeName());
 
@@ -90,7 +93,6 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
                 std::views::transform([&](int prop_idx) { return gadget_metaobj->property(prop_idx); }) |
                 std::views::filter([](const QMetaProperty &prop) { return prop.isValid() and prop.isReadable(); }) |
                 std::views::transform([&](auto &&prop) {
-                    spdlog::info("read on gadget");
                     return std::tuple{prop.readOnGadget(property_value.data()), std::forward<decltype(prop)>(prop)};
                 }) |
                 std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); }),
@@ -99,7 +101,10 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
     else if (QQmlListReference qml_list{property_value};
              qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
     {
-        spdlog::debug("prop {}={} convertable to QQmlListReference", property.name(), property.typeName());
+        LOG_DEBUG(property_collector_logger,
+                  "prop {}={} convertable to QQmlListReference",
+                  property.name(),
+                  property.typeName());
         const auto size = qml_list.count();
         for (qsizetype i = 0; i < size; i++)
         {
@@ -110,7 +115,7 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
     }
     else
     {
-        spdlog::debug("prop {}={} not convertable", property.name(), property.typeName());
+        LOG_DEBUG(property_collector_logger, "prop {}={} not convertable", property.name(), property.typeName());
     }
     return {property.name(), std::move(value)};
 }

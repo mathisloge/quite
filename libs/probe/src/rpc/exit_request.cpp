@@ -1,14 +1,16 @@
 #include "exit_request.hpp"
 #include <QCoreApplication>
 #include <agrpc/register_sender_rpc_handler.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "../qtstdexec.h"
+
+DEFINE_LOGGER(exit_request_logger)
 
 namespace quite::probe
 {
 exec::task<void> ExitRpcHandler::operator()(ExitRPC &rpc, const ExitRPC::Request &request)
 {
-    spdlog::trace("exit requested");
+    LOG_DEBUG(exit_request_logger, "exit requested");
     ExitRPC::Response response{};
     co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
                            [&]() { QCoreApplication::quit(); });

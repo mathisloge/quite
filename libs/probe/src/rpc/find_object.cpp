@@ -2,14 +2,16 @@
 #include <QCoreApplication>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <fmt/format.h>
-#include <spdlog/spdlog.h>
 #include "../qtstdexec.h"
+
+#include <quite/logger.hpp>
+DEFINE_LOGGER(rpc_find_object_logger)
 
 namespace quite::probe
 {
 exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const FindObjectRPC::Request &request)
 {
-    spdlog::debug("START RpcFindObject");
+    LOG_TRACE_L1(rpc_find_object_logger, "START RpcFindObject");
 
     FindObjectRPC::Response response{};
     auto obj_info =

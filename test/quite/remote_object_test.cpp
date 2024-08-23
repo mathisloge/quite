@@ -2,7 +2,6 @@
 #include <exec/task.hpp>
 #include <quite/application.hpp>
 #include <quite/testing/verification_point.hpp>
-#include <spdlog/spdlog.h>
 #include "tester_app.hpp"
 
 #define ASYNC_BLOCK stdexec::sync_wait([&]() -> exec::task<void> {
@@ -15,7 +14,6 @@ using namespace quite;
 
 TEST_CASE("Remote object can be invoked")
 {
-    spdlog::set_level(spdlog::level::level_enum::trace);
     auto app = Application::CreateApplication(TESTER_APP_PATH);
 
     const ObjectQuery btn_query{.properties = {{"objectName", Value{"helloBtn"}}}};

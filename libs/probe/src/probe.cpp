@@ -11,7 +11,6 @@
 #include <grpcpp/server_builder.h>
 #include <quite/proto/probe.grpc.pb.h>
 #include <quite/setup_logger.hpp>
-#include <spdlog/spdlog.h>
 #include "injector/mouse_injector.hpp"
 #include "object_tracker.hpp"
 #include "rpc/create_snapshot.hpp"
@@ -21,6 +20,9 @@
 #include "rpc/get_views.hpp"
 #include "rpc/mouse_action.hpp"
 #include "value_converters.hpp"
+
+#include <quite/logger.hpp>
+DEFINE_LOGGER(probe_logger)
 namespace
 {
 
@@ -57,7 +59,7 @@ struct ProbeData final
                                      stdexec::then(stdexec::just(), [this] { grpc_context.work_finished(); }));
             stdexec::sync_wait(
                 stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
-            spdlog::error("CLOSING GRPC");
+            LOG_INFO(probe_logger, "CLOSING GRPC");
         }};
     }
 
@@ -157,6 +159,7 @@ namespace quite
 void setupHooks()
 {
     setup_logger();
+    LOG_INFO(probe_logger, "setup hoos");
     probeData(); // just create it at the beginnging
     installQHooks();
 }

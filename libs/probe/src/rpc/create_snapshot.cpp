@@ -3,16 +3,18 @@
 #include <QImage>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <fmt/format.h>
-#include <spdlog/spdlog.h>
 #include "../qtstdexec.h"
 #include "../snapshot.hpp"
+
+#include <quite/logger.hpp>
+DEFINE_LOGGER(rpc_create_snapshot_logger)
 
 namespace quite::probe
 {
 exec::task<void> CreateScreenshotRpcHandler::operator()(CreateScreenshotRPC &rpc,
                                                         const CreateScreenshotRPC::Request &request)
 {
-    spdlog::trace("START RequestCreateScreenshot={}", request.object_id());
+    LOG_TRACE_L1(rpc_create_snapshot_logger, "START RequestCreateScreenshot={}", request.object_id());
     CreateScreenshotRPC::Response response{};
     auto object =
         co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),

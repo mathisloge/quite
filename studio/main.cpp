@@ -14,8 +14,6 @@
 #include <SDL.h>
 #include <quite/logger.hpp>
 #include <quite/setup_logger.hpp>
-#include <spdlog/spdlog.h>
-#include <stdio.h>
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
@@ -84,7 +82,7 @@ int main(int, char **)
     ImGui_ImplSDLRenderer2_Init(renderer);
 
     // Load Fonts
-    io.Fonts->AddFontFromFileTTF("/home/mathis/dev/ng-quite/studio/assets/fonts/SauceCodeProNerdFont-Regular.ttf",
+    io.Fonts->AddFontFromFileTTF("/home/mlogemann/dev/quite/studio/assets/fonts/SauceCodeProNerdFont-Regular.ttf",
                                  18.0f);
     // Our state
     bool show_demo_window = true;
