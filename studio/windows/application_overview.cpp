@@ -3,15 +3,11 @@
 #include <exec/static_thread_pool.hpp>
 #include <exec/task.hpp>
 #include <imgui.h>
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "../logic/scheduler.hpp"
 
-namespace
-{
-LOGGER_IMPL(application_overview)
-}
+DEFINE_LOGGER(application_overview);
+
 namespace quite::studio
 {
 ApplicationOverview::ApplicationOverview(SDL_Renderer *renderer, std::shared_ptr<Application> application)
@@ -59,12 +55,12 @@ void ApplicationOverview::drawWindow()
 void ApplicationOverview::fetchViews()
 {
     scope_.spawn(stdexec::on(get_scheduler(), [](ApplicationOverview *self) -> exec::task<void> {
-        SPDLOG_LOGGER_DEBUG(logger_application_overview(), "Fetching views...");
+        LOG_DEBUG(application_overview, "Fetching views...");
         self->fetch_in_progress_ = true;
         auto view_result = co_await self->application_->get_views();
         if (view_result.has_value())
         {
-            SPDLOG_LOGGER_DEBUG(logger_application_overview(), "got views");
+            LOG_DEBUG(application_overview, "got views");
             for (auto &&v : *view_result)
             {
                 self->views_[v->id()] = std::make_unique<View>(self->renderer_, v);
@@ -72,7 +68,7 @@ void ApplicationOverview::fetchViews()
         }
         else
         {
-            SPDLOG_LOGGER_ERROR(logger_application_overview(), "Failed to get views: {}", view_result.error().message);
+            LOG_ERROR(application_overview, "Failed to get views: {}", view_result.error().message);
         }
         self->fetch_in_progress_ = false;
         co_return;

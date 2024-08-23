@@ -1,13 +1,5 @@
 #include "view.hpp"
 #include <imgui.h>
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
-
-namespace
-{
-LOGGER_IMPL(comp_view)
-}
 
 namespace quite::studio
 {

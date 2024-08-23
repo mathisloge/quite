@@ -1,17 +1,13 @@
 #include "grpc_remote_object.hpp"
-#include <quite/create_logger.hpp>
-#include <quite/image.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <fmt/ranges.h>
+#include <quite/logger.hpp>
 #include "grpc_property.hpp"
 #include "probe_client.hpp" // NOLINT
 #include "rpc/make_create_snapshot_request.hpp"
 #include "rpc/make_get_object_properties_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
-namespace
-{
-LOGGER_IMPL(grpc_remote_obj)
-}
+
+DEFINE_LOGGER(grpc_remote_object_logger);
 namespace quite::grpc_impl
 {
 GrpcRemoteObject::GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service_handle)
@@ -23,9 +19,12 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
     const std::vector<std::string_view> &properties)
 {
     using RetVal = std::unordered_map<std::string, std::shared_ptr<Property>>;
-    SPDLOG_LOGGER_DEBUG(logger_grpc_remote_obj(), "get properties[{}] for object={}", fmt::join(properties, ","), id_);
-    const auto response =
-        co_await make_get_object_properties_request(probe_service_->context(), probe_service_->stub(), id_, properties);
+    LOG_DEBUG(grpc_remote_object_logger,
+              "get properties[{}] for object={}",
+              fmt::format("{}", fmt::join(properties, ",")),
+              id());
+    const auto response = co_await make_get_object_properties_request(
+        probe_service_->context(), probe_service_->stub(), id(), properties);
     co_return response.and_then([&](auto && /*reply*/) -> Result<RetVal> {
         RetVal values;
         for (auto &&val : response->property_values())
@@ -39,12 +38,12 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
 
 AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string property_name)
 {
-    SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "get property[{}] for object={}", property_name, id_);
+    LOG_DEBUG(grpc_remote_object_logger, "get property[{}] for object={}", property_name, id());
 
     // even though it is not really necessary to fetch the property here, it will get fetch, to verify that the property
     // exists. Otherwise an unexpected event is returned.
     const auto response = co_await make_get_object_properties_request(
-        probe_service_->context(), probe_service_->stub(), id_, {property_name});
+        probe_service_->context(), probe_service_->stub(), id(), {property_name});
     co_return response.and_then(
         [&](const proto::GetObjectPropertiesResponse &reply) -> Result<std::shared_ptr<Property>> {
             auto it = reply.property_values().find(property_name);
@@ -58,17 +57,17 @@ AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string pr
 
 AsyncResult<void> GrpcRemoteObject::mouse_action()
 {
-    SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "mouse_action for object={}", id_);
-    const auto response = co_await make_mouse_click_request(probe_service_->context(), probe_service_->stub(), id_);
+    LOG_DEBUG(grpc_remote_object_logger, "mouse_action for object={}", id());
+    const auto response = co_await make_mouse_click_request(probe_service_->context(), probe_service_->stub(), id());
 
     co_return response.and_then([&](auto && /*reply*/) -> Result<void> { return {}; });
 }
 
 AsyncResult<Image> GrpcRemoteObject::take_snapshot()
 {
-    auto response = co_await make_create_snapshot_request(probe_service_->context(), probe_service_->stub(), id_);
-    co_return response.and_then([id = id_](auto &&image_response) -> Result<Image> {
-        SPDLOG_LOGGER_TRACE(logger_grpc_remote_obj(), "Got image for obj={}", id);
+    auto response = co_await make_create_snapshot_request(probe_service_->context(), probe_service_->stub(), id());
+    co_return response.and_then([id = id()](auto &&image_response) -> Result<Image> {
+        LOG_DEBUG(grpc_remote_object_logger, "Got image for obj={}", id);
         std::vector<std::byte> image_data;
         auto image_view = std::as_bytes(std::span{image_response.data().data(), image_response.data().size()});
         image_data.reserve(image_view.size());

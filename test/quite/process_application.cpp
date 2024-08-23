@@ -1,17 +1,16 @@
+#include <fstream>
 #include <asio/co_spawn.hpp>
 #include <asio/detached.hpp>
 #include <asio/steady_timer.hpp>
 #include <catch2/catch_test_macros.hpp>
+#include <nlohmann/json.hpp>
 #include <quite/application.hpp>
 #include <quite/asio2exec.hpp>
 #include <quite/property.hpp>
 #include <quite/quite.hpp>
+#include <quite/utils/dump_properties.hpp>
 #include <spdlog/spdlog.h>
 #include <tester_app.hpp>
-#include "quite/utils/dump_properties.hpp"
-
-#include <fstream>
-#include <nlohmann/json.hpp>
 
 TEST_CASE("Test if a process application can be created")
 {
@@ -20,8 +19,11 @@ TEST_CASE("Test if a process application can be created")
 
         auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
 
+        auto views = co_await app->get_views();
+        REQUIRE(views.has_value());
+
         {
-            auto xxxx = co_await app->find_object("testRoot");
+            auto xxxx = co_await app->find_object({.properties = {{"objectName", "testRoot"}}});
             REQUIRE(xxxx.has_value());
 
             {
@@ -40,9 +42,9 @@ TEST_CASE("Test if a process application can be created")
         }
         co_await app->get_views();
 
-        auto btn_obj = co_await app->find_object("worldBtn");
+        auto btn_obj = co_await app->find_object({.properties = {{"objectName", "worldBtn"}}});
         REQUIRE(btn_obj.has_value());
-        auto text_area_res = co_await app->find_object("textArea");
+        auto text_area_res = co_await app->find_object({.properties = {{"objectName", "textArea"}}});
         REQUIRE(text_area_res.has_value());
         auto text_area = text_area_res.value();
         {

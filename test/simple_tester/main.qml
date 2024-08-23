@@ -18,6 +18,8 @@ Item {
             objectName: "helloBtn"
             text: "Hello"
             onClicked: text.text = "Hello"
+            Layout.preferredWidth: 100
+            Layout.preferredHeight: 30
         }
         Button {
             objectName: "worldBtn"

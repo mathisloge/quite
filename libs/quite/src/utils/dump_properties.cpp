@@ -1,7 +1,6 @@
 #include "quite/utils/dump_properties.hpp"
 #include <unordered_set>
 #include <nlohmann/json.hpp>
-#include <spdlog/spdlog.h>
 
 using json = nlohmann::json;
 namespace quite
