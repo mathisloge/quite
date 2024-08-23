@@ -7,8 +7,10 @@
 #include <QtQml/private/qqmlmetatype_p.h>
 #include <fmt/ranges.h>
 #include <private/qv4executablecompilationunit_p.h>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "property_collector.hpp"
+
+DEFINE_LOGGER(object_tracker_logger)
 
 namespace
 {
@@ -158,12 +160,12 @@ void ObjectTracker::removeObject(QObject *obj)
     InOwnContext c{own_ctx_};
     if (const auto it = objects_to_track_.find(obj); it != objects_to_track_.end())
     {
-        spdlog::trace("remove obj from objects_to_track {}", obj->objectName().toStdString());
+        LOG_TRACE_L1(object_tracker_logger, "remove obj from objects_to_track {}", obj->objectName().toStdString());
         objects_to_track_.erase(it);
     }
     else if (const auto it = tracked_objects_.find(obj); it != tracked_objects_.end())
     {
-        spdlog::trace("remove obj from tracked_objects {}", obj->objectName().toStdString());
+        LOG_TRACE_L1(object_tracker_logger, "remove obj from tracked_objects {}", obj->objectName().toStdString());
         tracked_objects_.erase(it);
     }
     if (const auto it = top_level_views_.find(obj); it != top_level_views_.end())

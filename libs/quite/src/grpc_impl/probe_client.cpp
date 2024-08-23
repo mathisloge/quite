@@ -1,7 +1,6 @@
 #include "probe_client.hpp"
 #include <grpcpp/client_context.h>
 #include <grpcpp/create_channel.h>
-#include <spdlog/spdlog.h>
 
 namespace quite::grpc_impl
 {

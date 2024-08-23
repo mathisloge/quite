@@ -1,6 +1,5 @@
 #include "context.hpp"
 #include <agrpc/asio_grpc.hpp>
-#include <spdlog/spdlog.h>
 namespace quite
 {
 
