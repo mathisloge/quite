@@ -127,7 +127,7 @@ void installQHooks()
 
 void quite_add_object(QObject *q)
 {
-    probeData().tracker->addObject(q);
+    probeData().tracker->add_object(q);
     if (probeData().next_add_qobject_hook_ != nullptr)
     {
         probeData().next_add_qobject_hook_(q);
@@ -136,7 +136,7 @@ void quite_add_object(QObject *q)
 
 void quite_remove_object(QObject *q)
 {
-    probeData().tracker->removeObject(q);
+    probeData().tracker->remove_object(q);
     if (probeData().next_remove_qobject_hook_ != nullptr)
     {
         probeData().next_remove_qobject_hook_(q);

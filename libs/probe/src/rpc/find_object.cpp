@@ -14,16 +14,9 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
     LOG_TRACE_L1(rpc_find_object_logger, "START RpcFindObject");
 
     FindObjectRPC::Response response{};
-    auto obj_info =
-        co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                               [&]() -> std::expected<ObjectInfo, ObjectErrC> {
-                                   auto it = request.query().properties().find("objectName");
-                                   if (it != request.query().properties().end())
-                                   {
-                                       return tracker.findObject(it->second.string_val());
-                                   }
-                                   return std::unexpected(ObjectErrC::not_found);
-                               });
+    const auto obj_info = co_await stdexec::then(
+        stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
+        [&]() -> std::expected<ObjectInfo, ObjectErrC> { return tracker.find_object_by_query(request.query()); });
 
     if (obj_info.has_value())
     {

@@ -26,22 +26,22 @@ class ObjectTracker final : public QObject
     ObjectTracker();
     ~ObjectTracker() override;
 
-    void addObject(QObject *);
-    void removeObject(QObject *);
-    void beginContext();
-    void endContext();
+    void add_object(QObject *);
+    void remove_object(QObject *);
+    void begin_context();
+    void end_context();
 
     const std::unordered_set<QObject *> &top_level_views() const;
 
-    std::expected<ObjectInfo, ObjectErrC> findObject(const std::string &object_name);
+    std::expected<ObjectInfo, ObjectErrC> find_object(const std::string &object_name);
 
     std::expected<ObjectInfo, ObjectErrC> find_object_by_query(const proto::ObjectSearchQuery &query);
     std::expected<QObject *, ObjectErrC> get_object_by_id(probe::ObjectId obj_id);
     std::expected<std::string, ObjectErrC> get_property(probe::ObjectId obj_id, const std::string &property_name);
 
   private:
-    void startTimer();
-    void processNewObjects();
+    void start_timer();
+    void process_new_objects();
 
   private:
     std::atomic_bool own_ctx_{false};
