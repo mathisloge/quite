@@ -66,13 +66,21 @@ PYBIND11_MODULE(_quite, m)
 {
     using namespace quite::python;
 
-    py::class_<PyApplication>(m, "Application") //
-        .def(py::init<const std::string &>())
-        .def("find_object", &PyApplication::find_object)
-        .def("exit", &PyApplication::exit);
+    m.doc() = "quite - the (q)t (ui) (te)sting framework. See https://github.com/mathisloge/ng-quite";
 
-    py::class_<PyRemoteObject>(m, "RemoteObject") //
-        .def_property_readonly("id", &PyRemoteObject::id);
+    auto pyApplication = py::class_<PyApplication>(m, "Application");
+    auto pyRemoteObject = py::class_<PyRemoteObject>(m, "RemoteObject");
+
+    pyApplication //
+        .def(py::init<const std::string &>(), py::arg("application_path"))
+        .def("find_object",
+             &PyApplication::find_object,
+             py::arg{"object_query"},
+             "try to get an instance of an object by the given query.")
+        .def("exit", &PyApplication::exit, "Request to exit the application.");
+
+    pyRemoteObject //
+        .def_property_readonly("id", &PyRemoteObject::id, "returns the id of the remote object.");
 
     m.attr("__version__") = quite::kVersion;
 }
