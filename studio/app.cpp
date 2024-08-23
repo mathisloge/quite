@@ -1,14 +1,11 @@
 #include "app.hpp"
 #include <imgui.h>
-#include <spdlog/spdlog.h>
 
 namespace quite::studio
 {
 App::App(SDL_Renderer *renderer)
     : renderer_{renderer}
-{
-    spdlog::set_level(spdlog::level::debug);
-}
+{}
 
 void App::show()
 {
