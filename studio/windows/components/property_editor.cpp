@@ -3,15 +3,10 @@
 #include <map>
 #include <ranges>
 #include <imgui.h>
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "scheduler.hpp"
-namespace
-{
-LOGGER_IMPL(comp_prop_editor)
-}
 
+DEFINE_LOGGER(ui_comp_prop_editor)
 namespace quite::studio
 {
 
@@ -259,7 +254,7 @@ void PropertyObjectValue::fetch_properties()
 {
     scope_.spawn(stdexec::on(get_scheduler(), [](PropertyObjectValue *self) -> exec::task<void> {
         auto props = co_await self->object_->fetch_properties({});
-        SPDLOG_LOGGER_DEBUG(logger_comp_prop_editor(), "Got properties.");
+        LOG_DEBUG(ui_comp_prop_editor, "Got properties.");
         if (props.has_value())
         {
             self->properties_.clear();
@@ -273,7 +268,7 @@ void PropertyObjectValue::fetch_properties()
         }
         else
         {
-            SPDLOG_LOGGER_ERROR(logger_comp_prop_editor(), "Could not fetch properties");
+            LOG_ERROR(ui_comp_prop_editor, "Could not fetch properties");
         }
         co_return;
     }(this)));
@@ -343,8 +338,7 @@ void PropertyArrayValue::fetch_properties()
         }
         else
         {
-            SPDLOG_LOGGER_ERROR(
-                logger_comp_prop_editor(), "Could not fetch props due to {}", ui_elements->error().message);
+            LOG_ERROR(ui_comp_prop_editor, "Could not fetch props due to {}", ui_elements->error().message);
         }
         co_return;
     }(this)));

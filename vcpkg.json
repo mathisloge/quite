@@ -3,13 +3,14 @@
     "dependencies": [
         "asio",
         "asio-grpc",
-        "spdlog",
+        "fmt",
+        "quill",
         "catch2",
         "stdexec",
         "stb",
         {
             "name": "imgui",
-            "features":[
+            "features": [
                 "freetype",
                 "docking-experimental",
                 "sdl2-binding",
@@ -17,6 +18,9 @@
             ]
         },
         "nlohmann-json",
-        "qtbase"
+        "qtbase",
+        "pybind11",
+        "cmakerc",
+        "entt"
     ]
 }

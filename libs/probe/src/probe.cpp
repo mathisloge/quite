@@ -10,15 +10,19 @@
 #include <fmt/format.h>
 #include <grpcpp/server_builder.h>
 #include <quite/proto/probe.grpc.pb.h>
-#include <spdlog/spdlog.h>
+#include <quite/setup_logger.hpp>
 #include "injector/mouse_injector.hpp"
 #include "object_tracker.hpp"
 #include "rpc/create_snapshot.hpp"
+#include "rpc/exit_request.hpp"
 #include "rpc/find_object.hpp"
 #include "rpc/get_object_properties.hpp"
 #include "rpc/get_views.hpp"
 #include "rpc/mouse_action.hpp"
 #include "value_converters.hpp"
+
+#include <quite/logger.hpp>
+DEFINE_LOGGER(probe_logger)
 namespace
 {
 
@@ -33,7 +37,7 @@ struct ProbeData final
     {
         using namespace quite;
         builder.RegisterService(&object_service);
-        builder.AddListeningPort("0.0.0.0:50051", grpc::InsecureServerCredentials());
+        builder.AddListeningPort("unix:///tmp/grpc_probe.sock", grpc::InsecureServerCredentials());
         server = builder.BuildAndStart();
 
         grpc_runner = std::jthread{[this]() {
@@ -43,20 +47,20 @@ struct ProbeData final
             auto mouse_action_rpc = quite::probe::mouse_action(grpc_context, object_service, *mouse_injector);
             auto create_snapshot_rpc = quite::probe::create_snapshot(grpc_context, object_service, *tracker);
             auto get_views_rpc = quite::probe::get_views(grpc_context, object_service, *tracker);
+            auto exit_request_rpc = quite::probe::exit_request(grpc_context, object_service);
 
             grpc_context.work_started();
             auto snd = exec::finally(stdexec::when_all(std::move(find_obj_rpc),
                                                        std::move(get_object_properties_rpc),
                                                        std::move(mouse_action_rpc),
                                                        std::move(create_snapshot_rpc),
-                                                       std::move(get_views_rpc)),
+                                                       std::move(get_views_rpc),
+                                                       std::move(exit_request_rpc)),
                                      stdexec::then(stdexec::just(), [this] { grpc_context.work_finished(); }));
             stdexec::sync_wait(
                 stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [&] { grpc_context.run(); })));
-            spdlog::error("CLOSING GRPC");
+            LOG_INFO(probe_logger, "CLOSING GRPC");
         }};
-
-        QRect x;
     }
 
     ~ProbeData() = default;
@@ -123,7 +127,7 @@ void installQHooks()
 
 void quite_add_object(QObject *q)
 {
-    probeData().tracker->addObject(q);
+    probeData().tracker->add_object(q);
     if (probeData().next_add_qobject_hook_ != nullptr)
     {
         probeData().next_add_qobject_hook_(q);
@@ -132,7 +136,7 @@ void quite_add_object(QObject *q)
 
 void quite_remove_object(QObject *q)
 {
-    probeData().tracker->removeObject(q);
+    probeData().tracker->remove_object(q);
     if (probeData().next_remove_qobject_hook_ != nullptr)
     {
         probeData().next_remove_qobject_hook_(q);
@@ -141,7 +145,6 @@ void quite_remove_object(QObject *q)
 
 void quite_app_startup()
 {
-    spdlog::set_level(spdlog::level::debug);
     installApplicationHooks();
     if (probeData().next_startup_hook_ != nullptr)
     {
@@ -155,6 +158,8 @@ namespace quite
 {
 void setupHooks()
 {
+    setup_logger();
+    LOG_INFO(probe_logger, "setup hoos");
     probeData(); // just create it at the beginnging
     installQHooks();
 }

@@ -1,6 +1,5 @@
 #include "context.hpp"
 #include <agrpc/asio_grpc.hpp>
-#include <spdlog/spdlog.h>
 namespace quite
 {
 
@@ -11,7 +10,6 @@ Context::Context()
     grpc_context_thread_ = std::jthread{[this]() {
         grpc_context_.work_started();
         grpc_context_.run();
-        spdlog::warn("exiting grpc_context");
     }};
 }
 

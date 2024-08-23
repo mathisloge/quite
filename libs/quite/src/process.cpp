@@ -1,8 +1,10 @@
 #include "process.hpp"
 #include <csignal>
+#include <quite/logger.hpp>
 #include <spawn.h>
-#include <spdlog/spdlog.h>
 #include <sys/wait.h>
+
+DEFINE_LOGGER(process_logger);
 
 namespace quite
 {
@@ -10,7 +12,7 @@ Process::Process(const std::string &path_to_application)
 {
     if (pipe(out_pipe_.data()) == -1 || pipe(err_pipe_.data()) == -1)
     {
-        spdlog::error("Could not open pipes for the application pipes");
+        LOG_ERROR(process_logger, "Could not open pipes for the application pipes");
         return;
     }
 
@@ -23,9 +25,9 @@ Process::Process(const std::string &path_to_application)
     posix_spawn_file_actions_addclose(&file_actions, err_pipe_[0]);
 
     const char *args[] = {path_to_application.c_str(), nullptr};
-    if (posix_spawn(&pid_, args[0], &file_actions, nullptr, const_cast<char *const *>(args), environ) == -1)
+    if (posix_spawn(&pid_, args[0], &file_actions, nullptr, const_cast<char *const *>(args), environ) != 0)
     {
-        spdlog::error("Could not spwan process");
+        LOG_ERROR(process_logger, "Could not spwan process {}", path_to_application);
         return;
     }
 
@@ -75,10 +77,10 @@ void Process::terminate()
     if (pid_ != -1)
     {
         kill(pid_, SIGTERM);
-        int status;
+        int status{-1};
         if (waitpid(pid_, &status, 0) == -1)
         {
-            spdlog::error("Error waiting for child process: {}", strerror(errno));
+            LOG_ERROR(process_logger, "Error waiting for child process: {}", strerror(errno));
         }
         pid_ = -1;
     }

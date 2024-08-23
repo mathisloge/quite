@@ -1,14 +1,6 @@
 #include "element_tree_view.hpp"
 #include <exec/async_scope.hpp>
 #include <imgui.h>
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
-
-namespace
-{
-LOGGER_IMPL(element_tree)
-}
 
 namespace quite::studio
 {

@@ -3,9 +3,11 @@
 #include <QMetaProperty>
 #include <QVariant>
 #include <agrpc/register_sender_rpc_handler.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "../property_collector.hpp"
 #include "../qtstdexec.h"
+
+DEFINE_LOGGER(get_obj_props_logger)
 
 namespace quite::probe
 {
@@ -13,7 +15,7 @@ namespace quite::probe
 exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRPC &rpc,
                                                            const GetObjectPropertiesRPC::Request &request)
 {
-    spdlog::debug("START RequestGetObjectProperty={}", request.object_id());
+    LOG_DEBUG(get_obj_props_logger, "START RequestGetObjectProperty={}", request.object_id());
     GetObjectPropertiesRPC::Response response{};
     co_await stdexec::then(
         stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())), [&]() {
@@ -39,7 +41,8 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                         const auto property_index = meta_obj.meta_object->indexOfProperty(property_name.c_str());
                         if (property_index >= 0)
                         {
-                            auto prop = read_property(meta_obj, meta_obj.meta_object->property(property_index));
+                            auto meta_prop = meta_obj.meta_object->property(property_index);
+                            auto prop = read_property(meta_prop.read(meta_obj.object), meta_prop);
 
                             response.mutable_property_values()->emplace(std::move(prop.first), std::move(prop.second));
                         }

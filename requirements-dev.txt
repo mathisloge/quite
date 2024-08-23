@@ -1,1 +1,3 @@
 pre-commit
+pybind11-stubgen
+pytest

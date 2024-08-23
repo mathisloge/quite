@@ -1,13 +1,8 @@
 #include "image_view.hpp"
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
 #include "scheduler.hpp"
 
-namespace
-{
-LOGGER_IMPL(image_view)
-}
+DEFINE_LOGGER(ui_image_view);
 
 namespace quite::studio
 {
@@ -65,10 +60,16 @@ void ImageView::higlight_object(const ObjectTree::ObjectNode *object)
     image_.end_point_.y = get_number_property(object->properties, "height");
 
     auto parent = object->parent;
-    while (parent)
+    LOG_DEBUG(ui_image_view, "highlight object. has parent={}", (parent != nullptr));
+    while (parent != nullptr)
     {
         image_.start_point_.x += get_number_property(parent->properties, "x");
         image_.start_point_.y += get_number_property(parent->properties, "y");
+        LOG_DEBUG(ui_image_view, "highlight: x={} y={}", image_.start_point_.x, image_.start_point_.y);
+        if (parent->position_root)
+        {
+            break;
+        }
         parent = parent->parent;
     }
 }
@@ -77,7 +78,7 @@ void ImageView::fetch_image()
 {
     scope_.spawn(stdexec::on(get_scheduler(), [](ImageView *self) -> exec::task<void> {
         auto snapshot_result = co_await self->tree_.root()->object->take_snapshot();
-        SPDLOG_LOGGER_DEBUG(logger_image_view(), "got snapshot");
+        LOG_DEBUG(ui_image_view, "got snapshot");
         if (snapshot_result.has_value())
         {
             self->image_.image = std::move(snapshot_result.value());

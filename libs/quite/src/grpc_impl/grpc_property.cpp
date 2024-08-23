@@ -1,70 +1,11 @@
 #include "grpc_property.hpp"
-#include <quite/create_logger.hpp>
-#include <quite/logger_macros.hpp>
-#include <spdlog/spdlog.h>
+#include <quite/logger.hpp>
+#include "grpc_value.hpp"
 #include "probe_client.hpp"
 #include "rpc/make_get_object_properties_request.hpp"
 
-namespace
-{
-LOGGER_IMPL(grpc_property)
+DEFINE_LOGGER(grpc_property_logger)
 
-quite::Result<quite::Value> cnv_value(const quite::proto::Value &value,
-                                      quite::grpc_impl::ProbeServiceHandle probe_service)
-{
-    if (value.has_bool_val())
-    {
-        return value.bool_val();
-    }
-    else if (value.has_int_val())
-    {
-        return value.int_val();
-    }
-    else if (value.has_double_val())
-    {
-        return value.double_val();
-    }
-    else if (value.has_string_val())
-    {
-        return value.string_val();
-    }
-    else if (value.has_object_val())
-    {
-        return std::make_shared<quite::grpc_impl::GrpcRemoteObject>(value.object_val().object_id(),
-                                                                    std::move(probe_service));
-    }
-    else if (value.has_array_val())
-    {
-        quite::ArrayObject array{};
-        array.values.reserve(value.array_val().value_size());
-        for (auto &&val : value.array_val().value())
-        {
-            // todo: propagate potential error up
-            array.values.emplace_back(*cnv_value(val, probe_service));
-        }
-        return xyz::indirect<quite::ArrayObject>(std::move(array));
-    }
-    else if (value.has_class_val())
-    {
-        quite::ClassObject class_obj{};
-        class_obj.type_name = value.class_val().type_name();
-        class_obj.members.reserve(value.class_val().value_size());
-        for (auto &&val : value.class_val().value())
-        {
-            // todo: propagate potential error up
-            class_obj.members.emplace_back(val.name(), *cnv_value(val.value(), probe_service));
-        }
-        return xyz::indirect<quite::ClassObject>(std::move(class_obj));
-    }
-
-    return std::unexpected(quite::Error{
-        .code = quite::ErrorCode::invalid_argument,
-        .message =
-            fmt::format("Could not convert value. Has value field={}",
-                        (value.value_oneof_case() != quite::proto::Value::ValueOneofCase::VALUE_ONEOF_NOT_SET))});
-}
-
-} // namespace
 namespace quite::grpc_impl
 {
 GrpcProperty::GrpcProperty(ProbeServiceHandle probe_service,
@@ -74,7 +15,7 @@ GrpcProperty::GrpcProperty(ProbeServiceHandle probe_service,
     : probe_service_{probe_service}
     , parent_{parent}
     , name_{std::move(name)}
-    , last_value_{cnv_value(initial_value, probe_service)}
+    , last_value_{convert(initial_value, probe_service)}
 {}
 
 GrpcProperty::~GrpcProperty() = default;
@@ -91,10 +32,10 @@ const Result<Value> &GrpcProperty::value() const noexcept
 
 AsyncResult<Value> GrpcProperty::read() noexcept
 {
-    SPDLOG_LOGGER_DEBUG(logger_grpc_property(), "get property[{}] for object={}", name_, parent_->id());
+    LOG_DEBUG(grpc_property_logger, "get property[{}] for object={}", name_, parent_->id());
 
-    // even though it is not really necessary to fetch the property here, it will get fetch, to verify that the property
-    // exists. Otherwise an unexpected event is returned.
+    // even though it is not really necessary to fetch the property here, it will get fetched, to verify that the
+    // property exists.
     const std::vector<std::string_view> prop_vec{name_}; // workaround for gcc-13, (compiler crash when inlining this)
     const auto response = co_await make_get_object_properties_request(
         probe_service_->context(), probe_service_->stub(), parent_->id(), prop_vec);
@@ -104,7 +45,7 @@ AsyncResult<Value> GrpcProperty::read() noexcept
         {
             return std::unexpected(Error{ErrorCode::not_found, "Server did not return the expected property."});
         }
-        last_value_ = cnv_value(it->second, probe_service_);
+        last_value_ = convert(it->second, probe_service_);
         return last_value_;
     });
 }
