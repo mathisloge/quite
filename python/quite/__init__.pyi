@@ -1,3 +1,7 @@
+"""
+quite - the (q)t (ui) (te)sting framework. See https://github.com/mathisloge/ng-quite
+"""
+
 from __future__ import annotations
 
 from quite._quite import Application, RemoteObject
