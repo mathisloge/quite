@@ -4,13 +4,13 @@
 #include <quite/logger.hpp>
 #include "../qtstdexec.h"
 
-DEFINE_LOGGER(exit_request_logger)
+DEFINE_LOGGER(rpc_exit_request_logger)
 
 namespace quite::probe
 {
 exec::task<void> ExitRpcHandler::operator()(ExitRPC &rpc, const ExitRPC::Request &request)
 {
-    LOG_DEBUG(exit_request_logger, "exit requested");
+    LOG_DEBUG(rpc_exit_request_logger, "exit requested");
     ExitRPC::Response response{};
     co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
                            [&]() { QCoreApplication::quit(); });

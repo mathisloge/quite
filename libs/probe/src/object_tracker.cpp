@@ -5,10 +5,12 @@
 #include <QVariant>
 #include <QtQml/private/qqmldata_p.h>
 #include <QtQml/private/qqmlmetatype_p.h>
+#include <entt/meta/factory.hpp>
 #include <fmt/ranges.h>
 #include <private/qv4executablecompilationunit_p.h>
 #include <quite/logger.hpp>
 #include "property_collector.hpp"
+#include "proto_converters.hpp"
 
 DEFINE_LOGGER(object_tracker_logger)
 
@@ -30,7 +32,6 @@ class InOwnContext final
   private:
     std::atomic_bool &context_;
 };
-
 } // namespace
 namespace quite
 {
@@ -39,11 +40,11 @@ ObjectTracker::ObjectTracker()
 {
     init_timer_.setInterval(0);
     init_timer_.setSingleShot(true);
-    connect(&init_timer_, &QTimer::timeout, this, &ObjectTracker::processNewObjects);
+    connect(&init_timer_, &QTimer::timeout, this, &ObjectTracker::process_new_objects);
 }
 ObjectTracker::~ObjectTracker() = default;
 
-void ObjectTracker::processNewObjects()
+void ObjectTracker::process_new_objects()
 {
     std::unique_lock l{locker_};
     for (auto obj : objects_to_track_)
@@ -58,7 +59,7 @@ void ObjectTracker::processNewObjects()
     objects_to_track_.clear();
 }
 
-void ObjectTracker::addObject(QObject *obj)
+void ObjectTracker::add_object(QObject *obj)
 {
     if (own_ctx_)
     {
@@ -66,17 +67,17 @@ void ObjectTracker::addObject(QObject *obj)
     }
     std::unique_lock l{locker_};
     InOwnContext c{own_ctx_};
-    connect(obj, &QObject::destroyed, this, [this, obj]() { removeObject((obj)); });
+    connect(obj, &QObject::destroyed, this, [this, obj]() { remove_object((obj)); });
     objects_to_track_.emplace(obj);
-    startTimer();
+    start_timer();
 }
 
-void ObjectTracker::beginContext()
+void ObjectTracker::begin_context()
 {
     own_ctx_ = true;
 }
 
-void ObjectTracker::endContext()
+void ObjectTracker::end_context()
 {
     own_ctx_ = false;
 }
@@ -86,7 +87,7 @@ const std::unordered_set<QObject *> &ObjectTracker::top_level_views() const
     return top_level_views_;
 }
 
-std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::string &object_name)
+std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object(const std::string &object_name)
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -105,6 +106,31 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::findObject(const std::strin
     return std::unexpected(ObjectErrC::not_found);
 }
 
+namespace
+{
+bool operator==(const QVariant &variant, const proto::Value &value)
+{
+    auto custom_meta_type = entt::resolve(entt::hashed_string{variant.metaType().name()}.value());
+    if (not custom_meta_type)
+    {
+        return false;
+    }
+    const auto any_obj = custom_meta_type.from_void(variant.data());
+    const auto value_meta = probe::meta_from_value(value);
+
+    const entt::meta_any casted_value = any_obj.allow_cast(value_meta.type());
+    const bool is_valid = static_cast<bool>(casted_value);
+    LOG_DEBUG(object_tracker_logger, "has_meta_val={}", is_valid);
+    return casted_value == value_meta;
+}
+
+bool match_property(QObject *object, std::string_view property_name, const proto::Value &value)
+{
+    const auto property_value = object->property(property_name.data());
+    return property_value.isValid() and property_value == value;
+}
+} // namespace
+
 std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const proto::ObjectSearchQuery &query)
 {
     std::shared_lock l{locker_};
@@ -113,16 +139,18 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
     for (auto &&obj : tracked_objects_)
     {
         bool property_matches = true;
-        for (auto &&prop : query.properties())
+        for (auto &&[prop_name, prop_value] : query.properties())
         {
-            if (obj->metaObject()->indexOfProperty(prop.first.c_str()) < 0)
+            if (not match_property(obj, prop_name, prop_value))
             {
                 property_matches = false;
                 break;
             }
-            if (obj->property(prop.first.c_str()).isValid())
-            {
-            }
+        }
+
+        if (property_matches)
+        {
+            return ObjectInfo{.object_id = reinterpret_cast<std::uintptr_t>(obj)};
         }
     }
 
@@ -154,7 +182,7 @@ std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::Object
     return std::unexpected(ObjectErrC::not_found);
 }
 
-void ObjectTracker::removeObject(QObject *obj)
+void ObjectTracker::remove_object(QObject *obj)
 {
     std::unique_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -174,7 +202,7 @@ void ObjectTracker::removeObject(QObject *obj)
     }
 }
 
-void ObjectTracker::startTimer()
+void ObjectTracker::start_timer()
 {
     static const auto kStartFncIdx = QTimer::staticMetaObject.indexOfMethod("start()");
     Q_ASSERT(kStartFncIdx >= 0);

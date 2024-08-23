@@ -28,7 +28,7 @@ class QUITELIB_EXPORT RemoteObject
 
     virtual AsyncResult<Image> take_snapshot() = 0;
 
-  protected:
+  private:
     const ObjectId id_;
 };
 using RemoteObjectPtr = std::shared_ptr<RemoteObject>;
