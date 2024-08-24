@@ -23,24 +23,41 @@ exec::task<void> CreateScreenshotRpcHandler::operator()(CreateScreenshotRPC &rpc
     if (not object.has_value())
     {
         co_await rpc.finish(
-            response, grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.object_id())});
+            grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.object_id())});
         co_return;
     }
     auto expected_image = co_await stdexec::on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()),
                                                take_snapshot(*object));
     if (expected_image.has_value())
     {
+        constexpr std::int64_t k4Mb = 4000000;
         expected_image->convertTo(QImage::Format::Format_RGBA8888);
         response.mutable_metadata()->set_width(expected_image->width());
         response.mutable_metadata()->set_height(expected_image->height());
-        std::copy(expected_image->bits(),
-                  expected_image->bits() + expected_image->sizeInBytes(),
-                  std::back_inserter(*response.mutable_data()));
-        co_await rpc.finish(response, grpc::Status::OK);
+
+        std::int64_t remaining_bytes = expected_image->sizeInBytes();
+        auto *data_begin = expected_image->bits();
+        while (remaining_bytes > 0)
+        {
+            const auto to_be_send = std::min(remaining_bytes, k4Mb);
+            auto *data_end = data_begin + to_be_send;
+            std::copy(data_begin, data_end, std::back_inserter(*response.mutable_data()));
+
+            const auto written = co_await rpc.write(response);
+            if (not written)
+            {
+                co_await rpc.finish(grpc::Status::CANCELLED);
+                co_return;
+            }
+            response.mutable_data()->clear();
+
+            data_begin = data_begin + to_be_send;
+            remaining_bytes -= to_be_send;
+        }
+        co_await rpc.finish(grpc::Status::OK);
         co_return;
     }
-    co_await rpc.finish(response,
-                        grpc::Status{grpc::StatusCode::RESOURCE_EXHAUSTED,
+    co_await rpc.finish(grpc::Status{grpc::StatusCode::RESOURCE_EXHAUSTED,
                                      fmt::format("could not take image snapshot {}", request.object_id())});
 }
 
