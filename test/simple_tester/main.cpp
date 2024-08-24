@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    quite::setupHooks();
+    quite::setup_hooks();
     QGuiApplication app(argc, argv);
 
     QQuickView view;
