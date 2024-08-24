@@ -3,6 +3,8 @@
 #include <fmt/base.h>
 #include <quite/proto/types.pb.h>
 
+#include <QObject>
+
 using namespace entt::literals;
 
 namespace
@@ -86,3 +88,64 @@ TEST_CASE("Register struct and convert it to a protocol value", "[meta,design-te
     REQUIRE(simple_struct_fin.a == struct_val.a);
     REQUIRE(simple_struct_fin.b == struct_val.b);
 }
+
+class MyOwnClass : public QObject
+{
+    Q_OBJECT
+};
+
+namespace
+{
+using TypeId = std::uint64_t;
+
+struct Property
+{
+    std::string name;
+    TypeId type;
+};
+
+struct Method
+{
+    std::string name;
+    TypeId return_type;
+    std::vector<Property> parameters;
+};
+
+class MetaObject
+{
+    std::string type_name_;
+
+    std::vector<Property> properties_;
+    std::vector<Method> signals_;
+    std::vector<Method> functions_;
+};
+
+class EnumObject
+{
+    using ValueName = std::string;
+
+    std::string type_name_;
+    std::unordered_map<ValueName, std::int64_t> values_;
+};
+
+struct PrimitiveType
+{
+    enum class PrimitiveTypeValue
+    {
+        type_unknown,
+        type_int,
+        type_uint,
+        type_float,
+        type_double,
+        type_bool,
+        type_string,
+    };
+    PrimitiveTypeValue value;
+};
+
+} // namespace
+
+TEST_CASE("API DESIGN META RUNTIME")
+{}
+
+#include "test_object_registry.moc"
