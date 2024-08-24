@@ -10,7 +10,7 @@ exec::task<void> GetViewsRpcHandler::operator()(GetViewsRPC &rpc, const GetViews
 {
     GetViewsRPC::Response response;
 
-    for (auto obj : tracker.top_level_views())
+    for (auto &&obj : tracker.top_level_views())
     {
         response.mutable_object_id()->Add(reinterpret_cast<ObjectId>(obj));
     }

@@ -119,8 +119,6 @@ bool operator==(const QVariant &variant, const proto::Value &value)
     const auto value_meta = probe::meta_from_value(value);
 
     const entt::meta_any casted_value = any_obj.allow_cast(value_meta.type());
-    const bool is_valid = static_cast<bool>(casted_value);
-    LOG_DEBUG(object_tracker_logger, "has_meta_val={}", is_valid);
     return casted_value == value_meta;
 }
 
