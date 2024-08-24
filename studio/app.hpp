@@ -9,9 +9,11 @@ class App final
 {
   public:
     explicit App(SDL_Renderer *renderer);
+    void setup();
     void show();
 
   private:
+    void load_fonts();
     void showMainMenu();
 
   private:

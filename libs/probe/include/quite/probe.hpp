@@ -3,5 +3,5 @@
 
 namespace quite
 {
-PROBE_EXPORT void setupHooks();
+PROBE_EXPORT void setup_hooks();
 }

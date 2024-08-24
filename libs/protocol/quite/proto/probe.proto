@@ -14,7 +14,7 @@ service ProbeService {
     rpc GetObjectProperties(GetObjectPropertiesRequest) returns (GetObjectPropertiesResponse) {}
 
     rpc MouseAction(MouseActionRequest) returns (VoidResponse) {}
-    rpc CreateScreenshot(ScreenshotRequest) returns (ImageResponse) {};
+    rpc CreateScreenshot(ScreenshotRequest) returns (stream ImageResponse) {};
 
     rpc GetViews(GetViewsRequest) returns (GetViewsResponse) {};
     rpc MetaTypeFromObject(MetaTypeFromObjectRequest) returns (MetaTypeFromObjectResponse) {};

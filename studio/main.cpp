@@ -12,12 +12,11 @@
 // For a multi-platform app consider using e.g. SDL+DirectX on Windows and SDL+OpenGL on Linux/OSX.
 
 #include <SDL.h>
+#include <imgui.h>
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_sdlrenderer2.h>
 #include <quite/logger.hpp>
 #include <quite/setup_logger.hpp>
-#include "imgui.h"
-#include "imgui_impl_sdl2.h"
-#include "imgui_impl_sdlrenderer2.h"
-
 #include "app.hpp"
 
 #if !SDL_VERSION_ATLEAST(2, 0, 17)
@@ -81,35 +80,29 @@ int main(int, char **)
     ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
     ImGui_ImplSDLRenderer2_Init(renderer);
 
-    // Load Fonts
-    io.Fonts->AddFontFromFileTTF("/home/mlogemann/dev/quite/studio/assets/fonts/SauceCodeProNerdFont-Regular.ttf",
-                                 18.0f);
     // Our state
     bool show_demo_window = true;
     constexpr ImVec4 clear_color{0.22f, 0.22f, 0.22f, 1.00f};
 
     quite::studio::App app{renderer};
+    app.setup();
     // Main loop
     bool done = false;
     while (!done)
     {
-        // Poll and handle events (inputs, window resize, etc.)
-        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your
-        // inputs.
-        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or
-        // clear/overwrite your copy of the mouse data.
-        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or
-        // clear/overwrite your copy of the keyboard data. Generally you may always pass all inputs to dear imgui, and
-        // hide them from your application based on those two flags.
         SDL_Event event;
-        while (SDL_PollEvent(&event))
+        while (SDL_PollEvent(&event) == 1)
         {
             ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
+            {
                 done = true;
+            }
             if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE &&
                 event.window.windowID == SDL_GetWindowID(window))
+            {
                 done = true;
+            }
         }
 
         // Start the Dear ImGui frame
@@ -124,7 +117,9 @@ int main(int, char **)
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code
         // to learn more about Dear ImGui!).
         if (show_demo_window)
+        {
             ImGui::ShowDemoWindow(&show_demo_window);
+        }
 
         // Rendering
         ImGui::Render();
