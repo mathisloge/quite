@@ -5,7 +5,6 @@ import "quite/proto/common.proto";
 import "quite/proto/keyboard.proto";
 import "quite/proto/mouse.proto";
 import "quite/proto/types.proto";
-import "quite/proto/metatype.proto";
 
 service ProbeService {
     rpc Exit(ExitRequest) returns (ExitReponse) {}
@@ -17,7 +16,6 @@ service ProbeService {
     rpc CreateScreenshot(ScreenshotRequest) returns (stream ImageResponse) {};
 
     rpc GetViews(GetViewsRequest) returns (GetViewsResponse) {};
-    rpc MetaTypeFromObject(MetaTypeFromObjectRequest) returns (MetaTypeFromObjectResponse) {};
 }
 
 message ExitRequest {};
@@ -78,12 +76,4 @@ message GetViewsRequest {
 
 message GetViewsResponse {
   repeated uint64 object_id = 1;
-}
-
-message MetaTypeFromObjectRequest {
-  uint64 object_id = 1;
-}
-
-message MetaTypeFromObjectResponse {
-  MetaObject meta_object = 1;
 }

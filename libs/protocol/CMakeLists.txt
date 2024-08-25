@@ -5,7 +5,8 @@ asio_grpc_protobuf_generate(
     OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated"
     IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"
     PROTOS
-        "${proto_inc_dir}/metatype.proto"
+        "${proto_inc_dir}/meta.proto"
+        "${proto_inc_dir}/meta_service.proto"
         "${proto_inc_dir}/common.proto"
         "${proto_inc_dir}/probe.proto"
         "${proto_inc_dir}/keyboard.proto"

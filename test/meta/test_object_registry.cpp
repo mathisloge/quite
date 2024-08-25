@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <entt/meta/factory.hpp>
 #include <fmt/base.h>
+#include <qmetaobject.h>
 #include <quite/proto/types.pb.h>
 
 #include <QObject>
@@ -111,7 +112,7 @@ struct Method
     std::vector<Property> parameters;
 };
 
-class MetaObject
+class MetaType
 {
     std::string type_name_;
 
@@ -120,7 +121,18 @@ class MetaObject
     std::vector<Method> functions_;
 };
 
-class EnumObject
+class MapType
+{
+    TypeId key_type_;
+    TypeId value_type_;
+};
+
+class ListType
+{
+    TypeId element_type_;
+};
+
+class EnumType
 {
     using ValueName = std::string;
 
@@ -128,24 +140,28 @@ class EnumObject
     std::unordered_map<ValueName, std::int64_t> values_;
 };
 
-struct PrimitiveType
+enum class PrimitiveType
 {
-    enum class PrimitiveTypeValue
-    {
-        type_unknown,
-        type_int,
-        type_uint,
-        type_float,
-        type_double,
-        type_bool,
-        type_string,
-    };
-    PrimitiveTypeValue value;
+    type_unknown = 0,
+    type_void,
+    type_int,
+    type_uint,
+    type_float,
+    type_double,
+    type_bool,
+    type_string,
+    end_primitives
 };
+
+using Type = std::variant<ListType, MapType, std::unique_ptr<EnumType>, std::unique_ptr<MetaType>>;
 
 } // namespace
 
 TEST_CASE("API DESIGN META RUNTIME")
-{}
+{
+    constexpr auto kMetaType = QMetaType::fromType<MyOwnClass>();
+
+    kMetaType.metaObject()->method(0).parameterType(0);
+}
 
 #include "test_object_registry.moc"
