@@ -48,15 +48,16 @@ ProbeContext::ProbeContext(grpc::ServerBuilder builder)
 
         LOG_INFO(probe_ctx_logger, "grpc server setup and is now running.");
         grpc_context_.work_started();
-        auto snd = exec::finally(stdexec::when_all(std::move(find_obj_rpc),
-                                                   std::move(get_object_properties_rpc),
-                                                   std::move(mouse_action_rpc),
-                                                   std::move(create_snapshot_rpc),
-                                                   std::move(get_views_rpc),
-                                                   std::move(exit_request_rpc)),
+        auto snd = exec::finally(stdexec::when_all( //
+                                     std::move(find_obj_rpc),
+                                     std::move(get_object_properties_rpc),
+                                     std::move(mouse_action_rpc),
+                                     std::move(create_snapshot_rpc),
+                                     std::move(get_views_rpc),
+                                     std::move(exit_request_rpc)),
                                  stdexec::then(stdexec::just(), [this] { grpc_context_.work_finished(); }));
         stdexec::sync_wait(
-            stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [&] { grpc_context_.run(); })));
+            stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [this] { grpc_context_.run(); })));
         LOG_INFO(probe_ctx_logger, "grpc server is now finished. Closing the connection.");
     }};
     install_qt_hooks();
