@@ -5,5 +5,14 @@ import "quite/proto/meta.proto";
 
 
 service MetaService {
+    rpc GetMetaObject(MetaObjectRequest) returns (MetaObjectResponse) {}
+}
 
+
+message MetaObjectRequest {
+    
+}
+
+message MetaObjectResponse {
+    MetaType meta_type = 1;
 }
