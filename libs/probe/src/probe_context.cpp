@@ -1,4 +1,5 @@
 #include "probe_context.hpp"
+#include <QCoreApplication>
 #include <csignal>
 #include <exec/finally.hpp>
 #include <quite/logger.hpp>
