@@ -10,7 +10,7 @@ service MetaService {
 
 
 message MetaObjectRequest {
-    
+    string type_name = 1;
 }
 
 message MetaObjectResponse {
