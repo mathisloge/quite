@@ -1,4 +1,5 @@
 add_subdirectory(rpc)
+add_subdirectory(meta_service)
 target_sources(quitelib PRIVATE
     grpc_application.hpp
     grpc_application.cpp

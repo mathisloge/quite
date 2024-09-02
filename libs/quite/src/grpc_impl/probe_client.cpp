@@ -5,8 +5,11 @@
 namespace quite::grpc_impl
 {
 
-ProbeClient::ProbeClient(agrpc::GrpcContext &grpc_context)
-    : grpc_context_{grpc_context}
-    , stub_{::grpc::CreateChannel(std::string("unix:///tmp/grpc_probe.sock"), ::grpc::InsecureChannelCredentials())}
+ProbeClient::ProbeClient(std::shared_ptr<agrpc::GrpcContext> grpc_context)
+    : grpc_context_{std::move(grpc_context)}
+    , grpc_channel_{::grpc::CreateChannel(std::string("unix:///tmp/grpc_probe.sock"),
+                                          ::grpc::InsecureChannelCredentials())}
+    , stub_{grpc_channel_}
+    , meta_service_stub_{grpc_channel_}
 {}
 } // namespace quite::grpc_impl
