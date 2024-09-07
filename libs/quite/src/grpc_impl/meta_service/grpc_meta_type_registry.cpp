@@ -1,15 +1,17 @@
 #include "grpc_meta_type_registry.hpp"
 #include <fmt/format.h>
 #include <quite/logger.hpp>
-#include "../../meta/meta_type_storage.hpp"
-#include "../probe_client.hpp"
-#include "../rpc/make_meta_service_get_meta_object.hpp"
+#include "grpc_impl/probe_client.hpp"
+#include "grpc_impl/rpc/make_meta_service_get_meta_object.hpp"
+#include "meta/meta_type_storage.hpp"
 
 DEFINE_LOGGER(grpc_meta_type_registry_logger);
 
 using namespace quite::meta;
 namespace quite::grpc_impl
 {
+
+//! TODO: save the objects already known and returns those instantly.
 
 GrpcMetaTypeRegistry::GrpcMetaTypeRegistry(ProbeServiceHandle probe_service_handle)
     : probe_service_handle_{std::move(probe_service_handle)}

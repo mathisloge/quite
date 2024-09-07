@@ -1,5 +1,6 @@
 add_subdirectory(logger)
 add_subdirectory(protocol)
-add_subdirectory(probe)
 add_subdirectory(quite)
 add_subdirectory(testing)
+add_subdirectory(probeqt)
+add_subdirectory(probe)

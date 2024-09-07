@@ -1,6 +1,6 @@
 #include "quite/probe.hpp"
+#include <probe_context.hpp>
 #include <quite/setup_logger.hpp>
-#include "probe_context.hpp"
 
 namespace quite
 {

@@ -1,4 +1,4 @@
-target_sources(probe PRIVATE
+target_sources(probeqt PRIVATE
     create_snapshot.cpp
     create_snapshot.hpp
     exit_request.cpp
@@ -11,4 +11,7 @@ target_sources(probe PRIVATE
     get_views.hpp
     mouse_action.cpp
     mouse_action.hpp
+    # meta service
+    get_meta_object.hpp
+    get_meta_object.cpp
 )
