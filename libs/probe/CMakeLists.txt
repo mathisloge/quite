@@ -15,34 +15,13 @@ target_include_directories(probe PUBLIC
 )
 
 target_link_libraries(probe PRIVATE
-    Qt6::CorePrivate
-    Qt6::QuickPrivate
-    Qt6::Widgets
-    fmt::fmt
-    quite::protocol
-    quite::logger
-    asio-grpc::asio-grpc-stdexec
-    EnTT::EnTT
+    probeqt
 )
 
 target_sources(probe
     PRIVATE
-        src/object_tracker.cpp
-        src/object_tracker.hpp
         src/probe.cpp
-        src/property_collector.cpp
-        src/property_collector.hpp
-        src/snapshot.hpp
-        src/snapshot.cpp
-        src/value_converters.hpp
-        src/value_converters.cpp
-        src/proto_converters.cpp
-        src/proto_converters.hpp
-        src/probe_context.hpp
-        src/probe_context.cpp
 )
-add_subdirectory(src/injector)
-add_subdirectory(src/rpc)
 
 
 install(DIRECTORY include/ DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")

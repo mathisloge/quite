@@ -15,6 +15,7 @@ entt::meta_any meta_from_value(const proto::Value &value)
         return entt::meta_any{value.double_val()};
     case proto::Value::kBoolVal:
         return entt::meta_any{value.bool_val()};
+    //! TODO: fill in these missing pieces
     case proto::Value::kClassVal:
     case proto::Value::kObjectVal:
     case proto::Value::kArrayVal:
