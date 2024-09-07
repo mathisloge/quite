@@ -128,6 +128,7 @@ void register_converters()
     register_trivial_converter<quint8, &proto::Value::set_uint_val>();
     register_trivial_converter<quint16, &proto::Value::set_uint_val>();
     register_trivial_converter<quint32, &proto::Value::set_uint_val>();
+    register_trivial_converter<quint64, &proto::Value::set_uint_val>();
 
     entt::meta<QObjectList>()
         .type("QObjectList*"_hs) //

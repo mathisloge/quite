@@ -1,6 +1,7 @@
 #include "probe_context.hpp"
 #include <QCoreApplication>
 #include <csignal>
+#include <entt/locator/locator.hpp>
 #include <exec/finally.hpp>
 #include <quite/logger.hpp>
 #include "rpc/create_snapshot.hpp"
@@ -22,12 +23,6 @@ void quite_add_object(QObject *q);
 void quite_remove_object(QObject *q);
 void quite_app_startup();
 } // namespace
-
-ProbeContext &ProbeContext::instance()
-{
-    static ProbeContext ctx;
-    return ctx;
-}
 
 ProbeContext::ProbeContext(grpc::ServerBuilder builder)
     : grpc_context_{builder.AddCompletionQueue()}
@@ -141,17 +136,20 @@ namespace
 {
 void quite_add_object(QObject *q)
 {
-    ProbeContext::instance().qt_hook_add_object(q);
+    auto &&probe_context_handle = entt::locator<ProbeContext>::value();
+    probe_context_handle.qt_hook_add_object(q);
 }
 
 void quite_remove_object(QObject *q)
 {
-    ProbeContext::instance().qt_hook_remove_object(q);
+    auto &&probe_context_handle = entt::locator<ProbeContext>::value();
+    probe_context_handle.qt_hook_remove_object(q);
 }
 
 void quite_app_startup()
 {
-    ProbeContext::instance().qt_hook_startup();
+    auto &&probe_context_handle = entt::locator<ProbeContext>::value();
+    probe_context_handle.qt_hook_startup();
 }
 } // namespace
 

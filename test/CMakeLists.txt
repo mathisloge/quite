@@ -4,6 +4,7 @@ add_subdirectory(simple_tester)
 
 add_subdirectory(meta)
 add_subdirectory(quite)
+add_subdirectory(probeqt)
 
 find_package(Python REQUIRED COMPONENTS Interpreter)
 add_test(NAME PythonTests

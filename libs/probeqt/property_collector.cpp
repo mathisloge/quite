@@ -125,13 +125,13 @@ std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta obje
     std::unordered_map<std::string, proto::Value> properties;
 
     std::ranges::for_each(
-        std::ranges::iota_view(0, object_meta.meta_object->propertyCount()) | std::views::transform([&](int prop_idx) {
-            return object_meta.meta_object->property(prop_idx);
-        }) | std::views::filter([](auto &&prop) {
-            return prop.isValid() and prop.isReadable();
-        }) | std::views::transform([&](auto &&prop) {
-            return std::tuple{prop.read(object_meta.object), std::forward<decltype(prop)>(prop)};
-        }) | std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); }),
+        std::ranges::iota_view(0, object_meta.meta_object->propertyCount()) | //
+            std::views::transform([&](int prop_idx) { return object_meta.meta_object->property(prop_idx); }) |
+            std::views::filter([](auto &&prop) { return prop.isValid() and prop.isReadable(); }) |
+            std::views::transform([&](auto &&prop) {
+                return std::tuple{prop.read(object_meta.object), std::forward<decltype(prop)>(prop)};
+            }) |
+            std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); }),
         std::bind(insert_value, &properties, std::placeholders::_1));
     // Q: why doesn't a reference work here? Somehow a copy of the map will be created. Use a pointer for now.
     return properties;
