@@ -11,16 +11,14 @@ namespace quite::probe
 class ProbeContext final
 {
   public:
-    static ProbeContext &instance();
+    ProbeContext(grpc::ServerBuilder builder = {});
+    ~ProbeContext();
 
     void qt_hook_add_object(QObject *q);
     void qt_hook_remove_object(QObject *q);
     void qt_hook_startup();
 
   private:
-    ProbeContext(grpc::ServerBuilder builder = {});
-    ~ProbeContext();
-
     void request_exit();
     void install_qt_hooks();
     void install_application_hooks();
