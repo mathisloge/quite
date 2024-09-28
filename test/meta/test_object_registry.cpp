@@ -1,10 +1,10 @@
 #include <QObject>
-#include <atomic>
 #include <catch2/catch_test_macros.hpp>
 #include <entt/meta/factory.hpp>
 #include <fmt/base.h>
 #include <qmetaobject.h>
 #include <quite/proto/types.pb.h>
+#include <value_converters.hpp>
 
 using namespace entt::literals;
 
@@ -93,6 +93,17 @@ TEST_CASE("Register struct and convert it to a protocol value", "[meta,design-te
 class MyOwnClass : public QObject
 {
     Q_OBJECT
+
+  public Q_SLOTS:
+    quint64 compute(quint64 val1, quint8 val2)
+    {
+        return val1 + val2;
+    }
+
+    quint64 compute(float val1, qint8 val2)
+    {
+        return val1 * val2;
+    }
 };
 
 TEST_CASE("API DESIGN META RUNTIME")
@@ -100,6 +111,41 @@ TEST_CASE("API DESIGN META RUNTIME")
     constexpr auto kMetaType = QMetaType::fromType<MyOwnClass>();
 
     kMetaType.metaObject()->method(0).parameterType(0);
+}
+
+TEST_CASE("Test meta method call")
+{
+    quite::probe::register_converters();
+
+    MyOwnClass test_obj{};
+
+    QByteArray normalized_signature = QMetaObject::normalizedSignature("compute(float, qint8)");
+    const auto *meta_object = test_obj.metaObject();
+    int method_index = meta_object->indexOfMethod(normalized_signature);
+
+    for (int i = 0; i < meta_object->methodCount(); i++)
+    {
+        qDebug() << meta_object->method(i).name();
+    }
+
+    QMetaMethod method = test_obj.metaObject()->method(method_index);
+    REQUIRE(method.isValid());
+
+    auto &&param1 = method.parameterMetaType(0);
+
+    double initial_val{5};
+    REQUIRE(QMetaType::canConvert(QMetaType::fromType<double>(), QMetaType::fromType<float>()));
+    auto *val1 = param1.create();
+    QMetaType::convert(QMetaType::fromType<double>(), &initial_val, param1, val1);
+    QMetaMethodArgument arg3{.metaType = param1.iface(), .name = param1.name(), .data = val1};
+
+    qDebug() << arg3.metaType << arg3.name << arg3.data;
+
+    quint64 result{};
+    auto infoke_result = method.invoke(&test_obj, Qt::DirectConnection, qReturnArg(result), arg3, qint8{5});
+
+    REQUIRE(infoke_result);
+    REQUIRE(result == 25);
 }
 
 #include "test_object_registry.moc"

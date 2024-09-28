@@ -1,5 +1,5 @@
 """
-quite - the (q)t (ui) (te)sting framework. See https://github.com/mathisloge/ng-quite
+quite - a ui testing framework. See https://github.com/mathisloge/ng-quite
 """
 
 from __future__ import annotations
