@@ -47,7 +47,7 @@ ObjectTracker::~ObjectTracker() = default;
 void ObjectTracker::process_new_objects()
 {
     std::unique_lock l{locker_};
-    for (auto obj : objects_to_track_)
+    for (auto &&obj : objects_to_track_)
     {
         // dump_props(obj);
         if (obj->parent() == nullptr and obj->isWindowType())
@@ -93,7 +93,6 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object(const std::stri
     InOwnContext c{own_ctx_};
     for (auto &&obj : tracked_objects_)
     {
-        // auto properties = quite::collect_properties(object_meta);
         if (obj->objectName() == QString::fromStdString(object_name))
         {
             auto object_meta = quite::ObjectMeta::from_qobject(obj);

@@ -1,6 +1,7 @@
 # QUITE!
 
-quite is a new UI testing framework specifically designed for applications built on the Qt framework. It aims to provide developers and testers with an efficient way to automate the testing of Qt application user interfaces.
+quite is a new UI testing framework specifically designed for applications built on the Qt framework. 
+It aims to provide developers and testers with an efficient way to automate the testing of Qt application user interfaces.
 
 I welcome any feedback, suggestions, and contributions that can help make quite a robust and reliable UI testing framework!
 

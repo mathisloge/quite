@@ -66,7 +66,7 @@ PYBIND11_MODULE(_quite, m)
 {
     using namespace quite::python;
 
-    m.doc() = "quite - the (q)t (ui) (te)sting framework. See https://github.com/mathisloge/ng-quite";
+    m.doc() = "quite - a ui testing framework. See https://github.com/mathisloge/ng-quite";
 
     auto pyApplication = py::class_<PyApplication>(m, "Application");
     auto pyRemoteObject = py::class_<PyRemoteObject>(m, "RemoteObject");

@@ -12,6 +12,7 @@ namespace quite::grpc_impl
 {
 GrpcApplication::GrpcApplication(Context &context)
     : probe_handle_{std::make_shared<grpc_impl::ProbeClient>(context.grpcContext())}
+    , meta_type_registry_{probe_handle_}
 {}
 
 AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(const ObjectQuery &query)
@@ -45,6 +46,11 @@ AsyncResult<void> GrpcApplication::exit()
     LOG_TRACE_L1(grpc_app_logger, "Request exiting application {}", "[TODO:APPNAME]");
     const auto response = co_await grpc_impl::make_exit_request(probe_handle_->context(), probe_handle_->stub());
     co_return response.and_then([&](const proto::ExitReponse & /*reply*/) -> Result<void> { return {}; });
+}
+
+meta::MetaTypeRegistry &GrpcApplication::meta_type_registry()
+{
+    return meta_type_registry_;
 }
 
 } // namespace quite::grpc_impl
