@@ -7,6 +7,8 @@ from __future__ import annotations
 __all__ = ["Application", "RemoteObject"]
 
 class Application:
+    @staticmethod
+    def _pybind11_conduit_v1_(*args, **kwargs): ...
     def __init__(self, application_path: str) -> None: ...
     def exit(self) -> None:
         """
@@ -19,6 +21,8 @@ class Application:
         """
 
 class RemoteObject:
+    @staticmethod
+    def _pybind11_conduit_v1_(*args, **kwargs): ...
     @property
     def id(self) -> int:
         """

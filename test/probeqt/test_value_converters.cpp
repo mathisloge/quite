@@ -5,18 +5,11 @@
 #include <probe_context.hpp>
 #include <value_converters.hpp>
 
-#include <agrpc/grpc_context.hpp>
-
 using namespace quite;
 using namespace quite::probe;
 
 TEST_CASE("Test value converters")
 {
-    //! TODO: investigate the link errors with grpc if nothing grpc related is used.
-    {
-        agrpc::GrpcContext grpc_context;
-    }
-
     register_converters();
     SECTION("QColor conversions")
     {
