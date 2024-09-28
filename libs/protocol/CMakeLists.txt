@@ -12,6 +12,7 @@ asio_grpc_protobuf_generate(
         "${proto_inc_dir}/keyboard.proto"
         "${proto_inc_dir}/mouse.proto"
         "${proto_inc_dir}/types.proto"
+        "${proto_inc_dir}/methods.proto"
 )
 
 add_library(quite_protocol_proto STATIC)

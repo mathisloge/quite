@@ -26,8 +26,8 @@ exec::task<void> CreateScreenshotRpcHandler::operator()(CreateScreenshotRPC &rpc
             grpc::Status{grpc::StatusCode::NOT_FOUND, fmt::format("could not find {}", request.object_id())});
         co_return;
     }
-    auto expected_image = co_await stdexec::on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()),
-                                               take_snapshot(*object));
+    auto expected_image = co_await stdexec::starts_on(
+        QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()), take_snapshot(*object));
     if (expected_image.has_value())
     {
         constexpr std::int64_t k4Mb = 4000000;
