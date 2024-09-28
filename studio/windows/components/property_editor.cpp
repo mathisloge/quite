@@ -302,7 +302,7 @@ void PropertyArrayValue::draw()
 
 void PropertyArrayValue::fetch_properties()
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](PropertyArrayValue *self) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](PropertyArrayValue *self) -> exec::task<void> {
         auto values = co_await self->property_->read();
 
         auto ui_elements = values.transform([](auto &&value) -> Result<std::vector<std::unique_ptr<PropertyUi>>> {
