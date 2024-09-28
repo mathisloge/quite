@@ -8,21 +8,22 @@ set_target_properties(probe PROPERTIES
 )
 generate_export_header(probe)
 
-target_include_directories(probe PUBLIC
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-)
-
-target_link_libraries(probe PRIVATE
-    probeqt
-)
 
 target_sources(probe
+    PUBLIC
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/probe.hpp
+        FILE_SET export_config
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES
+                ${CMAKE_CURRENT_BINARY_DIR}/probe_export.h
     PRIVATE
         src/probe.cpp
 )
-
-
-install(DIRECTORY include/ DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/probe_export.h" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+target_link_libraries(probe PRIVATE
+    probeqt
+)

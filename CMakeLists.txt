@@ -63,6 +63,8 @@ install(TARGETS loggerlib quite-studio probe quite_protocol_proto
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    FILE_SET headers
+	  FILE_SET export_config
 )
 
 set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/quite")
