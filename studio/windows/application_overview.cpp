@@ -54,7 +54,7 @@ void ApplicationOverview::drawWindow()
 
 void ApplicationOverview::fetchViews()
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](ApplicationOverview *self) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](ApplicationOverview *self) -> exec::task<void> {
         LOG_DEBUG(application_overview, "Fetching views...");
         self->fetch_in_progress_ = true;
         auto view_result = co_await self->application_->get_views();

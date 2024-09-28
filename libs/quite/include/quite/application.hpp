@@ -1,10 +1,10 @@
 #pragma once
 #include <memory>
 #include "async_result.hpp"
+#include "meta/meta_type_registry.hpp"
 #include "object_query.hpp"
 #include "quitelib_export.h"
 #include "remote_object.hpp"
-
 namespace quite
 {
 
@@ -18,6 +18,7 @@ class QUITELIB_EXPORT Application
     virtual AsyncResult<RemoteObjectPtr> find_object(const ObjectQuery &query) = 0;
     virtual AsyncResult<std::vector<RemoteObjectPtr>> get_views() = 0;
     virtual AsyncResult<void> exit() = 0;
+    virtual meta::MetaTypeRegistry &meta_type_registry() = 0;
 
   protected:
     Application();

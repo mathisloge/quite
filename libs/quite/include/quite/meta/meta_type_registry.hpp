@@ -9,7 +9,7 @@ class MetaTypeRegistry
 {
   public:
     MetaTypeRegistry();
-    virtual ~MetaTypeRegistry() = default;
+    virtual ~MetaTypeRegistry();
 
     virtual AsyncResult<Type> resolve_type(TypeId type_id) = 0;
     virtual AsyncResult<Type> resolve_type(std::string_view type_name) = 0;

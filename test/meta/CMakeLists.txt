@@ -7,6 +7,8 @@ target_link_libraries(meta_test PRIVATE
     fmt::fmt
     quite::protocol
     Qt6::Core
+    quite::probeqt
+    quite::quite
 )
 catch_discover_tests(meta_test)
 

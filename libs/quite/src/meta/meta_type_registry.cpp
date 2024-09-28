@@ -7,6 +7,8 @@ MetaTypeRegistry::MetaTypeRegistry()
     : storage_{std::make_unique<MetaTypeStorage>()}
 {}
 
+MetaTypeRegistry::~MetaTypeRegistry() = default;
+
 MetaTypeStorage &MetaTypeRegistry::storage()
 {
     return *storage_;
