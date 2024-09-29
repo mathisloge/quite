@@ -6,7 +6,7 @@ import "quite/proto/types.proto";
 
 message MethodCall {
     string method_name = 1;
-    repeated Value arguments = 2;
+    repeated Value argument = 2;
 };
 
 message MethodReturnValue {
