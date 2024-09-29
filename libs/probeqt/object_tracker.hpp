@@ -32,18 +32,18 @@ class ObjectTracker final : public QObject
     void end_context();
 
     const std::unordered_set<QObject *> &top_level_views() const;
-    std::expected<ObjectInfo, ObjectErrC> find_object(const std::string &object_name);
-    std::expected<ObjectInfo, ObjectErrC> find_object_by_query(const proto::ObjectSearchQuery &query);
-    std::expected<QObject *, ObjectErrC> get_object_by_id(probe::ObjectId obj_id);
-    std::expected<std::string, ObjectErrC> get_property(probe::ObjectId obj_id, const std::string &property_name);
+    std::expected<ObjectInfo, ObjectErrC> find_object(const std::string &object_name) const;
+    std::expected<ObjectInfo, ObjectErrC> find_object_by_query(const proto::ObjectSearchQuery &query) const;
+    std::expected<QObject *, ObjectErrC> get_object_by_id(probe::ObjectId obj_id) const;
+    std::expected<std::string, ObjectErrC> get_property(probe::ObjectId obj_id, const std::string &property_name) const;
 
   private:
     void start_timer();
     void process_new_objects();
 
   private:
-    std::atomic_bool own_ctx_{false};
-    std::shared_mutex locker_;
+    mutable std::atomic_bool own_ctx_{false};
+    mutable std::shared_mutex locker_;
     QTimer init_timer_;
     std::unordered_set<QObject *> objects_to_track_;
     std::unordered_set<QObject *> tracked_objects_;

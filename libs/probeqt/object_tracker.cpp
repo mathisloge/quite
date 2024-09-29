@@ -87,7 +87,7 @@ const std::unordered_set<QObject *> &ObjectTracker::top_level_views() const
     return top_level_views_;
 }
 
-std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object(const std::string &object_name)
+std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object(const std::string &object_name) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -128,7 +128,7 @@ bool match_property(QObject *object, std::string_view property_name, const proto
 }
 } // namespace
 
-std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const proto::ObjectSearchQuery &query)
+std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const proto::ObjectSearchQuery &query) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -154,7 +154,7 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
     return std::unexpected(ObjectErrC::not_found);
 }
 
-std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::ObjectId obj_id)
+std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::ObjectId obj_id) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -167,7 +167,7 @@ std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::Obje
 }
 
 std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::ObjectId obj_id,
-                                                                   const std::string &property_name)
+                                                                   const std::string &property_name) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
