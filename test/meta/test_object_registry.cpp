@@ -170,6 +170,27 @@ bool invoke_method(QMetaMethod &method,
     Q_ASSERT(TSize == args.size());
     return invoke_method(method, obj, result, args, std::make_index_sequence<TSize>());
 }
+
+QMetaType from_value(const quite::proto::Value &value)
+{
+    if (value.has_double_val())
+    {
+        return QMetaType::fromType<double>();
+    }
+    if (value.has_uint_val())
+    {
+        return QMetaType::fromType<std::uint64_t>();
+    }
+    if (value.has_string_val())
+    {
+        return QMetaType::fromType<QString>();
+    }
+    if (value.has_object_val())
+    {
+        return reinterpret_cast<QObject *>(value.object_val().object_id())->metaObject()->metaType();
+    }
+    return QMetaType{};
+}
 } // namespace
 
 TEST_CASE("EXP. API meta call")
@@ -202,6 +223,11 @@ TEST_CASE("EXP. API meta call")
     {
         auto &&method_param = method.parameterMetaType(i);
         auto *param_val = method_param.create();
+        auto &&proto_val = method_call_proto.argument(i);
+
+        REQUIRE(QMetaType::canConvert(from_value(proto_val), method_param));
+        // convert_to_value(protoval, method_param, param_val);
+
         args.emplace_back(param_val); // todo: destroy
     }
     const auto invoke_res = test_obj.qt_metacall(QMetaObject::Call::InvokeMetaMethod, method_index, args.data());
