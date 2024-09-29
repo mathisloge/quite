@@ -3,6 +3,7 @@
 #include <entt/meta/factory.hpp>
 #include <fmt/base.h>
 #include <qmetaobject.h>
+#include <quite/proto/methods.pb.h>
 #include <quite/proto/types.pb.h>
 #include <value_converters.hpp>
 
@@ -102,7 +103,7 @@ class MyOwnClass : public QObject
 
     quint64 compute(float val1, qint8 val2)
     {
-        return val1 * val2;
+        return 200 * 10;
     }
 };
 
@@ -146,6 +147,67 @@ TEST_CASE("Test meta method call")
 
     REQUIRE(infoke_result);
     REQUIRE(result == 25);
+}
+
+namespace
+{
+template <std::size_t... S>
+bool invoke_method(QMetaMethod &method,
+                   QObject *obj,
+                   QMetaMethodReturnArgument &result,
+                   const std::vector<QMetaMethodArgument> &args,
+                   std::index_sequence<S...>)
+{
+    return method.invoke(obj, Qt::DirectConnection, result, args[S]...);
+}
+
+template <std::size_t TSize>
+bool invoke_method(QMetaMethod &method,
+                   QObject *obj,
+                   QMetaMethodReturnArgument &result,
+                   const std::vector<QMetaMethodArgument> &args)
+{
+    Q_ASSERT(TSize == args.size());
+    return invoke_method(method, obj, result, args, std::make_index_sequence<TSize>());
+}
+} // namespace
+
+TEST_CASE("EXP. API meta call")
+{
+    quite::proto::MethodCall method_call_proto{};
+
+    method_call_proto.set_method_name("compute(float, qint8)");
+    auto &&arg1 = method_call_proto.add_argument();
+    auto &&arg2 = method_call_proto.add_argument();
+    arg1->set_double_val(10);
+    arg2->set_uint_val(5);
+
+    MyOwnClass test_obj{};
+
+    const auto *meta_object = test_obj.metaObject();
+    const QByteArray normalized_method_signature =
+        QMetaObject::normalizedSignature(method_call_proto.method_name().c_str());
+    const int method_index = meta_object->indexOfMethod(normalized_method_signature);
+    QMetaMethod method = test_obj.metaObject()->method(method_index);
+    REQUIRE(method.isValid());
+    REQUIRE(method.parameterCount() == method_call_proto.argument_size());
+
+    std::vector<void *> args;
+    const auto method_return_type = method.returnMetaType();
+    auto *return_val = method_return_type.create();
+    args.emplace_back(return_val);
+
+    // std::vector<QMetaMethodArgument> args;
+    for (int i = 0; i < method.parameterCount(); i++)
+    {
+        auto &&method_param = method.parameterMetaType(i);
+        auto *param_val = method_param.create();
+        args.emplace_back(param_val); // todo: destroy
+    }
+    const auto invoke_res = test_obj.qt_metacall(QMetaObject::Call::InvokeMetaMethod, method_index, args.data());
+    const bool invoked = invoke_res < 0;
+    REQUIRE(invoked);
+    REQUIRE(*static_cast<quint64 *>(return_val) == 10);
 }
 
 #include "test_object_registry.moc"
