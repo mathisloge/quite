@@ -39,6 +39,8 @@ target_sources(probeqt
         proto_converters.hpp
         probe_context.hpp
         probe_context.cpp
+        method_invoker.cpp
+        method_invoker.hpp
 )
 add_subdirectory(injector)
 add_subdirectory(rpc)

@@ -252,7 +252,7 @@ std::unique_ptr<quite::studio::PropertyEditor::PropertyUi> make_value_wrapper(st
 
 void PropertyObjectValue::fetch_properties()
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](PropertyObjectValue *self) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](PropertyObjectValue *self) -> exec::task<void> {
         auto props = co_await self->object_->fetch_properties({});
         LOG_DEBUG(ui_comp_prop_editor, "Got properties.");
         if (props.has_value())
