@@ -76,7 +76,7 @@ void ImageView::higlight_object(const ObjectTree::ObjectNode *object)
 
 void ImageView::fetch_image()
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](ImageView *self) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](ImageView *self) -> exec::task<void> {
         auto snapshot_result = co_await self->tree_.root()->object->take_snapshot();
         LOG_DEBUG(ui_image_view, "got snapshot");
         if (snapshot_result.has_value())
