@@ -5,20 +5,27 @@
 #include "result.hpp"
 namespace quite::probe
 {
+struct MetaValueDeleter
+{
+    QMetaType meta_type;
+    void operator()(void *value) const;
+};
+
+using MetaValuePtr = std::unique_ptr<void, MetaValueDeleter>;
+struct MetaValueWrapper
+{
+    MetaValuePtr raw_value;
+    entt::meta_any value;
+};
 
 class MethodInvoker
 {
   public:
     MethodInvoker(const ObjectTracker &object_tracker);
 
-    Result<entt::meta_any> invoke_method(const entt::meta_any &object,
-                                         std::string_view qualified_method_signature,
-                                         std::span<entt::meta_any> params) const;
-
-  private:
-    Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
-                                               std::string_view qualified_method_signature,
-                                               std::span<entt::meta_any> params) const;
+    Result<MetaValueWrapper> invoke_method(const entt::meta_any &object,
+                                           std::string_view qualified_method_signature,
+                                           std::span<entt::meta_any> params) const;
 
   private:
     const ObjectTracker &object_tracker_;
