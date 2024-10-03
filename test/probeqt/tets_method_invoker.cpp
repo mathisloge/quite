@@ -37,11 +37,9 @@ TEST_CASE("Test MethodInvoker")
     auto result = method_invoker.invoke_method(
         entt::meta_any{static_cast<QObject *>(&my_test_class)}, "compute(float, qint8)", params);
     REQUIRE(result.has_value());
-    REQUIRE(result.value().type() == entt::resolve("double"_hs));
+    REQUIRE(result.value().value.type() == entt::resolve("double"_hs));
     // v result == 3
-    REQUIRE(std::abs(3 - *static_cast<double *>(result.value().data())) < std::numeric_limits<double>::epsilon());
-
-    // delete result.value().data();
+    REQUIRE(std::abs(3 - *static_cast<double *>(result.value().value.data())) < std::numeric_limits<double>::epsilon());
 }
 
 #include "tets_method_invoker.moc"

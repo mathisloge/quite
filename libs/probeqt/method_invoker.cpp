@@ -10,36 +10,9 @@ namespace quite::probe
 {
 namespace
 {
-struct MetaValueDeleter
-{
-    QMetaType meta_type;
-    void operator()(void *value) const
-    {
-        meta_type.destroy(value);
-    }
-};
-} // namespace
-
-MethodInvoker::MethodInvoker(const ObjectTracker &object_tracker)
-    : object_tracker_{object_tracker}
-{}
-
-Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object,
-                                                    std::string_view qualified_method_signature,
-                                                    std::span<entt::meta_any> params) const
-{
-    const auto *object_ref = object.try_cast<QObject *>();
-    if (object_ref != nullptr)
-    {
-        return invoke_qmeta_method(*object_ref, qualified_method_signature, params);
-    }
-    return std::unexpected{
-        Error{.code = ErrorCode::invalid_argument, .message = "Could find a qobject for the given base type"}};
-}
-
-Result<entt::meta_any> MethodInvoker::invoke_qmeta_method(QObject *obj,
-                                                          std::string_view qualified_method_signature,
-                                                          std::span<entt::meta_any> params) const
+Result<MetaValueWrapper> invoke_qmeta_method(QObject *obj,
+                                             std::string_view qualified_method_signature,
+                                             std::span<entt::meta_any> params)
 {
     auto &&meta_obj = obj->metaObject();
     const QByteArray normalized_method_signature = QMetaObject::normalizedSignature(qualified_method_signature.data());
@@ -103,12 +76,37 @@ Result<entt::meta_any> MethodInvoker::invoke_qmeta_method(QObject *obj,
     const auto custom_meta_type = entt::resolve(entt::hashed_string{meta_method.returnMetaType().name()}.value());
     if (custom_meta_type and call_result < 0)
     {
-        return custom_meta_type.from_void(args[0].release()); // TODO: now leaks. find a way to take ownership
+        MetaValueWrapper wrapper{.raw_value = std::exchange(args[0], nullptr)};
+        wrapper.value = custom_meta_type.from_void(wrapper.raw_value.get());
+        return wrapper;
     }
     return std::unexpected{
         Error{.code = ErrorCode::cancelled,
               .message = fmt::format("Could not invoke or wrap return type. Call status = {}, convertable = ",
                                      call_result,
                                      static_cast<bool>(custom_meta_type))}};
+}
+} // namespace
+
+MethodInvoker::MethodInvoker(const ObjectTracker &object_tracker)
+    : object_tracker_{object_tracker}
+{}
+
+Result<MetaValueWrapper> MethodInvoker::invoke_method(const entt::meta_any &object,
+                                                      std::string_view qualified_method_signature,
+                                                      std::span<entt::meta_any> params) const
+{
+    const auto *object_ref = object.try_cast<QObject *>();
+    if (object_ref != nullptr)
+    {
+        return invoke_qmeta_method(*object_ref, qualified_method_signature, params);
+    }
+    return std::unexpected{
+        Error{.code = ErrorCode::invalid_argument, .message = "Could find a qobject for the given base type"}};
+}
+
+void MetaValueDeleter::operator()(void *value) const
+{
+    meta_type.destroy(value);
 }
 } // namespace quite::probe
