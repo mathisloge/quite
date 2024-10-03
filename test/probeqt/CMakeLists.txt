@@ -14,3 +14,6 @@ target_sources(probeqt_test PRIVATE
     test_value_converters.cpp
     tets_method_invoker.cpp
 )
+
+#target_compile_options(probeqt_test PRIVATE -fno-omit-frame-pointer -fsanitize=address)
+#target_link_options(probeqt_test PRIVATE -fno-omit-frame-pointer -fsanitize=address)

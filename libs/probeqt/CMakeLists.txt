@@ -44,3 +44,6 @@ target_sources(probeqt
 )
 add_subdirectory(injector)
 add_subdirectory(rpc)
+
+#target_compile_options(probeqt PRIVATE -fno-omit-frame-pointer -fsanitize=address)
+#target_link_options(probeqt PRIVATE -fno-omit-frame-pointer -fsanitize=address)
