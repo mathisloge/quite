@@ -1,4 +1,5 @@
 #include "proto_converters.hpp"
+#include <QObject>
 namespace quite::probe
 {
 entt::meta_any meta_from_value(const proto::Value &value)
@@ -15,9 +16,11 @@ entt::meta_any meta_from_value(const proto::Value &value)
         return entt::meta_any{value.double_val()};
     case proto::Value::kBoolVal:
         return entt::meta_any{value.bool_val()};
+    case proto::Value::kObjectVal:
+        return entt::meta_any{reinterpret_cast<QObject *>(value.object_val().object_id())};
     //! TODO: fill in these missing pieces
     case proto::Value::kClassVal:
-    case proto::Value::kObjectVal:
+
     case proto::Value::kArrayVal:
     case proto::Value::VALUE_ONEOF_NOT_SET:
         break;
