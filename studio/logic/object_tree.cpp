@@ -32,7 +32,7 @@ const ObjectTree::ObjectNodePtr &ObjectTree::root() const
 
 void ObjectTree::init_from_properties(const ObjectNodePtr &node)
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](ObjectTree *self, ObjectNodePtr node) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](ObjectTree *self, ObjectNodePtr node) -> exec::task<void> {
         auto properties = co_await node->object->fetch_properties({});
 
         if (properties.has_value())

@@ -1,10 +1,11 @@
 #include <catch2/catch_test_macros.hpp>
+#include <entt/meta/resolve.hpp>
+#include <fmt/printf.h>
 #include <method_invoker.hpp>
 #include <value_converters.hpp>
-
 using namespace quite;
 using namespace quite::probe;
-
+using namespace entt::literals;
 namespace
 {
 class MyTestClass : public QObject
@@ -33,8 +34,14 @@ TEST_CASE("Test MethodInvoker")
 
     MyTestClass my_test_class;
     std::vector<entt::meta_any> params{entt::meta_any{1.5}, entt::meta_any{2}};
-    method_invoker.invoke_method(
+    auto result = method_invoker.invoke_method(
         entt::meta_any{static_cast<QObject *>(&my_test_class)}, "compute(float, qint8)", params);
+    REQUIRE(result.has_value());
+    REQUIRE(result.value().type() == entt::resolve("double"_hs));
+    // v result == 3
+    REQUIRE(std::abs(3 - *static_cast<double *>(result.value().data())) < std::numeric_limits<double>::epsilon());
+
+    // delete result.value().data();
 }
 
 #include "tets_method_invoker.moc"

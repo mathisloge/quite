@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <QMetaMethod>
 #include <ranges>
+#include <entt/meta/resolve.hpp>
+#include <fmt/format.h>
 
 using namespace entt::literals;
 namespace quite::probe
@@ -22,20 +24,22 @@ MethodInvoker::MethodInvoker(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
 {}
 
-void MethodInvoker::invoke_method(const entt::meta_any &object,
-                                  std::string_view qualified_method_signature,
-                                  std::span<entt::meta_any> params) const
+Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object,
+                                                    std::string_view qualified_method_signature,
+                                                    std::span<entt::meta_any> params) const
 {
     const auto *object_ref = object.try_cast<QObject *>();
     if (object_ref != nullptr)
     {
-        invoke_qmeta_method(*object_ref, qualified_method_signature, params);
+        return invoke_qmeta_method(*object_ref, qualified_method_signature, params);
     }
+    return std::unexpected{
+        Error{.code = ErrorCode::invalid_argument, .message = "Could find a qobject for the given base type"}};
 }
 
-bool MethodInvoker::invoke_qmeta_method(QObject *obj,
-                                        std::string_view qualified_method_signature,
-                                        std::span<entt::meta_any> params) const
+Result<entt::meta_any> MethodInvoker::invoke_qmeta_method(QObject *obj,
+                                                          std::string_view qualified_method_signature,
+                                                          std::span<entt::meta_any> params) const
 {
     auto &&meta_obj = obj->metaObject();
     const QByteArray normalized_method_signature = QMetaObject::normalizedSignature(qualified_method_signature.data());
@@ -43,7 +47,19 @@ bool MethodInvoker::invoke_qmeta_method(QObject *obj,
     auto &&meta_method = meta_obj->method(method_index);
     if (method_index < 0)
     {
-        return false;
+        return std::unexpected{Error{
+            .code = ErrorCode::invalid_argument,
+            .message =
+                fmt::format("Could a method for {} of type {}", qualified_method_signature, meta_obj->className())}};
+    }
+
+    if (meta_method.parameterCount() != params.size())
+    {
+        return std::unexpected{Error{.code = ErrorCode::failed_precondition,
+                                     .message = fmt::format("Method {} expectes {} arguments but only {} were passed",
+                                                            qualified_method_signature,
+                                                            meta_method.parameterCount(),
+                                                            params.size())}};
     }
 
     using MetaValue = std::unique_ptr<void, MetaValueDeleter>;
@@ -53,21 +69,16 @@ bool MethodInvoker::invoke_qmeta_method(QObject *obj,
         return MetaValue{deleter.meta_type.create(), std::move(deleter)};
     };
     std::vector<MetaValue> args{};
+    // return value
     args.emplace_back(std::forward<MetaValue>(create_meta_value(meta_method.returnMetaType())));
 
-    // std::vector<QMetaMethodArgument> args;
     for (int i = 0; i < meta_method.parameterCount(); i++)
     {
-        // auto &&proto_val = method_call_proto.argument(i);
+        auto meta_param = meta_method.parameterMetaType(i);
 
-        // REQUIRE(QMetaType::canConvert(from_value(proto_val), method_param));
-        //  convert_to_value(protoval, method_param, param_val);
-        // todo: copy values
         auto &&param_value = params[i];
         auto meta_type = param_value.type().func("metaType"_hs).invoke(param_value);
         auto param_value_meta = meta_type.cast<QMetaType>();
-        auto meta_param = meta_method.parameterMetaType(i);
-
         auto &&value = args.emplace_back(create_meta_value(std::move(meta_param)));
         if (QMetaType::canConvert(param_value_meta, meta_param))
         {
@@ -75,6 +86,9 @@ bool MethodInvoker::invoke_qmeta_method(QObject *obj,
         }
         else
         {
+            return std::unexpected{
+                Error{.code = ErrorCode::invalid_argument,
+                      .message = fmt::format("Could convert arg {} to type {}", i, meta_param.name())}};
             qDebug() << "can't convert to" << param_value_meta << meta_param;
         }
     }
@@ -86,8 +100,15 @@ bool MethodInvoker::invoke_qmeta_method(QObject *obj,
                       std::back_inserter(meta_call_args));
     const auto call_result = obj->qt_metacall(QMetaObject::Call::InvokeMetaMethod, method_index, meta_call_args.data());
 
-    // todo convert result type to any type
-    qDebug() << QVariant::fromMetaType(meta_method.returnMetaType(), args[0].get());
-    return call_result < 0;
+    const auto custom_meta_type = entt::resolve(entt::hashed_string{meta_method.returnMetaType().name()}.value());
+    if (custom_meta_type and call_result < 0)
+    {
+        return custom_meta_type.from_void(args[0].release()); // TODO: now leaks. find a way to take ownership
+    }
+    return std::unexpected{
+        Error{.code = ErrorCode::cancelled,
+              .message = fmt::format("Could not invoke or wrap return type. Call status = {}, convertable = ",
+                                     call_result,
+                                     static_cast<bool>(custom_meta_type))}};
 }
 } // namespace quite::probe
