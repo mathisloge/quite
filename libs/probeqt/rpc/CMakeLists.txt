@@ -11,6 +11,8 @@ target_sources(probeqt PRIVATE
     get_views.hpp
     mouse_action.cpp
     mouse_action.hpp
+    invoke_method.hpp
+    invoke_method.cpp
     # meta service
     get_meta_object.hpp
     get_meta_object.cpp

@@ -9,6 +9,7 @@
 #include "rpc/find_object.hpp"
 #include "rpc/get_object_properties.hpp"
 #include "rpc/get_views.hpp"
+#include "rpc/invoke_method.hpp"
 #include "rpc/mouse_action.hpp"
 #include "value_converters.hpp"
 
@@ -26,21 +27,23 @@ void quite_app_startup();
 
 ProbeContext::ProbeContext(grpc::ServerBuilder builder)
     : grpc_context_{builder.AddCompletionQueue()}
-    , object_tracker_{std::make_shared<quite::ObjectTracker>()}
-    , mouse_injector_{std::make_shared<quite::probe::MouseInjector>(object_tracker_)}
+    , mouse_injector_{object_tracker_}
+    , method_invoker_{object_tracker_}
 {
     builder.RegisterService(&object_service_);
     builder.AddListeningPort("unix:///tmp/grpc_probe.sock", grpc::InsecureServerCredentials());
     grpc_server_ = builder.BuildAndStart();
 
     grpc_runner_ = std::jthread{[this]() {
-        auto find_obj_rpc = quite::probe::find_object(grpc_context_, object_service_, *object_tracker_);
+        auto find_obj_rpc = quite::probe::find_object(grpc_context_, object_service_, object_tracker_);
         auto get_object_properties_rpc =
-            quite::probe::get_object_properties(grpc_context_, object_service_, *object_tracker_);
-        auto mouse_action_rpc = quite::probe::mouse_action(grpc_context_, object_service_, *mouse_injector_);
-        auto create_snapshot_rpc = quite::probe::create_snapshot(grpc_context_, object_service_, *object_tracker_);
-        auto get_views_rpc = quite::probe::get_views(grpc_context_, object_service_, *object_tracker_);
+            quite::probe::get_object_properties(grpc_context_, object_service_, object_tracker_);
+        auto mouse_action_rpc = quite::probe::mouse_action(grpc_context_, object_service_, mouse_injector_);
+        auto create_snapshot_rpc = quite::probe::create_snapshot(grpc_context_, object_service_, object_tracker_);
+        auto get_views_rpc = quite::probe::get_views(grpc_context_, object_service_, object_tracker_);
         auto exit_request_rpc = quite::probe::exit_request(grpc_context_, object_service_);
+        auto invoke_method_rpc =
+            quite::probe::invoke_method(grpc_context_, object_service_, object_tracker_, method_invoker_);
 
         LOG_INFO(probe_ctx_logger, "grpc server setup and is now running.");
         grpc_context_.work_started();
@@ -50,7 +53,8 @@ ProbeContext::ProbeContext(grpc::ServerBuilder builder)
                                      std::move(mouse_action_rpc),
                                      std::move(create_snapshot_rpc),
                                      std::move(get_views_rpc),
-                                     std::move(exit_request_rpc)),
+                                     std::move(exit_request_rpc),
+                                     std::move(invoke_method_rpc)),
                                  stdexec::then(stdexec::just(), [this] { grpc_context_.work_finished(); }));
         stdexec::sync_wait(
             stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [this] { grpc_context_.run(); })));
@@ -107,7 +111,7 @@ void ProbeContext::install_application_hooks()
 
 void ProbeContext::qt_hook_add_object(QObject *q)
 {
-    object_tracker_->add_object(q);
+    object_tracker_.add_object(q);
     if (next_add_qobject_hook_ != nullptr)
     {
         next_add_qobject_hook_(q);
@@ -116,7 +120,7 @@ void ProbeContext::qt_hook_add_object(QObject *q)
 
 void ProbeContext::qt_hook_remove_object(QObject *q)
 {
-    object_tracker_->remove_object(q);
+    object_tracker_.remove_object(q);
     if (next_remove_qobject_hook_ != nullptr)
     {
         next_remove_qobject_hook_(q);
