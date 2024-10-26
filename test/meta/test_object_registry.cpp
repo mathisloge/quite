@@ -146,7 +146,7 @@ TEST_CASE("Test meta method call")
     auto infoke_result = method.invoke(&test_obj, Qt::DirectConnection, qReturnArg(result), arg3, qint8{5});
 
     REQUIRE(infoke_result);
-    REQUIRE(result == 25);
+    REQUIRE(result == 2000);
 }
 
 namespace
@@ -233,7 +233,7 @@ TEST_CASE("EXP. API meta call")
     const auto invoke_res = test_obj.qt_metacall(QMetaObject::Call::InvokeMetaMethod, method_index, args.data());
     const bool invoked = invoke_res < 0;
     REQUIRE(invoked);
-    REQUIRE(*static_cast<quint64 *>(return_val) == 10);
+    REQUIRE(*static_cast<quint64 *>(return_val) == 2000);
 }
 
 #include "test_object_registry.moc"

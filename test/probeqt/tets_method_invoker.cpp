@@ -33,13 +33,17 @@ TEST_CASE("Test MethodInvoker")
     MethodInvoker method_invoker{tracker};
 
     MyTestClass my_test_class;
-    std::vector<entt::meta_any> params{entt::meta_any{1.5}, entt::meta_any{2}};
+    const double val1{1.5};
+    const int val2{2};
+    std::vector<entt::meta_any> params{entt::meta_any{val1}, entt::meta_any{val2}};
     auto result = method_invoker.invoke_method(
         entt::meta_any{static_cast<QObject *>(&my_test_class)}, "compute(float, qint8)", params);
     REQUIRE(result.has_value());
     REQUIRE(result.value().value.type() == entt::resolve("double"_hs));
+    const auto expected_result = val1 * val2;
     // v result == 3
-    REQUIRE(std::abs(3 - *static_cast<double *>(result.value().value.data())) < std::numeric_limits<double>::epsilon());
+    REQUIRE(std::abs(expected_result - *static_cast<double *>(result.value().value.data())) <
+            std::numeric_limits<double>::epsilon());
 }
 
 #include "tets_method_invoker.moc"
