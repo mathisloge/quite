@@ -4,7 +4,7 @@
 
 namespace quite::probe
 {
-MouseInjector::MouseInjector(std::shared_ptr<ObjectTracker> object_tracker)
+MouseInjector::MouseInjector(ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
     , mouse_{QStringLiteral("QuiteProbeTestingMouse"),
              100,
@@ -23,7 +23,7 @@ void MouseInjector::perform_action(ObjectId target_id,
                                    const proto::KeyboardModifierKey &mod_key,
                                    const proto::Vector2F &local_target_point)
 {
-    auto target_resp = object_tracker_->get_object_by_id(target_id);
+    auto target_resp = object_tracker_.get_object_by_id(target_id);
     if (target_resp.has_value())
     {
         auto *target = target_resp.value();

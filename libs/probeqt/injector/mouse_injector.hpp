@@ -12,7 +12,7 @@ namespace quite::probe
 class MouseInjector final
 {
   public:
-    explicit MouseInjector(std::shared_ptr<ObjectTracker> object_tracker);
+    explicit MouseInjector(ObjectTracker &object_tracker);
     ~MouseInjector();
 
     void perform_action(ObjectId target_id,
@@ -29,7 +29,7 @@ class MouseInjector final
                             const proto::Vector2F &local_target_point);
 
   private:
-    std::shared_ptr<ObjectTracker> object_tracker_;
+    ObjectTracker &object_tracker_;
     QPointingDevice mouse_;
 };
 } // namespace quite::probe
