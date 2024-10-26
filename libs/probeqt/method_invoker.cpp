@@ -43,7 +43,7 @@ Result<MetaValueWrapper> invoke_qmeta_method(QObject *obj,
     };
     std::vector<MetaValue> args{};
     // return value
-    args.emplace_back(std::forward<MetaValue>(create_meta_value(meta_method.returnMetaType())));
+    args.emplace_back(create_meta_value(meta_method.returnMetaType()));
 
     for (int i = 0; i < meta_method.parameterCount(); i++)
     {
@@ -62,7 +62,6 @@ Result<MetaValueWrapper> invoke_qmeta_method(QObject *obj,
             return std::unexpected{
                 Error{.code = ErrorCode::invalid_argument,
                       .message = fmt::format("Could convert arg {} to type {}", i, meta_param.name())}};
-            qDebug() << "can't convert to" << param_value_meta << meta_param;
         }
     }
 
