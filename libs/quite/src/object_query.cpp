@@ -1,7 +1,7 @@
 #include "quite/object_query.hpp"
 
-auto fmt::formatter<quite::ObjectQuery>::format(const quite::ObjectQuery &query,
-                                                format_context &ctx) const -> format_context::iterator
+auto fmt::formatter<quite::ObjectQuery>::format(const quite::ObjectQuery &query, format_context &ctx) const
+    -> format_context::iterator
 {
     constexpr std::string_view kNoneStr{"none"};
     return fmt::format_to(ctx.out(),
