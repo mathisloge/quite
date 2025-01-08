@@ -1,6 +1,8 @@
 /.cache
 /build
 /.venv
+/venv
+/dist
 compile_commands.json
 
 #####

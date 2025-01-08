@@ -42,7 +42,7 @@ TEST_CASE("Test MethodInvoker")
     REQUIRE(result.value().value.type() == entt::resolve("double"_hs));
     const auto expected_result = val1 * val2;
     // v result == 3
-    REQUIRE(std::abs(expected_result - *static_cast<double *>(result.value().value.data())) <
+    REQUIRE(std::abs(expected_result - *static_cast<const double *>(result.value().value.base().data())) <
             std::numeric_limits<double>::epsilon());
 }
 

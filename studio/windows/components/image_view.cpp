@@ -111,7 +111,7 @@ void ImageView::AsyncImage::show()
     {
         ImDrawList *draw_list = ImGui::GetWindowDrawList();
         const ImVec2 p = ImGui::GetCursorScreenPos();
-        ImGui::Image((void *)texture.get(), size);
+        ImGui::Image(reinterpret_cast<ImTextureID>(texture.get()), size);
 
         constexpr auto kHighlightColor = ImColor{255, 0, 0};
 

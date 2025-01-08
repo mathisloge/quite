@@ -9,10 +9,6 @@ configure_file (
     "${CMAKE_CURRENT_BINARY_DIR}/quite/version.hpp"
 )
 
-target_compile_definitions(quitelib PUBLIC
-    SPDLOG_ACTIVE_LEVEL=${log_level}
-)
-
 target_include_directories(quitelib
 PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
