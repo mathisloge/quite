@@ -42,7 +42,7 @@ quite::proto::Value to_value(const SimpleStruct &data)
 
 TEST_CASE("Register struct and convert it to a protocol value", "[meta,design-test]")
 {
-    entt::meta<SimpleStruct>()
+    entt::meta_factory<SimpleStruct>()
         .type("SimpleStruct"_hs)
         .data<&SimpleStruct::a>("a"_hs)
         .data<&SimpleStruct::b>("b"_hs)
