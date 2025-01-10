@@ -1,7 +1,7 @@
 #include "invoke_method.hpp"
-#include <ranges>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <fmt/core.h>
+#include "object_tracker.hpp"
 #include "proto_converters.hpp"
 
 namespace quite::probe
@@ -40,9 +40,9 @@ exec::task<void> InvokeMethodRpcHandler::operator()(InvokeMethodRPC &rpc, const 
                                          fmt::format("Could not invoke method due to: {}", result.error().message)});
         co_return;
     }
-    if (result->value.allow_cast<proto::Value>())
+    if (result->allow_cast<proto::Value>())
     {
-        *response.mutable_return_value()->mutable_value() = result->value.cast<proto::Value>();
+        *response.mutable_return_value()->mutable_value() = result->cast<proto::Value>();
         co_await rpc.finish(response,
                             grpc::Status{grpc::StatusCode::ABORTED,
                                          fmt::format("Could not invoke method due to: {}", result.error().message)});

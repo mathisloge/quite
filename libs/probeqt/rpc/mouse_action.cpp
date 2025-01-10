@@ -12,14 +12,14 @@ exec::task<void> MouseActionRpcHandler::operator()(MouseActionRPC &rpc, const Mo
 {
     LOG_TRACE_L1(rpc_mouse_action_logger, "START RequestMouseAction={}", request.object_id());
     MouseActionRPC::Response response{};
-    co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                           [&]() {
-                               return mouse_injector.perform_action(request.object_id(),
-                                                                    request.mouse_action(),
-                                                                    request.mouse_button(),
-                                                                    request.modifier_key(),
-                                                                    request.relative_point());
-                           });
+    co_await (stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+              stdexec::then([&]() {
+                   mouse_injector.perform_action(request.object_id(),
+                                                       request.mouse_action(),
+                                                       request.mouse_button(),
+                                                       request.modifier_key(),
+                                                       request.relative_point()); return;
+              }));
 
     if (true)
     {

@@ -15,8 +15,12 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
 set(BUILD_SHARED_LIBS ON)
+
+option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
+add_feature_info(Studio QUITE_BUILD_STUDIO "The studio provides a way to interactivly explore the objects in the app.")
+add_feature_info(Testing BUILD_TESTING "Build all tests.")
+add_feature_info(SharedLibraries BUILD_SHARED_LIBS "Build all libraries as shared ones.")
 
 get_git_head_revision(git_branch git_sha)
 message(STATUS "git_sha: ${git_sha}")
@@ -37,15 +41,19 @@ set_package_properties(nlohmann_json PROPERTIES URL "https://github.com/nlohmann
 find_package(EnTT CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(CMakeRC CONFIG REQUIRED)
-find_package(Catch2 CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 
 add_subdirectory(libs)
 add_subdirectory(python)
-add_subdirectory(studio)
-add_subdirectory(test)
+if(QUITE_BUILD_STUDIO)
+    add_subdirectory(studio)
+endif()
+if(BUILD_TESTING)
+    find_package(Catch2 CONFIG REQUIRED)
+    add_subdirectory(test)
+endif()
 
-feature_summary(WHAT ENABLED_FEATURES DESCRIPTION "Enabled features:")
+feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
 

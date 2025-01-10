@@ -3,6 +3,8 @@
 #include <fmt/printf.h>
 #include <method_invoker.hpp>
 #include <value_converters.hpp>
+#include <object_tracker.hpp>
+
 using namespace quite;
 using namespace quite::probe;
 using namespace entt::literals;
@@ -39,11 +41,11 @@ TEST_CASE("Test MethodInvoker")
     auto result = method_invoker.invoke_method(
         entt::meta_any{static_cast<QObject *>(&my_test_class)}, "compute(float, qint8)", params);
     REQUIRE(result.has_value());
-    REQUIRE(result.value().value.type() == entt::resolve("double"_hs));
+    REQUIRE(result.value().type() == entt::resolve("double"_hs));
     const auto expected_result = val1 * val2;
     // v result == 3
-    REQUIRE(std::abs(expected_result - *static_cast<const double *>(result.value().value.base().data())) <
+    REQUIRE(std::abs(expected_result - *static_cast<const double *>(result.value().base().data())) <
             std::numeric_limits<double>::epsilon());
 }
 
-#include "tets_method_invoker.moc"
+#include "test_method_invoker.moc"

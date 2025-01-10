@@ -83,4 +83,5 @@ PYBIND11_MODULE(_quite, m)
         .def_property_readonly("id", &PyRemoteObject::id, "returns the id of the remote object.");
 
     m.attr("__version__") = quite::kVersion;
+    m.attr("__version_git_ref__") = quite::kGitRef;
 }

@@ -4,15 +4,25 @@
 #include <ranges>
 #include <entt/meta/resolve.hpp>
 #include <fmt/format.h>
+#include "object_tracker.hpp"
 
 using namespace entt::literals;
 namespace quite::probe
 {
 namespace
 {
-Result<MetaValueWrapper> invoke_qmeta_method(QObject *obj,
-                                             std::string_view qualified_method_signature,
-                                             std::span<entt::meta_any> params)
+struct MetaValueDeleter
+{
+    QMetaType meta_type;
+    void operator()(void *value) const
+    {
+        meta_type.destroy(value);
+    }
+};
+
+Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
+                                           std::string_view qualified_method_signature,
+                                           std::span<entt::meta_any> params)
 {
     auto &&meta_obj = obj->metaObject();
     const QByteArray normalized_method_signature = QMetaObject::normalizedSignature(qualified_method_signature.data());
@@ -42,7 +52,8 @@ Result<MetaValueWrapper> invoke_qmeta_method(QObject *obj,
         return MetaValue{deleter.meta_type.create(), std::move(deleter)};
     };
     std::vector<MetaValue> args{};
-    // return value
+    args.reserve(1 + meta_method.parameterCount());
+    // return value ALWAYS at the first position
     args.emplace_back(create_meta_value(meta_method.returnMetaType()));
 
     for (int i = 0; i < meta_method.parameterCount(); i++)
@@ -55,7 +66,7 @@ Result<MetaValueWrapper> invoke_qmeta_method(QObject *obj,
         auto &&value = args.emplace_back(create_meta_value(std::move(meta_param)));
         if (QMetaType::canConvert(param_value_meta, meta_param))
         {
-            QMetaType::convert(param_value_meta, param_value.data(), meta_method.parameterMetaType(i), value.get());
+            QMetaType::convert(param_value_meta, param_value.base().data(), meta_method.parameterMetaType(i), value.get());
         }
         else
         {
@@ -75,9 +86,9 @@ Result<MetaValueWrapper> invoke_qmeta_method(QObject *obj,
     const auto custom_meta_type = entt::resolve(entt::hashed_string{meta_method.returnMetaType().name()}.value());
     if (custom_meta_type and call_result < 0)
     {
-        MetaValueWrapper wrapper{.raw_value = std::exchange(args[0], nullptr)};
-        wrapper.value = custom_meta_type.from_void(wrapper.raw_value.get());
-        return wrapper;
+        constexpr bool kTransferOwnership{true};
+        // args[0] is always the return type.
+        return custom_meta_type.from_void(args[0].release(), kTransferOwnership);
     }
     return std::unexpected{
         Error{.code = ErrorCode::cancelled,
@@ -91,9 +102,9 @@ MethodInvoker::MethodInvoker(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
 {}
 
-Result<MetaValueWrapper> MethodInvoker::invoke_method(const entt::meta_any &object,
-                                                      std::string_view qualified_method_signature,
-                                                      std::span<entt::meta_any> params) const
+Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object,
+                                                    std::string_view qualified_method_signature,
+                                                    std::span<entt::meta_any> params) const
 {
     const auto *object_ref = object.try_cast<QObject *>();
     if (object_ref != nullptr)
@@ -102,10 +113,5 @@ Result<MetaValueWrapper> MethodInvoker::invoke_method(const entt::meta_any &obje
     }
     return std::unexpected{
         Error{.code = ErrorCode::invalid_argument, .message = "Could find a qobject for the given base type"}};
-}
-
-void MetaValueDeleter::operator()(void *value) const
-{
-    meta_type.destroy(value);
 }
 } // namespace quite::probe
