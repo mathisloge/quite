@@ -22,11 +22,11 @@ class MouseInjector final
                         const proto::Vector2F &local_target_point);
 
   private:
-    void dispatchMouseEvent(QObject *target,
-                            QMouseEvent::Type event,
-                            const proto::MouseButton &button,
-                            const proto::KeyboardModifierKey &mod_key,
-                            const proto::Vector2F &local_target_point);
+    void dispatch_mouse_event(QObject *target,
+                              QMouseEvent::Type event,
+                              const proto::MouseButton &button,
+                              const proto::KeyboardModifierKey &mod_key,
+                              const proto::Vector2F &local_target_point);
 
   private:
     ObjectTracker &object_tracker_;
