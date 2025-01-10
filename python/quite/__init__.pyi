@@ -1,10 +1,3 @@
-"""
-quite - a ui testing framework. See https://github.com/mathisloge/ng-quite
-"""
+from ._quite import Application as Application, RemoteObject as RemoteObject, __doc__ as __doc__, __version__ as __version__
 
-from __future__ import annotations
-
-from quite._quite import Application, RemoteObject
-
-__all__: list = ["Application", "RemoteObject", "__doc__", "__version__"]
-__version__: str = "0.0.1"
+__all__ = ['Application', 'RemoteObject', '__doc__', '__version__']

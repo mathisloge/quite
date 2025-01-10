@@ -33,7 +33,7 @@ class InOwnContext final
     std::atomic_bool &context_;
 };
 } // namespace
-namespace quite
+namespace quite::probe
 {
 
 ObjectTracker::ObjectTracker()

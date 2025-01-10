@@ -7,7 +7,7 @@
 #include "object_id.hpp"
 #include "quite/proto/probe.pb.h"
 
-namespace quite
+namespace quite::probe
 {
 struct ObjectInfo
 {
@@ -23,6 +23,7 @@ class ObjectTracker final : public QObject
 {
     Q_OBJECT
   public:
+    Q_DISABLE_COPY_MOVE(ObjectTracker)
     ObjectTracker();
     ~ObjectTracker() override;
 
@@ -49,4 +50,4 @@ class ObjectTracker final : public QObject
     std::unordered_set<QObject *> tracked_objects_;
     std::unordered_set<QObject *> top_level_views_;
 };
-} // namespace quite
+} // namespace quite::probe

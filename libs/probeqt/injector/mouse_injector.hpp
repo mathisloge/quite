@@ -4,8 +4,8 @@
 #include <quite/proto/common.pb.h>
 #include <quite/proto/keyboard.pb.h>
 #include <quite/proto/mouse.pb.h>
-#include "../object_id.hpp"
-#include "../object_tracker.hpp"
+#include "object_id.hpp"
+#include "object_tracker.hpp"
 namespace quite::probe
 {
 

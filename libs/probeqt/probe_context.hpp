@@ -28,7 +28,7 @@ class ProbeContext final
     std::jthread grpc_runner_;
     agrpc::GrpcContext grpc_context_;
     std::unique_ptr<grpc::Server> grpc_server_;
-    quite::ObjectTracker object_tracker_;
+    quite::probe::ObjectTracker object_tracker_;
     quite::probe::MouseInjector mouse_injector_;
     quite::probe::MethodInvoker method_invoker_;
     quite::proto::ProbeService::AsyncService object_service_;

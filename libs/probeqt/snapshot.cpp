@@ -10,7 +10,7 @@ exec::task<std::expected<QImage, SnapshotErrC>> take_snapshot(QObject *object)
 {
     if (object->isQuickItemType())
     {
-        if (auto item = qobject_cast<QQuickItem *>(object); item)
+        if (auto *item = qobject_cast<QQuickItem *>(object); item)
         {
             auto grab_job = item->grabToImage();
 

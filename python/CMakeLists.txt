@@ -11,7 +11,7 @@ target_compile_definitions(_quite PRIVATE VERSION_INFO=${PROJECT_VERSION})
 
 add_custom_command(TARGET _quite POST_BUILD
     BYPRODUCTS quite/_quite.pyi quite/__init__.pyi
-    COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:_quite>/../ pybind11-stubgen -o ./ quite
+    COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:_quite>/../ stubgen -o ./ -p quite --include-docstrings
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
 
