@@ -223,4 +223,4 @@ void ObjectTracker::start_timer()
     m.invoke(&init_timer_, Qt::QueuedConnection);
     //}
 }
-} // namespace quite
+} // namespace quite::probe
