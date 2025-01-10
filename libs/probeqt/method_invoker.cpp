@@ -66,7 +66,8 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
         auto &&value = args.emplace_back(create_meta_value(std::move(meta_param)));
         if (QMetaType::canConvert(param_value_meta, meta_param))
         {
-            QMetaType::convert(param_value_meta, param_value.base().data(), meta_method.parameterMetaType(i), value.get());
+            QMetaType::convert(
+                param_value_meta, param_value.base().data(), meta_method.parameterMetaType(i), value.get());
         }
         else
         {
