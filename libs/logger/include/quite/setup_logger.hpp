@@ -1,6 +1,6 @@
 #pragma once
-#include "loggerlib_export.h"
+#include "quite_logger_export.h"
 namespace quite
 {
-LOGGERLIB_EXPORT void setup_logger();
+QUITE_LOGGER_EXPORT void setup_logger();
 }

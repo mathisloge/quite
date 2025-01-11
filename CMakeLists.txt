@@ -59,7 +59,7 @@ feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
 include(CMakePackageConfigHelpers)
 
-install(TARGETS loggerlib quite-studio probe quite_protocol_proto
+install(TARGETS quite_core quite_logger quite-studio probe quite_protocol_proto
     EXPORT quiteTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

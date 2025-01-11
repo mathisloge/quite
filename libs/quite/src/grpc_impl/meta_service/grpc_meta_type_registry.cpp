@@ -30,7 +30,7 @@ AsyncResult<meta::Type> GrpcMetaTypeRegistry::resolve_type(std::string_view type
     LOG_DEBUG(grpc_meta_type_registry_logger, "Resolve type for '{}'", type_name);
     const auto meta_obj_response = co_await make_meta_service_get_meta_object(
         probe_service_handle_->context(), probe_service_handle_->meta_service_stub(), type_name);
-    if (meta_obj_response.has_value() and not meta_obj_response->has_meta_type())
+    if (not meta_obj_response.has_value() or not meta_obj_response->has_meta_type())
     {
         co_return std::unexpected(Error{
             .code = ErrorCode::failed_precondition,
