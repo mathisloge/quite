@@ -15,19 +15,6 @@ using namespace entt::literals;
 
 namespace quite::probe
 {
-
-template <typename TBase, auto TFncPtr>
-void register_trivial_converter()
-{
-    entt::meta<TBase>() //
-        .template func<[]() { return QMetaType::fromType<TBase>(); }>("metaType"_hs)
-        .template conv<[](const TBase &value) {
-            proto::Value cnv;
-            std::invoke(TFncPtr, cnv, value);
-            return cnv;
-        }>();
-}
-
 #define BEGIN_CNV_FNC(class_name)                                                                                      \
     proto::Value convert_##class_name(const class_name &data)                                                          \
     {                                                                                                                  \
@@ -40,6 +27,18 @@ void register_trivial_converter()
 
 namespace
 {
+template <typename TBase, auto TFncPtr>
+void register_trivial_converter()
+{
+    entt::meta_factory<TBase>() //
+        .template func<[]() { return QMetaType::fromType<TBase>(); }>("metaType"_hs)
+        .template conv<[](const TBase &value) {
+            proto::Value cnv;
+            std::invoke(TFncPtr, cnv, value);
+            return cnv;
+        }>();
+}
+
 template <auto FAccessorFunc>
 void cnv_class_member(proto::ClassValue *class_val, const auto &data, std::string_view member_name, auto &&...args)
 {
@@ -131,7 +130,7 @@ void register_converters()
     register_trivial_converter<quint32, &proto::Value::set_uint_val>();
     register_trivial_converter<quint64, &proto::Value::set_uint_val>();
 
-    entt::meta<QObjectList>()
+    entt::meta_factory<QObjectList>()
         .type("QObjectList*"_hs) //
         .func<[]() { return QMetaType::fromType<QObjectList>(); }>("metaType"_hs)
         .conv<[](const QObjectList &values) {
@@ -144,7 +143,7 @@ void register_converters()
             return cnv;
         }>();
 
-    entt::meta<QObject *>()
+    entt::meta_factory<QObject *>()
         .type("QObject*"_hs) //
         .func<[](const QObject *obj) { return obj->metaObject()->metaType(); }>("metaType"_hs)
         .conv<[](const QObject *obj) {
@@ -153,7 +152,7 @@ void register_converters()
             return cnv;
         }>();
 
-    entt::meta<QQuickItem *>()
+    entt::meta_factory<QQuickItem *>()
         .type("QQuickItem*"_hs) //
         .func<[]() { return QMetaType::fromType<QQuickItem *>(); }>("metaType"_hs)
         .conv<[](const QObject *obj) {
@@ -162,7 +161,7 @@ void register_converters()
             return cnv;
         }>();
 
-    entt::meta<QString>()
+    entt::meta_factory<QString>()
         .type("QString"_hs) //
         .ctor<[](const std::string &str) { return QString::fromStdString(str); }>()
         .func<[]() { return QMetaType::fromType<QString>(); }>("metaType"_hs)
@@ -173,7 +172,7 @@ void register_converters()
             return cnv;
         }>();
 
-    entt::meta<QRect>()
+    entt::meta_factory<QRect>()
         .type("QRect"_hs)
         .ctor<int, int, int, int>()
         .data<&QRect::setX, &QRect::x>("x"_hs)
@@ -183,7 +182,7 @@ void register_converters()
         .func<[]() { return QMetaType::fromType<QRect>(); }>("metaType"_hs)
         .conv<convert_QRect>();
 
-    entt::meta<QRectF>()
+    entt::meta_factory<QRectF>()
         .type("QRectF"_hs)
         .ctor<qreal, qreal, qreal, qreal>()
         .data<&QRectF::setX, &QRectF::x>("x"_hs)
@@ -193,7 +192,7 @@ void register_converters()
         .func<[]() { return QMetaType::fromType<QRectF>(); }>("metaType"_hs)
         .conv<convert_QRectF>();
 
-    entt::meta<QPoint>()
+    entt::meta_factory<QPoint>()
         .type("QPoint"_hs)
         .ctor<int, int>()
         .data<&QPoint::setX, &QPoint::x>("x"_hs)
@@ -201,7 +200,7 @@ void register_converters()
         .func<[]() { return QMetaType::fromType<QPoint>(); }>("metaType"_hs)
         .conv<convert_QPoint>();
 
-    entt::meta<QPointF>()
+    entt::meta_factory<QPointF>()
         .type("QPointF"_hs)
         .ctor<qreal, qreal>()
         .data<&QPointF::setX, &QPointF::x>("x"_hs)
@@ -209,21 +208,21 @@ void register_converters()
         .func<[]() { return QMetaType::fromType<QPointF>(); }>("metaType"_hs)
         .conv<convert_QPointF>();
 
-    entt::meta<QUrl>() //
+    entt::meta_factory<QUrl>() //
         .type("QUrl"_hs)
         .ctor<[](std::string_view url) { return QUrl{QAnyStringView{url}.toString()}; }>()
         .data<nullptr, [](const QUrl &url) { return url.toDisplayString().toStdString(); }>("url"_hs)
         .func<[]() { return QMetaType::fromType<QUrl>(); }>("metaType"_hs)
         .conv<convert_QUrl>();
 
-    entt::meta<QColor>() //
+    entt::meta_factory<QColor>() //
         .type("QColor"_hs)
         .ctor<[](std::string_view hex_str) { return QColor::fromString(hex_str); }>()
         .data<nullptr, [](const QColor &col) { return col.name(); }>("name"_hs)
         .func<[]() { return QMetaType::fromType<QColor>(); }>("metaType"_hs)
         .conv<convert_QColor>();
 
-    entt::meta<QQuickAnchorLine>() //
+    entt::meta_factory<QQuickAnchorLine>() //
         .type("QQuickAnchorLine"_hs)
         .data<&QQuickAnchorLine::item>("item"_hs)
         .func<[]() { return QMetaType::fromType<QQuickAnchorLine>(); }>("metaType"_hs)
