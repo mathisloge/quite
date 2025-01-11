@@ -104,6 +104,11 @@ int main(int, char **)
                 done = true;
             }
         }
+        if ((SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED) != 0U)
+        {
+            SDL_Delay(10);
+            continue;
+        }
 
         // Start the Dear ImGui frame
         ImGui_ImplSDLRenderer2_NewFrame();
