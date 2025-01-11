@@ -26,6 +26,7 @@ target_link_libraries(quitelib PRIVATE
     quite::protocol
     quite::logger
 PUBLIC
+    quite::core
     STDEXEC::stdexec
 )
 

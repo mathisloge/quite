@@ -1,6 +1,6 @@
 #pragma once
 #include <quite/async_result.hpp>
-#include "meta_types.hpp"
+#include <quite/meta/meta_types.hpp>
 
 namespace quite::meta
 {

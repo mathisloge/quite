@@ -3,6 +3,7 @@
 #include <QQuickItem>
 #include <QtQuick/QQuickView>
 #include <quite/probe.hpp>
+#include "MyCustomType.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,8 @@ int main(int argc, char *argv[])
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QUrl("qrc:///main.qml"));
     view.show();
+
+    MyCustomType my_custom_type_instance;
 
     return QGuiApplication::exec();
 }

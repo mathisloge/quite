@@ -13,6 +13,8 @@ qt_add_qml_module(tester
     SOURCES
         MyLogArea.hpp
         MyLogArea.cpp
+        MyCustomType.hpp
+        MyCustomType.cpp
     NO_RESOURCE_TARGET_PATH
     DEPENDENCIES QtQuick
 )

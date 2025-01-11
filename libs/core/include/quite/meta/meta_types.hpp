@@ -24,32 +24,32 @@ struct Method
     std::vector<Property> parameters;
 };
 
-class MetaType
+struct MetaType
 {
-    std::string type_name_;
+    std::string name;
 
-    std::vector<Property> properties_;
-    std::vector<Method> signals_;
-    std::vector<Method> functions_;
+    std::vector<Property> properties;
+    std::vector<Method> signals;
+    std::vector<Method> functions;
 };
 
-class MapType
+struct MapType
 {
-    TypeId key_type_;
-    TypeId value_type_;
+    TypeId key_type;
+    TypeId value_type;
 };
 
-class ListType
+struct ListType
 {
-    TypeId element_type_;
+    TypeId value_type;
 };
 
-class EnumType
+struct EnumType
 {
     using ValueName = std::string;
 
-    std::string type_name_;
-    std::unordered_map<ValueName, std::int64_t> values_;
+    std::string name;
+    std::unordered_map<ValueName, std::int64_t> values;
 };
 
 enum class PrimitiveType
