@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "async_result.hpp"
+#include <quite/error.hpp>
 #include "meta/meta_type_registry.hpp"
 #include "object_query.hpp"
 #include "quitelib_export.h"

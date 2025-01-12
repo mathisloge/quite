@@ -1,8 +1,7 @@
 #pragma once
-#include <expected>
 #include <string>
 #include <fmt/core.h>
-#include "quitelib_export.h"
+#include "quite_core_export.h"
 
 namespace quite
 {
@@ -30,13 +29,13 @@ struct Error
 } // namespace quite
 
 template <>
-struct QUITELIB_EXPORT fmt::formatter<quite::ErrorCode> : fmt::formatter<std::string_view>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::ErrorCode> : fmt::formatter<std::string_view>
 {
     auto format(quite::ErrorCode error_code, format_context &ctx) const -> format_context::iterator;
 };
 
 template <>
-struct QUITELIB_EXPORT fmt::formatter<quite::Error> : fmt::formatter<std::string_view>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::Error> : fmt::formatter<std::string_view>
 {
     auto format(const quite::Error &error, format_context &ctx) const -> format_context::iterator;
 };

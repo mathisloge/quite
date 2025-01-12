@@ -1,6 +1,6 @@
 #pragma once
 #include <grpcpp/support/status.h>
-#include <quite/errors.hpp>
+#include <quite/error.hpp>
 
 namespace quite::grpc_impl
 {

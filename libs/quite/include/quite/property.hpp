@@ -3,7 +3,7 @@
 #include <string>
 #include <variant>
 #include <fmt/core.h>
-#include "async_result.hpp"
+#include <quite/async_result.hpp>
 #include "indirect.hpp"
 #include "quitelib_export.h"
 
