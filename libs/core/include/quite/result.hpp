@@ -1,6 +1,6 @@
 #pragma once
 #include <expected>
-#include "errors.hpp"
+#include "error.hpp"
 
 namespace quite
 {

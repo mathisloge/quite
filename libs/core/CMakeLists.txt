@@ -17,9 +17,22 @@ target_link_libraries(quite_core PUBLIC
 )
 
 target_sources(quite_core
+    PUBLIC
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/async_result.hpp
+                include/quite/error.hpp
+                include/quite/result.hpp
+                include/quite/meta/meta_registry.hpp
+                include/quite/meta/meta_types.hpp
+        FILE_SET export_config
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES
+                ${CMAKE_CURRENT_BINARY_DIR}/quite_core_export.h
     PRIVATE
         src/core.cpp
+        src/error.cpp
 )
-
-install(DIRECTORY include/ DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/quite_core_export.h" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
