@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <variant>
 #include <vector>
+#include <fmt/core.h>
+#include "quite_core_export.h"
 
 namespace quite::meta
 {
@@ -24,13 +26,13 @@ struct Method
     std::vector<Property> parameters;
 };
 
-struct MetaType
+struct ObjectType
 {
     std::string name;
 
     std::vector<Property> properties;
-    std::vector<Method> signals;
-    std::vector<Method> functions;
+    std::vector<Method> event_signals;
+    std::vector<Method> methods;
 };
 
 struct MapType
@@ -64,5 +66,53 @@ enum class PrimitiveType
     type_string
 };
 
-using Type = std::variant<PrimitiveType, ListType, MapType, std::unique_ptr<EnumType>, std::unique_ptr<MetaType>>;
+using Type = std::variant<PrimitiveType, ListType, MapType, std::unique_ptr<EnumType>, std::unique_ptr<ObjectType>>;
 } // namespace quite::meta
+
+template <>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::meta::Property> : fmt::formatter<std::string_view>
+{
+    auto format(const quite::meta::Property &type, format_context &ctx) const -> format_context::iterator;
+};
+
+template <>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::meta::Method> : fmt::formatter<std::string_view>
+{
+    auto format(const quite::meta::Method &type, format_context &ctx) const -> format_context::iterator;
+};
+
+template <>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::meta::ObjectType> : fmt::formatter<std::string_view>
+{
+    auto format(const quite::meta::ObjectType &type, format_context &ctx) const -> format_context::iterator;
+};
+
+template <>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::meta::MapType> : fmt::formatter<std::string_view>
+{
+    auto format(const quite::meta::MapType &type, format_context &ctx) const -> format_context::iterator;
+};
+
+template <>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::meta::ListType> : fmt::formatter<std::string_view>
+{
+    auto format(const quite::meta::ListType &type, format_context &ctx) const -> format_context::iterator;
+};
+
+template <>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::meta::EnumType> : fmt::formatter<std::string_view>
+{
+    auto format(const quite::meta::EnumType &type, format_context &ctx) const -> format_context::iterator;
+};
+
+template <>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::meta::PrimitiveType> : fmt::formatter<std::string_view>
+{
+    auto format(const quite::meta::PrimitiveType &type, format_context &ctx) const -> format_context::iterator;
+};
+
+template <>
+struct QUITE_CORE_EXPORT fmt::formatter<quite::meta::Type> : fmt::formatter<std::string_view>
+{
+    auto format(const quite::meta::Type &type, format_context &ctx) const -> format_context::iterator;
+};

@@ -35,4 +35,5 @@ target_sources(quite_core
     PRIVATE
         src/core.cpp
         src/error.cpp
+        src/meta/meta_types.cpp
 )

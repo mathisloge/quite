@@ -23,6 +23,7 @@ target_link_libraries(probeqt PUBLIC
     EnTT::EnTT
     quite::protocol
     quite::logger
+    quite::core
 )
 
 target_sources(probeqt
@@ -41,6 +42,8 @@ target_sources(probeqt
         probe_context.cpp
         method_invoker.cpp
         method_invoker.hpp
+        qt_meta_registry.cpp
+        qt_meta_registry.hpp
 )
 add_subdirectory(injector)
 add_subdirectory(rpc)
