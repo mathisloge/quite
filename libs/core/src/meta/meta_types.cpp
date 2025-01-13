@@ -36,11 +36,12 @@ auto fmt::formatter<quite::meta::ObjectType>::format(const quite::meta::ObjectTy
     -> format_context::iterator
 {
     return fmt::format_to(ctx.out(),
-                          "ObjectType(name={}, properties={}, methods={}, signals={})",
+                          "ObjectType(name={}, superclass={}, properties={}, constructors={}, methods={})",
                           type.name,
+                          type.superclass.has_value() ? fmt::format("{}", type.superclass.value()) : "None",
                           type.properties,
-                          type.methods,
-                          type.event_signals);
+                          type.constructors,
+                          type.methods);
 }
 
 auto fmt::formatter<quite::meta::MapType>::format(const quite::meta::MapType &type, format_context &ctx) const

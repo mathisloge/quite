@@ -1,4 +1,5 @@
 #pragma once
+#include <span>
 #include <entt/meta/meta.hpp>
 #include "result.hpp"
 namespace quite::probe
