@@ -29,12 +29,14 @@ struct Method
 
 struct ObjectType
 {
+    TypeId id;
     std::string name;
     std::optional<TypeId> superclass;
     std::vector<Property> properties;
     std::vector<Method> constructors;
     std::vector<Method> methods;
 };
+using ObjectTypePtr = std::unique_ptr<ObjectType>;
 
 struct MapType
 {
@@ -54,6 +56,7 @@ struct EnumType
     std::string name;
     std::unordered_map<ValueName, std::int64_t> values;
 };
+using EnumTypePtr = std::unique_ptr<EnumType>;
 
 enum class PrimitiveType
 {
@@ -67,7 +70,7 @@ enum class PrimitiveType
     type_string
 };
 
-using Type = std::variant<PrimitiveType, ListType, MapType, std::unique_ptr<EnumType>, std::unique_ptr<ObjectType>>;
+using Type = std::variant<PrimitiveType, ListType, MapType, EnumTypePtr, ObjectTypePtr>;
 } // namespace quite::meta
 
 template <>
