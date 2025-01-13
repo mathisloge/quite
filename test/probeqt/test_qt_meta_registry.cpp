@@ -98,5 +98,24 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             REQUIRE(meta_enum->values["unknown"] == 0);
         }());
     }
+
+    SECTION("Lookup List type by id")
+    {
+        using TestListType = QVector<int>;
+        stdexec::sync_wait([&]() -> exec::task<void> {
+            const auto lookup_result = co_await meta_registry.lookup_type(QMetaType::fromType<TestListType>().id());
+            if (not lookup_result.has_value())
+            {
+                LOG_ERROR(test, "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
+            }
+            else
+            {
+                LOG_DEBUG(test, "Object {}", fmt::format("{}", *lookup_result));
+            }
+            REQUIRE(lookup_result.has_value());
+            REQUIRE(std::holds_alternative<meta::ListType>(*lookup_result));
+            auto &&meta_list = std::get<meta::ListType>(*lookup_result);
+        }());
+    }
 }
 #include "test_qt_meta_registry.moc"
