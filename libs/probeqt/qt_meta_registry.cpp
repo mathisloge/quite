@@ -32,6 +32,49 @@ auto from_qmetamethod(const QMetaMethod &method)
     return meta_method;
 }
 
+Result<meta::Type> convert_enum_type(QMetaType type)
+{
+    LOG_DEBUG(qt_meta_registry, "Converting to enum. Name {}", type.name());
+    auto meta_enum = std::make_unique<meta::EnumType>();
+    meta_enum->name = type.name();
+    const QMetaObject *meta_object = type.metaObject();
+    if (type.metaObject() == nullptr)
+    {
+        return make_error_result<meta::Type>(ErrorCode::failed_precondition,
+                                             fmt::format("Could not get a QMetaObject from '{}'", type.name()));
+    }
+
+    // the indexOfEnumerator function expect the simple name, but the type.name() always returns the fully qualified
+    // name
+    const std::string_view qualified_enum_name = type.name();
+    std::string_view simple_enum_name = qualified_enum_name;
+    const auto ns_end_pos = qualified_enum_name.find_last_of(':');
+    if (ns_end_pos != std::string_view::npos)
+    {
+        simple_enum_name = qualified_enum_name.substr(ns_end_pos + 1);
+    }
+    const auto enum_idx = meta_object->indexOfEnumerator(simple_enum_name.begin());
+    if (enum_idx < 0)
+    {
+        LOG_DEBUG(qt_meta_registry, "COunt {}", meta_object->enumerator(0).name());
+        return make_error_result<meta::Type>(
+            ErrorCode::failed_precondition,
+            fmt::format("Could not find enum index of type '{}' in enclosing type '{}'",
+                        type.name(),
+                        meta_object->className()));
+    }
+    const auto qt_meta_enum = meta_object->enumerator(enum_idx);
+
+    std::ranges::for_each(
+        std::ranges::iota_view(0, qt_meta_enum.keyCount()) | std::views::transform([&](int index) {
+            return std::make_pair<meta::EnumType::ValueName, std::int64_t>(qt_meta_enum.key(index),
+                                                                           qt_meta_enum.value(index));
+        }),
+        [&meta_enum](auto &&enum_value) { meta_enum->values.emplace(std::forward<decltype(enum_value)>(enum_value)); });
+
+    return meta_enum;
+}
+
 Result<meta::Type> convert(QMetaType type)
 {
     const auto type_specifier = type.flags();
@@ -39,6 +82,11 @@ Result<meta::Type> convert(QMetaType type)
     type_specifier.testFlag(QMetaType::TypeFlag::IsGadget);
     type_specifier.testFlag(QMetaType::TypeFlag::PointerToGadget);
     type_specifier.testFlag(QMetaType::TypeFlag::PointerToQObject);
+
+    if (type_specifier.testFlag(QMetaType::TypeFlag::IsEnumeration))
+    {
+        return convert_enum_type(type);
+    }
 
     QVariant meta_type_instance;
     if (type.flags().testFlag(QMetaType::TypeFlag::NeedsConstruction))
@@ -59,6 +107,7 @@ Result<meta::Type> convert(QMetaType type)
     {
         std::unique_ptr<meta::ObjectType> obj = std::make_unique<meta::ObjectType>();
         obj->name = meta_object->className();
+        obj->id = type.id();
 
         if (meta_object->superClass() != nullptr)
         {

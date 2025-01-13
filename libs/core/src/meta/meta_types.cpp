@@ -36,8 +36,9 @@ auto fmt::formatter<quite::meta::ObjectType>::format(const quite::meta::ObjectTy
     -> format_context::iterator
 {
     return fmt::format_to(ctx.out(),
-                          "ObjectType(name={}, superclass={}, properties={}, constructors={}, methods={})",
+                          "ObjectType(name={}, type_id={}, superclass={}, properties={}, constructors={}, methods={})",
                           type.name,
+                          type.id,
                           type.superclass.has_value() ? fmt::format("{}", type.superclass.value()) : "None",
                           type.properties,
                           type.constructors,

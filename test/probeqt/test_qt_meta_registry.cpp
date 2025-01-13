@@ -14,7 +14,7 @@ class MyTestClassMetaRegistry : public QObject
 {
     Q_OBJECT
 
-  public:
+  public Q_SLOTS:
     quint64 compute(quint64 val1, quint8 val2)
     {
         return val1 + val2;
@@ -26,27 +26,76 @@ class MyTestClassMetaRegistry : public QObject
     }
 };
 
+namespace my_meta_namespace
+{
+Q_NAMESPACE
+
+enum class SomeMetaEnum
+{
+    unknown = 0,
+    value1 = 1,
+    value100 = 100,
+    valuem1 = -1
+};
+Q_ENUM_NS(SomeMetaEnum);
+} // namespace my_meta_namespace
+
 TEST_CASE("Test QtMetaRegistry", "[meta]")
 {
     setup_logger();
     register_converters();
     QtMetaRegistry meta_registry;
-    SECTION("Lookup QObject type")
+    SECTION("Lookup QObject type by id")
     {
-
         stdexec::sync_wait([&]() -> exec::task<void> {
             const auto lookup_result =
                 co_await meta_registry.lookup_type(QMetaType::fromType<MyTestClassMetaRegistry>().id());
+            REQUIRE(lookup_result.has_value());
+            REQUIRE(std::holds_alternative<meta::ObjectTypePtr>(*lookup_result));
+            auto &&meta_obj = std::get<meta::ObjectTypePtr>(*lookup_result);
+            REQUIRE(meta_obj != nullptr);
+            LOG_DEBUG(test, "Object {}", fmt::format("{}", *meta_obj));
+            REQUIRE(meta_obj->name == "MyTestClassMetaRegistry");
+            REQUIRE(meta_obj->id != 0);
+            REQUIRE(meta_obj->properties.size() == 1);
+            REQUIRE(meta_obj->properties[0].name == "objectName");
+            REQUIRE(meta_obj->methods.size() == 6);
+            REQUIRE(std::ranges::find_if(meta_obj->methods, [](auto &&method) {
+                        return method.name == "compute(qulonglong,uchar)";
+                    }) != meta_obj->methods.end());
+            REQUIRE(std::ranges::find_if(meta_obj->methods, [](auto &&method) {
+                        return method.name == "compute(float,signed char)";
+                    }) != meta_obj->methods.end());
+        }());
+    }
+
+    SECTION("Lookup Enum type by id")
+    {
+        stdexec::sync_wait([&]() -> exec::task<void> {
+            const auto lookup_result =
+                co_await meta_registry.lookup_type(QMetaType::fromType<my_meta_namespace::SomeMetaEnum>().id());
             if (not lookup_result.has_value())
             {
-                LOG_DEBUG(test, "Result of {}", lookup_result.error().message);
+                LOG_ERROR(test, "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
             }
             else
             {
-
-                LOG_DEBUG(test, "Result of {}", fmt::format("{}", lookup_result.value()));
+                LOG_DEBUG(test, "Object {}", fmt::format("{}", *lookup_result));
             }
             REQUIRE(lookup_result.has_value());
+            REQUIRE(std::holds_alternative<meta::EnumTypePtr>(*lookup_result));
+            auto &&meta_enum = std::get<meta::EnumTypePtr>(*lookup_result);
+            REQUIRE(meta_enum != nullptr);
+            REQUIRE(meta_enum->name == "my_meta_namespace::SomeMetaEnum");
+            REQUIRE(meta_enum->values.size() == 4);
+            REQUIRE(meta_enum->values.contains("valuem1"));
+            REQUIRE(meta_enum->values["valuem1"] == -1);
+            REQUIRE(meta_enum->values.contains("value1"));
+            REQUIRE(meta_enum->values["value1"] == 1);
+            REQUIRE(meta_enum->values.contains("value100"));
+            REQUIRE(meta_enum->values["value100"] == 100);
+            REQUIRE(meta_enum->values.contains("unknown"));
+            REQUIRE(meta_enum->values["unknown"] == 0);
         }());
     }
 }
