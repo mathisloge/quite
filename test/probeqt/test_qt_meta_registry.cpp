@@ -14,7 +14,7 @@ class MyTestClassMetaRegistry : public QObject
 {
     Q_OBJECT
 
-  public Q_SLOTS:
+  public:
     quint64 compute(quint64 val1, quint8 val2)
     {
         return val1 + val2;

@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <variant>
@@ -29,9 +30,9 @@ struct Method
 struct ObjectType
 {
     std::string name;
-
+    std::optional<TypeId> superclass;
     std::vector<Property> properties;
-    std::vector<Method> event_signals;
+    std::vector<Method> constructors;
     std::vector<Method> methods;
 };
 
