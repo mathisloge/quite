@@ -56,7 +56,6 @@ Result<meta::Type> convert_enum_type(QMetaType type)
     const auto enum_idx = meta_object->indexOfEnumerator(simple_enum_name.begin());
     if (enum_idx < 0)
     {
-        LOG_DEBUG(qt_meta_registry, "COunt {}", meta_object->enumerator(0).name());
         return make_error_result<meta::Type>(
             ErrorCode::failed_precondition,
             fmt::format("Could not find enum index of type '{}' in enclosing type '{}'",
@@ -83,6 +82,13 @@ Result<meta::Type> convert_object_type(QMetaType type)
         meta_type_instance = QVariant{type};
         if (type.metaObject() == nullptr)
         {
+            // TODO convert to either list or map types
+            if (meta_type_instance.canConvert<QVariantList>())
+            {
+            }
+            if (meta_type_instance.canConvert<QVariantMap>())
+            {
+            }
             return make_error_result<meta::Type>(
                 ErrorCode::failed_precondition,
                 fmt::format("Could not create an instance of '{}'. Type is default constructible ={}",
