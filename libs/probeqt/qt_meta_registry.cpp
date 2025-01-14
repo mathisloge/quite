@@ -1,4 +1,5 @@
 #include "qt_meta_registry.hpp"
+#include <QAssociativeIterable>
 #include <QMetaMethod>
 #include <QMetaObject>
 #include <QMetaProperty>
@@ -84,12 +85,14 @@ Result<meta::Type> convert_list_type(QMetaType list_type, QMetaType containing_t
                           .value_type = static_cast<meta::TypeId>(containing_type.id())};
 }
 
-Result<meta::Type> convert_map_type(QMetaType containing_type)
+Result<meta::Type> convert_map_type(QMetaType map_type, QMetaType key_type, QMetaType value_type)
 {
-    LOG_DEBUG(qt_meta_registry, "Map type: ");
-    return make_error_result<meta::Type>(
-        ErrorCode::failed_precondition,
-        fmt::format("Could not create a meta map type from'{}'", containing_type.name()));
+    LOG_DEBUG(qt_meta_registry, "Map type: {} k: {} v: {}", map_type.name(), key_type.name(), value_type.name());
+
+    return meta::MapType{.name = map_type.name(),
+                         .id = static_cast<meta::TypeId>(map_type.id()),
+                         .key_type = static_cast<meta::TypeId>(key_type.id()),
+                         .value_type = static_cast<meta::TypeId>(value_type.id())};
 }
 
 Result<meta::Type> convert_object_type(QMetaType type)
@@ -108,7 +111,9 @@ Result<meta::Type> convert_object_type(QMetaType type)
             }
             if (meta_type_instance.canConvert<QVariantMap>())
             {
-                return convert_map_type(type);
+                const auto iterable = meta_type_instance.value<QAssociativeIterable>();
+                return convert_map_type(
+                    type, iterable.metaContainer().keyMetaType(), iterable.metaContainer().mappedMetaType());
             }
             return make_error_result<meta::Type>(
                 ErrorCode::failed_precondition,

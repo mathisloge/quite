@@ -1,3 +1,4 @@
+#include <QMap>
 #include <QObject>
 #include <catch2/catch_test_macros.hpp>
 #include <quite/logger.hpp>
@@ -101,7 +102,8 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
 
     SECTION("Lookup List type by id")
     {
-        using TestListType = QVector<int>;
+        using TestListType = QVector<double>;
+        constexpr auto kTestType = QMetaType::fromType<TestListType>();
         stdexec::sync_wait([&]() -> exec::task<void> {
             const auto lookup_result = co_await meta_registry.lookup_type(QMetaType::fromType<TestListType>().id());
             if (not lookup_result.has_value())
@@ -115,6 +117,33 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             REQUIRE(lookup_result.has_value());
             REQUIRE(std::holds_alternative<meta::ListType>(*lookup_result));
             auto &&meta_list = std::get<meta::ListType>(*lookup_result);
+            REQUIRE(meta_list.name == "QList<double>");
+            REQUIRE(meta_list.id == kTestType.id());
+            REQUIRE(meta_list.value_type == QMetaType::fromType<double>().id());
+        }());
+    }
+
+    SECTION("Lookup Map type by id")
+    {
+        using TestListType = QMap<QString, int>;
+        constexpr auto kTestType = QMetaType::fromType<TestListType>();
+        stdexec::sync_wait([&]() -> exec::task<void> {
+            const auto lookup_result = co_await meta_registry.lookup_type(kTestType.id());
+            if (not lookup_result.has_value())
+            {
+                LOG_ERROR(test, "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
+            }
+            else
+            {
+                LOG_DEBUG(test, "Object {}", fmt::format("{}", *lookup_result));
+            }
+            REQUIRE(lookup_result.has_value());
+            REQUIRE(std::holds_alternative<meta::MapType>(*lookup_result));
+            auto &&meta_map = std::get<meta::MapType>(*lookup_result);
+            REQUIRE(meta_map.name == "QMap<QString,int>");
+            REQUIRE(meta_map.id == kTestType.id());
+            REQUIRE(meta_map.key_type == QMetaType::fromType<QString>().id());
+            REQUIRE(meta_map.value_type == QMetaType::fromType<int>().id());
         }());
     }
 }
