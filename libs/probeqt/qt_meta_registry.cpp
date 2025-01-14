@@ -3,6 +3,7 @@
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QMetaType>
+#include <QSequentialIterable>
 #include <ranges>
 #include <entt/meta/resolve.hpp>
 #include <quite/logger.hpp>
@@ -74,6 +75,23 @@ Result<meta::Type> convert_enum_type(QMetaType type)
     return meta_enum;
 }
 
+Result<meta::Type> convert_list_type(QMetaType list_type, QMetaType containing_type)
+{
+    LOG_DEBUG(qt_meta_registry, "List type '{}' with containing type '{}'", list_type.name(), containing_type.name());
+
+    return meta::ListType{.id = static_cast<meta::TypeId>(list_type.id()),
+                          .name = list_type.name(),
+                          .value_type = static_cast<meta::TypeId>(containing_type.id())};
+}
+
+Result<meta::Type> convert_map_type(QMetaType containing_type)
+{
+    LOG_DEBUG(qt_meta_registry, "Map type: ");
+    return make_error_result<meta::Type>(
+        ErrorCode::failed_precondition,
+        fmt::format("Could not create a meta map type from'{}'", containing_type.name()));
+}
+
 Result<meta::Type> convert_object_type(QMetaType type)
 {
     QVariant meta_type_instance;
@@ -85,9 +103,12 @@ Result<meta::Type> convert_object_type(QMetaType type)
             // TODO convert to either list or map types
             if (meta_type_instance.canConvert<QVariantList>())
             {
+                const auto iterable = meta_type_instance.value<QSequentialIterable>();
+                return convert_list_type(type, iterable.metaContainer().valueMetaType());
             }
             if (meta_type_instance.canConvert<QVariantMap>())
             {
+                return convert_map_type(type);
             }
             return make_error_result<meta::Type>(
                 ErrorCode::failed_precondition,
