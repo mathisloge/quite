@@ -6,7 +6,7 @@
 
 namespace quite::probe
 {
-exec::task<std::expected<QImage, SnapshotErrC>> take_snapshot(QObject *object)
+AsyncResult<QImage> take_snapshot(QObject *object)
 {
     if (object->isQuickItemType())
     {
@@ -20,12 +20,15 @@ exec::task<std::expected<QImage, SnapshotErrC>> take_snapshot(QObject *object)
     }
     else if (object->isWindowType())
     {
-        if (auto item = qobject_cast<QQuickWindow *>(object); item)
+        if (auto &&item = qobject_cast<QQuickWindow *>(object); item)
         {
             auto grabbed_image = item->grabWindow();
             co_return grabbed_image;
         }
     }
-    co_return std::unexpected(SnapshotErrC::invalid_object);
+    co_return make_error_result<QImage>(
+        ErrorCode::not_found,
+        fmt::format("Could not capture an image from object '{}'",
+                    object != nullptr ? object->objectName().toStdString() : "unknown"));
 }
 } // namespace quite::probe
