@@ -54,7 +54,7 @@ auto fmt::formatter<quite::meta::MapType>::format(const quite::meta::MapType &ty
 auto fmt::formatter<quite::meta::ListType>::format(const quite::meta::ListType &type, format_context &ctx) const
     -> format_context::iterator
 {
-    return fmt::format_to(ctx.out(), "ListType(type_id={})", type.value_type);
+    return fmt::format_to(ctx.out(), "ListType(name={}, id={}, type_id={})", type.name, type.id, type.value_type);
 }
 
 auto fmt::formatter<quite::meta::EnumType>::format(const quite::meta::EnumType &type, format_context &ctx) const

@@ -46,6 +46,8 @@ struct MapType
 
 struct ListType
 {
+    TypeId id;
+    std::string name;
     TypeId value_type;
 };
 
