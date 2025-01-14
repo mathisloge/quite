@@ -12,7 +12,7 @@ using CreateScreenshotRPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncS
 struct CreateScreenshotRpcHandler
 {
     ObjectTracker &tracker;
-    exec::task<void> operator()(CreateScreenshotRPC &rpc, const CreateScreenshotRPC::Request &request);
+    exec::task<void> operator()(CreateScreenshotRPC &rpc, const CreateScreenshotRPC::Request &request) const;
 };
 
 agrpc::detail::RPCHandlerSender<CreateScreenshotRPC, CreateScreenshotRpcHandler> create_snapshot(

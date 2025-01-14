@@ -3,16 +3,16 @@
 #include <QImage>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <fmt/format.h>
+#include <quite/logger.hpp>
 #include "../qtstdexec.h"
 #include "../snapshot.hpp"
-
-#include <quite/logger.hpp>
+#include "grpc_error.hpp"
 DEFINE_LOGGER(rpc_create_snapshot_logger)
 
 namespace quite::probe
 {
 exec::task<void> CreateScreenshotRpcHandler::operator()(CreateScreenshotRPC &rpc,
-                                                        const CreateScreenshotRPC::Request &request)
+                                                        const CreateScreenshotRPC::Request &request) const
 {
     LOG_TRACE_L1(rpc_create_snapshot_logger, "START RequestCreateScreenshot={}", request.object_id());
     CreateScreenshotRPC::Response response{};
@@ -51,14 +51,13 @@ exec::task<void> CreateScreenshotRpcHandler::operator()(CreateScreenshotRPC &rpc
             }
             response.mutable_data()->clear();
 
-            data_begin = data_begin + to_be_send;
+            data_begin = std::next(data_begin, to_be_send);
             remaining_bytes -= to_be_send;
         }
         co_await rpc.finish(grpc::Status::OK);
         co_return;
     }
-    co_await rpc.finish(grpc::Status{grpc::StatusCode::RESOURCE_EXHAUSTED,
-                                     fmt::format("could not take image snapshot {}", request.object_id())});
+    co_await rpc.finish(error2grpc_status(expected_image.error()));
 }
 
 agrpc::detail::RPCHandlerSender<CreateScreenshotRPC, CreateScreenshotRpcHandler> create_snapshot(

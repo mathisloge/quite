@@ -30,7 +30,8 @@ ProbeContext::ProbeContext(grpc::ServerBuilder builder)
     , mouse_injector_{object_tracker_}
     , method_invoker_{object_tracker_}
 {
-    builder.RegisterService(&object_service_);
+    builder.RegisterService(std::addressof(object_service_));
+    builder.RegisterService(std::addressof(meta_service_));
     builder.AddListeningPort("unix:///tmp/grpc_probe.sock", grpc::InsecureServerCredentials());
     grpc_server_ = builder.BuildAndStart();
 

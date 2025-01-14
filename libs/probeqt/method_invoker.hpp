@@ -1,7 +1,8 @@
 #pragma once
 #include <span>
 #include <entt/meta/meta.hpp>
-#include "result.hpp"
+#include <quite/result.hpp>
+
 namespace quite::probe
 {
 class ObjectTracker;

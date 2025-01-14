@@ -15,11 +15,11 @@ asio_grpc_protobuf_generate(
         "${proto_inc_dir}/methods.proto"
 )
 
-add_library(quite_protocol_proto STATIC)
-add_library(quite::protocol ALIAS quite_protocol_proto)
-target_sources(quite_protocol_proto PRIVATE ${quite_protocol_proto_srcs})
-target_link_libraries(quite_protocol_proto PUBLIC protobuf::libprotobuf)
+add_library(quite_protocol STATIC)
+add_library(quite::protocol ALIAS quite_protocol)
+target_sources(quite_protocol PRIVATE ${quite_protocol_proto_srcs})
+target_link_libraries(quite_protocol PUBLIC protobuf::libprotobuf)
 
-target_include_directories(quite_protocol_proto
+target_include_directories(quite_protocol
     PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>"
 )

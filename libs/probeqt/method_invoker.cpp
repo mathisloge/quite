@@ -38,16 +38,16 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
 
     if (meta_method.parameterCount() != params.size())
     {
-        return std::unexpected{Error{.code = ErrorCode::failed_precondition,
-                                     .message = fmt::format("Method {} expectes {} arguments but only {} were passed",
-                                                            qualified_method_signature,
-                                                            meta_method.parameterCount(),
-                                                            params.size())}};
+        return make_error_result<entt::meta_any>(ErrorCode::failed_precondition,
+                                                 fmt::format("Method {} expectes {} arguments but only {} were passed",
+                                                             qualified_method_signature,
+                                                             meta_method.parameterCount(),
+                                                             params.size()));
     }
 
     using MetaValue = std::unique_ptr<void, MetaValueDeleter>;
 
-    auto create_meta_value = [](QMetaType &&meta_type) -> MetaValue {
+    auto create_meta_value = [](QMetaType meta_type) -> MetaValue {
         MetaValueDeleter deleter{.meta_type = std::move(meta_type)};
         return MetaValue{deleter.meta_type.create(), std::move(deleter)};
     };
@@ -63,7 +63,7 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
         auto &&param_value = params[i];
         auto meta_type = param_value.type().func("metaType"_hs).invoke(param_value);
         auto param_value_meta = meta_type.cast<QMetaType>();
-        auto &&value = args.emplace_back(create_meta_value(std::move(meta_param)));
+        auto &&value = args.emplace_back(create_meta_value(meta_param));
         if (QMetaType::canConvert(param_value_meta, meta_param))
         {
             QMetaType::convert(
@@ -71,9 +71,8 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
         }
         else
         {
-            return std::unexpected{
-                Error{.code = ErrorCode::invalid_argument,
-                      .message = fmt::format("Could convert arg {} to type {}", i, meta_param.name())}};
+            return make_error_result<entt::meta_any>(
+                ErrorCode::invalid_argument, fmt::format("Could convert arg {} to type {}", i, meta_param.name()));
         }
     }
 
@@ -91,11 +90,11 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
         // args[0] is always the return type.
         return custom_meta_type.from_void(args[0].release(), kTransferOwnership);
     }
-    return std::unexpected{
-        Error{.code = ErrorCode::cancelled,
-              .message = fmt::format("Could not invoke or wrap return type. Call status = {}, convertable = ",
-                                     call_result,
-                                     static_cast<bool>(custom_meta_type))}};
+    return make_error_result<entt::meta_any>(
+        ErrorCode::cancelled,
+        fmt::format("Could not invoke or wrap return type. Call status = {}, convertable = ",
+                    call_result,
+                    static_cast<bool>(custom_meta_type)));
 }
 } // namespace
 
@@ -112,7 +111,7 @@ Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object
     {
         return invoke_qmeta_method(*object_ref, qualified_method_signature, params);
     }
-    return std::unexpected{
-        Error{.code = ErrorCode::invalid_argument, .message = "Could find a qobject for the given base type"}};
+    return make_error_result<entt::meta_any>(ErrorCode::invalid_argument,
+                                             "Could find a qobject for the given base type");
 }
 } // namespace quite::probe
