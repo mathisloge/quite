@@ -48,7 +48,8 @@ auto fmt::formatter<quite::meta::ObjectType>::format(const quite::meta::ObjectTy
 auto fmt::formatter<quite::meta::MapType>::format(const quite::meta::MapType &type, format_context &ctx) const
     -> format_context::iterator
 {
-    return fmt::format_to(ctx.out(), "MapType(key={}, value={})", type.key_type, type.value_type);
+    return fmt::format_to(
+        ctx.out(), "MapType(name={}, id={} key={}, value={})", type.name, type.id, type.key_type, type.value_type);
 }
 
 auto fmt::formatter<quite::meta::ListType>::format(const quite::meta::ListType &type, format_context &ctx) const

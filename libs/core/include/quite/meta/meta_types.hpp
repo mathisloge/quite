@@ -40,6 +40,8 @@ using ObjectTypePtr = std::unique_ptr<ObjectType>;
 
 struct MapType
 {
+    std::string name;
+    TypeId id;
     TypeId key_type;
     TypeId value_type;
 };
