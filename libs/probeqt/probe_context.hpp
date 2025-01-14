@@ -3,6 +3,7 @@
 #include <agrpc/grpc_context.hpp>
 #include <grpcpp/server_builder.h>
 #include <private/qhooks_p.h>
+#include <quite/disable_copy_move.hpp>
 #include <quite/proto/meta_service.grpc.pb.h>
 #include <quite/proto/probe.grpc.pb.h>
 #include "injector/mouse_injector.hpp"
@@ -14,6 +15,7 @@ namespace quite::probe
 class ProbeContext final
 {
   public:
+    QUITE_DISABLE_COPY_MOVE(ProbeContext);
     ProbeContext(grpc::ServerBuilder builder = {});
     ~ProbeContext();
 

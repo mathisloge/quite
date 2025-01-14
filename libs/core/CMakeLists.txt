@@ -33,7 +33,6 @@ target_sources(quite_core
             FILES
                 ${CMAKE_CURRENT_BINARY_DIR}/quite_core_export.h
     PRIVATE
-        src/core.cpp
         src/error.cpp
         src/meta/meta_types.cpp
 )
