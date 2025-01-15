@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 import pytest
+from test_paths import APP_PATH
 
 import quite
-
-APP_PATH = "/home/mlogemann/dev/ng-quite/build/test/simple_tester/tester"
 
 
 def test_launch_application():
