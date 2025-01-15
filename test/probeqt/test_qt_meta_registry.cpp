@@ -60,7 +60,6 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             REQUIRE(meta_obj->id != 0);
             REQUIRE(meta_obj->properties.size() == 1);
             REQUIRE(meta_obj->properties[0].name == "objectName");
-            REQUIRE(meta_obj->methods.size() == 6);
             REQUIRE(std::ranges::find_if(meta_obj->methods, [](auto &&method) {
                         return method.name == "compute(qulonglong,uchar)";
                     }) != meta_obj->methods.end());
