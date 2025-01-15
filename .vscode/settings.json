@@ -1,3 +1,6 @@
 {
-    "C_Cpp.codeAnalysis.clangTidy.enabled": true
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "python.analysis.extraPaths": [
+        "./build/test"
+    ]
 }
