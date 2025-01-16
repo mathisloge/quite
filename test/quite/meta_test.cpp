@@ -15,20 +15,23 @@
 
 DEFINE_LOGGER(test);
 
-TEST_CASE("Test if a process application can be created")
+TEST_CASE("Test the qt build in meta types")
 {
+    // https://doc.qt.io/qt-6/qmetatype.html#Type-enum
+    constexpr quite::meta::TypeId kVoidId = 43;
     quite::setup_logger();
 
     ASYNC_BLOCK
     auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
 
-    const auto myCustomType = co_await app->meta_type_registry().resolve_type("MyCustomType");
-    /*
-    if (not myCustomType.has_value())
+    const auto void_type = co_await app->meta_registry().lookup_type(kVoidId);
+    if (not void_type.has_value())
     {
-        LOG_ERROR(test, "Could not aquire type. Failed with {}", myCustomType.error().message);
+        LOG_ERROR(test, "Could not aquire type. Failed with {}", void_type.error().message);
     }
-    REQUIRE(myCustomType.has_value());
-    */
+
+    REQUIRE(void_type.has_value());
+    REQUIRE(std::holds_alternative<quite::meta::PrimitiveType>(*void_type));
+    REQUIRE(std::get<quite::meta::PrimitiveType>(*void_type) == quite::meta::PrimitiveType::type_void);
     ASYNC_BLOCK_END
 }

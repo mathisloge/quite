@@ -7,8 +7,8 @@
 #include <quite/proto/meta_service.grpc.pb.h>
 #include <quite/proto/probe.grpc.pb.h>
 #include "injector/mouse_injector.hpp"
+#include "meta_adapter.hpp"
 #include "method_invoker.hpp"
-#include "qt_meta_registry.hpp"
 
 namespace quite::probe
 {
@@ -35,7 +35,7 @@ class ProbeContext final
     quite::probe::ObjectTracker object_tracker_;
     quite::probe::MouseInjector mouse_injector_;
     quite::probe::MethodInvoker method_invoker_;
-    quite::probe::QtMetaRegistry meta_registry_;
+    quite::probe::MetaAdapter meta_adapter_;
     quite::proto::ProbeService::AsyncService object_service_;
     quite::proto::MetaService::AsyncService meta_service_;
 

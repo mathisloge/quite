@@ -7,6 +7,7 @@
 #include "rpc/create_snapshot.hpp"
 #include "rpc/exit_request.hpp"
 #include "rpc/find_object.hpp"
+#include "rpc/get_meta_object.hpp"
 #include "rpc/get_object_properties.hpp"
 #include "rpc/get_views.hpp"
 #include "rpc/invoke_method.hpp"
@@ -46,6 +47,7 @@ ProbeContext::ProbeContext(grpc::ServerBuilder builder)
         auto invoke_method_rpc =
             quite::probe::invoke_method(grpc_context_, object_service_, object_tracker_, method_invoker_);
 
+        auto get_meta_object_rpc = quite::probe::get_meta_object(grpc_context_, meta_service_, meta_adapter_);
         LOG_INFO(probe_ctx_logger, "grpc server setup and is now running.");
         grpc_context_.work_started();
         auto snd = exec::finally(stdexec::when_all( //
@@ -55,7 +57,8 @@ ProbeContext::ProbeContext(grpc::ServerBuilder builder)
                                      std::move(create_snapshot_rpc),
                                      std::move(get_views_rpc),
                                      std::move(exit_request_rpc),
-                                     std::move(invoke_method_rpc)),
+                                     std::move(invoke_method_rpc),
+                                     std::move(get_meta_object_rpc)),
                                  stdexec::then(stdexec::just(), [this] { grpc_context_.work_finished(); }));
         stdexec::sync_wait(
             stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [this] { grpc_context_.run(); })));

@@ -13,7 +13,7 @@ class GrpcApplication : public Application
     AsyncResult<std::shared_ptr<RemoteObject>> find_object(const ObjectQuery &query) override;
     AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> get_views() override;
     AsyncResult<void> exit() override;
-    meta::MetaTypeRegistry &meta_type_registry() override;
+    meta::MetaRegistry &meta_registry() override;
 
   private:
     ProbeServiceHandle probe_handle_;

@@ -11,7 +11,7 @@ ProcessApplication::ProcessApplication(Context &context, const std::string &path
     , stdout_pipe_{context.asioContext().get_executor(), process_.stdoutPipe()}
     , stderr_pipe_{context.asioContext().get_executor(), process_.stderrPipe()}
 {
-    // do_read();
+    do_read();
 }
 
 ProcessApplication::~ProcessApplication() = default;
