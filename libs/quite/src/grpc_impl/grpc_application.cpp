@@ -48,7 +48,7 @@ AsyncResult<void> GrpcApplication::exit()
     co_return response.and_then([&](const proto::ExitReponse & /*reply*/) -> Result<void> { return {}; });
 }
 
-meta::MetaTypeRegistry &GrpcApplication::meta_type_registry()
+meta::MetaRegistry &GrpcApplication::meta_registry()
 {
     return meta_type_registry_;
 }

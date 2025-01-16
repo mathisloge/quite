@@ -104,7 +104,6 @@ Result<meta::Type> convert_object_type(QMetaType type)
         meta_type_instance = QVariant{type};
         if (type.metaObject() == nullptr)
         {
-            // TODO convert to either list or map types
             if (meta_type_instance.canConvert<QVariantList>())
             {
                 const auto iterable = meta_type_instance.value<QSequentialIterable>();
@@ -152,12 +151,27 @@ Result<meta::Type> convert_object_type(QMetaType type)
     return meta::Type{std::move(obj)};
 }
 
+#define TRY_RETURN_PRIMITIVE(qt_meta_type, quite_type)                                                                 \
+    if (type.id() == (qt_meta_type))                                                                                   \
+    {                                                                                                                  \
+        return meta::Type{quite_type};                                                                                 \
+    }
+
 Result<meta::Type> convert(QMetaType type)
 {
     if (type.flags().testFlag(QMetaType::TypeFlag::IsEnumeration))
     {
         return convert_enum_type(type);
     }
+    TRY_RETURN_PRIMITIVE(QMetaType::UnknownType, meta::PrimitiveType::type_unknown);
+    TRY_RETURN_PRIMITIVE(QMetaType::Void, meta::PrimitiveType::type_void);
+    TRY_RETURN_PRIMITIVE(QMetaType::Int, meta::PrimitiveType::type_int);
+    TRY_RETURN_PRIMITIVE(QMetaType::UInt, meta::PrimitiveType::type_uint);
+    TRY_RETURN_PRIMITIVE(QMetaType::Float, meta::PrimitiveType::type_float);
+    TRY_RETURN_PRIMITIVE(QMetaType::Double, meta::PrimitiveType::type_double);
+    TRY_RETURN_PRIMITIVE(QMetaType::Bool, meta::PrimitiveType::type_bool);
+    TRY_RETURN_PRIMITIVE(QMetaType::QString, meta::PrimitiveType::type_string);
+
     return convert_object_type(type);
 }
 } // namespace

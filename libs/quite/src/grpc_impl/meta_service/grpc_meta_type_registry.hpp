@@ -1,15 +1,14 @@
 #pragma once
+#include <quite/meta/meta_registry.hpp>
 #include "../probe_handle.hpp"
-#include "quite/meta/meta_type_registry.hpp"
 
 namespace quite::grpc_impl
 {
-class GrpcMetaTypeRegistry : public meta::MetaTypeRegistry
+class GrpcMetaTypeRegistry : public meta::MetaRegistry
 {
   public:
     GrpcMetaTypeRegistry(ProbeServiceHandle probe_service_handle);
-    AsyncResult<meta::Type> resolve_type(meta::TypeId type_id) override;
-    AsyncResult<meta::Type> resolve_type(std::string_view type_name) override;
+    AsyncResult<meta::Type> lookup_type(meta::TypeId type_id) override;
 
   private:
     ProbeServiceHandle probe_service_handle_;

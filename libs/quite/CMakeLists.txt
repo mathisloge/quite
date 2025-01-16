@@ -48,4 +48,3 @@ target_sources(quitelib
 add_subdirectory(src/grpc_impl)
 add_subdirectory(src/utils)
 add_subdirectory(src/testing)
-add_subdirectory(src/meta)

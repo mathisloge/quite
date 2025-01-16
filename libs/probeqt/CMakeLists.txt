@@ -44,6 +44,8 @@ target_sources(probeqt
         method_invoker.hpp
         qt_meta_registry.cpp
         qt_meta_registry.hpp
+        meta_adapter.cpp
+        meta_adapter.hpp
 )
 add_subdirectory(injector)
 add_subdirectory(rpc)

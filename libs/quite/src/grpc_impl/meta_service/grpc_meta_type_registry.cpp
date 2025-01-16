@@ -1,9 +1,9 @@
 #include "grpc_meta_type_registry.hpp"
 #include <fmt/format.h>
 #include <quite/logger.hpp>
+#include <quite/proto/meta_converters.hpp>
 #include "grpc_impl/probe_client.hpp"
 #include "grpc_impl/rpc/make_meta_service_get_meta_object.hpp"
-#include "meta/meta_type_storage.hpp"
 
 DEFINE_LOGGER(grpc_meta_type_registry_logger);
 
@@ -17,37 +17,47 @@ GrpcMetaTypeRegistry::GrpcMetaTypeRegistry(ProbeServiceHandle probe_service_hand
     : probe_service_handle_{std::move(probe_service_handle)}
 {}
 
-AsyncResult<meta::Type> GrpcMetaTypeRegistry::resolve_type(meta::TypeId type_id)
+AsyncResult<meta::Type> GrpcMetaTypeRegistry::lookup_type(meta::TypeId type_id)
 {
-    co_return std::unexpected(Error{
-        .code = ErrorCode::unimplemented,
-        .message = fmt::format("Got no meta type for type id '{}'", type_id),
-    });
-}
-
-AsyncResult<meta::Type> GrpcMetaTypeRegistry::resolve_type(std::string_view type_name)
-{
-    LOG_DEBUG(grpc_meta_type_registry_logger, "Resolve type for '{}'", type_name);
+    LOG_DEBUG(grpc_meta_type_registry_logger, "lookup type for '{}'", type_id);
     const auto meta_obj_response = co_await make_meta_service_get_meta_object(
-        probe_service_handle_->context(), probe_service_handle_->meta_service_stub(), type_name);
+        probe_service_handle_->context(), probe_service_handle_->meta_service_stub(), type_id);
     if (not meta_obj_response.has_value() or not meta_obj_response->has_meta_type())
     {
         co_return std::unexpected(Error{
             .code = ErrorCode::failed_precondition,
-            .message = fmt::format("Got no meta type for type '{}'", type_name),
+            .message = fmt::format("Got no meta type for type '{}'", type_id),
         });
     }
-
-    co_return meta_obj_response.transform([](const proto::MetaObjectResponse &obj_response) -> Type {
-        if (obj_response.has_meta_type())
+    co_return meta_obj_response.and_then([](const proto::MetaObjectResponse &response) -> Result<meta::Type> {
+        if (response.has_meta_type())
         {
-            if (obj_response.meta_type().has_primitive_type())
+            auto &&meta_type = response.meta_type();
+            if (meta_type.has_primitive_type())
             {
-                //! TODO: make mapping
-                return meta::Type{meta::PrimitiveType::type_int};
+                return proto::from_protocol(meta_type.primitive_type());
+            }
+            if (meta_type.has_enum_type())
+            {
+                return proto::from_protocol(meta_type.enum_type());
+            }
+            if (meta_type.has_list_type())
+            {
+                return proto::from_protocol(meta_type.list_type());
+            }
+            if (meta_type.has_map_type())
+            {
+                return proto::from_protocol(meta_type.map_type());
+            }
+            if (meta_type.has_object_type())
+            {
+                return proto::from_protocol(meta_type.object_type());
             }
         }
-        return meta::Type{};
+
+        return make_error_result<meta::Type>(
+            ErrorCode::failed_precondition,
+            "Got a probe response but couldn't map protocol meta type to internal type.");
     });
 }
 

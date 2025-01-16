@@ -146,5 +146,26 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             REQUIRE(meta_map.value_type == QMetaType::fromType<int>().id());
         }());
     }
+
+    SECTION("Lookup primitive build in type by id")
+    {
+        using TestListType = QMap<QString, int>;
+        constexpr auto kTestType = QMetaType::Void;
+        stdexec::sync_wait([&]() -> exec::task<void> {
+            const auto lookup_result = co_await meta_registry.lookup_type(kTestType);
+            if (not lookup_result.has_value())
+            {
+                LOG_ERROR(test, "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
+            }
+            else
+            {
+                LOG_DEBUG(test, "Object {}", fmt::format("{}", *lookup_result));
+            }
+            REQUIRE(lookup_result.has_value());
+            REQUIRE(std::holds_alternative<meta::PrimitiveType>(*lookup_result));
+            auto &&meta_primitive = std::get<meta::PrimitiveType>(*lookup_result);
+            REQUIRE(meta_primitive == meta::PrimitiveType::type_void);
+        }());
+    }
 }
 #include "test_qt_meta_registry.moc"

@@ -1,6 +1,7 @@
 #pragma once
-#include <entt/meta/meta.hpp>
-#include "result.hpp"
+#include <quite/meta/meta_types.hpp>
+#include <quite/result.hpp>
+#include "qt_meta_registry.hpp"
 
 namespace quite::probe
 {
@@ -8,9 +9,9 @@ namespace quite::probe
 class MetaAdapter
 {
   public:
-    Result<entt::meta_any> search_type_by_qualified_name(std::string_view qualified_type_name);
-    Result<entt::meta_any> invoke_method(const entt::meta_any &object,
-                                         std::string_view qualified_method_signature,
-                                         std::span<entt::meta_any> params) const;
+    AsyncResult<meta::Type> find_type_by_id(meta::TypeId type_id);
+
+  private:
+    QtMetaRegistry type_registry_;
 };
 } // namespace quite::probe
