@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package quite.proto;
 
-enum PrimitiveType {
+enum MetaPrimitiveType {
   unknown = 0;
   void = 1;
   int = 2;
@@ -12,11 +12,11 @@ enum PrimitiveType {
   string = 6;
 }
 
-message ListType {
+message MetaListType {
   int64 element_type = 1;
 }
 
-message MapType {
+message MetaMapType {
   int64 key_type = 1;
   int64 value_type = 2;
 }
@@ -32,7 +32,7 @@ message MetaMethod {
   map<string, int64> parameter_types = 3;
 }
 
-message MetaObject {
+message MetaObjectType {
   string type_name = 1;
   repeated MetaProperty properties = 2;
   repeated MetaMethod meta_signals = 3;
@@ -41,9 +41,9 @@ message MetaObject {
 
 message MetaType {
   oneof type {
-    PrimitiveType primitive_type = 1;
-    MetaObject complex_type = 2;
-    ListType list_type = 3;
-    MapType map_type = 4;
+    MetaPrimitiveType primitive_type = 1;
+    MetaObjectType object_type = 2;
+    MetaListType list_type = 3;
+    MetaMapType map_type = 4;
   }
 }

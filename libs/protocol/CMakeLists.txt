@@ -17,9 +17,20 @@ asio_grpc_protobuf_generate(
 
 add_library(quite_protocol STATIC)
 add_library(quite::protocol ALIAS quite_protocol)
-target_sources(quite_protocol PRIVATE ${quite_protocol_proto_srcs})
-target_link_libraries(quite_protocol PUBLIC protobuf::libprotobuf)
+target_link_libraries(quite_protocol PUBLIC protobuf::libprotobuf quite::core)
 
 target_include_directories(quite_protocol
     PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>"
+)
+
+target_sources(quite_protocol
+    PUBLIC
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/proto/meta_converters.hpp
+    PRIVATE
+        ${quite_protocol_proto_srcs}
+        src/meta_converters.cpp
 )
