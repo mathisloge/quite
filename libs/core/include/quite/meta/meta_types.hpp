@@ -1,7 +1,6 @@
 #pragma once
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <variant>
@@ -31,7 +30,6 @@ struct ObjectType
 {
     TypeId id;
     std::string name;
-    std::optional<TypeId> superclass;
     std::vector<Property> properties;
     std::vector<Method> constructors;
     std::vector<Method> methods;
@@ -40,8 +38,8 @@ using ObjectTypePtr = std::unique_ptr<ObjectType>;
 
 struct MapType
 {
-    std::string name;
     TypeId id;
+    std::string name;
     TypeId key_type;
     TypeId value_type;
 };
@@ -57,6 +55,7 @@ struct EnumType
 {
     using ValueName = std::string;
 
+    TypeId id;
     std::string name;
     std::unordered_map<ValueName, std::int64_t> values;
 };

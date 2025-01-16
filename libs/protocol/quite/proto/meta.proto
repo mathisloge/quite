@@ -6,37 +6,49 @@ enum MetaPrimitiveType {
   unknown = 0;
   void = 1;
   int = 2;
-  float = 3;
-  double = 4;
-  bool = 5;
-  string = 6;
+  uint = 3;
+  float = 4;
+  double = 5;
+  bool = 6;
+  string = 7;
 }
 
 message MetaListType {
-  int64 element_type = 1;
+  uint64 type_id = 1;
+  string name = 2;
+  uint64 value_type_id = 3;
 }
 
 message MetaMapType {
-  int64 key_type = 1;
-  int64 value_type = 2;
+  uint64 type_id = 1;
+  string name = 2;
+  uint64 key_type_id = 3;
+  uint64 value_type_id = 4;
+}
+
+message MetaEnumType {
+  uint64 type_id = 1;
+  string name = 2;
+  map<string, uint64> name_value = 3;
 }
 
 message MetaProperty {
   string name = 1;
-  int64 type = 2;
+  uint64 type_id = 2;
 }
 
 message MetaMethod {
   string name = 1;
-  int64 return_type = 2;
-  map<string, int64> parameter_types = 3;
+  uint64 return_type_id = 2;
+  map<string, uint64> parameter_types = 3;
 }
 
 message MetaObjectType {
-  string type_name = 1;
-  repeated MetaProperty properties = 2;
-  repeated MetaMethod meta_signals = 3;
-  repeated MetaMethod meta_functions = 4;
+  string name = 1;
+  uint64 type_id = 2;
+  repeated MetaProperty properties = 3;
+  repeated MetaMethod constructors = 4;
+  repeated MetaMethod methods = 5;
 }
 
 message MetaType {
@@ -45,5 +57,6 @@ message MetaType {
     MetaObjectType object_type = 2;
     MetaListType list_type = 3;
     MetaMapType map_type = 4;
+    MetaEnumType enum_type = 5;
   }
 }

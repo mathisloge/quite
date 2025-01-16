@@ -36,10 +36,9 @@ auto fmt::formatter<quite::meta::ObjectType>::format(const quite::meta::ObjectTy
     -> format_context::iterator
 {
     return fmt::format_to(ctx.out(),
-                          "ObjectType(name={}, type_id={}, superclass={}, properties={}, constructors={}, methods={})",
+                          "ObjectType(name={}, type_id={}, properties={}, constructors={}, methods={})",
                           type.name,
                           type.id,
-                          type.superclass.has_value() ? fmt::format("{}", type.superclass.value()) : "None",
                           type.properties,
                           type.constructors,
                           type.methods);
@@ -61,7 +60,7 @@ auto fmt::formatter<quite::meta::ListType>::format(const quite::meta::ListType &
 auto fmt::formatter<quite::meta::EnumType>::format(const quite::meta::EnumType &type, format_context &ctx) const
     -> format_context::iterator
 {
-    return fmt::format_to(ctx.out(), "EnumType(name={}, values={})", type.name, type.values);
+    return fmt::format_to(ctx.out(), "EnumType(name={}, id={}, values={})", type.name, type.id, type.values);
 }
 
 auto fmt::formatter<quite::meta::PrimitiveType>::format(const quite::meta::PrimitiveType &type,
