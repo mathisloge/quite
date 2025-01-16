@@ -24,13 +24,11 @@ auto from_qmetamethod(const QMetaMethod &method)
 {
     meta::Method meta_method{.name = method.methodSignature().toStdString(),
                              .return_type = static_cast<meta::TypeId>(method.returnType())};
-    std::ranges::for_each(std::ranges::iota_view(0, method.parameterCount()) | std::views::transform([&](int prop_idx) {
-                              return meta::Property{.name = method.parameterNames().at(prop_idx).toStdString(),
-                                                    .type = static_cast<meta::TypeId>(method.parameterType(prop_idx))};
-                          }),
-                          [&meta_method](auto &&property) {
-                              meta_method.parameters.emplace_back(std::forward<decltype(property)>(property));
-                          });
+    std::ranges::copy(std::ranges::iota_view(0, method.parameterCount()) | std::views::transform([&](int prop_idx) {
+                          return meta::Property{.name = method.parameterNames().at(prop_idx).toStdString(),
+                                                .type = static_cast<meta::TypeId>(method.parameterType(prop_idx))};
+                      }),
+                      std::back_inserter(meta_method.parameters));
     return meta_method;
 }
 
@@ -38,6 +36,7 @@ Result<meta::Type> convert_enum_type(QMetaType type)
 {
     LOG_DEBUG(qt_meta_registry, "Converting to enum. Name {}", type.name());
     auto meta_enum = std::make_unique<meta::EnumType>();
+    meta_enum->id = type.id();
     meta_enum->name = type.name();
     const QMetaObject *meta_object = type.metaObject();
     if (type.metaObject() == nullptr)
@@ -89,10 +88,12 @@ Result<meta::Type> convert_map_type(QMetaType map_type, QMetaType key_type, QMet
 {
     LOG_DEBUG(qt_meta_registry, "Map type: {} k: {} v: {}", map_type.name(), key_type.name(), value_type.name());
 
-    return meta::MapType{.name = map_type.name(),
-                         .id = static_cast<meta::TypeId>(map_type.id()),
-                         .key_type = static_cast<meta::TypeId>(key_type.id()),
-                         .value_type = static_cast<meta::TypeId>(value_type.id())};
+    return meta::MapType{
+        .id = static_cast<meta::TypeId>(map_type.id()),
+        .name = map_type.name(),
+        .key_type = static_cast<meta::TypeId>(key_type.id()),
+        .value_type = static_cast<meta::TypeId>(value_type.id()),
+    };
 }
 
 Result<meta::Type> convert_object_type(QMetaType type)
@@ -133,27 +134,20 @@ Result<meta::Type> convert_object_type(QMetaType type)
     obj->name = meta_object->className();
     obj->id = type.id();
 
-    if (meta_object->superClass() != nullptr)
-    {
-        obj->superclass = meta_object->superClass()->metaType().id();
-    }
+    std::ranges::copy(std::ranges::iota_view(0, meta_object->propertyCount()) |
+                          std::views::transform([&](int prop_idx) { return meta_object->property(prop_idx); }) |
+                          std::views::transform(from_qmetaproperty),
+                      std::back_inserter(obj->properties));
 
-    std::ranges::for_each(
-        std::ranges::iota_view(0, meta_object->propertyCount()) | std::views::transform([&](int prop_idx) {
-            return meta_object->property(prop_idx);
-        }) | std::views::transform(from_qmetaproperty),
-        [&obj](auto &&property) { obj->properties.emplace_back(std::forward<decltype(property)>(property)); });
+    std::ranges::copy(std::ranges::iota_view(0, meta_object->constructorCount()) |
+                          std::views::transform([&](int prop_idx) { return meta_object->constructor(prop_idx); }) |
+                          std::views::transform(from_qmetamethod),
+                      std::back_inserter(obj->constructors));
 
-    std::ranges::for_each(
-        std::ranges::iota_view(0, meta_object->constructorCount()) | std::views::transform([&](int prop_idx) {
-            return meta_object->constructor(prop_idx);
-        }) | std::views::transform(from_qmetamethod),
-        [&obj](auto &&method) { obj->constructors.emplace_back(std::forward<decltype(method)>(method)); });
-
-    std::ranges::for_each(std::ranges::iota_view(0, meta_object->methodCount()) |
-                              std::views::transform([&](int prop_idx) { return meta_object->method(prop_idx); }) |
-                              std::views::transform(from_qmetamethod),
-                          [&obj](auto &&method) { obj->methods.emplace_back(std::forward<decltype(method)>(method)); });
+    std::ranges::copy(std::ranges::iota_view(0, meta_object->methodCount()) | std::views::transform([&](int prop_idx) {
+                          return meta_object->method(prop_idx);
+                      }) | std::views::transform(from_qmetamethod),
+                      std::back_inserter(obj->methods));
 
     return meta::Type{std::move(obj)};
 }

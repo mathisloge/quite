@@ -57,7 +57,7 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             REQUIRE(meta_obj != nullptr);
             LOG_DEBUG(test, "Object {}", fmt::format("{}", *meta_obj));
             REQUIRE(meta_obj->name == "MyTestClassMetaRegistry");
-            REQUIRE(meta_obj->id != 0);
+            REQUIRE(meta_obj->id == QMetaType::fromType<MyTestClassMetaRegistry>().id());
             REQUIRE(meta_obj->properties.size() == 1);
             REQUIRE(meta_obj->properties[0].name == "objectName");
             REQUIRE(std::ranges::find_if(meta_obj->methods, [](auto &&method) {
@@ -86,6 +86,7 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             REQUIRE(std::holds_alternative<meta::EnumTypePtr>(*lookup_result));
             auto &&meta_enum = std::get<meta::EnumTypePtr>(*lookup_result);
             REQUIRE(meta_enum != nullptr);
+            REQUIRE(meta_enum->id == QMetaType::fromType<my_meta_namespace::SomeMetaEnum>().id());
             REQUIRE(meta_enum->name == "my_meta_namespace::SomeMetaEnum");
             REQUIRE(meta_enum->values.size() == 4);
             REQUIRE(meta_enum->values.contains("valuem1"));
