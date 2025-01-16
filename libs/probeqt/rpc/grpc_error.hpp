@@ -26,6 +26,7 @@ constexpr grpc::StatusCode error_code2grpc_status_code(const ErrorCode error_cod
     case ErrorCode::unavailable:
         return grpc::StatusCode::UNAVAILABLE;
     }
+    return grpc::StatusCode::UNKNOWN;
 }
 
 constexpr grpc::Status error2grpc_status(const Error &error)
