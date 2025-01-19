@@ -1,15 +1,15 @@
-#include "make_meta_service_get_meta_object.hpp"
+#include "make_meta_find_type.hpp"
 #include <agrpc/client_rpc.hpp>
 #include "configure_client_context.hpp"
 #include "error_helper.hpp"
 
 namespace quite::grpc_impl
 {
-AsyncResult<proto::MetaObjectResponse> make_meta_service_get_meta_object(agrpc::GrpcContext &grpc_context,
-                                                                         proto::MetaService::Stub &stub,
-                                                                         meta::TypeId type_id)
+AsyncResult<proto::MetaFindTypeResponse> make_meta_find_type(agrpc::GrpcContext &grpc_context,
+                                                             proto::MetaService::Stub &stub,
+                                                             meta::TypeId type_id)
 {
-    using RPC = agrpc::ClientRPC<&proto::MetaService::Stub::PrepareAsyncGetMetaObject>;
+    using RPC = agrpc::ClientRPC<&proto::MetaService::Stub::PrepareAsyncFindType>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 

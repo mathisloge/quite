@@ -4,13 +4,13 @@ package quite.proto;
 import "quite/proto/meta.proto";
 
 service MetaService {
-  rpc GetMetaObject(MetaObjectRequest) returns (MetaObjectResponse) {}
+  rpc FindType(MetaFindTypeRequest) returns (MetaFindTypeResponse) {}
 }
 
-message MetaObjectRequest {
+message MetaFindTypeRequest {
   uint64 type_id = 1;
 }
 
-message MetaObjectResponse {
-  MetaType meta_type = 1;
+message MetaFindTypeResponse {
+  MetaType type = 1;
 }

@@ -8,13 +8,13 @@
 
 namespace quite::probe
 {
-using GetMetaObjectRPC = agrpc::ServerRPC<&quite::proto::MetaService::AsyncService::RequestGetMetaObject>;
+using FindTypeRPC = agrpc::ServerRPC<&quite::proto::MetaService::AsyncService::RequestFindType>;
 struct GetMetaObjectRpcHandler
 {
     MetaAdapter &meta_adapter;
-    exec::task<void> operator()(GetMetaObjectRPC &rpc, const GetMetaObjectRPC::Request &request);
+    exec::task<void> operator()(FindTypeRPC &rpc, const FindTypeRPC::Request &request);
 };
 
-agrpc::detail::RPCHandlerSender<GetMetaObjectRPC, GetMetaObjectRpcHandler> get_meta_object(
+agrpc::detail::RPCHandlerSender<FindTypeRPC, GetMetaObjectRpcHandler> meta_find_type(
     agrpc::GrpcContext &grpc_context, quite::proto::MetaService::AsyncService &service, MetaAdapter &meta_adapter);
 } // namespace quite::probe

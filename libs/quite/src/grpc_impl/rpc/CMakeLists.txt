@@ -15,6 +15,6 @@ target_sources(quitelib PRIVATE
     make_mouse_click_request.hpp
     make_get_views_request.hpp
     make_get_views_request.cpp
-    make_meta_service_get_meta_object.hpp
-    make_meta_service_get_meta_object.cpp
+    make_meta_find_type.hpp
+    make_meta_find_type.cpp
 )
