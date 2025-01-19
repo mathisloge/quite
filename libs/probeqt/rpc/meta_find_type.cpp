@@ -1,4 +1,4 @@
-#include "get_meta_object.hpp"
+#include "meta_find_type.hpp"
 #include <QCoreApplication>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <fmt/format.h>
@@ -11,11 +11,11 @@ DEFINE_LOGGER(rpc_get_meta_object)
 
 namespace quite::probe
 {
-exec::task<void> GetMetaObjectRpcHandler::operator()(GetMetaObjectRPC &rpc, const GetMetaObjectRPC::Request &request)
+exec::task<void> GetMetaObjectRpcHandler::operator()(FindTypeRPC &rpc, const FindTypeRPC::Request &request)
 {
     LOG_TRACE_L1(rpc_get_meta_object, "START GetMetaObjectRpcHandler {}", request.type_id());
 
-    GetMetaObjectRPC::Response response;
+    FindTypeRPC::Response response;
 
     auto result = co_await meta_adapter.find_type_by_id(request.type_id());
     if (not result.has_value())
@@ -23,16 +23,16 @@ exec::task<void> GetMetaObjectRpcHandler::operator()(GetMetaObjectRPC &rpc, cons
         co_await rpc.finish_with_error(error2grpc_status(result.error()));
         co_return;
     }
-    proto::to_protocol(*result, *response.mutable_meta_type());
+    proto::to_protocol(*result, *response.mutable_type());
     co_await rpc.finish(response, grpc::Status::OK);
 
     co_return;
 }
 
-agrpc::detail::RPCHandlerSender<GetMetaObjectRPC, GetMetaObjectRpcHandler> get_meta_object(
+agrpc::detail::RPCHandlerSender<FindTypeRPC, GetMetaObjectRpcHandler> meta_find_type(
     agrpc::GrpcContext &grpc_context, quite::proto::MetaService::AsyncService &service, MetaAdapter &meta_adapter)
 {
-    return agrpc::register_sender_rpc_handler<GetMetaObjectRPC>(
+    return agrpc::register_sender_rpc_handler<FindTypeRPC>(
         grpc_context, service, GetMetaObjectRpcHandler{meta_adapter});
 }
 

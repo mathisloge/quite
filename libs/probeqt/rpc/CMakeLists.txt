@@ -14,6 +14,6 @@ target_sources(probeqt PRIVATE
     invoke_method.hpp
     invoke_method.cpp
     # meta service
-    get_meta_object.hpp
-    get_meta_object.cpp
+    meta_find_type.hpp
+    meta_find_type.cpp
 )
