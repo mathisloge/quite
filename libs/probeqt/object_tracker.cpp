@@ -147,9 +147,13 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
 
         if (property_matches)
         {
+            auto &&meta_obj = ObjectMeta::from_qobject(obj);
+            LOG_DEBUG(object_tracker_logger(),
+                      "TODO: write a clean abstraction to get the metatype. Qml instances have to use the superClass "
+                      "to get a valid metaType");
             return ObjectInfo{
                 .object_id = reinterpret_cast<std::uintptr_t>(obj),
-                .class_type = static_cast<meta::TypeId>(obj->metaObject()->metaType().id()),
+                .class_type = static_cast<meta::TypeId>(meta_obj.meta_object->superClass()->metaType().id()),
             };
         }
     }
