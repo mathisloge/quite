@@ -12,7 +12,9 @@ exec::task<void> GetViewsRpcHandler::operator()(GetViewsRPC &rpc, const GetViews
 
     for (auto &&obj : tracker.top_level_views())
     {
-        response.mutable_object_id()->Add(reinterpret_cast<ObjectId>(obj));
+        auto &&proto_obj = response.add_object();
+        proto_obj->set_type_id(obj->metaObject()->metaType().id());
+        proto_obj->set_object_id(reinterpret_cast<ObjectId>(obj));
     }
 
     co_await rpc.finish(response, grpc::Status::OK);

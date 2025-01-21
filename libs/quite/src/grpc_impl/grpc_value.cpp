@@ -25,8 +25,8 @@ quite::Result<quite::Value> convert(const quite::proto::Value &value,
     }
     if (value.has_object_val())
     {
-        return std::make_shared<quite::grpc_impl::GrpcRemoteObject>(value.object_val().object_id(),
-                                                                    std::move(probe_service));
+        return std::make_shared<quite::grpc_impl::GrpcRemoteObject>(
+            value.object_val().object_id(), value.type_id(), std::move(probe_service));
     }
     if (value.has_array_val())
     {

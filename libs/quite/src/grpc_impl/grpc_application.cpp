@@ -21,7 +21,7 @@ AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(const Ob
     const auto response =
         co_await grpc_impl::make_find_object_request(probe_handle_->context(), probe_handle_->stub(), query);
     co_return response.and_then([&](const proto::ObjectReply &reply) -> Result<std::shared_ptr<RemoteObject>> {
-        return std::make_shared<GrpcRemoteObject>(reply.object_id(), probe_handle_);
+        return std::make_shared<GrpcRemoteObject>(reply.object_id(), reply.type_id(), probe_handle_);
     });
 }
 
@@ -32,10 +32,11 @@ AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> GrpcApplication::get_vie
     co_return response.and_then(
         [&](const proto::GetViewsResponse &reply) -> Result<std::vector<std::shared_ptr<RemoteObject>>> {
             std::vector<std::shared_ptr<RemoteObject>> views;
-            views.reserve(reply.object_id_size());
-            for (auto &&obj : reply.object_id())
+            views.reserve(reply.object_size());
+            for (auto &&obj : reply.object())
             {
-                views.emplace_back(std::make_shared<grpc_impl::GrpcRemoteObject>(obj, probe_handle_));
+                views.emplace_back(
+                    std::make_shared<grpc_impl::GrpcRemoteObject>(obj.object_id(), obj.type_id(), probe_handle_));
             }
             return views;
         });

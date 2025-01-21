@@ -4,6 +4,7 @@
 #include <expected>
 #include <shared_mutex>
 #include <unordered_set>
+#include <quite/meta/meta_type_id.hpp>
 #include "object_id.hpp"
 #include "quite/proto/probe.pb.h"
 
@@ -12,7 +13,7 @@ namespace quite::probe
 struct ObjectInfo
 {
     std::uintptr_t object_id;
-    std::string class_type;
+    meta::TypeId class_type;
 };
 
 enum class ObjectErrC

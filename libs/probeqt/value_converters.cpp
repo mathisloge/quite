@@ -19,6 +19,7 @@ namespace quite::probe
     proto::Value convert_##class_name(const class_name &data)                                                          \
     {                                                                                                                  \
         proto::Value value;                                                                                            \
+        value.set_type_id(QMetaType::fromType<class_name>().id());                                                     \
         auto &&class_val = prepare_convert<class_name>(value);
 
 #define END_CNV_FNC                                                                                                    \
@@ -34,6 +35,7 @@ void register_trivial_converter()
         .template func<[]() { return QMetaType::fromType<TBase>(); }>("metaType"_hs)
         .template conv<[](const TBase &value) {
             proto::Value cnv;
+            cnv.set_type_id(QMetaType::fromType<TBase>().id());
             std::invoke(TFncPtr, cnv, value);
             return cnv;
         }>();
@@ -55,6 +57,7 @@ template <typename T>
 auto prepare_convert(proto::Value &value)
 {
     constexpr auto kType = QMetaType::fromType<T>();
+    value.set_type_id(kType.id());
 
     auto &&class_val = value.mutable_class_val();
     class_val->set_type_name(kType.name());
@@ -135,6 +138,7 @@ void register_converters()
         .func<[]() { return QMetaType::fromType<QObjectList>(); }>("metaType"_hs)
         .conv<[](const QObjectList &values) {
             proto::Value cnv;
+            cnv.set_type_id(QMetaType::fromType<QObjectList>().id());
             for (auto &&value : std::as_const(values))
             {
                 cnv.mutable_array_val()->add_value()->mutable_object_val()->set_object_id(
@@ -148,6 +152,7 @@ void register_converters()
         .func<[](const QObject *obj) { return obj->metaObject()->metaType(); }>("metaType"_hs)
         .conv<[](const QObject *obj) {
             proto::Value cnv;
+            cnv.set_type_id(obj->metaObject()->metaType().id());
             cnv.mutable_object_val()->set_object_id(reinterpret_cast<ObjectId>(obj));
             return cnv;
         }>();
@@ -155,8 +160,9 @@ void register_converters()
     entt::meta_factory<QQuickItem *>()
         .type("QQuickItem*"_hs) //
         .func<[]() { return QMetaType::fromType<QQuickItem *>(); }>("metaType"_hs)
-        .conv<[](const QObject *obj) {
+        .conv<[](const QQuickItem *obj) {
             proto::Value cnv;
+            cnv.set_type_id(obj->metaObject()->metaType().id());
             cnv.mutable_object_val()->set_object_id(reinterpret_cast<ObjectId>(obj));
             return cnv;
         }>();
@@ -168,6 +174,7 @@ void register_converters()
         .conv<&QString::toStdString>()
         .conv<[](const QString &str) {
             proto::Value cnv;
+            cnv.set_type_id(QMetaType::fromType<QString>().id());
             *cnv.mutable_string_val() = str.toStdString();
             return cnv;
         }>();
