@@ -48,7 +48,7 @@ ProbeContext::ProbeContext(grpc::ServerBuilder builder)
             quite::probe::invoke_method(grpc_context_, object_service_, object_tracker_, method_invoker_);
 
         auto meta_find_type_rpc = quite::probe::meta_find_type(grpc_context_, meta_service_, meta_adapter_);
-        LOG_INFO(probe_ctx_logger, "grpc server setup and is now running.");
+        LOG_INFO(probe_ctx_logger(), "grpc server setup and is now running.");
         grpc_context_.work_started();
         auto snd = exec::finally(stdexec::when_all( //
                                      std::move(find_obj_rpc),
@@ -62,7 +62,7 @@ ProbeContext::ProbeContext(grpc::ServerBuilder builder)
                                  stdexec::then(stdexec::just(), [this] { grpc_context_.work_finished(); }));
         stdexec::sync_wait(
             stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [this] { grpc_context_.run(); })));
-        LOG_INFO(probe_ctx_logger, "grpc server is now finished. Closing the connection.");
+        LOG_INFO(probe_ctx_logger(), "grpc server is now finished. Closing the connection.");
     }};
     install_qt_hooks();
 }
@@ -74,7 +74,7 @@ ProbeContext::~ProbeContext()
 
 void ProbeContext::request_exit()
 {
-    LOG_INFO(probe_ctx_logger, "requested probe exit. Grpc server is now is shutdown.");
+    LOG_INFO(probe_ctx_logger(), "requested probe exit. Grpc server is now is shutdown.");
     grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{2});
     grpc_server_->Wait();
     grpc_context_.stop();
@@ -90,7 +90,7 @@ void ProbeContext::install_qt_hooks()
     const auto qt_minor = (qt_version_number >> 8) & 0xFF;
     const auto qt_patch = qt_version_number & 0xFF;
 
-    LOG_INFO(probe_ctx_logger, "installing Qt hooks for Qt version {}.{}.{}", qt_major, qt_minor, qt_patch);
+    LOG_INFO(probe_ctx_logger(), "installing Qt hooks for Qt version {}.{}.{}", qt_major, qt_minor, qt_patch);
 
     next_add_qobject_hook_ = reinterpret_cast<QHooks::AddQObjectCallback>(qtHookData[QHooks::AddQObject]);
     next_remove_qobject_hook_ = reinterpret_cast<QHooks::RemoveQObjectCallback>(qtHookData[QHooks::RemoveQObject]);
@@ -109,7 +109,7 @@ void ProbeContext::install_qt_hooks()
 
 void ProbeContext::install_application_hooks()
 {
-    LOG_INFO(probe_ctx_logger, "installing QCoreApplication signals...");
+    LOG_INFO(probe_ctx_logger(), "installing QCoreApplication signals...");
     QObject::connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, [this]() { request_exit(); });
 }
 

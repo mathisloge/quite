@@ -12,7 +12,7 @@ Process::Process(const std::string &path_to_application)
 {
     if (pipe(out_pipe_.data()) == -1 || pipe(err_pipe_.data()) == -1)
     {
-        LOG_ERROR(process_logger, "Could not open pipes for the application pipes");
+        LOG_ERROR(process_logger(), "Could not open pipes for the application pipes");
         return;
     }
 
@@ -27,7 +27,7 @@ Process::Process(const std::string &path_to_application)
     const char *args[] = {path_to_application.c_str(), nullptr};
     if (posix_spawn(&pid_, args[0], &file_actions, nullptr, const_cast<char *const *>(args), environ) != 0)
     {
-        LOG_ERROR(process_logger, "Could not spwan process {}", path_to_application);
+        LOG_ERROR(process_logger(), "Could not spwan process {}", path_to_application);
         return;
     }
 
@@ -80,7 +80,7 @@ void Process::terminate()
         int status{-1};
         if (waitpid(pid_, &status, 0) == -1)
         {
-            LOG_ERROR(process_logger, "Error waiting for child process: {}", strerror(errno));
+            LOG_ERROR(process_logger(), "Error waiting for child process: {}", strerror(errno));
         }
         pid_ = -1;
     }

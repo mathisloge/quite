@@ -7,7 +7,7 @@ namespace quite
 {
 void setup_hooks()
 {
-    setup_logger();
+    setup_logger(true);
     entt::locator<probe::ProbeContext>::emplace();
 }
 } // namespace quite

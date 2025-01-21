@@ -19,7 +19,7 @@ GrpcMetaTypeRegistry::GrpcMetaTypeRegistry(ProbeServiceHandle probe_service_hand
 
 AsyncResult<meta::Type> GrpcMetaTypeRegistry::lookup_type(meta::TypeId type_id)
 {
-    LOG_DEBUG(grpc_meta_type_registry_logger, "lookup type for '{}'", type_id);
+    LOG_DEBUG(grpc_meta_type_registry_logger(), "lookup type for '{}'", type_id);
     const auto meta_obj_response = co_await make_meta_find_type(
         probe_service_handle_->context(), probe_service_handle_->meta_service_stub(), type_id);
     if (not meta_obj_response.has_value() or not meta_obj_response->has_type())

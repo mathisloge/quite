@@ -31,7 +31,7 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
         auto &&data = QQmlData::get(object);
         if (data != nullptr or not data->compilationUnit)
         {
-            LOG_WARNING(property_collector_logger, "got no data for qml object");
+            LOG_WARNING(property_collector_logger(), "got no data for qml object");
         }
         else
         {
@@ -42,7 +42,7 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
             }
             else
             {
-                LOG_WARNING(property_collector_logger, "qml type not valid");
+                LOG_WARNING(property_collector_logger(), "qml type not valid");
             }
         }
     }
@@ -61,7 +61,7 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
         auto &&any_obj = custom_meta_type.from_void(&property_value);
         if (any_obj.allow_cast<proto::Value>())
         {
-            LOG_DEBUG(property_collector_logger,
+            LOG_DEBUG(property_collector_logger(),
                       "prop {}({}) convertible via meta",
                       property.name(),
                       property.metaType().name());
@@ -69,13 +69,13 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
         }
         else
         {
-            LOG_ERROR(property_collector_logger, "could not cast {} to proto::Value", property.metaType().name());
+            LOG_ERROR(property_collector_logger(), "could not cast {} to proto::Value", property.metaType().name());
         }
     }
     else if (property.metaType().flags().testAnyFlags(QMetaType::IsGadget | QMetaType::PointerToGadget))
     {
         auto &&gadget_metaobj = property.metaType().metaObject();
-        LOG_DEBUG(property_collector_logger,
+        LOG_DEBUG(property_collector_logger(),
                   "prop {}={} convertable to QGadget (props={})",
                   property.name(),
                   property.typeName(),
@@ -101,7 +101,7 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
     else if (QQmlListReference qml_list{property_value};
              qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
     {
-        LOG_DEBUG(property_collector_logger,
+        LOG_DEBUG(property_collector_logger(),
                   "prop {}={} convertable to QQmlListReference",
                   property.name(),
                   property.typeName());
@@ -115,7 +115,7 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
     }
     else
     {
-        LOG_DEBUG(property_collector_logger, "prop {}={} not convertable", property.name(), property.typeName());
+        LOG_DEBUG(property_collector_logger(), "prop {}={} not convertable", property.name(), property.typeName());
     }
     return {property.name(), std::move(value)};
 }

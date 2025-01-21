@@ -29,7 +29,7 @@ AsyncResult<proto::ImageResponse> make_create_snapshot_request(agrpc::GrpcContex
         proto::ImageResponse response;
         do_read = co_await rpc.read(response, agrpc::use_sender);
         LOG_DEBUG(
-            rpc_snapshot_logger, "got snapshot chunk. Size={}. Has more to read={}", response.data().size(), do_read);
+            rpc_snapshot_logger(), "got snapshot chunk. Size={}. Has more to read={}", response.data().size(), do_read);
 
         std::copy(response.data().begin(), response.data().end(), std::back_inserter(*final_response.mutable_data()));
         if (response.has_metadata())
@@ -38,10 +38,10 @@ AsyncResult<proto::ImageResponse> make_create_snapshot_request(agrpc::GrpcContex
         }
     }
     const auto status = co_await rpc.finish(agrpc::use_sender);
-    LOG_DEBUG(rpc_snapshot_logger, "snapshot finished with status={}", status.ok());
+    LOG_DEBUG(rpc_snapshot_logger(), "snapshot finished with status={}", status.ok());
     if (status.ok())
     {
-        LOG_DEBUG(rpc_snapshot_logger, "got final snapshot. Size={}", final_response.data().size());
+        LOG_DEBUG(rpc_snapshot_logger(), "got final snapshot. Size={}", final_response.data().size());
         co_return final_response;
     }
     co_return std::unexpected(status2error(status));

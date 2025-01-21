@@ -55,12 +55,12 @@ void ApplicationOverview::drawWindow()
 void ApplicationOverview::fetchViews()
 {
     scope_.spawn(stdexec::starts_on(get_scheduler(), [](ApplicationOverview *self) -> exec::task<void> {
-        LOG_DEBUG(application_overview, "Fetching views...");
+        LOG_DEBUG(application_overview(), "Fetching views...");
         self->fetch_in_progress_ = true;
         auto view_result = co_await self->application_->get_views();
         if (view_result.has_value())
         {
-            LOG_DEBUG(application_overview, "got views");
+            LOG_DEBUG(application_overview(), "got views");
             for (auto &&v : *view_result)
             {
                 self->views_[v->id()] = std::make_unique<View>(self->renderer_, v);
@@ -68,7 +68,7 @@ void ApplicationOverview::fetchViews()
         }
         else
         {
-            LOG_ERROR(application_overview, "Failed to get views: {}", view_result.error().message);
+            LOG_ERROR(application_overview(), "Failed to get views: {}", view_result.error().message);
         }
         self->fetch_in_progress_ = false;
         co_return;

@@ -11,7 +11,7 @@ namespace quite::probe
 {
 exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const FindObjectRPC::Request &request)
 {
-    LOG_TRACE_L1(rpc_find_object_logger, "START RpcFindObject");
+    LOG_DEBUG(rpc_find_object_logger(), "START RpcFindObject");
 
     FindObjectRPC::Response response{};
     const auto obj_info = co_await stdexec::then(
@@ -21,6 +21,7 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
     if (obj_info.has_value())
     {
         response.set_object_id(obj_info->object_id);
+        response.set_type_id(obj_info->class_type);
         co_await rpc.finish(response, grpc::Status::OK);
     }
     else

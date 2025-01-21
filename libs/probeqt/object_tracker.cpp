@@ -147,7 +147,10 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
 
         if (property_matches)
         {
-            return ObjectInfo{.object_id = reinterpret_cast<std::uintptr_t>(obj)};
+            return ObjectInfo{
+                .object_id = reinterpret_cast<std::uintptr_t>(obj),
+                .class_type = static_cast<meta::TypeId>(obj->metaObject()->metaType().id()),
+            };
         }
     }
 
@@ -185,12 +188,12 @@ void ObjectTracker::remove_object(QObject *obj)
     InOwnContext c{own_ctx_};
     if (const auto it = objects_to_track_.find(obj); it != objects_to_track_.end())
     {
-        LOG_TRACE_L1(object_tracker_logger, "remove obj from objects_to_track {}", obj->objectName().toStdString());
+        LOG_TRACE_L1(object_tracker_logger(), "remove obj from objects_to_track {}", obj->objectName().toStdString());
         objects_to_track_.erase(it);
     }
     else if (const auto it = tracked_objects_.find(obj); it != tracked_objects_.end())
     {
-        LOG_TRACE_L1(object_tracker_logger, "remove obj from tracked_objects {}", obj->objectName().toStdString());
+        LOG_TRACE_L1(object_tracker_logger(), "remove obj from tracked_objects {}", obj->objectName().toStdString());
         tracked_objects_.erase(it);
     }
     if (const auto it = top_level_views_.find(obj); it != top_level_views_.end())

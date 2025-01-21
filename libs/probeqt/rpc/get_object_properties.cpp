@@ -15,7 +15,7 @@ namespace quite::probe
 exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRPC &rpc,
                                                            const GetObjectPropertiesRPC::Request &request)
 {
-    LOG_DEBUG(get_obj_props_logger, "START RequestGetObjectProperty={}", request.object_id());
+    LOG_DEBUG(get_obj_props_logger(), "START RequestGetObjectProperty={}", request.object_id());
     GetObjectPropertiesRPC::Response response{};
     co_await stdexec::then(
         stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())), [&]() {

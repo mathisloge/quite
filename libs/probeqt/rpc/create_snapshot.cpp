@@ -14,7 +14,7 @@ namespace quite::probe
 exec::task<void> CreateScreenshotRpcHandler::operator()(CreateScreenshotRPC &rpc,
                                                         const CreateScreenshotRPC::Request &request) const
 {
-    LOG_TRACE_L1(rpc_create_snapshot_logger, "START RequestCreateScreenshot={}", request.object_id());
+    LOG_TRACE_L1(rpc_create_snapshot_logger(), "START RequestCreateScreenshot={}", request.object_id());
     CreateScreenshotRPC::Response response{};
     auto object =
         co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),

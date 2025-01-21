@@ -13,7 +13,7 @@ namespace quite::probe
 {
 exec::task<void> GetMetaObjectRpcHandler::operator()(FindTypeRPC &rpc, const FindTypeRPC::Request &request)
 {
-    LOG_TRACE_L1(rpc_get_meta_object, "START GetMetaObjectRpcHandler {}", request.type_id());
+    LOG_TRACE_L1(rpc_get_meta_object(), "START GetMetaObjectRpcHandler {}", request.type_id());
 
     FindTypeRPC::Response response;
 
