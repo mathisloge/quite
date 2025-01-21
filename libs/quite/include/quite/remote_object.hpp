@@ -18,8 +18,10 @@ class QUITELIB_EXPORT RemoteObject
 
     ObjectId id() const noexcept;
 
+    virtual meta::TypeId type_id() const = 0;
+
     virtual AsyncResult<std::unordered_map<std::string, PropertyPtr>> fetch_properties(
-        const std::vector<std::string_view> &properties) = 0;
+        std::span<const std::string> properties) = 0;
 
     virtual AsyncResult<PropertyPtr> property(std::string property_name) = 0;
 

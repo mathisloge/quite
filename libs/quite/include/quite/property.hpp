@@ -4,6 +4,7 @@
 #include <variant>
 #include <fmt/core.h>
 #include <quite/async_result.hpp>
+#include <quite/meta/meta_type_id.hpp>
 #include "indirect.hpp"
 #include "quitelib_export.h"
 
@@ -40,10 +41,11 @@ class QUITELIB_EXPORT Property
 {
   public:
     virtual ~Property();
-    virtual const std::string &name() const noexcept = 0;
-    virtual const Result<Value> &value() const noexcept = 0;
-    virtual AsyncResult<Value> read() noexcept = 0;
-    virtual AsyncResult<Value> write(const Value &value) noexcept = 0;
+    virtual const std::string &name() const = 0;
+    virtual meta::TypeId type_id() const = 0;
+    virtual const Result<Value> &value() const = 0;
+    virtual AsyncResult<Value> read() = 0;
+    virtual AsyncResult<Value> write(const Value &value) = 0;
 };
 
 using PropertyPtr = std::shared_ptr<Property>;

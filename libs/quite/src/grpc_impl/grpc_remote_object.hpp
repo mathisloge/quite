@@ -9,10 +9,12 @@ namespace quite::grpc_impl
 class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObject>, public RemoteObject
 {
   public:
-    explicit GrpcRemoteObject(ObjectId id, ProbeServiceHandle probe_service_handle);
+    explicit GrpcRemoteObject(ObjectId id, meta::TypeId type_id, ProbeServiceHandle probe_service_handle);
+
+    meta::TypeId type_id() const override;
 
     AsyncResult<std::unordered_map<std::string, PropertyPtr>> fetch_properties(
-        const std::vector<std::string_view> &properties) override;
+        std::span<const std::string> properties) override;
 
     AsyncResult<PropertyPtr> property(std::string property_name) override;
 
@@ -22,5 +24,6 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
 
   private:
     ProbeServiceHandle probe_service_;
+    meta::TypeId type_id_;
 };
 } // namespace quite::grpc_impl

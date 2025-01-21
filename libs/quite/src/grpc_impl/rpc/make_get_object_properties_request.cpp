@@ -8,7 +8,7 @@ AsyncResult<proto::GetObjectPropertiesResponse> make_get_object_properties_reque
     agrpc::GrpcContext &grpc_context,
     proto::ProbeService::Stub &stub,
     ObjectId id,
-    const std::vector<std::string_view> &properties)
+    std::span<const std::string> properties)
 {
     using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncGetObjectProperties>;
     grpc::ClientContext client_context;
@@ -17,7 +17,7 @@ AsyncResult<proto::GetObjectPropertiesResponse> make_get_object_properties_reque
 
     RPC::Request request;
     request.set_object_id(id);
-    request.mutable_property_names()->Reserve(properties.size());
+    request.mutable_property_names()->Reserve(static_cast<int>(properties.size()));
     for (auto property_name : properties)
     {
         request.mutable_property_names()->Add(std::string{property_name});

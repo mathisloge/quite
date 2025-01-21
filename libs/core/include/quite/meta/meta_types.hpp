@@ -6,13 +6,11 @@
 #include <variant>
 #include <vector>
 #include <fmt/core.h>
+#include "meta_type_id.hpp"
 #include "quite_core_export.h"
 
 namespace quite::meta
 {
-
-using TypeId = std::uint64_t;
-
 struct Property
 {
     std::string name;

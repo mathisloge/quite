@@ -29,6 +29,7 @@ TEST_CASE("Remote object can be invoked")
         ASYNC_BLOCK
         auto prop = co_await obj->property("text");
         REQUIRE(prop.has_value());
+        REQUIRE(prop.value()->type_id() == 10);
 
         auto &&val = prop.value()->value();
         REQUIRE(val.has_value());

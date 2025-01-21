@@ -22,14 +22,15 @@ message ArrayValue {
 }
 
 message Value {
+  uint64 type_id = 1;
   oneof value_oneof {
-    string string_val = 1;
-    int64 int_val = 2;
-    uint64 uint_val = 3;
-    double double_val = 4;
-    bool bool_val = 5;
-    ClassValue class_val = 6;
-    ObjectValue object_val = 7;
-    ArrayValue array_val = 8;
+    string string_val = 2;
+    int64 int_val = 3;
+    uint64 uint_val = 4;
+    double double_val = 5;
+    bool bool_val = 6;
+    ClassValue class_val = 7;
+    ObjectValue object_val = 8;
+    ArrayValue array_val = 9;
   }
 }

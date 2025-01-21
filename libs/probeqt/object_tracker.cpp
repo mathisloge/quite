@@ -98,7 +98,7 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object(const std::stri
             auto object_meta = quite::ObjectMeta::from_qobject(obj);
             return ObjectInfo{
                 .object_id = reinterpret_cast<std::uintptr_t>(obj),
-                .class_type = object_meta.meta_object->className(),
+                .class_type = static_cast<meta::TypeId>(object_meta.meta_object->metaType().id()),
             };
         }
     }
