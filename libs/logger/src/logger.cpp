@@ -41,7 +41,7 @@ void setup_logger(bool log_to_file)
                 []() {
                     quill::FileSinkConfig cfg;
                     cfg.set_open_mode('w');
-                    cfg.set_filename_append_option(quill::FilenameAppendOption::StartDateTime);
+                    // cfg.set_filename_append_option(quill::FilenameAppendOption::StartDateTime);
                     return cfg;
                 }(),
                 quill::FileEventNotifier{});

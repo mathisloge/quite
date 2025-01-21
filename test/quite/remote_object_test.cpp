@@ -82,13 +82,13 @@ TEST_CASE("Remote object can be invoked")
 #endif
 
     // SECTION("The meta type is used")
-    {
-        ASYNC_BLOCK
-        LOG_DEBUG(test(), "TEST {}", obj->type_id());
-        const auto obj_meta_type = co_await app->meta_registry().lookup_type(obj->type_id());
-        REQUIRE(obj_meta_type.has_value());
-        ASYNC_BLOCK_END
-    }
+
+    ASYNC_BLOCK
+    LOG_DEBUG(test(), "TEST {}", obj->type_id());
+    const auto obj_meta_type = co_await app->meta_registry().lookup_type(obj->type_id());
+    REQUIRE(obj_meta_type.has_value());
+    LOG_DEBUG(test(), "Got meta type: {}", fmt::format("{}", *obj_meta_type));
+    ASYNC_BLOCK_END
 
 #if 0
     SECTION("App can be quit")
