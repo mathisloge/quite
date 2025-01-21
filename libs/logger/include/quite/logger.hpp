@@ -11,5 +11,9 @@ QUITE_LOGGER_EXPORT quill::Logger *create_logger(std::string_view logger_name);
 #define DEFINE_LOGGER(name)                                                                                            \
     namespace                                                                                                          \
     {                                                                                                                  \
-    const auto &&name = ::quite::create_logger(#name);                                                                 \
+    auto name()                                                                                                        \
+    {                                                                                                                  \
+        static const auto &&name_logger = ::quite::create_logger(#name);                                               \
+        return name_logger;                                                                                            \
+    }                                                                                                                  \
     }

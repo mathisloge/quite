@@ -10,7 +10,7 @@ namespace quite::probe
 {
 exec::task<void> MouseActionRpcHandler::operator()(MouseActionRPC &rpc, const MouseActionRPC::Request &request)
 {
-    LOG_TRACE_L1(rpc_mouse_action_logger, "START RequestMouseAction={}", request.object_id());
+    LOG_TRACE_L1(rpc_mouse_action_logger(), "START RequestMouseAction={}", request.object_id());
     MouseActionRPC::Response response{};
     co_await (stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
               stdexec::then([&]() {

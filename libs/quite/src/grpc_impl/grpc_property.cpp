@@ -38,7 +38,7 @@ const Result<Value> &GrpcProperty::value() const
 
 AsyncResult<Value> GrpcProperty::read()
 {
-    LOG_DEBUG(grpc_property_logger, "get property[{}] for object={}", name_, parent_->id());
+    LOG_DEBUG(grpc_property_logger(), "get property[{}] for object={}", name_, parent_->id());
 
     // even though it is not really necessary to fetch the property here, it will get fetched, to verify that the
     // property exists.

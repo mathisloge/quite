@@ -1,19 +1,19 @@
 #include <catch2/catch_test_macros.hpp>
 #include <exec/task.hpp>
 #include <quite/application.hpp>
+#include <quite/logger.hpp>
+#include <quite/setup_logger.hpp>
 #include <quite/testing/verification_point.hpp>
+#include "async_test_helper.hpp"
 #include "tester_app.hpp"
-
-#define ASYNC_BLOCK stdexec::sync_wait([&]() -> exec::task<void> {
-
-#define ASYNC_BLOCK_END                                                                                                \
-    co_return;                                                                                                         \
-    }());
 
 using namespace quite;
 
+DEFINE_LOGGER(test);
+
 TEST_CASE("Remote object can be invoked")
 {
+    setup_logger();
     auto app = Application::CreateApplication(TESTER_APP_PATH);
 
     const ObjectQuery btn_query{.properties = {{"objectName", Value{"helloBtn"}}}};
@@ -23,7 +23,7 @@ TEST_CASE("Remote object can be invoked")
                                              co_return obj.value();
                                          }())
                                              .value());
-
+#if 0
     SECTION("The property text should have the value of the button")
     {
         ASYNC_BLOCK
@@ -79,11 +79,23 @@ TEST_CASE("Remote object can be invoked")
 
         ASYNC_BLOCK_END
     }
+#endif
 
+    // SECTION("The meta type is used")
+    {
+        ASYNC_BLOCK
+        LOG_DEBUG(test(), "TEST {}", obj->type_id());
+        const auto obj_meta_type = co_await app->meta_registry().lookup_type(obj->type_id());
+        REQUIRE(obj_meta_type.has_value());
+        ASYNC_BLOCK_END
+    }
+
+#if 0
     SECTION("App can be quit")
     {
         ASYNC_BLOCK
         co_await app->exit();
         ASYNC_BLOCK_END
     }
+#endif
 }

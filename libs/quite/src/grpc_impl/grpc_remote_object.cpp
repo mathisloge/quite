@@ -25,7 +25,7 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
     std::span<const std::string> properties)
 {
     using RetVal = std::unordered_map<std::string, std::shared_ptr<Property>>;
-    LOG_DEBUG(grpc_remote_object_logger,
+    LOG_DEBUG(grpc_remote_object_logger(),
               "get properties[{}] for object={}",
               fmt::format("{}", fmt::join(properties, ",")),
               id());
@@ -44,7 +44,7 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
 
 AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string property_name)
 {
-    LOG_DEBUG(grpc_remote_object_logger, "get property[{}] for object={}", property_name, id());
+    LOG_DEBUG(grpc_remote_object_logger(), "get property[{}] for object={}", property_name, id());
 
     // even though it is not really necessary to fetch the property here, it will get fetch, to verify that the property
     // exists. Otherwise an unexpected event is returned.
@@ -65,7 +65,7 @@ AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string pr
 
 AsyncResult<void> GrpcRemoteObject::mouse_action()
 {
-    LOG_DEBUG(grpc_remote_object_logger, "mouse_action for object={}", id());
+    LOG_DEBUG(grpc_remote_object_logger(), "mouse_action for object={}", id());
     const auto response = co_await make_mouse_click_request(probe_service_->context(), probe_service_->stub(), id());
 
     co_return response.and_then([&](auto && /*reply*/) -> Result<void> { return {}; });
@@ -75,7 +75,7 @@ AsyncResult<Image> GrpcRemoteObject::take_snapshot()
 {
     auto response = co_await make_create_snapshot_request(probe_service_->context(), probe_service_->stub(), id());
     co_return response.and_then([id = id()](auto &&image_response) -> Result<Image> {
-        LOG_DEBUG(grpc_remote_object_logger, "Got image for obj={}", id);
+        LOG_DEBUG(grpc_remote_object_logger(), "Got image for obj={}", id);
         std::vector<std::byte> image_data;
         auto image_view = std::as_bytes(std::span{image_response.data().data(), image_response.data().size()});
         image_data.reserve(image_view.size());

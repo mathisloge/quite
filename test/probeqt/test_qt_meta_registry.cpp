@@ -55,7 +55,7 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             REQUIRE(std::holds_alternative<meta::ObjectTypePtr>(*lookup_result));
             auto &&meta_obj = std::get<meta::ObjectTypePtr>(*lookup_result);
             REQUIRE(meta_obj != nullptr);
-            LOG_DEBUG(test, "Object {}", fmt::format("{}", *meta_obj));
+            LOG_DEBUG(test(), "Object {}", fmt::format("{}", *meta_obj));
             REQUIRE(meta_obj->name == "MyTestClassMetaRegistry");
             REQUIRE(meta_obj->id == QMetaType::fromType<MyTestClassMetaRegistry>().id());
             REQUIRE(meta_obj->properties.size() == 1);
@@ -76,11 +76,11 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
                 co_await meta_registry.lookup_type(QMetaType::fromType<my_meta_namespace::SomeMetaEnum>().id());
             if (not lookup_result.has_value())
             {
-                LOG_ERROR(test, "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
+                LOG_ERROR(test(), "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
             }
             else
             {
-                LOG_DEBUG(test, "Object {}", fmt::format("{}", *lookup_result));
+                LOG_DEBUG(test(), "Object {}", fmt::format("{}", *lookup_result));
             }
             REQUIRE(lookup_result.has_value());
             REQUIRE(std::holds_alternative<meta::EnumTypePtr>(*lookup_result));
@@ -108,11 +108,11 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             const auto lookup_result = co_await meta_registry.lookup_type(QMetaType::fromType<TestListType>().id());
             if (not lookup_result.has_value())
             {
-                LOG_ERROR(test, "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
+                LOG_ERROR(test(), "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
             }
             else
             {
-                LOG_DEBUG(test, "Object {}", fmt::format("{}", *lookup_result));
+                LOG_DEBUG(test(), "Object {}", fmt::format("{}", *lookup_result));
             }
             REQUIRE(lookup_result.has_value());
             REQUIRE(std::holds_alternative<meta::ListType>(*lookup_result));
@@ -131,11 +131,11 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             const auto lookup_result = co_await meta_registry.lookup_type(kTestType.id());
             if (not lookup_result.has_value())
             {
-                LOG_ERROR(test, "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
+                LOG_ERROR(test(), "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
             }
             else
             {
-                LOG_DEBUG(test, "Object {}", fmt::format("{}", *lookup_result));
+                LOG_DEBUG(test(), "Object {}", fmt::format("{}", *lookup_result));
             }
             REQUIRE(lookup_result.has_value());
             REQUIRE(std::holds_alternative<meta::MapType>(*lookup_result));
@@ -155,11 +155,11 @@ TEST_CASE("Test QtMetaRegistry", "[meta]")
             const auto lookup_result = co_await meta_registry.lookup_type(kTestType);
             if (not lookup_result.has_value())
             {
-                LOG_ERROR(test, "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
+                LOG_ERROR(test(), "Error trying to fetch: {}", fmt::format("{}", lookup_result.error().message));
             }
             else
             {
-                LOG_DEBUG(test, "Object {}", fmt::format("{}", *lookup_result));
+                LOG_DEBUG(test(), "Object {}", fmt::format("{}", *lookup_result));
             }
             REQUIRE(lookup_result.has_value());
             REQUIRE(std::holds_alternative<meta::PrimitiveType>(*lookup_result));

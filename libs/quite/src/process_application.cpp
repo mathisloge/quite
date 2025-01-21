@@ -21,7 +21,7 @@ void ProcessApplication::do_read()
     stdout_pipe_.async_read_some(asio::buffer(buffer_), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {
-            LOG_DEBUG(process_application_logger, "stdout: {}", std::string_view{buffer_.begin(), length});
+            LOG_DEBUG(process_application_logger(), "stdout: {}", std::string_view{buffer_.begin(), length});
             do_read();
         }
     });
@@ -29,7 +29,7 @@ void ProcessApplication::do_read()
     stderr_pipe_.async_read_some(asio::buffer(buffer_), [this](std::error_code ec, std::size_t length) {
         if (!ec)
         {
-            LOG_DEBUG(process_application_logger, "stderr: {}", std::string_view{buffer_.begin(), length});
+            LOG_DEBUG(process_application_logger(), "stderr: {}", std::string_view{buffer_.begin(), length});
             do_read();
         }
     });

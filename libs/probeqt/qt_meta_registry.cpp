@@ -34,7 +34,7 @@ auto from_qmetamethod(const QMetaMethod &method)
 
 Result<meta::Type> convert_enum_type(QMetaType type)
 {
-    LOG_DEBUG(qt_meta_registry, "Converting to enum. Name {}", type.name());
+    LOG_DEBUG(qt_meta_registry(), "Converting to enum. Name {}", type.name());
     auto meta_enum = std::make_unique<meta::EnumType>();
     meta_enum->id = type.id();
     meta_enum->name = type.name();
@@ -77,7 +77,7 @@ Result<meta::Type> convert_enum_type(QMetaType type)
 
 Result<meta::Type> convert_list_type(QMetaType list_type, QMetaType containing_type)
 {
-    LOG_DEBUG(qt_meta_registry, "List type '{}' with containing type '{}'", list_type.name(), containing_type.name());
+    LOG_DEBUG(qt_meta_registry(), "List type '{}' with containing type '{}'", list_type.name(), containing_type.name());
 
     return meta::ListType{.id = static_cast<meta::TypeId>(list_type.id()),
                           .name = list_type.name(),
@@ -86,7 +86,7 @@ Result<meta::Type> convert_list_type(QMetaType list_type, QMetaType containing_t
 
 Result<meta::Type> convert_map_type(QMetaType map_type, QMetaType key_type, QMetaType value_type)
 {
-    LOG_DEBUG(qt_meta_registry, "Map type: {} k: {} v: {}", map_type.name(), key_type.name(), value_type.name());
+    LOG_DEBUG(qt_meta_registry(), "Map type: {} k: {} v: {}", map_type.name(), key_type.name(), value_type.name());
 
     return meta::MapType{
         .id = static_cast<meta::TypeId>(map_type.id()),
