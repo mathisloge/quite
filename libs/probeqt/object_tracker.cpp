@@ -11,6 +11,7 @@
 #include <quite/logger.hpp>
 #include "property_collector.hpp"
 #include "proto_converters.hpp"
+#include "qt_meta_type_accessor.hpp"
 
 DEFINE_LOGGER(object_tracker_logger)
 
@@ -151,10 +152,8 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
             LOG_DEBUG(object_tracker_logger(),
                       "TODO: write a clean abstraction to get the metatype. Qml instances have to use the superClass "
                       "to get a valid metaType");
-            return ObjectInfo{
-                .object_id = reinterpret_cast<std::uintptr_t>(obj),
-                .class_type = static_cast<meta::TypeId>(meta_obj.meta_object->superClass()->metaType().id()),
-            };
+            return ObjectInfo{.object_id = reinterpret_cast<std::uintptr_t>(obj),
+                              .class_type = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id())};
         }
     }
 

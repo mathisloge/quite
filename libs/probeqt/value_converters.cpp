@@ -8,8 +8,12 @@
 #include <entt/meta/factory.hpp>
 #include <entt/meta/meta.hpp>
 #include <private/qquickanchors_p_p.h>
+#include <quite/logger.hpp>
 #include <quite/proto/types.pb.h>
 #include "object_id.hpp"
+#include "qt_meta_type_accessor.hpp"
+
+DEFINE_LOGGER(value_converters)
 
 using namespace entt::literals;
 
@@ -19,7 +23,7 @@ namespace quite::probe
     proto::Value convert_##class_name(const class_name &data)                                                          \
     {                                                                                                                  \
         proto::Value value;                                                                                            \
-        value.set_type_id(QMetaType::fromType<class_name>().id());                                                     \
+        add_type_id_from_type<class_name>(value);                                                                      \
         auto &&class_val = prepare_convert<class_name>(value);
 
 #define END_CNV_FNC                                                                                                    \
@@ -28,6 +32,25 @@ namespace quite::probe
 
 namespace
 {
+template <typename T>
+void add_type_id_from_type(proto::Value &val)
+{
+    val.set_type_id(QMetaType::fromType<T>().id());
+}
+
+void add_type_id_from_instance(auto &&instance, proto::Value &val)
+{
+    const auto meta_type = try_get_qt_meta_type(instance);
+    if (meta_type.isValid())
+    {
+        val.set_type_id(meta_type.id());
+    }
+    else
+    {
+        LOG_ERROR(value_converters(), "Could not get a meta type for value.");
+    }
+}
+
 template <typename TBase, auto TFncPtr>
 void register_trivial_converter()
 {
@@ -35,7 +58,7 @@ void register_trivial_converter()
         .template func<[]() { return QMetaType::fromType<TBase>(); }>("metaType"_hs)
         .template conv<[](const TBase &value) {
             proto::Value cnv;
-            cnv.set_type_id(QMetaType::fromType<TBase>().id());
+            add_type_id_from_type<TBase>(cnv);
             std::invoke(TFncPtr, cnv, value);
             return cnv;
         }>();
@@ -57,8 +80,7 @@ template <typename T>
 auto prepare_convert(proto::Value &value)
 {
     constexpr auto kType = QMetaType::fromType<T>();
-    value.set_type_id(kType.id());
-
+    add_type_id_from_type<T>(value);
     auto &&class_val = value.mutable_class_val();
     class_val->set_type_name(kType.name());
     return class_val;
@@ -117,6 +139,7 @@ proto::Value convert_QQuickAnchorLine(const QQuickAnchorLine &data)
     }
     return proto::Value{};
 }
+
 } // namespace
 
 void register_converters()
@@ -138,7 +161,7 @@ void register_converters()
         .func<[]() { return QMetaType::fromType<QObjectList>(); }>("metaType"_hs)
         .conv<[](const QObjectList &values) {
             proto::Value cnv;
-            cnv.set_type_id(QMetaType::fromType<QObjectList>().id());
+            add_type_id_from_type<QObjectList>(cnv);
             for (auto &&value : std::as_const(values))
             {
                 cnv.mutable_array_val()->add_value()->mutable_object_val()->set_object_id(
@@ -152,7 +175,7 @@ void register_converters()
         .func<[](const QObject *obj) { return obj->metaObject()->metaType(); }>("metaType"_hs)
         .conv<[](const QObject *obj) {
             proto::Value cnv;
-            cnv.set_type_id(obj->metaObject()->metaType().id());
+            add_type_id_from_instance(obj, cnv);
             cnv.mutable_object_val()->set_object_id(reinterpret_cast<ObjectId>(obj));
             return cnv;
         }>();
@@ -162,7 +185,7 @@ void register_converters()
         .func<[]() { return QMetaType::fromType<QQuickItem *>(); }>("metaType"_hs)
         .conv<[](const QQuickItem *obj) {
             proto::Value cnv;
-            cnv.set_type_id(obj->metaObject()->metaType().id());
+            add_type_id_from_instance(obj, cnv);
             cnv.mutable_object_val()->set_object_id(reinterpret_cast<ObjectId>(obj));
             return cnv;
         }>();
@@ -174,7 +197,7 @@ void register_converters()
         .conv<&QString::toStdString>()
         .conv<[](const QString &str) {
             proto::Value cnv;
-            cnv.set_type_id(QMetaType::fromType<QString>().id());
+            add_type_id_from_type<QString>(cnv);
             *cnv.mutable_string_val() = str.toStdString();
             return cnv;
         }>();
