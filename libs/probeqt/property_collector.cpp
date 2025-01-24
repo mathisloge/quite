@@ -1,11 +1,10 @@
 #include "property_collector.hpp"
 #include <QMetaProperty>
+#include <QQmlListReference>
 #include <ranges>
-#include <QtQml/private/qqmldata_p.h>
-#include <QtQml/private/qqmlmetatype_p.h>
 #include <entt/meta/factory.hpp>
-#include <private/qv4executablecompilationunit_p.h>
 #include <quite/logger.hpp>
+#include "qt_meta_type_accessor.hpp"
 
 DEFINE_LOGGER(property_collector_logger)
 namespace quite
@@ -21,32 +20,7 @@ void insert_value(std::unordered_map<std::string, proto::Value> *properties,
 
 ObjectMeta ObjectMeta::from_qobject(QObject *object)
 {
-    const QMetaObject *meta_object{nullptr};
-    if (object->metaObject() != nullptr)
-    {
-        meta_object = object->metaObject();
-    }
-    else
-    {
-        auto &&data = QQmlData::get(object);
-        if (data != nullptr or not data->compilationUnit)
-        {
-            LOG_WARNING(property_collector_logger(), "got no data for qml object");
-        }
-        else
-        {
-            const auto qml_type = QQmlMetaType::qmlType(data->compilationUnit->url());
-            if (qml_type.isValid())
-            {
-                meta_object = qml_type.metaObject();
-            }
-            else
-            {
-                LOG_WARNING(property_collector_logger(), "qml type not valid");
-            }
-        }
-    }
-    return ObjectMeta{.object = object, .meta_object = meta_object};
+    return ObjectMeta{.object = object, .meta_object = probe::try_get_qt_meta_object(object)};
 }
 
 std::pair<std::string, proto::Value> read_property(const QVariant property_value, const QMetaProperty &property)

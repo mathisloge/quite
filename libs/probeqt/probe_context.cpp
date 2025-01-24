@@ -74,7 +74,6 @@ ProbeContext::~ProbeContext()
 
 void ProbeContext::request_exit()
 {
-    LOG_INFO(probe_ctx_logger(), "requested probe exit. Grpc server is now is shutdown.");
     grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{2});
     grpc_server_->Wait();
     grpc_context_.stop();
