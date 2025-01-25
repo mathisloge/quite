@@ -29,6 +29,8 @@ class QUITELIB_EXPORT RemoteObject
 
     virtual AsyncResult<Image> take_snapshot() = 0;
 
+    virtual AsyncResult<void> invoke_method(std::string method_name) = 0;
+
   private:
     const ObjectId id_;
 };
