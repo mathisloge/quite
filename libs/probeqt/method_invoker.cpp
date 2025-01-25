@@ -4,7 +4,10 @@
 #include <ranges>
 #include <entt/meta/resolve.hpp>
 #include <fmt/format.h>
+#include <quite/logger.hpp>
 #include "object_tracker.hpp"
+
+DEFINE_LOGGER(method_invoker)
 
 using namespace entt::literals;
 namespace quite::probe
@@ -83,12 +86,21 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
                       std::back_inserter(meta_call_args));
     const auto call_result = obj->qt_metacall(QMetaObject::Call::InvokeMetaMethod, method_index, meta_call_args.data());
 
+    LOG_DEBUG(method_invoker(), "Return type: {}", meta_method.returnMetaType().name());
     const auto custom_meta_type = entt::resolve(entt::hashed_string{meta_method.returnMetaType().name()}.value());
-    if (custom_meta_type and call_result < 0)
+    if (call_result < 0)
     {
-        constexpr bool kTransferOwnership{true};
-        // args[0] is always the return type.
-        return custom_meta_type.from_void(args[0].release(), kTransferOwnership);
+        if (meta_method.returnMetaType() == QMetaType::fromType<void>())
+        {
+            LOG_DEBUG(method_invoker(), "Return value is void");
+            return entt::meta_any{std::in_place_type<void>};
+        }
+        if (custom_meta_type)
+        {
+            constexpr bool kTransferOwnership{true};
+            // args[0] is always the return type.
+            return custom_meta_type.from_void(args[0].release(), kTransferOwnership);
+        }
     }
     return make_error_result<entt::meta_any>(
         ErrorCode::cancelled,

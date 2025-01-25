@@ -40,16 +40,20 @@ exec::task<void> InvokeMethodRpcHandler::operator()(InvokeMethodRPC &rpc, const 
                                          fmt::format("Could not invoke method due to: {}", result.error().message)});
         co_return;
     }
+    if (result->type().info() == entt::type_id<void>())
+    {
+        co_await rpc.finish(response, grpc::Status::OK);
+        co_return;
+    }
     if (result->allow_cast<proto::Value>())
     {
         *response.mutable_return_value()->mutable_value() = result->cast<proto::Value>();
-        co_await rpc.finish(response,
-                            grpc::Status{grpc::StatusCode::ABORTED,
-                                         fmt::format("Could not invoke method due to: {}", result.error().message)});
+        co_await rpc.finish(response, grpc::Status::OK);
         co_return;
     }
+
     co_await rpc.finish(
-        {}, grpc::Status{grpc::StatusCode::ABORTED, fmt::format("Couild not convert return object to protocol value")});
+        {}, grpc::Status{grpc::StatusCode::ABORTED, fmt::format("Could not convert return object to protocol value")});
 }
 
 agrpc::detail::RPCHandlerSender<InvokeMethodRPC, InvokeMethodRpcHandler> invoke_method(

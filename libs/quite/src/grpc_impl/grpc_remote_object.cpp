@@ -1,10 +1,12 @@
 #include "grpc_remote_object.hpp"
 #include <fmt/ranges.h>
 #include <quite/logger.hpp>
+#include "grpc_impl/grpc_value.hpp"
 #include "grpc_property.hpp"
 #include "probe_client.hpp" // NOLINT
 #include "rpc/make_create_snapshot_request.hpp"
 #include "rpc/make_get_object_properties_request.hpp"
+#include "rpc/make_invoke_method_request.hpp"
 #include "rpc/make_mouse_click_request.hpp"
 
 DEFINE_LOGGER(grpc_remote_object_logger);
@@ -31,7 +33,7 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
               id());
     const auto response = co_await make_get_object_properties_request(
         probe_service_->context(), probe_service_->stub(), id(), properties);
-    co_return response.and_then([&](auto && /*reply*/) -> Result<RetVal> {
+    co_return response.transform([&](auto && /*reply*/) -> RetVal {
         RetVal values;
         for (auto &&val : response->property_values())
         {
@@ -68,13 +70,13 @@ AsyncResult<void> GrpcRemoteObject::mouse_action()
     LOG_DEBUG(grpc_remote_object_logger(), "mouse_action for object={}", id());
     const auto response = co_await make_mouse_click_request(probe_service_->context(), probe_service_->stub(), id());
 
-    co_return response.and_then([&](auto && /*reply*/) -> Result<void> { return {}; });
+    co_return response.transform([&](auto && /*reply*/) -> void {});
 }
 
 AsyncResult<Image> GrpcRemoteObject::take_snapshot()
 {
     auto response = co_await make_create_snapshot_request(probe_service_->context(), probe_service_->stub(), id());
-    co_return response.and_then([id = id()](auto &&image_response) -> Result<Image> {
+    co_return response.transform([id = id()](auto &&image_response) -> Image {
         LOG_DEBUG(grpc_remote_object_logger(), "Got image for obj={}", id);
         std::vector<std::byte> image_data;
         auto image_view = std::as_bytes(std::span{image_response.data().data(), image_response.data().size()});
@@ -82,5 +84,28 @@ AsyncResult<Image> GrpcRemoteObject::take_snapshot()
         image_data.insert(image_data.begin(), image_view.begin(), image_view.end());
         return Image{std::move(image_data), image_response.metadata().width(), image_response.metadata().height(), 4};
     });
+}
+
+AsyncResult<void> GrpcRemoteObject::invoke_method(std::string method_name)
+{
+    auto response = co_await make_invoke_method_request(
+        probe_service_->context(), probe_service_->stub(), id(), std::move(method_name), {});
+    LOG_DEBUG(grpc_remote_object_logger(), "Got method invoke result: {}", response.has_value());
+    if (response.has_value())
+    {
+        if (response->has_return_value() and response->return_value().has_value())
+        {
+            auto return_val = convert(response->return_value().value(), probe_service_);
+            if (return_val.has_value())
+            {
+                LOG_DEBUG(grpc_remote_object_logger(), "Has return value: {}", fmt::format("{}", *return_val));
+            }
+        }
+    }
+    else
+    {
+        LOG_DEBUG(grpc_remote_object_logger(), "Error: {}", fmt::format("{}", response.error()));
+    }
+    co_return {};
 }
 } // namespace quite::grpc_impl

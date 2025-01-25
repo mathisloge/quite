@@ -22,6 +22,8 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
 
     AsyncResult<Image> take_snapshot() override;
 
+    AsyncResult<void> invoke_method(std::string method_name) override;
+
   private:
     ProbeServiceHandle probe_service_;
     meta::TypeId type_id_;

@@ -17,4 +17,6 @@ target_sources(quitelib PRIVATE
     make_get_views_request.cpp
     make_meta_find_type.hpp
     make_meta_find_type.cpp
+    make_invoke_method_request.hpp
+    make_invoke_method_request.cpp
 )
