@@ -1,13 +1,27 @@
-add_library(quite_testing)
-add_library(quite::testing ALIAS quite_testing)
-set_target_properties(quite_testing PROPERTIES
+add_library(quite_test)
+add_library(quite::test ALIAS quite_test)
+set_target_properties(quite_test PROPERTIES
     POSITION_INDEPENDENT_CODE ON
 )
-generate_export_header(quite_testing)
+generate_export_header(quite_test EXPORT_FILE_NAME quite_test_export.hpp)
 
-target_link_libraries(quite_testing PUBLIC quite::quite)
+target_link_libraries(quite_test PUBLIC quite::quite)
 
-target_include_directories(quite_testing PUBLIC
+target_sources(quite_test
+    PUBLIC
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/test/application.hpp
+        FILE_SET export_config
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES
+                ${CMAKE_CURRENT_BINARY_DIR}/quite_test_export.hpp
+)
+
+target_include_directories(quite_test PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"

@@ -7,7 +7,7 @@
 #include <vector>
 #include <fmt/core.h>
 #include "meta_type_id.hpp"
-#include "quite_core_export.h"
+#include "quite_core_export.hpp"
 
 namespace quite::meta
 {
