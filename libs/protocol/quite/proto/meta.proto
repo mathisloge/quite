@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package quite.proto;
+
+enum MetaPrimitiveType {
+  unknown = 0;
+  void = 1;
+  int = 2;
+  uint = 3;
+  float = 4;
+  double = 5;
+  bool = 6;
+  string = 7;
+}
+
+message MetaListType {
+  uint64 type_id = 1;
+  string name = 2;
+  uint64 value_type_id = 3;
+}
+
+message MetaMapType {
+  uint64 type_id = 1;
+  string name = 2;
+  uint64 key_type_id = 3;
+  uint64 value_type_id = 4;
+}
+
+message MetaEnumType {
+  uint64 type_id = 1;
+  string name = 2;
+  map<string, uint64> name_value = 3;
+}
+
+message MetaProperty {
+  string name = 1;
+  uint64 type_id = 2;
+}
+
+message MetaMethod {
+  string name = 1;
+  uint64 return_type_id = 2;
+  map<string, uint64> parameter_types = 3;
+}
+
+message MetaObjectType {
+  string name = 1;
+  uint64 type_id = 2;
+  repeated MetaProperty properties = 3;
+  repeated MetaMethod constructors = 4;
+  repeated MetaMethod methods = 5;
+}
+
+message MetaType {
+  oneof type {
+    MetaPrimitiveType primitive_type = 1;
+    MetaObjectType object_type = 2;
+    MetaListType list_type = 3;
+    MetaMapType map_type = 4;
+    MetaEnumType enum_type = 5;
+  }
+}

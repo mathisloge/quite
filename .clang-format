@@ -1,5 +1,7 @@
-BasedOnStyle: Microsoft
 IndentWidth: 4
+---
+Language: Cpp
+BasedOnStyle: Microsoft
 AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
@@ -26,3 +28,6 @@ IncludeCategories:
   # Headers in "" with extension.
   - Regex:           '"([A-Za-z0-9.\Q/-_\E])+"'
     Priority:        4
+---
+Language: Proto
+BasedOnStyle: Google

@@ -10,5 +10,5 @@ AsyncResult<proto::GetObjectPropertiesResponse> make_get_object_properties_reque
     agrpc::GrpcContext &grpc_context,
     proto::ProbeService::Stub &stub,
     ObjectId id,
-    const std::vector<std::string_view> &properties);
+    std::span<const std::string> properties);
 } // namespace quite::grpc_impl

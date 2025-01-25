@@ -8,7 +8,7 @@ on:
 
 env:
   VCPKG_BINARY_SOURCES: clear;x-gha,readwrite
-  VCPKG_RELEASE: cacf5994341f27e9a14a7b8724b0634b138ecb30
+  VCPKG_RELEASE: 81ab9a89cb1c0b7a3bee67e4eaf72794d4820648
   VCPKG_HOME: vcpkg/
   
 jobs:
@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
     - uses: pre-commit/action@v3.0.1
-    - uses: pre-commit-ci/lite-action@v1.0.2
+    - uses: pre-commit-ci/lite-action@v1.1.0
       if: always()
 
   build:

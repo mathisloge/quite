@@ -3,16 +3,16 @@ syntax = "proto3";
 package quite.proto;
 
 enum MouseButton {
-    left_button = 0;
-    right_button = 1;
-    middle_button = 2;
+  left_button = 0;
+  right_button = 1;
+  middle_button = 2;
 }
 
 enum MouseAction {
-    none = 0;
-    click = 1;
-    double_click = 2;
-    press = 3;
-    release = 4;
-    move = 5;
+  none = 0;
+  click = 1;
+  double_click = 2;
+  press = 3;
+  release = 4;
+  move = 5;
 }

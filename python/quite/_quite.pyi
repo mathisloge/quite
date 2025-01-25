@@ -1,28 +1,25 @@
-"""
-quite - the (q)t (ui) (te)sting framework. See https://github.com/mathisloge/ng-quite
-"""
-
-from __future__ import annotations
-
-__all__ = ["Application", "RemoteObject"]
+__version__: str
+__version_git_ref__: str
 
 class Application:
-    def __init__(self, application_path: str) -> None: ...
+    def __init__(self, application_path: str) -> None:
+        """__init__(self: quite._quite.Application, application_path: str) -> None"""
+
     def exit(self) -> None:
-        """
+        """exit(self: quite._quite.Application) -> None
+
         Request to exit the application.
         """
 
     def find_object(self, object_query: str) -> RemoteObject:
-        """
+        """find_object(self: quite._quite.Application, object_query: str) -> quite._quite.RemoteObject
+
         try to get an instance of an object by the given query.
         """
 
 class RemoteObject:
-    @property
-    def id(self) -> int:
-        """
-        returns the id of the remote object.
-        """
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
 
-__version__: str = "0.0.1"
+    @property
+    def id(self) -> int: ...

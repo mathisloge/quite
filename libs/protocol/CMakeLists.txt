@@ -5,19 +5,32 @@ asio_grpc_protobuf_generate(
     OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated"
     IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"
     PROTOS
-        "${proto_inc_dir}/metatype.proto"
+        "${proto_inc_dir}/meta.proto"
+        "${proto_inc_dir}/meta_service.proto"
         "${proto_inc_dir}/common.proto"
         "${proto_inc_dir}/probe.proto"
         "${proto_inc_dir}/keyboard.proto"
         "${proto_inc_dir}/mouse.proto"
         "${proto_inc_dir}/types.proto"
+        "${proto_inc_dir}/methods.proto"
 )
 
-add_library(quite_protocol_proto STATIC)
-add_library(quite::protocol ALIAS quite_protocol_proto)
-target_sources(quite_protocol_proto PRIVATE ${quite_protocol_proto_srcs})
-target_link_libraries(quite_protocol_proto PUBLIC protobuf::libprotobuf)
+add_library(quite_protocol STATIC)
+add_library(quite::protocol ALIAS quite_protocol)
+target_link_libraries(quite_protocol PUBLIC protobuf::libprotobuf quite::core)
 
-target_include_directories(quite_protocol_proto
+target_include_directories(quite_protocol
     PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>"
+)
+
+target_sources(quite_protocol
+    PUBLIC
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/proto/meta_converters.hpp
+    PRIVATE
+        ${quite_protocol_proto_srcs}
+        src/meta_converters.cpp
 )

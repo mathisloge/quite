@@ -9,14 +9,11 @@ configure_file (
     "${CMAKE_CURRENT_BINARY_DIR}/quite/version.hpp"
 )
 
-target_compile_definitions(quitelib PUBLIC
-    SPDLOG_ACTIVE_LEVEL=${log_level}
-)
-
 target_include_directories(quitelib
 PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 PRIVATE
     ${Stb_INCLUDE_DIR}
@@ -29,6 +26,7 @@ target_link_libraries(quitelib PRIVATE
     quite::protocol
     quite::logger
 PUBLIC
+    quite::core
     STDEXEC::stdexec
 )
 
@@ -38,8 +36,6 @@ target_sources(quitelib
         src/application.cpp
         src/process_application.cpp
         src/process_application.hpp
-        src/process.cpp
-        src/process.hpp
         src/property.cpp
         src/context.cpp
         src/context.hpp

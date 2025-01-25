@@ -9,14 +9,11 @@
 #include <quite/property.hpp>
 #include <quite/quite.hpp>
 #include <quite/utils/dump_properties.hpp>
-#include <spdlog/spdlog.h>
 #include <tester_app.hpp>
 
 TEST_CASE("Test if a process application can be created")
 {
     stdexec::sync_wait([]() -> exec::task<void> {
-        spdlog::set_level(spdlog::level::level_enum::trace);
-
         auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
 
         auto views = co_await app->get_views();
@@ -29,10 +26,6 @@ TEST_CASE("Test if a process application can be created")
             {
                 auto json_props = co_await quite::dump_properties(
                     xxxx.value(), {"objectName", "width", "height", "children", "visible", "childrenRect"});
-                if (not json_props.has_value())
-                {
-                    spdlog::error("Json error: {}", json_props.error().message);
-                }
                 REQUIRE(json_props.has_value());
                 std::ofstream o("pretty.json");
                 o << std::setw(4) << *json_props << std::endl;
@@ -40,7 +33,6 @@ TEST_CASE("Test if a process application can be created")
             auto snapshot = co_await xxxx.value()->take_snapshot();
             REQUIRE(snapshot.has_value());
         }
-        co_await app->get_views();
 
         auto btn_obj = co_await app->find_object({.properties = {{"objectName", "worldBtn"}}});
         REQUIRE(btn_obj.has_value());

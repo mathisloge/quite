@@ -377,8 +377,9 @@ class indirect
     }
 
     template <class U, class AA>
-    [[nodiscard]] friend constexpr auto operator<=>(const indirect<T, A> &lhs, const indirect<U, AA> &rhs) noexcept(
-        noexcept(*lhs <=> *rhs)) -> std::compare_three_way_result_t<T, U>
+    [[nodiscard]] friend constexpr auto operator<=>(const indirect<T, A> &lhs,
+                                                    const indirect<U, AA> &rhs) noexcept(noexcept(*lhs <=> *rhs))
+        -> std::compare_three_way_result_t<T, U>
     {
         if (lhs.valueless_after_move() || rhs.valueless_after_move())
         {
@@ -400,8 +401,9 @@ class indirect
     }
 
     template <class U>
-    [[nodiscard]] friend constexpr auto operator<=>(const indirect<T, A> &lhs, const U &rhs) noexcept(
-        noexcept(*lhs <=> rhs)) -> std::compare_three_way_result_t<T, U>
+    [[nodiscard]] friend constexpr auto operator<=>(const indirect<T, A> &lhs,
+                                                    const U &rhs) noexcept(noexcept(*lhs <=> rhs))
+        -> std::compare_three_way_result_t<T, U>
         requires(!is_indirect_v<U>)
     {
         if (lhs.valueless_after_move())
