@@ -21,7 +21,6 @@ AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(const Ob
     const auto response =
         co_await grpc_impl::make_find_object_request(probe_handle_->context(), probe_handle_->stub(), query);
     co_return response.and_then([&](const proto::ObjectReply &reply) -> Result<std::shared_ptr<RemoteObject>> {
-        LOG_DEBUG(grpc_app_logger(), "TESTXY {}", reply.type_id());
         return std::make_shared<GrpcRemoteObject>(reply.object_id(), reply.type_id(), probe_handle_);
     });
 }
