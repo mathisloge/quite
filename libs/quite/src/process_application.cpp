@@ -8,8 +8,8 @@ namespace quite
 ProcessApplication::ProcessApplication(Context &context, const std::string &path_to_application)
     : GrpcApplication(context)
     , process_{path_to_application}
-    , stdout_pipe_{context.asioContext().get_executor(), process_.stdoutPipe()}
-    , stderr_pipe_{context.asioContext().get_executor(), process_.stderrPipe()}
+    , stdout_pipe_{context.asioContext().get_executor(), process_.stdout_pipe()}
+    , stderr_pipe_{context.asioContext().get_executor(), process_.stderr_pipe()}
 {
     do_read();
 }

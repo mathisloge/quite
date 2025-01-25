@@ -26,14 +26,13 @@ void quite_remove_object(QObject *q);
 void quite_app_startup();
 } // namespace
 
-ProbeContext::ProbeContext(grpc::ServerBuilder builder)
+ProbeContext::ProbeContext(grpc::ServerBuilder &builder)
     : grpc_context_{builder.AddCompletionQueue()}
     , mouse_injector_{object_tracker_}
     , method_invoker_{object_tracker_}
 {
     builder.RegisterService(std::addressof(object_service_));
     builder.RegisterService(std::addressof(meta_service_));
-    builder.AddListeningPort("unix:///tmp/grpc_probe.sock", grpc::InsecureServerCredentials());
     grpc_server_ = builder.BuildAndStart();
 
     grpc_runner_ = std::jthread{[this]() {

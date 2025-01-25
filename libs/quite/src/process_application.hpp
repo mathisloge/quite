@@ -1,9 +1,9 @@
 #pragma once
 #include <array>
 #include <asio/readable_pipe.hpp>
+#include <quite/details/process.hpp>
 #include "context.hpp"
 #include "grpc_impl/grpc_application.hpp"
-#include "process.hpp"
 namespace quite
 {
 class ProcessApplication final : public grpc_impl::GrpcApplication
@@ -16,7 +16,7 @@ class ProcessApplication final : public grpc_impl::GrpcApplication
     void do_read();
 
   private:
-    Process process_;
+    details::Process process_;
     asio::readable_pipe stdout_pipe_;
     asio::readable_pipe stderr_pipe_;
 

@@ -36,8 +36,6 @@ target_sources(quitelib
         src/application.cpp
         src/process_application.cpp
         src/process_application.hpp
-        src/process.cpp
-        src/process.hpp
         src/property.cpp
         src/context.cpp
         src/context.hpp
