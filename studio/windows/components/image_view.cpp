@@ -60,12 +60,12 @@ void ImageView::higlight_object(const ObjectTree::ObjectNode *object)
     image_.end_point_.y = get_number_property(object->properties, "height");
 
     auto parent = object->parent;
-    LOG_DEBUG(ui_image_view, "highlight object. has parent={}", (parent != nullptr));
+    LOG_DEBUG(ui_image_view(), "highlight object. has parent={}", (parent != nullptr));
     while (parent != nullptr)
     {
         image_.start_point_.x += get_number_property(parent->properties, "x");
         image_.start_point_.y += get_number_property(parent->properties, "y");
-        LOG_DEBUG(ui_image_view, "highlight: x={} y={}", image_.start_point_.x, image_.start_point_.y);
+        LOG_DEBUG(ui_image_view(), "highlight: x={} y={}", image_.start_point_.x, image_.start_point_.y);
         if (parent->position_root)
         {
             break;
@@ -76,9 +76,9 @@ void ImageView::higlight_object(const ObjectTree::ObjectNode *object)
 
 void ImageView::fetch_image()
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](ImageView *self) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](ImageView *self) -> exec::task<void> {
         auto snapshot_result = co_await self->tree_.root()->object->take_snapshot();
-        LOG_DEBUG(ui_image_view, "got snapshot");
+        LOG_DEBUG(ui_image_view(), "got snapshot");
         if (snapshot_result.has_value())
         {
             self->image_.image = std::move(snapshot_result.value());
@@ -111,7 +111,7 @@ void ImageView::AsyncImage::show()
     {
         ImDrawList *draw_list = ImGui::GetWindowDrawList();
         const ImVec2 p = ImGui::GetCursorScreenPos();
-        ImGui::Image((void *)texture.get(), size);
+        ImGui::Image(reinterpret_cast<ImTextureID>(texture.get()), size);
 
         constexpr auto kHighlightColor = ImColor{255, 0, 0};
 

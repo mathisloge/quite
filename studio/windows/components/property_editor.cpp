@@ -252,9 +252,9 @@ std::unique_ptr<quite::studio::PropertyEditor::PropertyUi> make_value_wrapper(st
 
 void PropertyObjectValue::fetch_properties()
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](PropertyObjectValue *self) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](PropertyObjectValue *self) -> exec::task<void> {
         auto props = co_await self->object_->fetch_properties({});
-        LOG_DEBUG(ui_comp_prop_editor, "Got properties.");
+        LOG_DEBUG(ui_comp_prop_editor(), "Got properties.");
         if (props.has_value())
         {
             self->properties_.clear();
@@ -268,7 +268,7 @@ void PropertyObjectValue::fetch_properties()
         }
         else
         {
-            LOG_ERROR(ui_comp_prop_editor, "Could not fetch properties");
+            LOG_ERROR(ui_comp_prop_editor(), "Could not fetch properties");
         }
         co_return;
     }(this)));
@@ -302,7 +302,7 @@ void PropertyArrayValue::draw()
 
 void PropertyArrayValue::fetch_properties()
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](PropertyArrayValue *self) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](PropertyArrayValue *self) -> exec::task<void> {
         auto values = co_await self->property_->read();
 
         auto ui_elements = values.transform([](auto &&value) -> Result<std::vector<std::unique_ptr<PropertyUi>>> {
@@ -338,7 +338,7 @@ void PropertyArrayValue::fetch_properties()
         }
         else
         {
-            LOG_ERROR(ui_comp_prop_editor, "Could not fetch props due to {}", ui_elements->error().message);
+            LOG_ERROR(ui_comp_prop_editor(), "Could not fetch props due to {}", ui_elements->error().message);
         }
         co_return;
     }(this)));

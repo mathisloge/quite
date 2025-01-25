@@ -33,7 +33,7 @@ int main(int, char **)
     // Setup SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
     {
-        LOG_ERROR(quiteide_logger, "Error while initializing SDL2: {}", SDL_GetError());
+        LOG_ERROR(quiteide_logger(), "Error while initializing SDL2: {}", SDL_GetError());
         return -1;
     }
 
@@ -48,19 +48,19 @@ int main(int, char **)
         SDL_CreateWindow("quite studio", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
     if (window == nullptr)
     {
-        LOG_ERROR(quiteide_logger, "SDL_CreateWindow(): {}", SDL_GetError());
+        LOG_ERROR(quiteide_logger(), "SDL_CreateWindow(): {}", SDL_GetError());
         return -1;
     }
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
     if (renderer == nullptr)
     {
-        LOG_ERROR(quiteide_logger, "Error creating SDL_Renderer!");
+        LOG_ERROR(quiteide_logger(), "Error creating SDL_Renderer!");
         return 0;
     }
     {
         SDL_RendererInfo info;
         SDL_GetRendererInfo(renderer, &info);
-        LOG_INFO(quiteide_logger, "Current SDL_Renderer: {}", info.name);
+        LOG_INFO(quiteide_logger(), "Current SDL_Renderer: {}", info.name);
     }
 
     // Setup Dear ImGui context
@@ -103,6 +103,11 @@ int main(int, char **)
             {
                 done = true;
             }
+        }
+        if ((SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED) != 0U)
+        {
+            SDL_Delay(10);
+            continue;
         }
 
         // Start the Dear ImGui frame

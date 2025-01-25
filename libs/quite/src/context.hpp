@@ -12,7 +12,7 @@ class Context final
   public:
     ~Context();
     asio2exec::asio_context &asioContext();
-    agrpc::GrpcContext &grpcContext();
+    [[nodiscard]] std::shared_ptr<agrpc::GrpcContext> grpcContext();
 
   public:
     static Context &Instance();
@@ -22,7 +22,7 @@ class Context final
 
   private:
     asio2exec::asio_context asio_context_;
-    agrpc::GrpcContext grpc_context_;
+    std::shared_ptr<agrpc::GrpcContext> grpc_context_;
     std::jthread io_context_thread_;
     std::jthread grpc_context_thread_;
 };

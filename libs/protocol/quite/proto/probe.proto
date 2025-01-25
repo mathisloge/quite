@@ -5,19 +5,21 @@ import "quite/proto/common.proto";
 import "quite/proto/keyboard.proto";
 import "quite/proto/mouse.proto";
 import "quite/proto/types.proto";
-import "quite/proto/metatype.proto";
+import "quite/proto/methods.proto";
 
 service ProbeService {
-    rpc Exit(ExitRequest) returns (ExitReponse) {}
+  rpc Exit(ExitRequest) returns (ExitReponse) {}
 
-    rpc FindObject(ObjectRequest) returns (ObjectReply) {}
-    rpc GetObjectProperties(GetObjectPropertiesRequest) returns (GetObjectPropertiesResponse) {}
+  rpc FindObject(ObjectRequest) returns (ObjectReply) {}
+  rpc GetObjectProperties(GetObjectPropertiesRequest)
+      returns (GetObjectPropertiesResponse) {}
 
-    rpc MouseAction(MouseActionRequest) returns (VoidResponse) {}
-    rpc CreateScreenshot(ScreenshotRequest) returns (stream ImageResponse) {};
+  rpc MouseAction(MouseActionRequest) returns (VoidResponse) {}
+  rpc CreateScreenshot(ScreenshotRequest) returns (stream ImageResponse) {};
 
-    rpc GetViews(GetViewsRequest) returns (GetViewsResponse) {};
-    rpc MetaTypeFromObject(MetaTypeFromObjectRequest) returns (MetaTypeFromObjectResponse) {};
+  rpc GetViews(GetViewsRequest) returns (GetViewsResponse) {};
+
+  rpc InvokeMethod(MethodCallRequest) returns (MethodCallResponse) {};
 }
 
 message ExitRequest {};
@@ -25,8 +27,8 @@ message ExitRequest {};
 message ExitReponse {};
 
 message ObjectSearchQuery {
-    map<string, Value> properties = 1;
-    optional ObjectSearchQuery parent = 2;
+  map<string, Value> properties = 1;
+  optional ObjectSearchQuery parent = 2;
 }
 
 message ObjectRequest {
@@ -34,7 +36,9 @@ message ObjectRequest {
 }
 
 message ObjectReply {
-  uint64 object_id = 1; // the internal id assigned by the probe
+  // the internal id assigned by the probe
+  uint64 object_id = 1;
+  uint64 type_id = 2;
 }
 
 message GetObjectPropertiesRequest {
@@ -51,13 +55,13 @@ message MouseActionRequest {
   MouseAction mouse_action = 2;
   MouseButton mouse_button = 3;
   optional KeyboardModifierKey modifier_key = 4;
-  optional uint32 delay_ms = 5; // delay between press and release
-  optional Vector2F relative_point = 6; // the (click) point relative to the object coordinates. 
+  // delay between press and release
+  optional uint32 delay_ms = 5;
+  // the (click) point relative to the object coordinates.
+  optional Vector2F relative_point = 6;
 }
 
-
-message VoidResponse {
-}
+message VoidResponse {}
 
 message ImageMetadata {
   uint32 width = 1;
@@ -72,18 +76,17 @@ message ScreenshotRequest {
   uint64 object_id = 1;
 }
 
-message GetViewsRequest {
-
-}
+message GetViewsRequest {}
 
 message GetViewsResponse {
-  repeated uint64 object_id = 1;
+  repeated ObjectReply object = 1;
 }
 
-message MetaTypeFromObjectRequest {
+message MethodCallRequest {
   uint64 object_id = 1;
+  MethodCall method_call = 2;
 }
 
-message MetaTypeFromObjectResponse {
-  MetaObject meta_object = 1;
+message MethodCallResponse {
+  MethodReturnValue return_value = 1;
 }

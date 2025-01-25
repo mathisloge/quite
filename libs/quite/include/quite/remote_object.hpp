@@ -1,8 +1,7 @@
 #pragma once
 #include <cstdint>
-#include <expected>
 #include <exec/task.hpp>
-#include "async_result.hpp"
+#include <quite/async_result.hpp>
 #include "image.hpp"
 #include "property.hpp"
 #include "quitelib_export.h"
@@ -19,14 +18,18 @@ class QUITELIB_EXPORT RemoteObject
 
     ObjectId id() const noexcept;
 
+    virtual meta::TypeId type_id() const = 0;
+
     virtual AsyncResult<std::unordered_map<std::string, PropertyPtr>> fetch_properties(
-        const std::vector<std::string_view> &properties) = 0;
+        std::span<const std::string> properties) = 0;
 
     virtual AsyncResult<PropertyPtr> property(std::string property_name) = 0;
 
     virtual AsyncResult<void> mouse_action() = 0;
 
     virtual AsyncResult<Image> take_snapshot() = 0;
+
+    virtual AsyncResult<void> invoke_method(std::string method_name) = 0;
 
   private:
     const ObjectId id_;

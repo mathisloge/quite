@@ -32,7 +32,7 @@ const ObjectTree::ObjectNodePtr &ObjectTree::root() const
 
 void ObjectTree::init_from_properties(const ObjectNodePtr &node)
 {
-    scope_.spawn(stdexec::on(get_scheduler(), [](ObjectTree *self, ObjectNodePtr node) -> exec::task<void> {
+    scope_.spawn(stdexec::starts_on(get_scheduler(), [](ObjectTree *self, ObjectNodePtr node) -> exec::task<void> {
         auto properties = co_await node->object->fetch_properties({});
 
         if (properties.has_value())
@@ -42,7 +42,7 @@ void ObjectTree::init_from_properties(const ObjectNodePtr &node)
         }
         else
         {
-            LOG_ERROR(logic_object_tree, "Could not fetch properties. Failed with {}", properties.error().message);
+            LOG_ERROR(logic_object_tree(), "Could not fetch properties. Failed with {}", properties.error().message);
         }
     }(this, node)));
 }
@@ -66,7 +66,7 @@ void ObjectTree::construct_node_from_properties(const ObjectNodePtr &node)
         auto childs = node->properties.at(kChildrenKey.data());
         if (not childs->value().has_value())
         {
-            LOG_ERROR(logic_object_tree,
+            LOG_ERROR(logic_object_tree(),
                       "property {} does not contain any value. Value error: {}",
                       childs->name(),
                       childs->value().error().message);
@@ -76,7 +76,7 @@ void ObjectTree::construct_node_from_properties(const ObjectNodePtr &node)
         auto &&value = childs->value().value();
         if (not std::holds_alternative<xyz::indirect<ArrayObject>>(value))
         {
-            LOG_ERROR(logic_object_tree, "property {} does not contain a array value.", childs->name());
+            LOG_ERROR(logic_object_tree(), "property {} does not contain a array value.", childs->name());
             return;
         }
 
@@ -93,7 +93,7 @@ void ObjectTree::construct_node_from_properties(const ObjectNodePtr &node)
     }
     else
     {
-        LOG_ERROR(logic_object_tree,
+        LOG_ERROR(logic_object_tree(),
                   "Could not create object from properties. Neither {} or {} present",
                   kContentItemKey,
                   kChildrenKey);
@@ -104,7 +104,7 @@ ObjectTree::ObjectNodePtr ObjectTree::create_from_property(PropertyPtr property)
 {
     if (not property->value().has_value())
     {
-        LOG_ERROR(logic_object_tree,
+        LOG_ERROR(logic_object_tree(),
                   "property {} does not contain any value. Value error: {}",
                   property->name(),
                   property->value().error().message);
@@ -119,7 +119,7 @@ ObjectTree::ObjectNodePtr ObjectTree::create_from_value(const Value &value)
 {
     if (not std::holds_alternative<RemoteObjectPtr>(value))
     {
-        LOG_ERROR(logic_object_tree, "value does not contain a remote object value.");
+        LOG_ERROR(logic_object_tree(), "value does not contain a remote object value.");
         return nullptr;
     }
 

@@ -8,7 +8,7 @@ version = "0.0.1"
 description="quite - the (q)t (ui) (te)sting framework"
 readme = "README.md"
 authors = [
-  { name = "Mathis Logemann", email = "mathis.opensource@gmail.com" },
+  { name = "Mathis Logemann", email = "mathisloge@tuta.io" },
 ]
 requires-python = ">=3.7"
 

@@ -9,12 +9,12 @@ namespace
 {
 AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visited_objects,
                                             const RemoteObjectPtr &remote_object,
-                                            const std::vector<std::string_view> &properties);
+                                            std::span<const std::string> properties);
 
 struct ValueVisitor
 {
     std::unordered_set<ObjectId> &visited_objects;
-    const std::vector<std::string_view> &properties;
+    std::span<const std::string> properties;
     nlohmann::json &out;
 
     AsyncResult<void> operator()(auto &&value)
@@ -69,7 +69,7 @@ struct ValueVisitor
 
 AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visited_objects,
                                             const RemoteObjectPtr &remote_object,
-                                            const std::vector<std::string_view> &properties)
+                                            std::span<const std::string> properties)
 {
     if (visited_objects.contains(remote_object->id()))
     {
@@ -106,7 +106,7 @@ AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visite
 
 } // namespace
 AsyncResult<nlohmann::json> dump_properties(const RemoteObjectPtr &remote_object,
-                                            const std::vector<std::string_view> &properties)
+                                            std::span<const std::string> properties)
 {
     std::unordered_set<ObjectId> objects;
     co_return co_await dump_properties(objects, remote_object, properties);

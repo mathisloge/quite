@@ -1,19 +1,19 @@
 #include <catch2/catch_test_macros.hpp>
 #include <exec/task.hpp>
 #include <quite/application.hpp>
+#include <quite/logger.hpp>
+#include <quite/setup_logger.hpp>
 #include <quite/testing/verification_point.hpp>
+#include "async_test_helper.hpp"
 #include "tester_app.hpp"
-
-#define ASYNC_BLOCK stdexec::sync_wait([&]() -> exec::task<void> {
-
-#define ASYNC_BLOCK_END                                                                                                \
-    co_return;                                                                                                         \
-    }());
 
 using namespace quite;
 
+DEFINE_LOGGER(test);
+
 TEST_CASE("Remote object can be invoked")
 {
+    setup_logger();
     auto app = Application::CreateApplication(TESTER_APP_PATH);
 
     const ObjectQuery btn_query{.properties = {{"objectName", Value{"helloBtn"}}}};
@@ -29,6 +29,7 @@ TEST_CASE("Remote object can be invoked")
         ASYNC_BLOCK
         auto prop = co_await obj->property("text");
         REQUIRE(prop.has_value());
+        REQUIRE(prop.value()->type_id() == 10);
 
         auto &&val = prop.value()->value();
         REQUIRE(val.has_value());
@@ -76,6 +77,32 @@ TEST_CASE("Remote object can be invoked")
         REQUIRE(res.has_value());
         REQUIRE(res.value());
 
+        ASYNC_BLOCK_END
+    }
+
+    SECTION("The meta type can be fetched")
+    {
+        ASYNC_BLOCK
+        const auto obj_meta_type = co_await app->meta_registry().lookup_type(obj->type_id());
+        REQUIRE(obj_meta_type.has_value());
+        ASYNC_BLOCK_END
+    }
+
+    SECTION("A method is invoked")
+    {
+        ASYNC_BLOCK
+        co_await obj->invoke_method("click()");
+        const ObjectQuery text_area_query{.properties = {{"objectName", Value{"textArea"}}}};
+        auto text_area = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {
+                                                       auto obj = co_await app->find_object(text_area_query);
+                                                       REQUIRE(obj.has_value());
+                                                       co_return obj.value();
+                                                   }())
+                                                       .value());
+
+        auto text_prop = co_await text_area->property("text");
+        REQUIRE(text_prop.has_value());
+        REQUIRE(std::get<std::string>(*text_prop.value()->value()) == "Hello");
         ASYNC_BLOCK_END
     }
 

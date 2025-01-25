@@ -1,4 +1,6 @@
 target_sources(quitelib PRIVATE
+    configure_client_context.cpp
+    configure_client_context.hpp
     error_helper.cpp
     error_helper.hpp
     make_get_object_properties_request.cpp
@@ -13,4 +15,8 @@ target_sources(quitelib PRIVATE
     make_mouse_click_request.hpp
     make_get_views_request.hpp
     make_get_views_request.cpp
+    make_meta_find_type.hpp
+    make_meta_find_type.cpp
+    make_invoke_method_request.hpp
+    make_invoke_method_request.cpp
 )

@@ -1,0 +1,16 @@
+syntax = "proto3";
+package quite.proto;
+
+import "quite/proto/meta.proto";
+
+service MetaService {
+  rpc FindType(MetaFindTypeRequest) returns (MetaFindTypeResponse) {}
+}
+
+message MetaFindTypeRequest {
+  uint64 type_id = 1;
+}
+
+message MetaFindTypeResponse {
+  MetaType type = 1;
+}

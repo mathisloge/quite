@@ -15,15 +15,16 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
 set(BUILD_SHARED_LIBS ON)
 
-set(log_level SPDLOG_LEVEL_TRACE)
+option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
+add_feature_info(Studio QUITE_BUILD_STUDIO "The studio provides a way to interactivly explore the objects in the app.")
+add_feature_info(Testing BUILD_TESTING "Build all tests.")
+add_feature_info(SharedLibraries BUILD_SHARED_LIBS "Build all libraries as shared ones.")
 
 get_git_head_revision(git_branch git_sha)
 message(STATUS "git_sha: ${git_sha}")
 message(STATUS "git_branch: ${git_branch}")
-message(STATUS "Using log level: ${log_level}")
 
 find_package(stdexec CONFIG REQUIRED)
 set_package_properties(stdexec PROPERTIES URL "https://github.com/NVIDIA/stdexec" PURPOSE "needed for async code. should be disabled for *hopefully* c++26.")
@@ -39,30 +40,33 @@ find_package(nlohmann_json CONFIG REQUIRED)
 set_package_properties(nlohmann_json PROPERTIES URL "https://github.com/nlohmann/json")
 find_package(EnTT CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
-
 find_package(CMakeRC CONFIG REQUIRED)
-
-find_package(Catch2 CONFIG REQUIRED)
-
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 
 add_subdirectory(libs)
 add_subdirectory(python)
-add_subdirectory(studio)
-add_subdirectory(test)
+if(QUITE_BUILD_STUDIO)
+    add_subdirectory(studio)
+endif()
+if(BUILD_TESTING)
+    find_package(Catch2 CONFIG REQUIRED)
+    add_subdirectory(test)
+endif()
 
-feature_summary(WHAT ENABLED_FEATURES DESCRIPTION "Enabled features:")
+feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
 
 include(CMakePackageConfigHelpers)
 
-install(TARGETS loggerlib quite-studio probe quite_protocol_proto
+install(TARGETS quite_core quite_logger quite-studio probe quite_protocol
     EXPORT quiteTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    FILE_SET headers
+	FILE_SET export_config
 )
 
 set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/quite")

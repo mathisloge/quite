@@ -66,7 +66,7 @@ PYBIND11_MODULE(_quite, m)
 {
     using namespace quite::python;
 
-    m.doc() = "quite - the (q)t (ui) (te)sting framework. See https://github.com/mathisloge/ng-quite";
+    m.doc() = "quite - a ui testing framework. See https://github.com/mathisloge/ng-quite";
 
     auto pyApplication = py::class_<PyApplication>(m, "Application");
     auto pyRemoteObject = py::class_<PyRemoteObject>(m, "RemoteObject");
@@ -83,4 +83,5 @@ PYBIND11_MODULE(_quite, m)
         .def_property_readonly("id", &PyRemoteObject::id, "returns the id of the remote object.");
 
     m.attr("__version__") = quite::kVersion;
+    m.attr("__version_git_ref__") = quite::kGitRef;
 }

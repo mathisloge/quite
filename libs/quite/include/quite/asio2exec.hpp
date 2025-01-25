@@ -79,12 +79,11 @@ class asio_context
     asio_context()
         : _self{std::in_place}
         , _ctx{*_self}
-        , _guard{__io::make_work_guard(_ctx)}
+        , _guard{std::in_place, __io::make_work_guard(_ctx)}
     {}
 
     asio_context(__io::io_context &ctx)
         : _ctx{ctx}
-        , _guard{__io::make_work_guard(_ctx)}
     {}
 
     asio_context(const asio_context &) = delete;
@@ -126,9 +125,9 @@ class asio_context
     }
 
   private:
-    std::optional<__io::io_context> _self;
+    std::optional<__io::io_context> _self{};
     __io::io_context &_ctx;
-    __io::executor_work_guard<__io::io_context::executor_type> _guard;
+    std::optional<__io::executor_work_guard<__io::io_context::executor_type>> _guard{};
     std::thread _th{};
 };
 
@@ -720,12 +719,6 @@ struct __conv
 template <class _Fn>
 __conv(_Fn) -> __conv<_Fn>;
 
-template <class T>
-constexpr const char *__type_name()
-{
-    return __PRETTY_FUNCTION__;
-}
-
 template <class... Args>
 struct __sender
 {
@@ -948,7 +941,7 @@ struct __sender
         if constexpr (requires { __ex::get_scheduler(env); })
         {
             return __ex::connect(
-                __ex::transfer(__transfer_sender{._init{std::move(self._init)}}, __ex::get_scheduler(env)),
+                __ex::continues_on(__transfer_sender{._init{std::move(self._init)}}, __ex::get_scheduler(env)),
                 std::forward<R>(r));
         }
         else

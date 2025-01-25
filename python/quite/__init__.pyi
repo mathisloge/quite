@@ -1,10 +1,14 @@
-"""
-quite - the (q)t (ui) (te)sting framework. See https://github.com/mathisloge/ng-quite
-"""
+from ._quite import (
+    Application as Application,
+)
+from ._quite import (
+    RemoteObject as RemoteObject,
+)
+from ._quite import (
+    __doc__ as __doc__,
+)
+from ._quite import (
+    __version__ as __version__,
+)
 
-from __future__ import annotations
-
-from quite._quite import Application, RemoteObject
-
-__all__: list = ["__doc__", "__version__", "Application", "RemoteObject"]
-__version__: str = "0.0.1"
+__all__ = ["Application", "RemoteObject", "__doc__", "__version__"]
