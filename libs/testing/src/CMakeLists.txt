@@ -1,3 +1,3 @@
-target_sources(quite_testing PRIVATE
-    start_application.cpp
+target_sources(quite_test PRIVATE
+    application.cpp
 )

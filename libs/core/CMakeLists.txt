@@ -3,7 +3,7 @@ add_library(quite::core ALIAS quite_core)
 set_target_properties(quite_core PROPERTIES
     POSITION_INDEPENDENT_CODE ON
 )
-generate_export_header(quite_core)
+generate_export_header(quite_core EXPORT_FILE_NAME quite_core_export.hpp)
 
 target_include_directories(quite_core PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
@@ -33,7 +33,7 @@ target_sources(quite_core
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
             FILES
-                ${CMAKE_CURRENT_BINARY_DIR}/quite_core_export.h
+                ${CMAKE_CURRENT_BINARY_DIR}/quite_core_export.hpp
     PRIVATE
         src/error.cpp
         src/meta/meta_types.cpp

@@ -2,7 +2,7 @@
 #include <array>
 #include <string>
 #include <quite/disable_copy_move.hpp>
-#include "quite_core_export.h"
+#include "quite_core_export.hpp"
 
 namespace quite::details
 {
