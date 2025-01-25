@@ -5,9 +5,11 @@
 
 namespace quite
 {
-void setup_hooks()
+void setup_hooks(GrpcServer server_config)
 {
     setup_logger(true);
-    entt::locator<probe::ProbeContext>::emplace();
+    grpc::ServerBuilder builder;
+    builder.AddListeningPort(server_config.server_address, grpc::InsecureServerCredentials());
+    entt::locator<probe::ProbeContext>::emplace(builder);
 }
 } // namespace quite

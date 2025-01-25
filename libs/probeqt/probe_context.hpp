@@ -16,7 +16,7 @@ class ProbeContext final
 {
   public:
     QUITE_DISABLE_COPY_MOVE(ProbeContext);
-    ProbeContext(grpc::ServerBuilder builder = {});
+    ProbeContext(grpc::ServerBuilder &builder);
     ~ProbeContext();
 
     void qt_hook_add_object(QObject *q);

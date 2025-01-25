@@ -96,10 +96,9 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object(const std::stri
     {
         if (obj->objectName() == QString::fromStdString(object_name))
         {
-            auto object_meta = quite::ObjectMeta::from_qobject(obj);
             return ObjectInfo{
                 .object_id = reinterpret_cast<std::uintptr_t>(obj),
-                .class_type = static_cast<meta::TypeId>(object_meta.meta_object->metaType().id()),
+                .class_type = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id()),
             };
         }
     }
@@ -148,7 +147,6 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
 
         if (property_matches)
         {
-            auto &&meta_obj = ObjectMeta::from_qobject(obj);
             LOG_DEBUG(object_tracker_logger(),
                       "TODO: write a clean abstraction to get the metatype. Qml instances have to use the superClass "
                       "to get a valid metaType");

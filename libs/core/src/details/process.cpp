@@ -1,4 +1,4 @@
-#include "process.hpp"
+#include "quite/details/process.hpp"
 #include <csignal>
 #include <quite/logger.hpp>
 #include <spawn.h>
@@ -6,7 +6,7 @@
 
 DEFINE_LOGGER(process_logger);
 
-namespace quite
+namespace quite::details
 {
 Process::Process(const std::string &path_to_application)
 {
@@ -44,12 +44,12 @@ Process::Process(const std::string &path_to_application)
     }
 }
 
-int Process::stdoutPipe() const noexcept
+int Process::stdout_pipe() const noexcept
 {
     return out_pipe_[0];
 }
 
-int Process::stderrPipe() const noexcept
+int Process::stderr_pipe() const noexcept
 {
     return err_pipe_[0];
 }
@@ -90,4 +90,4 @@ Process::~Process()
 {
     terminate();
 }
-} // namespace quite
+} // namespace quite::details

@@ -14,6 +14,7 @@ target_include_directories(quite_core PUBLIC
 target_link_libraries(quite_core PUBLIC
     fmt::fmt
     quill::quill
+    quite::logger
 )
 
 target_sources(quite_core
@@ -27,6 +28,7 @@ target_sources(quite_core
                 include/quite/result.hpp
                 include/quite/meta/meta_registry.hpp
                 include/quite/meta/meta_types.hpp
+                include/quite/details/process.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
@@ -35,4 +37,5 @@ target_sources(quite_core
     PRIVATE
         src/error.cpp
         src/meta/meta_types.cpp
+        src/details/process.cpp
 )
