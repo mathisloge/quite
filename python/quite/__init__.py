@@ -7,6 +7,7 @@ from ._quite import (
     RemoteObject,
     __doc__,
     __version__,
+    __version_git_ref__,
 )
 
 __all__ = [
@@ -16,4 +17,5 @@ __all__ = [
     "RemoteObject",
     "__doc__",
     "__version__",
+    "__version_git_ref__",
 ]
