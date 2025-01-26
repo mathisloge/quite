@@ -13,8 +13,8 @@ class Application:
         Request to exit the application.
         """
 
-    def find_object(self, object_query) -> RemoteObject:
-        """find_object(self: quite._quite.Application, object_query: quite::ObjectQuery) -> quite._quite.RemoteObject
+    def find_object(self, object_query: ObjectQuery) -> RemoteObject:
+        """find_object(self: quite._quite.Application, object_query: quite._quite.ObjectQuery) -> quite._quite.RemoteObject
 
         try to get an instance of an object by the given query.
         """
