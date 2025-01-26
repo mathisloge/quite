@@ -14,6 +14,7 @@ target_sources(quite_test
             BASE_DIRS include
             FILES
                 include/quite/test/application.hpp
+                include/quite/test/exceptions.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
