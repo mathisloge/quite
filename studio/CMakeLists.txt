@@ -8,7 +8,6 @@ cmrc_add_resource_library(studiorc ALIAS quite::studiorc NAMESPACE studiorc
 add_executable(quite-studio main.cpp)
 target_link_libraries(quite-studio PRIVATE
     quite::quite
-    quite::logger
     quite::studiorc
     imgui::imgui
     $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>

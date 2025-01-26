@@ -6,6 +6,7 @@
 #include <optional>
 #include <span>
 #include <vector>
+#include <quite/disable_copy_move.hpp>
 #include "quite/result.hpp"
 #include "quitelib_export.h"
 
@@ -22,15 +23,13 @@ struct ImageView
 class QUITELIB_EXPORT Image
 {
   public:
+    QUITE_DISABLE_COPY(Image);
     Image();
     explicit Image(std::vector<std::byte> image_data, std::uint32_t width, std::uint32_t height, int channels);
     explicit Image(const std::filesystem::path &filename);
-    Image(Image &&);
-    Image(const Image &) = delete;
+    Image(Image &&) noexcept;
+    Image &operator=(Image &&other) noexcept;
     virtual ~Image();
-
-    Image &operator=(Image &&other);
-    Image &operator=(const Image &other) = delete;
 
     void save_to(const std::filesystem::path &destination) const;
     ImageView data() const;

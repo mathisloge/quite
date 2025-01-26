@@ -16,6 +16,9 @@ from ._quite import (
 from ._quite import (
     __version__ as __version__,
 )
+from ._quite import (
+    __version_git_ref__ as __version_git_ref__,
+)
 
 __all__ = [
     "Application",
@@ -24,4 +27,5 @@ __all__ = [
     "RemoteObject",
     "__doc__",
     "__version__",
+    "__version_git_ref__",
 ]

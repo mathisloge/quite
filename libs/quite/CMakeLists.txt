@@ -24,7 +24,6 @@ target_link_libraries(quitelib PRIVATE
     asio-grpc::asio-grpc-stdexec
     nlohmann_json::nlohmann_json
     quite::protocol
-    quite::logger
 PUBLIC
     quite::core
     STDEXEC::stdexec
