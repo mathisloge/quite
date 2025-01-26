@@ -13,8 +13,16 @@ def test_launch_application():
 
 def test_find_object():
     app = quite.Application(APP_PATH)
+    invalid_object_query = quite.ObjectQueryBuilder().add_property(
+        "objectName", "not-existing"
+    )
     with pytest.raises(RuntimeError):
-        app.find_object("not-exiting-object")
+        app.find_object(invalid_object_query.query())
 
-    btn = app.find_object("helloBtn")
+    button_query = quite.ObjectQueryBuilder().add_property("objectName", "helloBtn")
+    btn = app.find_object(button_query.query())
     assert btn
+
+    text_query = quite.ObjectQueryBuilder().add_property("text", "...")
+    text = app.find_object(text_query.query())
+    assert text

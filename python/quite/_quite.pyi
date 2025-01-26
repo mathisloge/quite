@@ -1,3 +1,5 @@
+from typing import overload
+
 __version__: str
 __version_git_ref__: str
 
@@ -11,15 +13,98 @@ class Application:
         Request to exit the application.
         """
 
-    def find_object(self, object_query: str) -> RemoteObject:
-        """find_object(self: quite._quite.Application, object_query: str) -> quite._quite.RemoteObject
+    def find_object(self, object_query) -> RemoteObject:
+        """find_object(self: quite._quite.Application, object_query: quite::ObjectQuery) -> quite._quite.RemoteObject
 
         try to get an instance of an object by the given query.
+        """
+
+class ObjectQuery:
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+class ObjectQueryBuilder:
+    def __init__(self) -> None:
+        """__init__(self: quite._quite.ObjectQueryBuilder) -> None"""
+
+    @overload
+    def add_property(self, key: str, value: int) -> ObjectQueryBuilder:
+        """add_property(*args, **kwargs)
+        Overloaded function.
+
+        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: int) -> quite._quite.ObjectQueryBuilder
+
+        Adds the property to the search requirements
+
+        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: float) -> quite._quite.ObjectQueryBuilder
+
+        3. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
+
+        4. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
+        """
+
+    @overload
+    def add_property(self, key: str, value: float) -> ObjectQueryBuilder:
+        """add_property(*args, **kwargs)
+        Overloaded function.
+
+        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: int) -> quite._quite.ObjectQueryBuilder
+
+        Adds the property to the search requirements
+
+        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: float) -> quite._quite.ObjectQueryBuilder
+
+        3. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
+
+        4. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
+        """
+
+    @overload
+    def add_property(self, key: str, value: bool) -> ObjectQueryBuilder:
+        """add_property(*args, **kwargs)
+        Overloaded function.
+
+        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: int) -> quite._quite.ObjectQueryBuilder
+
+        Adds the property to the search requirements
+
+        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: float) -> quite._quite.ObjectQueryBuilder
+
+        3. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
+
+        4. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
+        """
+
+    @overload
+    def add_property(self, key: str, value: str) -> ObjectQueryBuilder:
+        """add_property(*args, **kwargs)
+        Overloaded function.
+
+        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: int) -> quite._quite.ObjectQueryBuilder
+
+        Adds the property to the search requirements
+
+        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: float) -> quite._quite.ObjectQueryBuilder
+
+        3. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
+
+        4. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
+        """
+
+    def query(self) -> ObjectQuery:
+        """query(self: quite._quite.ObjectQueryBuilder) -> quite._quite.ObjectQuery
+
+        Creates a object query to be used to e.g. find an object.
+        """
+
+    def set_parent(
+        self, parent_object_query_builder: ObjectQueryBuilder
+    ) -> ObjectQueryBuilder:
+        """set_parent(self: quite._quite.ObjectQueryBuilder, parent_object_query_builder: quite._quite.ObjectQueryBuilder) -> quite._quite.ObjectQueryBuilder
+
+        Sets the parent.
         """
 
 class RemoteObject:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-
-    @property
-    def id(self) -> int: ...

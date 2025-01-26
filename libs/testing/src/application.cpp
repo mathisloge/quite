@@ -1,16 +1,37 @@
 #include "quite/test/application.hpp"
 #include <quite/application.hpp>
+#include "quite/test/exceptions.hpp"
 
 namespace quite::test
 {
-TestApplication::~TestApplication() = default;
+Application::~Application() = default;
 
-TestApplication::TestApplication(TestApplication &&) noexcept = default;
+Application::Application(Application &&) noexcept = default;
 
-TestApplication &TestApplication::operator=(TestApplication &&) noexcept = default;
+Application &Application::operator=(Application &&) noexcept = default;
 
-TestApplication TestApplication::start_application(const std::string &program_path)
+Application::Application(const std::string &application_path)
+    : app_{quite::Application::CreateApplication(application_path)}
+{}
+
+RemoteObject Application::find_object(std::shared_ptr<ObjectQuery> query)
 {
-    return TestApplication{Application::CreateApplication(program_path)};
+    auto obj = std::get<Result<RemoteObjectPtr>>(
+        stdexec::sync_wait([app = app_, query = std::move(query)]() -> AsyncResult<RemoteObjectPtr> {
+            auto obj = co_await app->find_object(*query);
+            co_return obj;
+        }())
+            .value());
+
+    if (not obj.has_value())
+    {
+        throw RemoteException{std::move(obj.error())};
+    }
+    return RemoteObject{std::move(*obj)};
+}
+
+void Application::exit()
+{
+    stdexec::sync_wait([this]() -> exec::task<void> { co_await app_->exit(); }());
 }
 } // namespace quite::test

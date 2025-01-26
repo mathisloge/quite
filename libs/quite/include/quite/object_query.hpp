@@ -10,7 +10,7 @@ namespace quite
 {
 struct ObjectQuery
 {
-    std::unique_ptr<ObjectQuery> container;
+    std::shared_ptr<ObjectQuery> container; // use a shared pointer here, makes the python code gen much easier
     std::unordered_map<std::string, Value> properties;
 };
 } // namespace quite

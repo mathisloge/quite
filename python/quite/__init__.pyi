@@ -2,6 +2,9 @@ from ._quite import (
     Application as Application,
 )
 from ._quite import (
+    ObjectQueryBuilder as ObjectQueryBuilder,
+)
+from ._quite import (
     RemoteObject as RemoteObject,
 )
 from ._quite import (
@@ -11,4 +14,10 @@ from ._quite import (
     __version__ as __version__,
 )
 
-__all__ = ["Application", "RemoteObject", "__doc__", "__version__"]
+__all__ = [
+    "Application",
+    "ObjectQueryBuilder",
+    "RemoteObject",
+    "__doc__",
+    "__version__",
+]
