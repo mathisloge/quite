@@ -16,7 +16,13 @@ requires-python = ">=3.7"
 test = ["pytest", "pybind11-stubgen"]
 
 [tool.scikit-build]
+build-dir = "./build-python"
 backport.find-python = "3.28.0"
+[tool.scikit-build.cmake.define]
+VCPKG_OVERLAY_PORTS = "cmake/overlays"
+BUILD_TESTING = "OFF"
+QUITE_FETCH_VCPKG = "ON"
+
 
 [tool.pytest.ini_options]
 minversion = "6.0"

@@ -11,16 +11,19 @@
             "hidden": true,
             "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
-            "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "installDir": "${sourceDir}/dist",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake/vcpkg",
                 "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays",
                 "Python3_FIND_VIRTUALENV": "FIRST",
                 "Python3_EXECUTABLE": "${sourceDir}/venv",
                 "QUITE_BUILD_STUDIO": "ON"
             }
+        },
+        {
+            "name": "vcpkg",
+            "hidden": true,
+            "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
         },
         {
             "name": "debug-build",
@@ -56,16 +59,36 @@
             "displayName": "Developer gcc",
             "inherits": [
                 "common",
+                "vcpkg",
                 "use-gcc",
                 "debug-build",
                 "developer"
             ]
+        },
+        {
+            "name": "external-developer-gcc",
+            "displayName": "Developer gcc (external)",
+            "inherits": [
+                "common",
+                "use-gcc",
+                "debug-build",
+                "developer"
+            ],
+            "cacheVariables": {
+                  "QUITE_BUILD_STUDIO": "OFF",
+                  "BUILD_TESTING": "OFF",
+                  "QUITE_FETCH_VCPKG": "ON"
+            }
         }
     ],
     "buildPresets": [
         {
             "name": "developer-gcc",
             "configurePreset": "developer-gcc"
+        },
+        {
+            "name": "external-developer-gcc",
+            "configurePreset": "external-developer-gcc"
         }
     ],
     "testPresets": [
