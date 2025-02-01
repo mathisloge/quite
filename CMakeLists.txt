@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
-if(QUITE_FETCH_VCPKG)
+if(QUITE_BUILD_PYTHON_PACKAGE)
+    set(VCPKG_OVERLAY_PORTS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/overlays-python")
     include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FetchVcpkg.cmake)
     fetch_and_use_vcpkg()
 endif()
@@ -18,9 +19,18 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(BUILD_SHARED_LIBS ON)
 
+option(QUITE_BUILD_PYTHON_PACKAGE "On if the python package is build" OFF)
+if(QUITE_BUILD_PYTHON_PACKAGE)
+    set(BUILD_SHARED_LIBS OFF)
+    set(QUITE_BUILD_STUDIO OFF)
+    set(QUITE_BUILD_PROBES OFF)
+    set(BUILD_TESTING OFF)
+    set(QUITE_INSTALL OFF)
+endif()
+option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
 option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
+option(QUITE_INSTALL "Decides if the libraries should be installed" ON)
 add_feature_info(Studio QUITE_BUILD_STUDIO "The studio provides a way to interactivly explore the objects in the app.")
 add_feature_info(Testing BUILD_TESTING "Build all tests.")
 add_feature_info(SharedLibraries BUILD_SHARED_LIBS "Build all libraries as shared ones.")
@@ -60,40 +70,42 @@ feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
 
-include(CMakePackageConfigHelpers)
+if(QUITE_INSTALL)
+    include(CMakePackageConfigHelpers)
 
-install(TARGETS quite_protocol quite_core quite_client probe
-    EXPORT quiteTargets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-    FILE_SET headers
-	FILE_SET export_config
-)
+    install(TARGETS quite_protocol quite_core quite_client probe
+        EXPORT quiteTargets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        FILE_SET headers
+        FILE_SET export_config
+    )
 
-set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/quite")
+    set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/quite")
 
-install(EXPORT quiteTargets
-    FILE quiteTargets.cmake
-    NAMESPACE quite::
-    DESTINATION "${config_install_dir}"
-)
-
-configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/quiteConfig.cmake"
-    INSTALL_DESTINATION "${config_install_dir}"
-)
-
-write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/quiteConfigVersion.cmake"
-  VERSION "${CMAKE_PROJECT_VERSION}"
-  COMPATIBILITY AnyNewerVersion
-)
-
-install(FILES
-          "${CMAKE_CURRENT_BINARY_DIR}/quiteConfig.cmake"
-          "${CMAKE_CURRENT_BINARY_DIR}/quiteConfigVersion.cmake"
+    install(EXPORT quiteTargets
+        FILE quiteTargets.cmake
+        NAMESPACE quite::
         DESTINATION "${config_install_dir}"
-)
+    )
+
+    configure_package_config_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/quiteConfig.cmake"
+        INSTALL_DESTINATION "${config_install_dir}"
+    )
+
+    write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/quiteConfigVersion.cmake"
+        VERSION "${CMAKE_PROJECT_VERSION}"
+        COMPATIBILITY AnyNewerVersion
+    )
+
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/quiteConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/quiteConfigVersion.cmake"
+        DESTINATION "${config_install_dir}"
+    )
+endif()

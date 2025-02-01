@@ -19,9 +19,7 @@ test = ["pytest", "pybind11-stubgen"]
 build-dir = "./build-python"
 backport.find-python = "3.28.0"
 [tool.scikit-build.cmake.define]
-VCPKG_OVERLAY_PORTS = "cmake/overlays"
-BUILD_TESTING = "OFF"
-QUITE_FETCH_VCPKG = "ON"
+QUITE_BUILD_PYTHON_PACKAGE = "ON"
 
 
 [tool.pytest.ini_options]
