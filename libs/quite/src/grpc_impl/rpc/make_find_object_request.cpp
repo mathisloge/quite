@@ -13,7 +13,7 @@ void write_query(proto::ObjectSearchQuery &proto_query, const ObjectQuery &query
     }
     for (auto &&[key, value] : query.properties)
     {
-        proto_query.mutable_properties()->emplace(key, convert(value));
+        proto_query.mutable_properties()->insert({key, convert(value)});
     }
 }
 

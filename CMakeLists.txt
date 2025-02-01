@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
+if(QUITE_FETCH_VCPKG)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/FetchVcpkg.cmake)
+    fetch_and_use_vcpkg()
+endif()
 project(quite VERSION 0.0.1 LANGUAGES CXX)
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(CTest)
@@ -59,7 +62,7 @@ feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
 include(CMakePackageConfigHelpers)
 
-install(TARGETS quite_protocol quite_core quite_client quite-studio probe
+install(TARGETS quite_protocol quite_core quite_client probe
     EXPORT quiteTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

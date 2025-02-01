@@ -68,7 +68,7 @@ template <auto FAccessorFunc>
 void cnv_class_member(proto::ClassValue *class_val, const auto &data, std::string_view member_name, auto &&...args)
 {
     auto &&member = class_val->add_value();
-    member->set_name(member_name);
+    member->set_name(member_name.data());
     auto meta_val = entt::meta_any{std::invoke(FAccessorFunc, data, std::forward<decltype(args)...>(args)...)};
     if (meta_val.allow_cast<proto::Value>())
     {

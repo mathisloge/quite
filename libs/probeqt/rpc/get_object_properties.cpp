@@ -44,7 +44,7 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                             auto meta_prop = meta_obj.meta_object->property(property_index);
                             auto prop = read_property(meta_prop.read(meta_obj.object), meta_prop);
 
-                            response.mutable_property_values()->emplace(std::move(prop.first), std::move(prop.second));
+                            response.mutable_property_values()->insert({std::move(prop.first), std::move(prop.second)});
                         }
                     }
                 }
