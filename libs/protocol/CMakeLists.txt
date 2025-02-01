@@ -2,8 +2,13 @@ set(proto_inc_dir "${CMAKE_CURRENT_LIST_DIR}/quite/proto")
 
 add_library(quite_protocol STATIC)
 add_library(quite::protocol ALIAS quite_protocol)
+set_target_properties(quite_protocol PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+)
+generate_export_header(quite_protocol EXPORT_FILE_NAME quite/quite_protocol_export.hpp)
 asio_grpc_protobuf_generate(
     GENERATE_GRPC
+    USAGE_REQUIREMENT PRIVATE
     TARGET quite_protocol
     OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated"
     IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"
@@ -29,8 +34,13 @@ target_sources(quite_protocol
         FILE_SET headers
             TYPE HEADERS
             BASE_DIRS include
-            FILES
-                include/quite/proto/meta_converters.hpp
+    FILES
+        include/quite/proto/meta_converters.hpp
+        FILE_SET export_config
+        TYPE HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+        FILES
+            ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_protocol_export.hpp
     PRIVATE
         src/meta_converters.cpp
 )
