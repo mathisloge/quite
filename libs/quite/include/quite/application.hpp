@@ -3,7 +3,7 @@
 #include <quite/error.hpp>
 #include <quite/meta/meta_registry.hpp>
 #include "object_query.hpp"
-#include "quitelib_export.h"
+#include "quite/quite_client_export.hpp"
 #include "remote_object.hpp"
 namespace quite
 {
@@ -11,7 +11,7 @@ namespace quite
 class Application;
 using ApplicationPtr = std::shared_ptr<Application>;
 
-class QUITELIB_EXPORT Application
+class QUITE_CLIENT_EXPORT Application
 {
   public:
     virtual ~Application();

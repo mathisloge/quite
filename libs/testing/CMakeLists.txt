@@ -5,7 +5,7 @@ set_target_properties(quite_test PROPERTIES
 )
 generate_export_header(quite_test EXPORT_FILE_NAME quite_test_export.hpp)
 
-target_link_libraries(quite_test PUBLIC quite::quite)
+target_link_libraries(quite_test PUBLIC quite::client)
 
 target_sources(quite_test
     PUBLIC

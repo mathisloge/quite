@@ -1,9 +1,9 @@
 #pragma once
 #include <asio/any_io_executor.hpp>
 #include <asio/executor.hpp>
-#include "quitelib_export.h"
+#include "quite/quite_client_export.hpp"
 
 namespace quite
 {
-QUITELIB_EXPORT asio::any_io_executor globalExecutor();
+QUITE_CLIENT_EXPORT asio::any_io_executor globalExecutor();
 }

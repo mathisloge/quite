@@ -16,7 +16,6 @@ requires-python = ">=3.7"
 test = ["pytest", "pybind11-stubgen"]
 
 [tool.scikit-build]
-wheel.expand-macos-universal-tags = true
 backport.find-python = "3.28.0"
 
 [tool.pytest.ini_options]

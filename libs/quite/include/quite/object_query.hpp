@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <fmt/ranges.h>
 #include "property.hpp"
-#include "quitelib_export.h"
+#include "quite/quite_client_export.hpp"
 
 namespace quite
 {
@@ -16,7 +16,7 @@ struct ObjectQuery
 } // namespace quite
 
 template <>
-struct QUITELIB_EXPORT fmt::formatter<quite::ObjectQuery> : fmt::formatter<std::string_view>
+struct QUITE_CLIENT_EXPORT fmt::formatter<quite::ObjectQuery> : fmt::formatter<std::string_view>
 {
     auto format(const quite::ObjectQuery &query, format_context &ctx) const -> format_context::iterator;
 };
