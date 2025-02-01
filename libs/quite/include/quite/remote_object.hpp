@@ -4,13 +4,13 @@
 #include <quite/async_result.hpp>
 #include "image.hpp"
 #include "property.hpp"
-#include "quitelib_export.h"
+#include "quite/quite_client_export.hpp"
 namespace quite
 {
 
 using ObjectId = std::uint64_t;
 
-class QUITELIB_EXPORT RemoteObject
+class QUITE_CLIENT_EXPORT RemoteObject
 {
   public:
     explicit RemoteObject(ObjectId id);

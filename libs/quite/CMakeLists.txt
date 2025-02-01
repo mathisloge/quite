@@ -1,35 +1,37 @@
-add_library(quitelib)
-add_library(quite::quite ALIAS quitelib)
-set_target_properties(quitelib PROPERTIES
+add_library(quite_client)
+add_library(quite::client ALIAS quite_client)
+set_target_properties(quite_client PROPERTIES
     POSITION_INDEPENDENT_CODE ON
 )
-generate_export_header(quitelib)
-configure_file (
-    "${CMAKE_CURRENT_SOURCE_DIR}/version.hpp.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/quite/version.hpp"
-)
+generate_export_header(quite_client EXPORT_FILE_NAME quite/quite_client_export.hpp)
 
-target_include_directories(quitelib
-PUBLIC
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
-    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+target_include_directories(quite_client
 PRIVATE
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
     ${Stb_INCLUDE_DIR}
 )
 
-target_link_libraries(quitelib PRIVATE
-    asio::asio
-    asio-grpc::asio-grpc-stdexec
-    nlohmann_json::nlohmann_json
-    quite::protocol
-PUBLIC
-    quite::core
-    STDEXEC::stdexec
-)
-
-target_sources(quitelib
+target_sources(quite_client
+    PUBLIC
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/testing/verification_point.hpp
+                include/quite/utils/dump_properties.hpp
+                include/quite/application.hpp
+                include/quite/asio2exec.hpp
+                include/quite/image.hpp
+                include/quite/indirect.hpp
+                include/quite/object_query.hpp
+                include/quite/property.hpp
+                include/quite/quite.hpp
+                include/quite/remote_object.hpp
+        FILE_SET export_config
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES
+                ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_client_export.hpp
     PRIVATE
         src/quite.cpp
         src/application.cpp
@@ -41,6 +43,16 @@ target_sources(quitelib
         src/remote_object.cpp
         src/image.cpp
         src/object_query.cpp
+)
+
+target_link_libraries(quite_client PRIVATE
+    asio::asio
+    asio-grpc::asio-grpc-stdexec
+    nlohmann_json::nlohmann_json
+    quite::protocol
+PUBLIC
+    quite::core
+    STDEXEC::stdexec
 )
 add_subdirectory(src/grpc_impl)
 add_subdirectory(src/utils)

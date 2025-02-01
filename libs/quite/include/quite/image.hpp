@@ -7,8 +7,8 @@
 #include <span>
 #include <vector>
 #include <quite/disable_copy_move.hpp>
+#include "quite/quite_client_export.hpp"
 #include "quite/result.hpp"
-#include "quitelib_export.h"
 
 namespace quite
 {
@@ -20,7 +20,7 @@ struct ImageView
     int channels;
     PixelData data;
 };
-class QUITELIB_EXPORT Image
+class QUITE_CLIENT_EXPORT Image
 {
   public:
     QUITE_DISABLE_COPY(Image);
@@ -52,8 +52,8 @@ struct PixelCompareOptions
     bool diffMask{false}; // draw the diff over a transparent background (a mask)
 };
 
-QUITELIB_EXPORT Result<int> pixel_match(const ImageView &expected_img,
-                                        const ImageView &actual_img,
-                                        const PixelCompareOptions &options,
-                                        Image &output_image);
+QUITE_CLIENT_EXPORT Result<int> pixel_match(const ImageView &expected_img,
+                                            const ImageView &actual_img,
+                                            const PixelCompareOptions &options,
+                                            Image &output_image);
 } // namespace quite
