@@ -3,11 +3,9 @@ set(VCPKG_BUILD_TYPE release) # header-only
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO mathisloge/stdexec
-    REF 2d92f8edb031910b7aacfddd8ba6feff9ebb5421
-    SHA512 d47d24c0c4bba73886eef109a46e400e09de7eae1b46edf720d5af3cb6ed442bdd84f8115363a255878d10cdd66e61a5f6b5dbeeb59105947da9def2fba97221
+    REF d1e153a07dbf3529c140436e261d34563e422fa5
+    SHA512 5f89ec4ae79f192a79422dce7b7620b515610f154bf52fc11d242b362b8a21d6b4ecafb8cbfe3db65ff30bfc9a91b1184001f7b6ef0b64a70e3fbd9e15b718ae
     HEAD_REF main
-    PATCHES
-        fix-version.patch
 )
 
 vcpkg_from_github(
@@ -20,16 +18,6 @@ vcpkg_from_github(
 vcpkg_replace_string("${SOURCE_PATH}/CMakeLists.txt"
     [[file(DOWNLOAD https://raw.githubusercontent.com/rapidsai/rapids-cmake/branch-24.02/RAPIDS.cmake]]
     "file(COPY_FILE \"${SOURCE_PATH_RAPIDS}/RAPIDS.cmake\""
-)
-
-vcpkg_download_distfile(execution_bs
-    URLS "https://raw.githubusercontent.com/cplusplus/sender-receiver/12fde4af201017e49efd39178126f661a04dbb94/execution.bs"
-    FILENAME "execution.bs"
-    SHA512 90bb992356f22e4091ed35ca922f6a0143abd748499985553c0660eaf49f88d031a8f900addb6b4cf9a39ac8d1ab7c858b79677e2459136a640b2c52afe3dd23
-)
-vcpkg_replace_string("${SOURCE_PATH}/CMakeLists.txt"
-    [[file(DOWNLOAD "https://raw.githubusercontent.com/cplusplus/sender-receiver/main/execution.bs"]]
-    "file(COPY_FILE \"${execution_bs}\""
 )
 
 # stdexec uses cpm (via rapids-cmake).
