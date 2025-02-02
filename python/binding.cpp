@@ -1,11 +1,14 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include <quite/object_query.hpp>
 #include <quite/test/application.hpp>
+#include <quite/test/application_manager.hpp>
 #include <quite/test/remote_object.hpp>
 #include <quite/version.hpp>
 
 namespace py = pybind11;
 
-namespace quite
+namespace quite::test
 {
 class ObjectQueryBuilder
 {
@@ -52,7 +55,7 @@ class ObjectQueryBuilder
     std::shared_ptr<ObjectQuery> query_{std::make_shared<ObjectQuery>()};
 };
 
-} // namespace quite
+} // namespace quite::test
 
 PYBIND11_MODULE(_quite, m)
 {
@@ -60,13 +63,20 @@ PYBIND11_MODULE(_quite, m)
 
     m.doc() = "quite - a ui testing framework. See https://github.com/mathisloge/ng-quite";
 
+    auto py_application_manager = py::class_<ApplicationManager>(m, "ApplicationManager");
     auto py_application = py::class_<Application>(m, "Application");
     auto py_remote_object = py::class_<RemoteObject>(m, "RemoteObject");
-    auto py_object_query_builder = py::class_<quite::ObjectQueryBuilder>(m, "ObjectQueryBuilder");
+    auto py_object_query_builder = py::class_<ObjectQueryBuilder>(m, "ObjectQueryBuilder");
     py::class_<quite::ObjectQuery, std::shared_ptr<quite::ObjectQuery>> py_object_query(m, "ObjectQuery");
 
+    py_application_manager.def(py::init())
+        .def("create_host_application",
+             &ApplicationManager::create_host_application,
+             py::arg{"path_to_application"},
+             py::arg{"args"} = std::vector<std::string>{},
+             py::arg{"environment"} = std::unordered_map<std::string, std::string>{});
+
     py_application //
-        .def(py::init<const std::string &>(), py::arg("application_path"))
         .def("find_object",
              &Application::find_object,
              py::arg{"object_query"},
@@ -76,26 +86,23 @@ PYBIND11_MODULE(_quite, m)
     py_remote_object.doc() = "Represents an object from the test application.";
 
     py_object_query_builder.def(py::init())
-        .def("set_parent",
-             &quite::ObjectQueryBuilder::set_parent,
-             py::arg{"parent_object_query_builder"},
-             "Sets the parent.")
-        .def("query", &quite::ObjectQueryBuilder::query, "Creates a object query to be used to e.g. find an object.")
+        .def("set_parent", &ObjectQueryBuilder::set_parent, py::arg{"parent_object_query_builder"}, "Sets the parent.")
+        .def("query", &ObjectQueryBuilder::query, "Creates a object query to be used to e.g. find an object.")
         .def("add_property",
-             py::overload_cast<std::string, std::int64_t>(&quite::ObjectQueryBuilder::add_property),
+             py::overload_cast<std::string, std::int64_t>(&ObjectQueryBuilder::add_property),
              py::arg{"key"},
              py::arg{"value"},
              "Adds the property to the search requirements")
         .def("add_property",
-             py::overload_cast<std::string, double>(&quite::ObjectQueryBuilder::add_property),
+             py::overload_cast<std::string, double>(&ObjectQueryBuilder::add_property),
              py::arg{"key"},
              py::arg{"value"})
         .def("add_property",
-             py::overload_cast<std::string, bool>(&quite::ObjectQueryBuilder::add_property),
+             py::overload_cast<std::string, bool>(&ObjectQueryBuilder::add_property),
              py::arg{"key"},
              py::arg{"value"})
         .def("add_property",
-             py::overload_cast<std::string, std::string>(&quite::ObjectQueryBuilder::add_property),
+             py::overload_cast<std::string, std::string>(&ObjectQueryBuilder::add_property),
              py::arg{"key"},
              py::arg{"value"});
 

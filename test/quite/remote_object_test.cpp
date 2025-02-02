@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <exec/task.hpp>
 #include <quite/application.hpp>
+#include <quite/application_manager.hpp>
 #include <quite/logger.hpp>
 #include <quite/setup_logger.hpp>
 #include <quite/testing/verification_point.hpp>
@@ -14,7 +15,8 @@ DEFINE_LOGGER(test);
 TEST_CASE("Remote object can be invoked")
 {
     setup_logger();
-    auto app = Application::CreateApplication(TESTER_APP_PATH);
+    ApplicationManager app_manager;
+    auto app = app_manager.create_host_application(TESTER_APP_PATH);
 
     const ObjectQuery btn_query{.properties = {{"objectName", Value{"helloBtn"}}}};
     auto obj = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {

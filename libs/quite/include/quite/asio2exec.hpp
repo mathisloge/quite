@@ -220,36 +220,39 @@ class __sbo_buffer final : public std::pmr::memory_resource
 
 struct scheduler_t
 {
-    asio_context *_ctx;
+    explicit scheduler_t(__io::io_context &ctx) noexcept
+        : _ctx{&ctx}
+    {}
 
     bool operator==(const scheduler_t &) const noexcept = default;
 
+  private:
     struct __schedule_sender_t
     {
         using sender_concept = __ex::sender_t;
         using completion_signatures = __ex::
             completion_signatures<__ex::set_value_t(), __ex::set_error_t(std::exception_ptr), __ex::set_stopped_t()>;
 
-        asio_context *_ctx;
+        __io::io_context *_ctx;
 
         struct __env_t
         {
-            asio_context *_ctx;
+            __io::io_context *_ctx;
             template <class CPO>
             friend scheduler_t tag_invoke(__ex::get_completion_scheduler_t<CPO>, const __env_t &self) noexcept
             {
-                return {self._ctx};
+                return scheduler_t{*self._ctx};
             }
         };
 
         template <__ex::receiver R>
         struct __op
         {
-            asio_context *_ctx;
+            __io::io_context *_ctx;
             R _r;
 
             template <__ex::receiver _R>
-            __op(asio_context *ctx, _R &&r) noexcept
+            __op(__io::io_context *ctx, _R &&r) noexcept
                 : _ctx{ctx}
                 , _r{std::forward<_R>(r)}
             {}
@@ -289,7 +292,7 @@ struct scheduler_t
                 }
                 try
                 {
-                    self._ctx->get_executor().post(__sched_task_t{.self{&self}, .allocator{&self._buf}});
+                    self._ctx->post(__sched_task_t{.self{&self}, .allocator{&self._buf}});
                 }
                 catch (...)
                 {
@@ -314,6 +317,8 @@ struct scheduler_t
     {
         return __schedule_sender_t{self._ctx};
     }
+
+    __io::io_context *_ctx;
 };
 
 template <class... Args>
@@ -963,8 +968,13 @@ struct __sender
 
 inline __detail::scheduler_t asio_context::get_scheduler() noexcept
 {
-    return __detail::scheduler_t{this};
+    return __detail::scheduler_t{_ctx};
 }
+
+template <class... Args>
+using sender = __detail::__sender<Args...>;
+
+using scheduler = __detail::scheduler_t;
 
 } // namespace asio2exec
 
@@ -978,7 +988,7 @@ namespace boost::asio
 template <class... Args>
 struct async_result<asio2exec::use_sender_t, void(Args...)>
 {
-    using return_type = asio2exec::__detail::__sender<Args...>;
+    using return_type = asio2exec::sender<Args...>;
 
     template <class Initiation, class... InitArgs>
     static return_type initiate(Initiation &&init, asio2exec::use_sender_t, InitArgs &&...args)

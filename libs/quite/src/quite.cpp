@@ -3,7 +3,7 @@
 
 namespace quite
 {
-asio::any_io_executor globalExecutor()
+boost::asio::any_io_executor globalExecutor()
 {
     return Context::Instance().asioContext().get_executor().get_executor();
 }

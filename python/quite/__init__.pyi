@@ -2,6 +2,9 @@ from ._quite import (
     Application as Application,
 )
 from ._quite import (
+    ApplicationManager as ApplicationManager,
+)
+from ._quite import (
     ObjectQuery as ObjectQuery,
 )
 from ._quite import (
@@ -22,6 +25,7 @@ from ._quite import (
 
 __all__ = [
     "Application",
+    "ApplicationManager",
     "ObjectQuery",
     "ObjectQueryBuilder",
     "RemoteObject",

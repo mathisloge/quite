@@ -4,8 +4,8 @@ __version__: str
 __version_git_ref__: str
 
 class Application:
-    def __init__(self, application_path: str) -> None:
-        """__init__(self: quite._quite.Application, application_path: str) -> None"""
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
 
     def exit(self) -> None:
         """exit(self: quite._quite.Application) -> None
@@ -18,6 +18,18 @@ class Application:
 
         try to get an instance of an object by the given query.
         """
+
+class ApplicationManager:
+    def __init__(self) -> None:
+        """__init__(self: quite._quite.ApplicationManager) -> None"""
+
+    def create_host_application(
+        self,
+        path_to_application: str,
+        args: list[str] = ...,
+        environment: dict[str, str] = ...,
+    ) -> Application:
+        """create_host_application(self: quite._quite.ApplicationManager, path_to_application: str, args: list[str] = [], environment: dict[str, str] = {}) -> quite._quite.Application"""
 
 class ObjectQuery:
     def __init__(self, *args, **kwargs) -> None:
