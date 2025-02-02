@@ -13,6 +13,7 @@ target_sources(quite_test
             TYPE HEADERS
             BASE_DIRS include
             FILES
+                include/quite/test/application_manager.hpp
                 include/quite/test/application.hpp
                 include/quite/test/exceptions.hpp
         FILE_SET export_config

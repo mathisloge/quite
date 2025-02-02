@@ -7,12 +7,14 @@ import quite
 
 
 def test_launch_application():
-    app = quite.Application(APP_PATH)
+    app_manager = quite.ApplicationManager()
+    app = app_manager.create_host_application(path_to_application=APP_PATH)
     assert app
 
 
 def test_find_object():
-    app = quite.Application(APP_PATH)
+    app_manager = quite.ApplicationManager()
+    app = app_manager.create_host_application(path_to_application=APP_PATH)
     invalid_object_query = quite.ObjectQueryBuilder().add_property(
         "objectName", "not-existing"
     )

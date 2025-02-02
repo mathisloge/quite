@@ -1,7 +1,8 @@
 {
     "name": "quite",
     "dependencies": [
-        "asio",
+        "boost-asio",
+        "boost-process",
         "asio-grpc",
         "fmt",
         "quill",

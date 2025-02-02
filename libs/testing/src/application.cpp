@@ -1,5 +1,6 @@
 #include "quite/test/application.hpp"
 #include <quite/application.hpp>
+#include <quite/object_query.hpp>
 #include "quite/test/exceptions.hpp"
 
 namespace quite::test
@@ -10,8 +11,8 @@ Application::Application(Application &&) noexcept = default;
 
 Application &Application::operator=(Application &&) noexcept = default;
 
-Application::Application(const std::string &application_path)
-    : app_{quite::Application::CreateApplication(application_path)}
+Application::Application(std::shared_ptr<quite::Application> app)
+    : app_{std::move(app)}
 {}
 
 RemoteObject Application::find_object(std::shared_ptr<ObjectQuery> query)

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from ._quite import (
     Application,
+    ApplicationManager,
     ObjectQuery,
     ObjectQueryBuilder,
     RemoteObject,
@@ -12,6 +13,7 @@ from ._quite import (
 
 __all__ = [
     "Application",
+    "ApplicationManager",
     "ObjectQuery",
     "ObjectQueryBuilder",
     "RemoteObject",

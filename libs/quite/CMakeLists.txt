@@ -20,6 +20,7 @@ target_sources(quite_client
                 include/quite/testing/verification_point.hpp
                 include/quite/utils/dump_properties.hpp
                 include/quite/application.hpp
+                include/quite/application_manager.hpp
                 include/quite/asio2exec.hpp
                 include/quite/image.hpp
                 include/quite/indirect.hpp
@@ -35,6 +36,7 @@ target_sources(quite_client
     PRIVATE
         src/quite.cpp
         src/application.cpp
+        src/application_manager.cpp
         src/process_application.cpp
         src/process_application.hpp
         src/property.cpp
@@ -46,7 +48,8 @@ target_sources(quite_client
 )
 
 target_link_libraries(quite_client PRIVATE
-    asio::asio
+    Boost::asio
+    Boost::process
     asio-grpc::asio-grpc-stdexec
     nlohmann_json::nlohmann_json
     quite::protocol
@@ -54,6 +57,7 @@ PUBLIC
     quite::core
     STDEXEC::stdexec
 )
+target_compile_definitions(quite_client PUBLIC ASIO_TO_EXEC_USE_BOOST)
 add_subdirectory(src/grpc_impl)
 add_subdirectory(src/utils)
 add_subdirectory(src/testing)
