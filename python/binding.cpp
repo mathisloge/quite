@@ -1,3 +1,4 @@
+#include <pybind11/chrono.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <quite/object_query.hpp>
@@ -80,10 +81,18 @@ PYBIND11_MODULE(_quite, m)
         .def("find_object",
              &Application::find_object,
              py::arg{"object_query"},
-             "try to get an instance of an object by the given query.")
+             "Try to get an instance of an object by the given query. If the object might not be present directly, use "
+             "try_find_object.")
+        .def("try_find_object",
+             &Application::try_find_object,
+             py::arg{"object_query"},
+             py::arg{"timeout"},
+             "Try to get a object in the specified time.")
         .def("exit", &Application::exit, "Request to exit the application.");
 
     py_remote_object.doc() = "Represents an object from the test application.";
+    py_remote_object.def("mouse_action", &RemoteObject::mouse_action)
+        .def("take_snapshot", &RemoteObject::take_snapshot);
 
     py_object_query_builder.def(py::init())
         .def("set_parent", &ObjectQueryBuilder::set_parent, py::arg{"parent_object_query_builder"}, "Sets the parent.")

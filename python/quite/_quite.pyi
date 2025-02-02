@@ -1,3 +1,4 @@
+import datetime
 from typing import overload
 
 __version__: str
@@ -16,7 +17,15 @@ class Application:
     def find_object(self, object_query: ObjectQuery) -> RemoteObject:
         """find_object(self: quite._quite.Application, object_query: quite._quite.ObjectQuery) -> quite._quite.RemoteObject
 
-        try to get an instance of an object by the given query.
+        Try to get an instance of an object by the given query. If the object might not be present directly, use try_find_object.
+        """
+
+    def try_find_object(
+        self, object_query: ObjectQuery, timeout: datetime.timedelta
+    ) -> RemoteObject:
+        """try_find_object(self: quite._quite.Application, object_query: quite._quite.ObjectQuery, timeout: datetime.timedelta) -> quite._quite.RemoteObject
+
+        Try to get a object in the specified time.
         """
 
 class ApplicationManager:
@@ -120,3 +129,9 @@ class ObjectQueryBuilder:
 class RemoteObject:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
+
+    def mouse_action(self) -> None:
+        """mouse_action(self: quite._quite.RemoteObject) -> None"""
+
+    def take_snapshot(self) -> None:
+        """take_snapshot(self: quite._quite.RemoteObject) -> None"""
