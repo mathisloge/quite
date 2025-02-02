@@ -1,6 +1,11 @@
 #include "quite/test/application.hpp"
+#include <boost/asio/steady_timer.hpp>
+#include <exec/repeat_effect_until.hpp>
+#include <exec/task.hpp>
+#include <exec/when_any.hpp>
 #include <quite/application.hpp>
 #include <quite/object_query.hpp>
+#include <quite/quite.hpp>
 #include "quite/test/exceptions.hpp"
 
 namespace quite::test
@@ -29,6 +34,32 @@ RemoteObject Application::find_object(std::shared_ptr<ObjectQuery> query)
         throw RemoteException{std::move(obj.error())};
     }
     return RemoteObject{std::move(*obj)};
+}
+
+RemoteObject Application::try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout)
+{
+    Result<RemoteObjectPtr> found_object;
+    stdexec::sender auto find_obj_snd = stdexec::schedule(asio_context().get_scheduler()) |
+                                        stdexec::let_value([this, query]() { return app_->find_object(*query); }) |
+                                        stdexec::then([&found_object](auto &&result) {
+                                            found_object = std::forward<decltype(result)>(result);
+                                            return found_object.has_value();
+                                        }) |
+                                        exec::repeat_effect_until();
+
+    boost::asio::steady_timer timer{asio_context().get_executor(), timeout};
+    stdexec::sender auto timeout_snd =
+        timer.async_wait(asio2exec::use_sender) | stdexec::then([&found_object](auto &&ec) {
+            found_object = quite::make_error_result<RemoteObjectPtr>(ErrorCode::deadline_exceeded,
+                                                                     "Could not find object in time.");
+        });
+    stdexec::sender auto wait_snd = exec::when_any(std::move(find_obj_snd), std::move(timeout_snd));
+    stdexec::sync_wait(std::move(wait_snd));
+    if (not found_object.has_value())
+    {
+        throw RemoteException{std::move(found_object.error())};
+    }
+    return RemoteObject{std::move(*found_object)};
 }
 
 void Application::exit()

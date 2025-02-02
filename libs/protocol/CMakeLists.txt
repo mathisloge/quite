@@ -8,7 +8,7 @@ set_target_properties(quite_protocol PROPERTIES
 generate_export_header(quite_protocol EXPORT_FILE_NAME quite/quite_protocol_export.hpp)
 asio_grpc_protobuf_generate(
     GENERATE_GRPC
-    USAGE_REQUIREMENT PRIVATE
+    USAGE_REQUIREMENT PUBLIC
     TARGET quite_protocol
     OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated"
     IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"

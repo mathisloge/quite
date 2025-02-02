@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <memory>
 #include <quite/disable_copy_move.hpp>
 #include "quite_test_export.hpp"
@@ -21,6 +22,7 @@ class QUITE_TEST_EXPORT Application
     ~Application();
 
     RemoteObject find_object(std::shared_ptr<ObjectQuery> query);
+    RemoteObject try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout);
     void exit();
 
   private:
