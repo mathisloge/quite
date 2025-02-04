@@ -21,6 +21,7 @@ asio_grpc_protobuf_generate(
         "${proto_inc_dir}/mouse.proto"
         "${proto_inc_dir}/types.proto"
         "${proto_inc_dir}/methods.proto"
+        "${proto_inc_dir}/health.proto"
 )
 
 target_link_libraries(quite_protocol PUBLIC protobuf::libprotobuf quite::core)

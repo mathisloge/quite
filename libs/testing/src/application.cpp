@@ -20,6 +20,15 @@ Application::Application(std::shared_ptr<quite::Application> app)
     : app_{std::move(app)}
 {}
 
+void Application::wait_for_connected()
+{
+    const auto [is_connected] = stdexec::sync_wait(app_->wait_for_started()).value();
+    if (not is_connected.has_value())
+    {
+        throw RemoteException{std::move(is_connected.error())};
+    }
+}
+
 RemoteObject Application::find_object(std::shared_ptr<ObjectQuery> query)
 {
     auto obj = std::get<Result<RemoteObjectPtr>>(

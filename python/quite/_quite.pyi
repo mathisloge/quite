@@ -28,6 +28,12 @@ class Application:
         Try to get a object in the specified time.
         """
 
+    def wait_for_connected(self) -> None:
+        """wait_for_connected(self: quite._quite.Application) -> None
+
+        Wait until the application is connected.
+        """
+
 class ApplicationManager:
     def __init__(self) -> None:
         """__init__(self: quite._quite.ApplicationManager) -> None"""

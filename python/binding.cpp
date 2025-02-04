@@ -88,6 +88,7 @@ PYBIND11_MODULE(_quite, m)
              py::arg{"object_query"},
              py::arg{"timeout"},
              "Try to get a object in the specified time.")
+        .def("wait_for_connected", &Application::wait_for_connected, "Wait until the application is connected.")
         .def("exit", &Application::exit, "Request to exit the application.");
 
     py_remote_object.doc() = "Represents an object from the test application.";
