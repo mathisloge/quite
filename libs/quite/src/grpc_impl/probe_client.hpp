@@ -24,6 +24,11 @@ class ProbeClient final : public std::enable_shared_from_this<ProbeClient>
         return meta_service_stub_;
     }
 
+    grpc::Channel &channel()
+    {
+        return *grpc_channel_;
+    }
+
   private:
     std::shared_ptr<agrpc::GrpcContext> grpc_context_;
     std::shared_ptr<grpc::Channel> grpc_channel_;

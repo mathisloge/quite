@@ -10,6 +10,12 @@ def test_launch_application():
     app_manager = quite.ApplicationManager()
     app = app_manager.create_host_application(path_to_application=APP_PATH)
     assert app
+    app.wait_for_connected()
+
+    app.exit()
+
+    with pytest.raises(RuntimeError):
+        app.wait_for_connected()
 
 
 def test_find_object():

@@ -14,6 +14,7 @@ class QUITE_CLIENT_EXPORT Application
     virtual ~Application();
     virtual AsyncResult<RemoteObjectPtr> find_object(const ObjectQuery &query) = 0;
     virtual AsyncResult<std::vector<RemoteObjectPtr>> get_views() = 0;
+    virtual AsyncResult<void> wait_for_started() = 0;
     virtual AsyncResult<void> exit() = 0;
     virtual meta::MetaRegistry &meta_registry() = 0;
 

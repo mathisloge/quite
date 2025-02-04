@@ -48,7 +48,6 @@ AsyncResult<void> ProcessApplication::exit()
                           "Could not stop process gracefully. Going to terminate the process.");
                 process_.terminate();
             }));
-        co_await timer.async_wait(asio2exec::use_sender);
     }
     co_return {};
 }
