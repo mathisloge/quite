@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
-#include <asio/readable_pipe.hpp>
+#include <boost/asio/readable_pipe.hpp>
+#include <boost/process/v2.hpp>
 #include <quite/details/process.hpp>
 #include "context.hpp"
 #include "grpc_impl/grpc_application.hpp"
@@ -9,17 +10,17 @@ namespace quite
 class ProcessApplication final : public grpc_impl::GrpcApplication
 {
   public:
-    explicit ProcessApplication(Context &context, const std::string &path_to_application);
+    explicit ProcessApplication(Context &context,
+                                const std::string &path_to_application,
+                                const std::vector<std::string> &args,
+                                const std::unordered_map<std::string, std::string> &enviroment);
     ~ProcessApplication() override;
+    AsyncResult<void> exit() override;
 
   private:
     void do_read();
 
   private:
-    details::Process process_;
-    asio::readable_pipe stdout_pipe_;
-    asio::readable_pipe stderr_pipe_;
-
-    std::array<char, 1024> buffer_{};
+    boost::process::v2::process process_;
 };
 } // namespace quite

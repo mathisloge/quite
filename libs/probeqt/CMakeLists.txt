@@ -22,7 +22,6 @@ target_link_libraries(probeqt PUBLIC
     fmt::fmt
     EnTT::EnTT
     quite::protocol
-    quite::logger
     quite::core
 )
 

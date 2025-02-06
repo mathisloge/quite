@@ -1,4 +1,9 @@
 #include "grpc_application.hpp"
+#include <boost/asio/steady_timer.hpp>
+#include <agrpc/asio_grpc.hpp>
+#include <exec/repeat_effect_until.hpp>
+#include <exec/when_any.hpp>
+#include <grpcpp/channel.h>
 #include <quite/logger.hpp>
 #include "grpc_remote_object.hpp"
 #include "probe_client.hpp"
@@ -14,6 +19,49 @@ GrpcApplication::GrpcApplication(Context &context)
     : probe_handle_{std::make_shared<grpc_impl::ProbeClient>(context.grpcContext())}
     , meta_type_registry_{probe_handle_}
 {}
+
+AsyncResult<void> GrpcApplication::wait_for_started()
+{
+    auto state = probe_handle_->channel().GetState(true);
+    if (state == grpc_connectivity_state::GRPC_CHANNEL_READY)
+    {
+        co_return {};
+    }
+
+    Result<void> return_result = make_error_result<void>(ErrorCode::unknown, "not initialized");
+    boost::asio::steady_timer timer{Context::Instance().asioContext().get_executor(), std::chrono::seconds(10)};
+    co_await exec::when_any(
+        agrpc::notify_on_state_change(probe_handle_->context(),
+                                      probe_handle_->channel(),
+                                      state,
+                                      std::chrono::system_clock::now() + std::chrono::seconds(5),
+                                      agrpc::use_sender) |
+            stdexec::then([this, &return_result](bool state_changed) {
+                if (not state_changed)
+                {
+                    return false;
+                }
+                const auto state = probe_handle_->channel().GetState(false);
+                if (state == grpc_connectivity_state::GRPC_CHANNEL_READY)
+                {
+                    return_result = Result<void>{};
+                    return true;
+                }
+                if (state == grpc_connectivity_state::GRPC_CHANNEL_SHUTDOWN)
+                {
+                    return_result = make_error_result<void>(ErrorCode::cancelled,
+                                                            "Channel had an unrecoverable error or was shutdown.");
+                    return true;
+                }
+                return false;
+            }) |
+            exec::repeat_effect_until(),
+        timer.async_wait(asio2exec::use_sender) | stdexec::then([&return_result](std::error_code) {
+            return_result =
+                make_error_result<void>(ErrorCode::deadline_exceeded, "Could not get connection state in time");
+        }));
+    co_return return_result;
+}
 
 AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(const ObjectQuery &query)
 {

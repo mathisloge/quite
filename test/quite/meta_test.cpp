@@ -4,6 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <nlohmann/json.hpp>
 #include <quite/application.hpp>
+#include <quite/application_manager.hpp>
 #include <quite/asio2exec.hpp>
 #include <quite/logger.hpp>
 #include <quite/property.hpp>
@@ -22,7 +23,8 @@ TEST_CASE("Test the qt build in meta types")
     quite::setup_logger();
 
     ASYNC_BLOCK
-    auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
+    quite::ApplicationManager app_manager;
+    auto app = app_manager.create_host_application(TESTER_APP_PATH);
 
     const auto void_type = co_await app->meta_registry().lookup_type(kVoidId);
     if (not void_type.has_value())

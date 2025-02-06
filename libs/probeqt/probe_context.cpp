@@ -4,6 +4,7 @@
 #include <entt/locator/locator.hpp>
 #include <exec/finally.hpp>
 #include <quite/logger.hpp>
+#include <quite/proto/health.grpc.pb.h>
 #include "rpc/create_snapshot.hpp"
 #include "rpc/exit_request.hpp"
 #include "rpc/find_object.hpp"
@@ -13,6 +14,8 @@
 #include "rpc/meta_find_type.hpp"
 #include "rpc/mouse_action.hpp"
 #include "value_converters.hpp"
+
+#include <agrpc/health_check_service.hpp>
 
 DEFINE_LOGGER(probe_ctx_logger)
 
@@ -33,7 +36,10 @@ ProbeContext::ProbeContext(grpc::ServerBuilder &builder)
 {
     builder.RegisterService(std::addressof(object_service_));
     builder.RegisterService(std::addressof(meta_service_));
+    agrpc::add_health_check_service(builder);
+
     grpc_server_ = builder.BuildAndStart();
+    agrpc::start_health_check_service(*grpc_server_, grpc_context_);
 
     grpc_runner_ = std::jthread{[this]() {
         auto find_obj_rpc = quite::probe::find_object(grpc_context_, object_service_, object_tracker_);

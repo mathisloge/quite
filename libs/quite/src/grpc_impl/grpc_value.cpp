@@ -52,11 +52,10 @@ quite::Result<quite::Value> convert(const quite::proto::Value &value,
         return xyz::indirect<quite::ClassObject>(std::move(class_obj));
     }
 
-    return std::unexpected(quite::Error{
-        .code = quite::ErrorCode::invalid_argument,
-        .message =
-            fmt::format("Could not convert value. Has value field={}",
-                        (value.value_oneof_case() != quite::proto::Value::ValueOneofCase::VALUE_ONEOF_NOT_SET))});
+    return make_error_result<quite::Value>(
+        ErrorCode::invalid_argument,
+        fmt::format("Could not convert value. Has value field={}",
+                    (value.value_oneof_case() != quite::proto::Value::ValueOneofCase::VALUE_ONEOF_NOT_SET)));
 }
 
 struct ValueConverter

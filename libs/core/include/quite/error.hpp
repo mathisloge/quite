@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <fmt/core.h>
-#include "quite_core_export.h"
+#include "quite/quite_core_export.hpp"
 
 namespace quite
 {

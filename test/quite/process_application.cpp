@@ -10,11 +10,13 @@
 #include <quite/quite.hpp>
 #include <quite/utils/dump_properties.hpp>
 #include <tester_app.hpp>
+#include <quite //application_manager.hpp>
 
 TEST_CASE("Test if a process application can be created")
 {
     stdexec::sync_wait([]() -> exec::task<void> {
-        auto app = quite::Application::CreateApplication(TESTER_APP_PATH);
+        quite::ApplicationManager app_manager;
+        auto app = app_manager.create_host_application(TESTER_APP_PATH);
 
         auto views = co_await app->get_views();
         REQUIRE(views.has_value());

@@ -46,11 +46,11 @@ Image::Image(const std::filesystem::path &filename)
     impl_ = std::make_unique<Impl>(std::move(image_data), w, h, channels);
 }
 
-Image::Image(Image &&other)
+Image::Image(Image &&other) noexcept
     : impl_{std::exchange(other.impl_, nullptr)}
 {}
 
-Image &Image::operator=(Image &&other)
+Image &Image::operator=(Image &&other) noexcept
 {
     impl_ = std::exchange(other.impl_, nullptr);
     return *this;
@@ -277,12 +277,12 @@ Result<int> pixel_match(const ImageView &expected_img,
     if (!is_pixel_data(expected_img.data) || !is_pixel_data(actual_img.data) ||
         (!is_pixel_data(output_image.data().data)))
     {
-        return std::unexpected(Error{.code = ErrorCode::failed_precondition, .message = "Some image is empty"});
+        return make_error_result<int>(ErrorCode::failed_precondition, "Some image is empty");
     }
 
     if (expected_img.data.size() != actual_img.data.size())
     {
-        return std::unexpected(Error{.code = ErrorCode::failed_precondition, .message = "Image sizes do not match."});
+        return make_error_result<int>(ErrorCode::failed_precondition, "Image sizes do not match.");
     }
 
     // check if images are identical
@@ -291,7 +291,7 @@ Result<int> pixel_match(const ImageView &expected_img,
     {
         if (!options.diffMask)
         {
-            for (size_t i = 0; i < (actual_img.width * actual_img.height); i++)
+            for (size_t i = 0; i < (static_cast<size_t>(actual_img.width * actual_img.height)); i++)
             {
                 draw_gray_pixel(actual_img.data, actual_img.channels * i, options.alpha, output_image.data().data);
             }
