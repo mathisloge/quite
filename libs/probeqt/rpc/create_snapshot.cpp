@@ -1,6 +1,7 @@
 #include "create_snapshot.hpp"
 #include <QCoreApplication>
 #include <QImage>
+#include <ranges>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <fmt/format.h>
 #include <quite/logger.hpp>
@@ -35,13 +36,13 @@ exec::task<void> CreateScreenshotRpcHandler::operator()(CreateScreenshotRPC &rpc
         response.mutable_metadata()->set_width(expected_image->width());
         response.mutable_metadata()->set_height(expected_image->height());
 
-        std::int64_t remaining_bytes = expected_image->sizeInBytes();
-        auto *data_begin = expected_image->bits();
-        while (remaining_bytes > 0)
+        std::span<const std::uint8_t> image_data{expected_image->bits(),
+                                                 static_cast<std::size_t>(expected_image->sizeInBytes())};
+        const auto blocks = image_data | std::views::chunk(k4Mb);
+        for (auto &&block : blocks)
         {
-            const auto to_be_send = std::min(remaining_bytes, k4Mb);
-            auto *data_end = data_begin + to_be_send;
-            std::copy(data_begin, data_end, std::back_inserter(*response.mutable_data()));
+            response.mutable_data()->reserve(block.size());
+            std::ranges::copy(block, std::back_inserter(*response.mutable_data()));
 
             const auto written = co_await rpc.write(response);
             if (not written)
@@ -50,9 +51,6 @@ exec::task<void> CreateScreenshotRpcHandler::operator()(CreateScreenshotRPC &rpc
                 co_return;
             }
             response.mutable_data()->clear();
-
-            data_begin = std::next(data_begin, to_be_send);
-            remaining_bytes -= to_be_send;
         }
         co_await rpc.finish(grpc::Status::OK);
         co_return;

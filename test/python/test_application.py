@@ -34,3 +34,11 @@ def test_find_object():
     text_query = quite.ObjectQueryBuilder().add_property("text", "...")
     text = app.find_object(text_query.query())
     assert text
+
+
+def test_take_snapshot():
+    app_manager = quite.ApplicationManager()
+    app = app_manager.create_host_application(path_to_application=APP_PATH)
+    button_query = quite.ObjectQueryBuilder().add_property("objectName", "helloBtn")
+    btn = app.find_object(button_query.query())
+    btn.take_snapshot()
