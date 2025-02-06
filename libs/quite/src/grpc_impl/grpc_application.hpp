@@ -14,6 +14,7 @@ class GrpcApplication : public Application
     AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> get_views() override;
     AsyncResult<void> exit() override;
     meta::MetaRegistry &meta_registry() override;
+    AsyncResult<void> wait_for_started() override;
 
   private:
     ProbeServiceHandle probe_handle_;

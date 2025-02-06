@@ -1,0 +1,5 @@
+13:45:15.122740821 [124697] logger.cpp:54                LOG_INFO      root         logging finished setup
+13:45:15.128163876 [124697] probe_context.cpp:91         LOG_INFO      probe_ctx_logger installing Qt hooks for Qt version 6.8.1
+13:45:15.128167786 [124720] probe_context.cpp:50         LOG_INFO      probe_ctx_logger grpc server setup and is now running.
+13:45:15.206876533 [124697] probe_context.cpp:110        LOG_INFO      probe_ctx_logger installing QCoreApplication signals...
+13:45:49.925444792 [124720] exit_request.cpp:13          LOG_DEBUG     rpc_exit_request_logger exit requested

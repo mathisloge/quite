@@ -11,16 +11,20 @@
             "hidden": true,
             "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
-            "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "installDir": "${sourceDir}/dist",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake/vcpkg",
                 "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays",
                 "Python3_FIND_VIRTUALENV": "FIRST",
                 "Python3_EXECUTABLE": "${sourceDir}/venv",
-                "QUITE_BUILD_STUDIO": "ON"
+                "QUITE_BUILD_STUDIO": "ON",
+                "BUILD_SHARED_LIBS": "ON"
             }
+        },
+        {
+            "name": "vcpkg",
+            "hidden": true,
+            "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
         },
         {
             "name": "debug-build",
@@ -56,6 +60,7 @@
             "displayName": "Developer gcc",
             "inherits": [
                 "common",
+                "vcpkg",
                 "use-gcc",
                 "debug-build",
                 "developer"

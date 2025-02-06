@@ -143,7 +143,7 @@ struct ProtocolVisitor
         enum_entry->set_type_id(meta->id);
         for (auto &&[name, value] : meta->values)
         {
-            enum_entry->mutable_name_value()->emplace(name, value);
+            enum_entry->mutable_name_value()->insert({name, static_cast<std::uint64_t>(value)});
         }
     }
 
@@ -171,7 +171,7 @@ struct ProtocolVisitor
             method->set_return_type_id(meta.return_type);
             std::ranges::for_each(
                 meta.parameters,
-                [&method](auto &&param) { method->mutable_parameter_types()->emplace(param.name, param.type); },
+                [&method](auto &&param) { method->mutable_parameter_types()->insert({param.name, param.type}); },
                 [](auto &&property) { return property; });
         };
 

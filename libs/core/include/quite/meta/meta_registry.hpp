@@ -1,7 +1,7 @@
 #pragma once
 #include <quite/async_result.hpp>
 #include "meta_types.hpp"
-#include "quite_core_export.h"
+#include "quite/quite_core_export.hpp"
 namespace quite::meta
 {
 class QUITE_CORE_EXPORT MetaRegistry

@@ -1,4 +1,4 @@
-target_sources(quitelib PRIVATE
+target_sources(quite_client PRIVATE
     configure_client_context.cpp
     configure_client_context.hpp
     error_helper.cpp

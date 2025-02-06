@@ -6,7 +6,7 @@
 #include <quite/async_result.hpp>
 #include <quite/meta/meta_type_id.hpp>
 #include "indirect.hpp"
-#include "quitelib_export.h"
+#include "quite/quite_client_export.hpp"
 
 namespace quite
 {
@@ -37,7 +37,7 @@ struct ClassObject
     std::vector<ClassMember> members;
 };
 
-class QUITELIB_EXPORT Property
+class QUITE_CLIENT_EXPORT Property
 {
   public:
     virtual ~Property();
@@ -51,7 +51,7 @@ class QUITELIB_EXPORT Property
 using PropertyPtr = std::shared_ptr<Property>;
 } // namespace quite
 template <>
-struct QUITELIB_EXPORT fmt::formatter<quite::Value> : formatter<string_view>
+struct QUITE_CLIENT_EXPORT fmt::formatter<quite::Value> : formatter<string_view>
 {
     auto format(const quite::Value &v, format_context &ctx) const -> format_context::iterator;
 };

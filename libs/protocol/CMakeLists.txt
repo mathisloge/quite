@@ -1,7 +1,15 @@
 set(proto_inc_dir "${CMAKE_CURRENT_LIST_DIR}/quite/proto")
+
+add_library(quite_protocol STATIC)
+add_library(quite::protocol ALIAS quite_protocol)
+set_target_properties(quite_protocol PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+)
+generate_export_header(quite_protocol EXPORT_FILE_NAME quite/quite_protocol_export.hpp)
 asio_grpc_protobuf_generate(
     GENERATE_GRPC
-    OUT_VAR "quite_protocol_proto_srcs"
+    USAGE_REQUIREMENT PUBLIC
+    TARGET quite_protocol
     OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated"
     IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"
     PROTOS
@@ -13,10 +21,9 @@ asio_grpc_protobuf_generate(
         "${proto_inc_dir}/mouse.proto"
         "${proto_inc_dir}/types.proto"
         "${proto_inc_dir}/methods.proto"
+        "${proto_inc_dir}/health.proto"
 )
 
-add_library(quite_protocol STATIC)
-add_library(quite::protocol ALIAS quite_protocol)
 target_link_libraries(quite_protocol PUBLIC protobuf::libprotobuf quite::core)
 
 target_include_directories(quite_protocol
@@ -28,9 +35,13 @@ target_sources(quite_protocol
         FILE_SET headers
             TYPE HEADERS
             BASE_DIRS include
-            FILES
-                include/quite/proto/meta_converters.hpp
+    FILES
+        include/quite/proto/meta_converters.hpp
+        FILE_SET export_config
+        TYPE HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+        FILES
+            ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_protocol_export.hpp
     PRIVATE
-        ${quite_protocol_proto_srcs}
         src/meta_converters.cpp
 )

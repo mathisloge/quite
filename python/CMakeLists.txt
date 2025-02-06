@@ -4,8 +4,7 @@ find_package(pybind11 CONFIG REQUIRED)
 pybind11_add_module(_quite binding.cpp)
 set_target_properties(_quite PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/quite)
 target_link_libraries(_quite PRIVATE
-    quite::quite
-    quite::logger
+    quite::test
 )
 target_compile_definitions(_quite PRIVATE VERSION_INFO=${PROJECT_VERSION})
 
