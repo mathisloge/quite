@@ -37,11 +37,14 @@ target_sources(quite_protocol
             BASE_DIRS include
     FILES
         include/quite/proto/meta_converters.hpp
-        FILE_SET export_config
+        include/quite/proto/traits.hpp
+        include/quite/proto/value.hpp
+    FILE_SET export_config
         TYPE HEADERS
         BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
         FILES
             ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_protocol_export.hpp
     PRIVATE
         src/meta_converters.cpp
+        src/value.cpp
 )

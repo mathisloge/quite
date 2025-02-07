@@ -9,6 +9,7 @@
 #include <entt/meta/meta.hpp>
 #include <private/qquickanchors_p_p.h>
 #include <quite/logger.hpp>
+#include <quite/proto/traits.hpp>
 #include <quite/proto/types.pb.h>
 #include "object_id.hpp"
 #include "qt_meta_type_accessor.hpp"
@@ -257,5 +258,10 @@ void register_converters()
         .data<&QQuickAnchorLine::item>("item"_hs)
         .func<[]() { return QMetaType::fromType<QQuickAnchorLine>(); }>("metaType"_hs)
         .conv<convert_QQuickAnchorLine>();
+
+    entt::meta_factory<GenericQtClass>()
+        .type("GenericQtClass"_hs)
+        .data<&GenericQtClass::properties>("properties"_hs)
+        .traits(proto::Traits::unpack_properties);
 }
 } // namespace quite::probe
