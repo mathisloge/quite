@@ -25,7 +25,7 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                 if (obj.has_value())
                 {
                     auto properties = collect_properties(ObjectMeta::from_qobject(*obj));
-                    response.mutable_property_values()->insert(properties.begin(), properties.end());
+                    // response.mutable_property_values()->insert(properties.begin(), properties.end());
                 }
                 // todo: return error and make this a bit better code
             }
@@ -44,7 +44,8 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                             auto meta_prop = meta_obj.meta_object->property(property_index);
                             auto prop = read_property(meta_prop.read(meta_obj.object), meta_prop);
 
-                            response.mutable_property_values()->insert({std::move(prop.first), std::move(prop.second)});
+                            // TODO: response.mutable_property_values()->emplace(std::move(prop.first),
+                            // std::move(prop.second));
                         }
                     }
                 }

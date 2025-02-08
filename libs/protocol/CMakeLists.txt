@@ -37,7 +37,6 @@ target_sources(quite_protocol
             BASE_DIRS include
     FILES
         include/quite/proto/meta_converters.hpp
-        include/quite/proto/traits.hpp
         include/quite/proto/value.hpp
     FILE_SET export_config
         TYPE HEADERS

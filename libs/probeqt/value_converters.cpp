@@ -1,23 +1,25 @@
 #include "value_converters.hpp"
 #include <QColor>
+#include <QList>
 #include <QMetaType>
 #include <QObject>
 #include <QQmlListProperty>
 #include <QQmlListReference>
 #include <QQuickItem>
+#include <entt/meta/container.hpp>
 #include <entt/meta/factory.hpp>
 #include <entt/meta/meta.hpp>
 #include <private/qquickanchors_p_p.h>
 #include <quite/logger.hpp>
-#include <quite/proto/traits.hpp>
 #include <quite/proto/types.pb.h>
+#include <quite/value/generic_value_class.hpp>
+#include <quite/value/value_registry.hpp>
+#include "meta_qt_containers.hpp"
 #include "object_id.hpp"
 #include "qt_meta_type_accessor.hpp"
 
 DEFINE_LOGGER(value_converters)
-
 using namespace entt::literals;
-
 namespace quite::probe
 {
 #define BEGIN_CNV_FNC(class_name)                                                                                      \
@@ -259,9 +261,6 @@ void register_converters()
         .func<[]() { return QMetaType::fromType<QQuickAnchorLine>(); }>("metaType"_hs)
         .conv<convert_QQuickAnchorLine>();
 
-    entt::meta_factory<GenericQtClass>()
-        .type("GenericQtClass"_hs)
-        .data<&GenericQtClass::properties>("properties"_hs)
-        .traits(proto::Traits::unpack_properties);
+    entt::meta_factory<GenericClass>().type("GenericClass"_hs).data<&GenericClass::properties>("properties"_hs);
 }
 } // namespace quite::probe

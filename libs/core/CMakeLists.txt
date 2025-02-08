@@ -28,6 +28,9 @@ target_sources(quite_core
                 include/quite/meta/meta_registry.hpp
                 include/quite/meta/meta_types.hpp
                 include/quite/details/process.hpp
+
+                include/quite/value/value_registry.hpp
+                include/quite/value/generic_value_class.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
@@ -39,4 +42,5 @@ target_sources(quite_core
         src/meta/meta_types.cpp
         src/details/process.cpp
         src/logger.cpp
+        src/value/value_registry.cpp
 )
