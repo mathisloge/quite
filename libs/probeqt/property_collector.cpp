@@ -4,6 +4,7 @@
 #include <ranges>
 #include <entt/meta/factory.hpp>
 #include <quite/logger.hpp>
+#include <quite/value/generic_value_class.hpp>
 #include "qt_meta_type_accessor.hpp"
 #include "value_converters.hpp"
 
@@ -34,7 +35,7 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
                   property.name(),
                   property.typeName(),
                   gadget_metaobj->propertyCount());
-        probe::GenericQtClass generic_class;
+        GenericClass generic_class;
         auto view =
             std::ranges::iota_view(0, gadget_metaobj->propertyCount()) |
             std::views::transform([&](int prop_idx) { return gadget_metaobj->property(prop_idx); }) |
