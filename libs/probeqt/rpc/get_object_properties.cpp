@@ -3,7 +3,10 @@
 #include <QMetaProperty>
 #include <QVariant>
 #include <agrpc/register_sender_rpc_handler.hpp>
+#include <entt/locator/locator.hpp>
 #include <quite/logger.hpp>
+#include <quite/proto/value.hpp>
+#include <quite/value/value_registry.hpp>
 #include "../property_collector.hpp"
 #include "../qtstdexec.h"
 
@@ -25,7 +28,12 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                 if (obj.has_value())
                 {
                     auto properties = collect_properties(ObjectMeta::from_qobject(*obj));
-                    // response.mutable_property_values()->insert(properties.begin(), properties.end());
+                    auto *proto_values = response.mutable_property_values();
+                    auto &value_registry = entt::locator<ValueRegistry>::value();
+                    for (auto &&prop : properties)
+                    {
+                        proto_values->emplace(prop.first, proto::create_value(value_registry, prop.second));
+                    }
                 }
                 // todo: return error and make this a bit better code
             }
@@ -44,8 +52,9 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                             auto meta_prop = meta_obj.meta_object->property(property_index);
                             auto prop = read_property(meta_prop.read(meta_obj.object), meta_prop);
 
-                            // TODO: response.mutable_property_values()->emplace(std::move(prop.first),
-                            // std::move(prop.second));
+                            auto &value_registry = entt::locator<ValueRegistry>::value();
+                            response.mutable_property_values()->emplace(
+                                std::move(prop.first), proto::create_value(value_registry, prop.second));
                         }
                     }
                 }

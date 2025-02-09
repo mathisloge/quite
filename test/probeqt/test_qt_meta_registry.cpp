@@ -4,7 +4,6 @@
 #include <quite/logger.hpp>
 #include <quite/setup_logger.hpp>
 #include "qt_meta_registry.hpp"
-#include "value_converters.hpp"
 
 using namespace quite;
 using namespace quite::probe;
@@ -44,7 +43,6 @@ Q_ENUM_NS(SomeMetaEnum);
 TEST_CASE("Test QtMetaRegistry", "[meta]")
 {
     setup_logger();
-    register_converters();
     QtMetaRegistry meta_registry;
     SECTION("Lookup QObject type by id")
     {

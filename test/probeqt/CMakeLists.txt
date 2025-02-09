@@ -11,7 +11,6 @@ catch_discover_tests(probeqt_test)
 
 
 target_sources(probeqt_test PRIVATE
-    test_value_converters.cpp
     test_method_invoker.cpp
     test_qt_meta_registry.cpp
 )
