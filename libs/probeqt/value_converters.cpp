@@ -147,6 +147,58 @@ proto::Value convert_QQuickAnchorLine(const QQuickAnchorLine &data)
 
 void register_converters()
 {
+    // register some common types
+    auto &value_registry = entt::locator<ValueRegistry>::value();
+    auto &meta_ctx = value_registry.context();
+    entt::meta_factory<QList<QObject *>>(meta_ctx).type("QObjectList"_hs);
+
+    entt::meta_factory<QString>(meta_ctx) //
+        .type("QString"_hs)
+        .conv<&QString::toStdString>();
+
+    entt::meta_factory<QRect>(meta_ctx)
+        .type("QRect"_hs)
+        .data<&QRect::setX, &QRect::x>(value_registry.named_property("x"))
+        .data<&QRect::setY, &QRect::y>(value_registry.named_property("y"))
+        .data<&QRect::setWidth, &QRect::width>(value_registry.named_property("width"))
+        .data<&QRect::setHeight, &QRect::height>(value_registry.named_property("height"));
+
+    entt::meta_factory<QRectF>(meta_ctx)
+        .type("QRectF"_hs)
+        .data<&QRectF::setX, &QRectF::x>(value_registry.named_property("x"))
+        .data<&QRectF::setY, &QRectF::y>(value_registry.named_property("y"))
+        .data<&QRectF::setWidth, &QRectF::width>(value_registry.named_property("width"))
+        .data<&QRectF::setHeight, &QRectF::height>(value_registry.named_property("height"));
+
+    entt::meta_factory<QPoint>(meta_ctx)
+        .type("QPoint"_hs)
+        .data<&QPoint::setX, &QPoint::x>(value_registry.named_property("x"))
+        .data<&QPoint::setY, &QPoint::y>(value_registry.named_property("y"));
+
+    entt::meta_factory<QPointF>(meta_ctx)
+        .type("QPointF"_hs)
+        .data<&QPointF::setX, &QPointF::x>(value_registry.named_property("x"))
+        .data<&QPointF::setY, &QPointF::y>(value_registry.named_property("y"));
+
+    entt::meta_factory<QUrl>(meta_ctx) //
+        .type("QUrl"_hs)
+        .data<nullptr, [](const QUrl &url) { return url.url(); }>(value_registry.named_property("url"))
+        .data<nullptr, [](const QUrl &url) { return url.toDisplayString(); }>(
+            value_registry.named_property("displayString"));
+
+    entt::meta_factory<QColor>(meta_ctx) //
+        .type("QColor"_hs)
+        .data<nullptr, [](const QColor &color) { return color.name(); }>(value_registry.named_property("name"))
+        .data<&QColor::setAlpha, &QColor::alpha>(value_registry.named_property("alpha"))
+        .data<&QColor::setRed, &QColor::red>(value_registry.named_property("red"))
+        .data<&QColor::setGreen, &QColor::green>(value_registry.named_property("green"))
+        .data<&QColor::setBlue, &QColor::blue>(value_registry.named_property("blue"));
+
+    entt::meta_factory<QQuickAnchorLine>(meta_ctx) //
+        .type("QQuickAnchorLine"_hs)
+        .data<&QQuickAnchorLine::item>(value_registry.named_property("item"));
+    return;
+
     register_trivial_converter<float, &proto::Value::set_double_val>();
     register_trivial_converter<double, &proto::Value::set_double_val>();
     register_trivial_converter<bool, &proto::Value::set_bool_val>();
@@ -260,7 +312,5 @@ void register_converters()
         .data<&QQuickAnchorLine::item>("item"_hs)
         .func<[]() { return QMetaType::fromType<QQuickAnchorLine>(); }>("metaType"_hs)
         .conv<convert_QQuickAnchorLine>();
-
-    entt::meta_factory<GenericClass>().type("GenericClass"_hs).data<&GenericClass::properties>("properties"_hs);
 }
 } // namespace quite::probe

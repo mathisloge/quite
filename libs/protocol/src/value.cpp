@@ -14,6 +14,7 @@ namespace
 void convert_class(const ValueRegistry &value_registry, Value &value, const entt::meta_any &any);
 void convert_string(Value &value, const entt::meta_any &any);
 void convert_arithmetic(Value &value, const entt::meta_any &any);
+void convert_object_ptr(Value &value, const entt::meta_any &any);
 } // namespace
 
 Value create_value(const ValueRegistry &value_registry, const entt::meta_any &any)
@@ -21,7 +22,7 @@ Value create_value(const ValueRegistry &value_registry, const entt::meta_any &an
     Value value;
     const auto type = any.type();
 
-    if (type.is_class())
+    if (type.is_class() and not type.is_pointer_like())
     {
         const auto string_type = entt::resolve<std::string>();
         if (type.can_convert(string_type))
@@ -36,6 +37,10 @@ Value create_value(const ValueRegistry &value_registry, const entt::meta_any &an
     else if (type.is_arithmetic())
     {
         convert_arithmetic(value, any);
+    }
+    else if (type.is_pointer() or type.is_pointer_like())
+    {
+        convert_object_ptr(value, any);
     }
     return value;
 }
@@ -104,6 +109,12 @@ void convert_string(Value &value, const entt::meta_any &any)
 {
     const auto string_any = any.allow_cast<std::string>();
     value.set_string_val(string_any.cast<std::string>());
+}
+
+void convert_object_ptr(Value &value, const entt::meta_any &any)
+{
+    const auto containing_value = *any;
+    value.mutable_object_val()->set_object_id(reinterpret_cast<std::uint64_t>(containing_value.base().data()));
 }
 } // namespace
 } // namespace quite::proto
