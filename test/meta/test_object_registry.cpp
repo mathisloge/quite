@@ -7,10 +7,10 @@
 #include <quite/proto/methods.pb.h>
 #include <quite/proto/types.pb.h>
 #include <value_converters.hpp>
+#include "meta_qt_containers.hpp"
 #include "quite/setup_logger.hpp"
 #include "quite/value/value_registry.hpp"
 
-#include "meta_qt_containers.hpp"
 using namespace entt::literals;
 
 namespace
@@ -47,7 +47,7 @@ TEST_CASE("Register struct and convert it to a protocol value", "[meta,design-te
 {
     quite::setup_logger();
     auto &value_registry = entt::locator<quite::ValueRegistry>::emplace();
-    quite::experimental::testRegister();
+    quite::probe::register_converters();
 
     entt::meta_any meta_list = entt::forward_as_meta(value_registry.context(), QList<int>{});
     REQUIRE(meta_list.type().is_sequence_container());

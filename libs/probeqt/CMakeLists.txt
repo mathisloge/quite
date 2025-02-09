@@ -47,7 +47,6 @@ target_sources(probeqt
         meta_adapter.hpp
         qt_meta_type_accessor.hpp
         qt_meta_type_accessor.cpp
-        meta_qt_containers.cpp
         meta_qt_containers.hpp
 )
 add_subdirectory(injector)
