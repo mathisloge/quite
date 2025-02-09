@@ -3,12 +3,16 @@
 #include <fmt/printf.h>
 #include <method_invoker.hpp>
 #include <object_tracker.hpp>
+#include <quite/logger.hpp>
 #include <quite/setup_logger.hpp>
+#include <quite/value/value_registry.hpp>
 #include <value_converters.hpp>
 
 using namespace quite;
 using namespace quite::probe;
 using namespace entt::literals;
+
+DEFINE_LOGGER(test)
 namespace
 {
 class MyTestClass : public QObject
@@ -35,6 +39,7 @@ class MyTestClass : public QObject
 TEST_CASE("Test MethodInvoker")
 {
     setup_logger();
+    entt::locator<ValueRegistry>::emplace();
     register_converters();
     ObjectTracker tracker{};
     MethodInvoker method_invoker{tracker};

@@ -1,7 +1,9 @@
 #pragma once
 #include <entt/container/dense_map.hpp>
 #include <entt/core/hashed_string.hpp>
+#include <entt/locator/locator.hpp>
 #include <entt/meta/context.hpp>
+#include <entt/meta/meta.hpp>
 #include "quite/quite_core_export.hpp"
 
 namespace quite
@@ -18,6 +20,6 @@ class QUITE_CORE_EXPORT ValueRegistry
 
   private:
     PropertyNameMap name_db_;
-    entt::meta_ctx context_;
+    entt::meta_ctx &context_ = entt::locator<entt::meta_ctx>::value_or();
 };
 } // namespace quite

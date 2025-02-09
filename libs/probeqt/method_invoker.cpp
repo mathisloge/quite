@@ -64,13 +64,10 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
         auto meta_param = meta_method.parameterMetaType(i);
 
         auto &&param_value = params[i];
-        auto meta_type = param_value.type().func("metaType"_hs).invoke(param_value);
-        auto param_value_meta = meta_type.cast<QMetaType>();
         auto &&value = args.emplace_back(create_meta_value(meta_param));
-        if (QMetaType::canConvert(param_value_meta, meta_param))
+        if (QMetaType::canConvert(meta_param, meta_param))
         {
-            QMetaType::convert(
-                param_value_meta, param_value.base().data(), meta_method.parameterMetaType(i), value.get());
+            QMetaType::convert(meta_param, param_value.base().data(), meta_method.parameterMetaType(i), value.get());
         }
         else
         {
@@ -99,6 +96,9 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
         {
             constexpr bool kTransferOwnership{true};
             // args[0] is always the return type.
+
+            // TODO: since any type could be returned here, a general GenericQMetaTypeValue should be introduced to the
+            // type system. For known types we could fallback to this currently existsing thing.
             return custom_meta_type.from_void(args[0].release(), kTransferOwnership);
         }
     }

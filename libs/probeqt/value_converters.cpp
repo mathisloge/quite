@@ -147,7 +147,7 @@ proto::Value convert_QQuickAnchorLine(const QQuickAnchorLine &data)
 
 void register_converters()
 {
-    // register some common types
+    // register some common types TODO: maybe use `QT_FOR_EACH_STATIC_ALIAS_TYPE` to register some types?
     auto &value_registry = entt::locator<ValueRegistry>::value();
     auto &meta_ctx = value_registry.context();
     entt::meta_factory<QList<QObject *>>(meta_ctx).type("QObjectList"_hs);
