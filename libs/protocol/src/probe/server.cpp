@@ -1,0 +1,68 @@
+#include "quite/proto/probe/server.hpp"
+#include <thread>
+#include <exec/finally.hpp>
+#include <quite/logger.hpp>
+#include <quite/proto/health.grpc.pb.h>
+#include <quite/proto/meta_service.grpc.pb.h>
+#include <quite/proto/probe.grpc.pb.h>
+#include "rpc_snapshot.hpp"
+#include <grpc++/server_builder.h>
+// needs to be after health.grpc.pb.h
+#include <agrpc/health_check_service.hpp>
+
+DEFINE_LOGGER(grpc_server);
+
+namespace quite::proto
+{
+namespace
+{
+void run_server_until_stopped(std::stop_token stoken)
+{
+    grpc::ServerBuilder builder;
+    agrpc::GrpcContext grpc_context{builder.AddCompletionQueue()};
+
+    ProbeService::AsyncService object_service;
+    MetaService::AsyncService meta_service;
+
+    builder.RegisterService(std::addressof(object_service));
+    builder.RegisterService(std::addressof(meta_service));
+    agrpc::add_health_check_service(builder);
+
+    auto server = builder.BuildAndStart();
+    agrpc::start_health_check_service(*server, grpc_context);
+
+    auto rpc_snapshot_snd = make_rpc_snapshot(grpc_context, object_service);
+    stdexec::sender auto all_snd =
+        exec::finally(stdexec::when_all(std::move(rpc_snapshot_snd)),
+                      stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.work_finished(); }));
+
+    stdexec::sync_wait(
+        stdexec::when_all(std::move(all_snd), stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.run(); })));
+}
+} // namespace
+
+struct Server::Impl
+{
+    std::jthread grpc_runner_{run_server_until_stopped};
+};
+
+Server::Server(std::string server_address, entt::locator<SnapshotHandler>::node_type snapshot_handler)
+    : impl_{std::make_unique<Impl>()}
+{
+    entt::locator<SnapshotHandler>::reset(std::move(snapshot_handler));
+}
+
+Server::Server(Server &&server) noexcept
+    : impl_{std::move(server.impl_)}
+{}
+
+Server &Server::operator=(Server &&server) noexcept
+{
+    impl_ = std::move(server.impl_);
+    return *this;
+}
+
+Server::~Server()
+{}
+
+} // namespace quite::proto

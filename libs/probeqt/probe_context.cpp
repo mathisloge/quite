@@ -69,6 +69,7 @@ ProbeContext::ProbeContext(grpc::ServerBuilder &builder)
             stdexec::when_all(std::move(snd), stdexec::then(stdexec::just(), [this] { grpc_context_.run(); })));
         LOG_INFO(probe_ctx_logger(), "grpc server is now finished. Closing the connection.");
     }};
+    quite::probe::register_converters(entt::locator<ValueRegistry>::value());
     install_qt_hooks();
 }
 
@@ -104,7 +105,6 @@ void ProbeContext::install_qt_hooks()
     qtHookData[QHooks::RemoveQObject] = reinterpret_cast<quintptr>(&quite_remove_object);
     qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(&quite_app_startup);
 
-    quite::probe::register_converters();
     if (QCoreApplication::instance() != nullptr)
     {
         install_application_hooks();

@@ -24,7 +24,14 @@ asio_grpc_protobuf_generate(
         "${proto_inc_dir}/health.proto"
 )
 
-target_link_libraries(quite_protocol PUBLIC protobuf::libprotobuf quite::core)
+target_link_libraries(quite_protocol
+    PUBLIC
+        quite::core
+        # todo: move to private
+        protobuf::libprotobuf
+    PRIVATE
+        asio-grpc::asio-grpc-stdexec
+)
 
 target_include_directories(quite_protocol
     PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>"
@@ -38,6 +45,7 @@ target_sources(quite_protocol
     FILES
         include/quite/proto/meta_converters.hpp
         include/quite/proto/value.hpp
+        include/quite/proto/probe/server.hpp
     FILE_SET export_config
         TYPE HEADERS
         BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
@@ -47,3 +55,5 @@ target_sources(quite_protocol
         src/meta_converters.cpp
         src/value.cpp
 )
+
+add_subdirectory(src/probe)

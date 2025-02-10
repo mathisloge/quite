@@ -1,6 +1,9 @@
 #pragma once
-#include <entt/meta/meta.hpp>
+namespace quite
+{
+class ValueRegistry;
+}
 namespace quite::probe
 {
-void register_converters();
+void register_converters(ValueRegistry &value_registry);
 } // namespace quite::probe
