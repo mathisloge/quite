@@ -39,8 +39,9 @@ class MyTestClass : public QObject
 TEST_CASE("Test MethodInvoker")
 {
     setup_logger();
-    entt::locator<ValueRegistry>::emplace();
-    register_converters();
+    auto &value_registry = entt::locator<ValueRegistry>::emplace();
+    auto &meta_context = value_registry.context();
+    register_converters(value_registry);
     ObjectTracker tracker{};
     MethodInvoker method_invoker{tracker};
     MyTestClass my_test_class;
@@ -48,21 +49,23 @@ TEST_CASE("Test MethodInvoker")
     {
         constexpr double val1{1.5};
         constexpr int val2{2};
-        std::vector<entt::meta_any> params{entt::meta_any{val1}, entt::meta_any{val2}};
-        auto result = method_invoker.invoke_method(
-            entt::meta_any{static_cast<QObject *>(&my_test_class)}, "compute(float, qint8)", params);
+        std::vector<entt::meta_any> params{entt::forward_as_meta(meta_context, val1),
+                                           entt::forward_as_meta(meta_context, val2)};
+        auto result =
+            method_invoker.invoke_method(entt::forward_as_meta(meta_context, static_cast<QObject *>(&my_test_class)),
+                                         "compute(float, qint8)",
+                                         params);
         REQUIRE(result.has_value());
         REQUIRE(result.value().type() == entt::resolve("double"_hs));
         const auto expected_result = val1 * val2;
         // v result == 3
-        REQUIRE(std::abs(expected_result - *static_cast<const double *>(result.value().base().data())) <
-                std::numeric_limits<double>::epsilon());
+        REQUIRE(std::abs(expected_result - result->cast<double>()) < std::numeric_limits<double>::epsilon());
     }
 
     SECTION("Test with void")
     {
-        auto result =
-            method_invoker.invoke_method(entt::meta_any{static_cast<QObject *>(&my_test_class)}, "invoke_me()", {});
+        auto result = method_invoker.invoke_method(
+            entt::forward_as_meta(meta_context, static_cast<QObject *>(&my_test_class)), "invoke_me()", {});
         REQUIRE(result.has_value());
         REQUIRE(result->type().info() == entt::type_id<void>());
     }

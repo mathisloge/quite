@@ -23,7 +23,8 @@ struct MetaValueDeleter
     }
 };
 
-Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
+Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
+                                           QObject *obj,
                                            std::string_view qualified_method_signature,
                                            std::span<entt::meta_any> params)
 {
@@ -61,18 +62,21 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
 
     for (int i = 0; i < meta_method.parameterCount(); i++)
     {
-        auto meta_param = meta_method.parameterMetaType(i);
-
-        auto &&param_value = params[i];
-        auto &&value = args.emplace_back(create_meta_value(meta_param));
-        if (QMetaType::canConvert(meta_param, meta_param))
+        const auto param_meta_type = meta_method.parameterMetaType(i);
+        const auto &param_value = params[i];
+        const QMetaType any_meta_type = param_value.type().custom();
+        auto &&value = args.emplace_back(create_meta_value(param_meta_type));
+        if (QMetaType::canConvert(any_meta_type, param_meta_type))
         {
-            QMetaType::convert(meta_param, param_value.base().data(), meta_method.parameterMetaType(i), value.get());
+            QMetaType::convert(any_meta_type, param_value.base().data(), param_meta_type, value.get());
         }
         else
         {
-            return make_error_result<entt::meta_any>(
-                ErrorCode::invalid_argument, fmt::format("Could convert arg {} to type {}", i, meta_param.name()));
+            return make_error_result<entt::meta_any>(ErrorCode::invalid_argument,
+                                                     fmt::format("Could convert arg {} with base type {} to type {}",
+                                                                 i,
+                                                                 param_value.type().info().name(),
+                                                                 param_meta_type.name()));
         }
     }
 
@@ -84,21 +88,18 @@ Result<entt::meta_any> invoke_qmeta_method(QObject *obj,
     const auto call_result = obj->qt_metacall(QMetaObject::Call::InvokeMetaMethod, method_index, meta_call_args.data());
 
     LOG_DEBUG(method_invoker(), "Return type: {}", meta_method.returnMetaType().name());
-    const auto custom_meta_type = entt::resolve(entt::hashed_string{meta_method.returnMetaType().name()}.value());
+    const auto custom_meta_type =
+        entt::resolve(meta_context, entt::hashed_string{meta_method.returnMetaType().name()}.value());
     if (call_result < 0)
     {
         if (meta_method.returnMetaType() == QMetaType::fromType<void>())
         {
-            LOG_DEBUG(method_invoker(), "Return value is void");
             return entt::meta_any{std::in_place_type<void>};
         }
         if (custom_meta_type)
         {
             constexpr bool kTransferOwnership{true};
             // args[0] is always the return type.
-
-            // TODO: since any type could be returned here, a general GenericQMetaTypeValue should be introduced to the
-            // type system. For known types we could fallback to this currently existsing thing.
             return custom_meta_type.from_void(args[0].release(), kTransferOwnership);
         }
     }
@@ -121,7 +122,7 @@ Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object
     const auto *object_ref = object.try_cast<QObject *>();
     if (object_ref != nullptr)
     {
-        return invoke_qmeta_method(*object_ref, qualified_method_signature, params);
+        return invoke_qmeta_method(value_registry_.context(), *object_ref, qualified_method_signature, params);
     }
     return make_error_result<entt::meta_any>(ErrorCode::invalid_argument,
                                              "Could find a qobject for the given base type");

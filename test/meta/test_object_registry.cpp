@@ -1,4 +1,5 @@
 #include <QObject>
+#include <QRectF>
 #include <catch2/catch_test_macros.hpp>
 #include <entt/meta/container.hpp>
 #include <entt/meta/factory.hpp>
@@ -46,8 +47,9 @@ quite::proto::Value to_value(const SimpleStruct &data)
 TEST_CASE("Register struct and convert it to a protocol value", "[meta,design-test]")
 {
     quite::setup_logger();
+
     auto &value_registry = entt::locator<quite::ValueRegistry>::emplace();
-    quite::probe::register_converters();
+    quite::probe::register_converters(value_registry);
 
     entt::meta_any meta_list = entt::forward_as_meta(value_registry.context(), QList<int>{});
     REQUIRE(meta_list.type().is_sequence_container());
@@ -78,8 +80,8 @@ TEST_CASE("API DESIGN META RUNTIME")
 
 TEST_CASE("Test meta method call")
 {
-    entt::locator<quite::ValueRegistry>::emplace();
-    quite::probe::register_converters();
+    auto &value_registry = entt::locator<quite::ValueRegistry>::emplace();
+    quite::probe::register_converters(value_registry);
 
     MyOwnClass test_obj{};
 
