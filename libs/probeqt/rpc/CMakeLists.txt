@@ -1,6 +1,4 @@
 target_sources(probeqt PRIVATE
-    create_snapshot.cpp
-    create_snapshot.hpp
     exit_request.cpp
     exit_request.hpp
     find_object.cpp

@@ -4,7 +4,7 @@
 
 namespace quite::proto
 {
-class SnapshotHandler
+class ISnapshotHandler
 {
   public:
     struct ImageData
@@ -13,6 +13,7 @@ class SnapshotHandler
         std::uint32_t height;
         std::vector<std::uint8_t> image_data;
     };
+    virtual ~ISnapshotHandler() = default;
     virtual AsyncResult<ImageData> take_snapshot_of_object(ObjectId object_id) = 0;
 };
 } // namespace quite::proto
