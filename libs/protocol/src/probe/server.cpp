@@ -10,7 +10,7 @@
 // needs to be after health.grpc.pb.h
 #include <agrpc/health_check_service.hpp>
 
-DEFINE_LOGGER(grpc_server);
+DEFINE_LOGGER(grpc_server_log);
 
 namespace quite::proto
 {
@@ -31,13 +31,14 @@ void run_server_until_stopped(std::stop_token stoken)
     auto server = builder.BuildAndStart();
     agrpc::start_health_check_service(*server, grpc_context);
 
-    auto rpc_snapshot_snd = make_rpc_snapshot(grpc_context, object_service);
+    stdexec::sender auto rpc_snapshot_snd = make_rpc_snapshot(grpc_context, object_service);
     stdexec::sender auto all_snd =
         exec::finally(stdexec::when_all(std::move(rpc_snapshot_snd)),
                       stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.work_finished(); }));
 
-    stdexec::sync_wait(
-        stdexec::when_all(std::move(all_snd), stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.run(); })));
+    stdexec::sync_wait(stdexec::when_all(std::move(all_snd),
+                                         stdexec::just() | stdexec::then([&grpc_context] { grpc_context.run(); })));
+    LOG_INFO(grpc_server_log(), "gRPC server finished.");
 }
 } // namespace
 

@@ -88,7 +88,7 @@ const std::unordered_set<QObject *> &ObjectTracker::top_level_views() const
     return top_level_views_;
 }
 
-std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object(const std::string &object_name) const
+Result<ObjectInfo> ObjectTracker::find_object(const std::string &object_name) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -102,7 +102,8 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object(const std::stri
             };
         }
     }
-    return std::unexpected(ObjectErrC::not_found);
+    return make_error_result<ObjectInfo>(ErrorCode::not_found,
+                                         fmt::format("Could not found object with name {}", object_name));
 }
 
 namespace
@@ -158,7 +159,7 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
     return std::unexpected(ObjectErrC::not_found);
 }
 
-std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::ObjectId obj_id) const
+Result<QObject *> ObjectTracker::get_object_by_id(probe::ObjectId obj_id) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -167,7 +168,7 @@ std::expected<QObject *, ObjectErrC> ObjectTracker::get_object_by_id(probe::Obje
     {
         return *it;
     }
-    return std::unexpected(ObjectErrC::not_found);
+    return make_error_result<QObject *>(ErrorCode::not_found, fmt::format("Could not find object with id {}", obj_id));
 }
 
 std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::ObjectId obj_id,

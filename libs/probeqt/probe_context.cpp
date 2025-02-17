@@ -5,7 +5,6 @@
 #include <exec/finally.hpp>
 #include <quite/logger.hpp>
 #include <quite/proto/health.grpc.pb.h>
-#include "rpc/create_snapshot.hpp"
 #include "rpc/exit_request.hpp"
 #include "rpc/find_object.hpp"
 #include "rpc/get_object_properties.hpp"
@@ -46,7 +45,6 @@ ProbeContext::ProbeContext(grpc::ServerBuilder &builder)
         auto get_object_properties_rpc =
             quite::probe::get_object_properties(grpc_context_, object_service_, object_tracker_);
         auto mouse_action_rpc = quite::probe::mouse_action(grpc_context_, object_service_, mouse_injector_);
-        auto create_snapshot_rpc = quite::probe::create_snapshot(grpc_context_, object_service_, object_tracker_);
         auto get_views_rpc = quite::probe::get_views(grpc_context_, object_service_, object_tracker_);
         auto exit_request_rpc = quite::probe::exit_request(grpc_context_, object_service_);
         auto invoke_method_rpc =
@@ -59,7 +57,6 @@ ProbeContext::ProbeContext(grpc::ServerBuilder &builder)
                                      std::move(find_obj_rpc),
                                      std::move(get_object_properties_rpc),
                                      std::move(mouse_action_rpc),
-                                     std::move(create_snapshot_rpc),
                                      std::move(get_views_rpc),
                                      std::move(exit_request_rpc),
                                      std::move(invoke_method_rpc),

@@ -35,6 +35,7 @@ target_link_libraries(quite_protocol
 
 target_include_directories(quite_protocol
     PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>"
+    PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
 )
 
 target_sources(quite_protocol
@@ -54,6 +55,8 @@ target_sources(quite_protocol
     PRIVATE
         src/meta_converters.cpp
         src/value.cpp
+        src/error_helper.cpp
+        src/error_helper.hpp
 )
 
 add_subdirectory(src/probe)
