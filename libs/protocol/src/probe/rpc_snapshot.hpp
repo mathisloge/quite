@@ -7,11 +7,11 @@
 namespace quite::proto
 {
 using RpcSnapshot = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestCreateScreenshot>;
-struct CreateScreenshotRpcHandler
+struct SnapshotRpcHandler
 {
     exec::task<void> operator()(RpcSnapshot &rpc, const RpcSnapshot::Request &request) const;
 };
 
-agrpc::detail::RPCHandlerSender<RpcSnapshot, CreateScreenshotRpcHandler> make_rpc_snapshot(
+agrpc::detail::RPCHandlerSender<RpcSnapshot, SnapshotRpcHandler> make_rpc_snapshot(
     agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service);
 } // namespace quite::proto

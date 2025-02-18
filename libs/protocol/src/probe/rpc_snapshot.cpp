@@ -2,15 +2,15 @@
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <entt/locator/locator.hpp>
 #include "error_helper.hpp"
-#include "quite/proto/probe/snapshot_handler.hpp"
+#include "quite/proto/probe/object_handler.hpp"
 
 namespace quite::proto
 {
 
-exec::task<void> CreateScreenshotRpcHandler::operator()(RpcSnapshot &rpc, const RpcSnapshot::Request &request) const
+exec::task<void> SnapshotRpcHandler::operator()(RpcSnapshot &rpc, const RpcSnapshot::Request &request) const
 {
-    auto &snapshot_handler = entt::locator<ISnapshotHandler>::value();
-    auto result = co_await snapshot_handler.take_snapshot_of_object(request.object_id());
+    auto &snapshot_handler = entt::locator<IObjectHandler>::value();
+    auto result = co_await snapshot_handler.take_snapshot(request.object_id());
     if (not result.has_value())
     {
         co_await rpc.finish(result2grpc_status(result.error()));
@@ -39,9 +39,9 @@ exec::task<void> CreateScreenshotRpcHandler::operator()(RpcSnapshot &rpc, const 
     co_return;
 }
 
-agrpc::detail::RPCHandlerSender<RpcSnapshot, CreateScreenshotRpcHandler> make_rpc_snapshot(
+agrpc::detail::RPCHandlerSender<RpcSnapshot, SnapshotRpcHandler> make_rpc_snapshot(
     agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service)
 {
-    return agrpc::register_sender_rpc_handler<RpcSnapshot>(grpc_context, service, CreateScreenshotRpcHandler{});
+    return agrpc::register_sender_rpc_handler<RpcSnapshot>(grpc_context, service, SnapshotRpcHandler{});
 }
 } // namespace quite::proto

@@ -1,4 +1,4 @@
-#include "snapshot_handler.hpp"
+#include "object_handler.hpp"
 #include <QQuickItem>
 #include <QQuickItemGrabResult>
 #include <QQuickWindow>
@@ -7,7 +7,7 @@
 
 namespace quite::probe
 {
-AsyncResult<QImage> take_snapshot(QObject *object)
+AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
 {
     if (object->isQuickItemType())
     {
@@ -33,11 +33,11 @@ AsyncResult<QImage> take_snapshot(QObject *object)
                     object != nullptr ? object->objectName().toStdString() : "unknown"));
 }
 
-SnapshotHandler::SnapshotHandler(const ObjectTracker &object_tracker)
+ObjectHandler::ObjectHandler(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
 {}
 
-AsyncResult<SnapshotHandler::ImageData> SnapshotHandler::take_snapshot_of_object(ObjectId object_id)
+AsyncResult<ObjectHandler::ImageData> ObjectHandler::take_snapshot(ObjectId object_id)
 {
     auto object =
         co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
@@ -48,15 +48,15 @@ AsyncResult<SnapshotHandler::ImageData> SnapshotHandler::take_snapshot_of_object
         co_return std::unexpected{std::move(object.error())};
     }
     auto expected_image = co_await stdexec::starts_on(
-        QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()), take_snapshot(*object));
+        QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()), take_snapshot_of_qobject(*object));
     if (not expected_image.has_value())
     {
         co_return std::unexpected{std::move(expected_image.error())};
     }
 
     expected_image->convertTo(QImage::Format::Format_RGBA8888);
-    SnapshotHandler::ImageData image{.width = static_cast<std::uint32_t>(expected_image->width()),
-                                     .height = static_cast<std::uint32_t>(expected_image->height())};
+    ImageData image{.width = static_cast<std::uint32_t>(expected_image->width()),
+                    .height = static_cast<std::uint32_t>(expected_image->height())};
     image.image_data.reserve(expected_image->sizeInBytes());
     std::span<const std::uint8_t> data_view{expected_image->bits(),
                                             static_cast<std::size_t>(expected_image->sizeInBytes())};

@@ -31,8 +31,8 @@ target_sources(probeqt
         object_tracker.hpp
         property_collector.cpp
         property_collector.hpp
-        snapshot_handler.cpp
-        snapshot_handler.hpp
+        object_handler.cpp
+        object_handler.hpp
         value_converters.hpp
         value_converters.cpp
         proto_converters.cpp

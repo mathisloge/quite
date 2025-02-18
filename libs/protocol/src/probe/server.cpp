@@ -47,10 +47,10 @@ struct Server::Impl
     std::jthread grpc_runner_{run_server_until_stopped};
 };
 
-Server::Server(std::string server_address, entt::locator<SnapshotHandler>::node_type snapshot_handler)
+Server::Server(std::string server_address, entt::locator<ObjectHandler>::node_type object_handler)
     : impl_{std::make_unique<Impl>()}
 {
-    entt::locator<SnapshotHandler>::reset(std::move(snapshot_handler));
+    entt::locator<ObjectHandler>::reset(std::move(object_handler));
 }
 
 Server::Server(Server &&server) noexcept

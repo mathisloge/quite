@@ -2,9 +2,13 @@
 #include <quite/async_result.hpp>
 #include <quite/value/object_id.hpp>
 
+namespace quite
+{
+struct ObjectQuery;
+}
 namespace quite::proto
 {
-class ISnapshotHandler
+class IObjectHandler
 {
   public:
     struct ImageData
@@ -13,7 +17,8 @@ class ISnapshotHandler
         std::uint32_t height;
         std::vector<std::uint8_t> image_data;
     };
-    virtual ~ISnapshotHandler() = default;
-    virtual AsyncResult<ImageData> take_snapshot_of_object(ObjectId object_id) = 0;
+    virtual ~IObjectHandler() = default;
+    virtual AsyncResult<ImageData> take_snapshot(ObjectId object_id) = 0;
+    virtual AsyncResult<ObjectReference> find_object(const ObjectQuery &query);
 };
 } // namespace quite::proto

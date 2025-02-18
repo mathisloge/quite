@@ -47,6 +47,7 @@ target_sources(quite_protocol
         include/quite/proto/meta_converters.hpp
         include/quite/proto/value.hpp
         include/quite/proto/probe/server.hpp
+        include/quite/proto/probe/object_handler.hpp
     FILE_SET export_config
         TYPE HEADERS
         BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
