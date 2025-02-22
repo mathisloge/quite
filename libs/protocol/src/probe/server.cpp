@@ -5,6 +5,9 @@
 #include <quite/proto/health.grpc.pb.h>
 #include <quite/proto/meta_service.grpc.pb.h>
 #include <quite/proto/probe.grpc.pb.h>
+#include "rpc_find_object.hpp"
+#include "rpc_meta_find_type.hpp"
+#include "rpc_object_properties.hpp"
 #include "rpc_snapshot.hpp"
 #include <grpc++/server_builder.h>
 // needs to be after health.grpc.pb.h
@@ -31,13 +34,19 @@ void run_server_until_stopped(std::stop_token stoken)
     auto server = builder.BuildAndStart();
     agrpc::start_health_check_service(*server, grpc_context);
 
-    stdexec::sender auto rpc_snapshot_snd = make_rpc_snapshot(grpc_context, object_service);
+    stdexec::sender auto rpc_snapshot = make_rpc_snapshot(grpc_context, object_service);
+    stdexec::sender auto rpc_find_object = make_rpc_find_object(grpc_context, object_service);
+    stdexec::sender auto rpc_fetch_object_properties = make_rpc_fetch_object_properties(grpc_context, object_service);
+    stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(grpc_context, meta_service);
     stdexec::sender auto all_snd =
-        exec::finally(stdexec::when_all(std::move(rpc_snapshot_snd)),
+        exec::finally(stdexec::when_all(std::move(rpc_snapshot),
+                                        std::move(rpc_find_object),
+                                        std::move(rpc_fetch_object_properties),
+                                        std::move(rpc_meta_find_type)),
                       stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.work_finished(); }));
 
-    stdexec::sync_wait(stdexec::when_all(std::move(all_snd),
-                                         stdexec::just() | stdexec::then([&grpc_context] { grpc_context.run(); })));
+    stdexec::sync_wait(
+        stdexec::when_all(std::move(all_snd), stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.run(); })));
     LOG_INFO(grpc_server_log(), "gRPC server finished.");
 }
 } // namespace

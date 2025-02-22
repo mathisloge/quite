@@ -9,8 +9,8 @@ namespace quite::proto
 
 exec::task<void> SnapshotRpcHandler::operator()(RpcSnapshot &rpc, const RpcSnapshot::Request &request) const
 {
-    auto &snapshot_handler = entt::locator<IObjectHandler>::value();
-    auto result = co_await snapshot_handler.take_snapshot(request.object_id());
+    auto &object_handler = entt::locator<IObjectHandler>::value();
+    auto result = co_await object_handler.take_snapshot(request.object_id());
     if (not result.has_value())
     {
         co_await rpc.finish(result2grpc_status(result.error()));

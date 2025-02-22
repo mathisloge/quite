@@ -6,4 +6,5 @@
 namespace quite::proto
 {
 Value create_value(const ValueRegistry &value_registry, const entt::meta_any &type);
-}
+entt::meta_any convert_value(const ValueRegistry &value_registry, const Value &value);
+} // namespace quite::proto

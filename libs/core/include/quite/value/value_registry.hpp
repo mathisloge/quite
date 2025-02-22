@@ -16,7 +16,7 @@ class QUITE_CORE_EXPORT ValueRegistry
   public:
     entt::id_type named_property(std::string name);
     const PropertyNameMap &property_names() const;
-    entt::meta_ctx &context();
+    entt::meta_ctx &context() const;
 
   private:
     PropertyNameMap name_db_;

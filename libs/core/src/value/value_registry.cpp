@@ -13,7 +13,7 @@ const ValueRegistry::PropertyNameMap &ValueRegistry::property_names() const
     return name_db_;
 }
 
-entt::meta_ctx &ValueRegistry::context()
+entt::meta_ctx &ValueRegistry::context() const
 {
     return context_;
 }

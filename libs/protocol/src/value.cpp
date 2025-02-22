@@ -45,6 +45,40 @@ Value create_value(const ValueRegistry &value_registry, const entt::meta_any &an
     return value;
 }
 
+entt::meta_any convert_value(const ValueRegistry &value_registry, const Value &value)
+{
+    if (value.has_bool_val())
+    {
+        return entt::forward_as_meta(value_registry.context(), value.bool_val());
+    }
+    if (value.has_int_val())
+    {
+        return entt::forward_as_meta(value_registry.context(), value.uint_val());
+    }
+    if (value.has_uint_val())
+    {
+        return entt::forward_as_meta(value_registry.context(), value.uint_val());
+    }
+    if (value.has_double_val())
+    {
+        return entt::forward_as_meta(value_registry.context(), value.double_val());
+    }
+    if (value.has_string_val())
+    {
+        return entt::forward_as_meta(value_registry.context(), value.string_val());
+    }
+    if (value.has_object_val())
+    {
+        auto type_id = entt::resolve(value.type_id());
+        if (type_id)
+        {
+            constexpr bool kDontTransferOwnership{false};
+            return type_id.from_void(reinterpret_cast<void *>(value.object_val().object_id()), kDontTransferOwnership);
+        }
+    }
+    return entt::meta_any{};
+}
+
 namespace
 {
 void convert_class(const ValueRegistry &value_registry, Value &value, const entt::meta_any &any)
