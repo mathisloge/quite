@@ -13,6 +13,6 @@ struct FindObjectRpcHandler
     exec::task<void> operator()(FindObjectRPC &rpc, const FindObjectRPC::Request &request);
 };
 
-agrpc::detail::RPCHandlerSender<FindObjectRPC, FindObjectRpcHandler> find_object(
+agrpc::detail::RPCHandlerSender<FindObjectRPC, FindObjectRpcHandler> make_rpc_find_object(
     agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service);
 } // namespace quite::proto
