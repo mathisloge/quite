@@ -33,7 +33,7 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
     co_await rpc.finish(response, grpc::Status::OK);
 }
 
-agrpc::detail::RPCHandlerSender<GetObjectPropertiesRPC, GetObjectPropertiesRpcHandler> rpc_make_get_object_properties(
+agrpc::detail::RPCHandlerSender<GetObjectPropertiesRPC, GetObjectPropertiesRpcHandler> make_rpc_fetch_object_properties(
     agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service)
 {
     return agrpc::register_sender_rpc_handler<GetObjectPropertiesRPC>(

@@ -1,8 +1,10 @@
 #include "object_handler.hpp"
+#include <QPointer>
 #include <QQuickItem>
 #include <QQuickItemGrabResult>
 #include <QQuickWindow>
 #include "object_tracker.hpp"
+#include "qt_meta_type_accessor.hpp"
 #include "qtstdexec.h"
 
 namespace quite::probe
@@ -35,7 +37,18 @@ AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
 
 ObjectHandler::ObjectHandler(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
+    , method_invoker_{object_tracker}
 {}
+
+AsyncResult<entt::meta_any> ObjectHandler::object_instance(ObjectId object_id)
+{
+    auto find_result = object_tracker_.get_object_by_id(object_id);
+    if (find_result.has_value())
+    {
+        co_return entt::forward_as_meta(find_result.value());
+    }
+    co_return std::unexpected{std::move(find_result.error())};
+}
 
 AsyncResult<ObjectHandler::ImageData> ObjectHandler::take_snapshot(ObjectId object_id)
 {
@@ -63,4 +76,50 @@ AsyncResult<ObjectHandler::ImageData> ObjectHandler::take_snapshot(ObjectId obje
     std::ranges::copy(data_view, std::back_inserter(image.image_data));
     co_return image;
 }
+
+AsyncResult<ObjectReference> ObjectHandler::find_object(ObjectQuery query)
+{
+    auto obj_info = co_await (
+        stdexec::when_all(stdexec::just(QPointer<const ObjectTracker>{std::addressof(object_tracker_)}),
+                          stdexec::just(std::move(query))) |
+        stdexec::continues_on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+        stdexec::then([](auto &&tracker, auto &&query) {
+            if (tracker)
+            {
+                return tracker->find_object_by_query(query);
+            }
+            return make_error_result<ObjectReference>(ErrorCode::failed_precondition,
+                                                      "ObjectTracker was already destroyed. Probably now in shutdown.");
+        }));
+    co_return obj_info;
+}
+
+AsyncResult<ObjectHandler::PropertyMap> ObjectHandler::fetch_properties(ObjectId object_id)
+{
+    co_return make_error_result<ObjectHandler::PropertyMap>(ErrorCode::unimplemented, "...");
+}
+
+AsyncResult<std::vector<ObjectReference>> ObjectHandler::fetch_windows()
+{
+    std::vector<ObjectReference> windows;
+    for (auto &&obj : object_tracker_.top_level_views())
+    {
+        windows.emplace_back(ObjectReference{.object_id = reinterpret_cast<ObjectId>(obj),
+                                             .type_id = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id())});
+    }
+    co_return windows;
+}
+
+AsyncResult<entt::meta_any> ObjectHandler::invoke_method(const entt::meta_any &object,
+                                                         std::string_view qualified_method_signature,
+                                                         std::span<entt::meta_any> params)
+{
+    co_return co_await (
+        stdexec::when_all(stdexec::just(object), stdexec::just(qualified_method_signature), stdexec::just(params)) |
+        stdexec::continues_on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+        stdexec::then([this](auto &&object, auto &&qualified_method_signature, auto &&params) {
+            return method_invoker_.invoke_method(object, qualified_method_signature, params);
+        }));
+}
+
 } // namespace quite::probe

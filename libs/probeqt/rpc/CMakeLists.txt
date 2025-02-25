@@ -1,6 +1,4 @@
 target_sources(probeqt PRIVATE
-    exit_request.cpp
-    exit_request.hpp
     find_object.cpp
     find_object.hpp
     get_object_properties.cpp

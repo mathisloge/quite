@@ -39,7 +39,7 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
     }
 
     auto &snapshot_handler = entt::locator<IObjectHandler>::value();
-    auto find_result = co_await snapshot_handler.find_object(object_query);
+    auto find_result = co_await snapshot_handler.find_object(std::move(object_query));
     if (not find_result.has_value())
     {
         co_await rpc.finish_with_error(result2grpc_status(find_result.error()));
@@ -53,7 +53,7 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
     co_await rpc.finish(response, grpc::Status::OK);
 }
 
-agrpc::detail::RPCHandlerSender<FindObjectRPC, FindObjectRpcHandler> make_rpc_object(
+agrpc::detail::RPCHandlerSender<FindObjectRPC, FindObjectRpcHandler> make_rpc_find_object(
     agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service)
 {
     return agrpc::register_sender_rpc_handler<FindObjectRPC>(grpc_context, service, FindObjectRpcHandler{});

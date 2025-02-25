@@ -108,7 +108,7 @@ Result<ObjectInfo> ObjectTracker::find_object(const std::string &object_name) co
 
 namespace
 {
-bool operator==(const QVariant &variant, const proto::Value &value)
+bool operator==(const QVariant &variant, const entt::meta_any &value)
 {
     auto custom_meta_type = entt::resolve(entt::hashed_string{variant.metaType().name()}.value());
     if (not custom_meta_type)
@@ -116,20 +116,18 @@ bool operator==(const QVariant &variant, const proto::Value &value)
         return false;
     }
     const auto any_obj = custom_meta_type.from_void(variant.data());
-    const auto value_meta = probe::meta_from_value(value);
 
-    const entt::meta_any casted_value = any_obj.allow_cast(value_meta.type());
-    return casted_value == value_meta;
+    const entt::meta_any casted_value = any_obj.allow_cast(value.type());
+    return casted_value == value;
 }
 
-bool match_property(QObject *object, std::string_view property_name, const proto::Value &value)
+bool match_property(QObject *object, std::string_view property_name, const entt::meta_any &value)
 {
     const auto property_value = object->property(property_name.data());
     return property_value.isValid() and property_value == value;
 }
 } // namespace
-
-std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const proto::ObjectSearchQuery &query) const
+Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &query) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -137,7 +135,7 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
     for (auto &&obj : tracked_objects_)
     {
         bool property_matches = true;
-        for (auto &&[prop_name, prop_value] : query.properties())
+        for (auto &&[prop_name, prop_value] : query.properties)
         {
             if (not match_property(obj, prop_name, prop_value))
             {
@@ -151,12 +149,13 @@ std::expected<ObjectInfo, ObjectErrC> ObjectTracker::find_object_by_query(const 
             LOG_DEBUG(object_tracker_logger(),
                       "TODO: write a clean abstraction to get the metatype. Qml instances have to use the superClass "
                       "to get a valid metaType");
-            return ObjectInfo{.object_id = reinterpret_cast<std::uintptr_t>(obj),
-                              .class_type = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id())};
+            return ObjectReference{.object_id = reinterpret_cast<std::uintptr_t>(obj),
+                                   .type_id = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id())};
         }
     }
 
-    return std::unexpected(ObjectErrC::not_found);
+    return make_error_result<ObjectReference>(ErrorCode::not_found,
+                                              fmt::format("Could not find requested object by query {}", query));
 }
 
 Result<QObject *> ObjectTracker::get_object_by_id(probe::ObjectId obj_id) const

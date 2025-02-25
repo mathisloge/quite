@@ -5,8 +5,11 @@
 #include <quite/proto/health.grpc.pb.h>
 #include <quite/proto/meta_service.grpc.pb.h>
 #include <quite/proto/probe.grpc.pb.h>
+#include "rpc_fetch_windows.hpp"
 #include "rpc_find_object.hpp"
+#include "rpc_invoke_method.hpp"
 #include "rpc_meta_find_type.hpp"
+#include "rpc_mouse_injection.hpp"
 #include "rpc_object_properties.hpp"
 #include "rpc_snapshot.hpp"
 #include <grpc++/server_builder.h>
@@ -19,9 +22,10 @@ namespace quite::proto
 {
 namespace
 {
-void run_server_until_stopped(std::stop_token stoken)
+void run_server_until_stopped(std::stop_token stoken, std::string server_address)
 {
     grpc::ServerBuilder builder;
+    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
     agrpc::GrpcContext grpc_context{builder.AddCompletionQueue()};
 
     ProbeService::AsyncService object_service;
@@ -37,11 +41,18 @@ void run_server_until_stopped(std::stop_token stoken)
     stdexec::sender auto rpc_snapshot = make_rpc_snapshot(grpc_context, object_service);
     stdexec::sender auto rpc_find_object = make_rpc_find_object(grpc_context, object_service);
     stdexec::sender auto rpc_fetch_object_properties = make_rpc_fetch_object_properties(grpc_context, object_service);
+    stdexec::sender auto rpc_fetch_windows = make_rpc_fetch_windows(grpc_context, object_service);
+    stdexec::sender auto rpc_invoke_method = make_rpc_invoke_method(grpc_context, object_service);
+    stdexec::sender auto rpc_mouse_injection = make_rpc_mouse_injection(grpc_context, object_service);
     stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(grpc_context, meta_service);
+
     stdexec::sender auto all_snd =
         exec::finally(stdexec::when_all(std::move(rpc_snapshot),
                                         std::move(rpc_find_object),
                                         std::move(rpc_fetch_object_properties),
+                                        std::move(rpc_fetch_windows),
+                                        std::move(rpc_invoke_method),
+                                        std::move(rpc_mouse_injection),
                                         std::move(rpc_meta_find_type)),
                       stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.work_finished(); }));
 
@@ -53,14 +64,15 @@ void run_server_until_stopped(std::stop_token stoken)
 
 struct Server::Impl
 {
-    std::jthread grpc_runner_{run_server_until_stopped};
+    Impl(std::string server_address)
+        : grpc_runner_{std::bind(run_server_until_stopped, std::placeholders::_1, std::move(server_address))}
+    {}
+    std::jthread grpc_runner_;
 };
 
-Server::Server(std::string server_address, entt::locator<ObjectHandler>::node_type object_handler)
-    : impl_{std::make_unique<Impl>()}
-{
-    entt::locator<ObjectHandler>::reset(std::move(object_handler));
-}
+Server::Server(std::string server_address)
+    : impl_{std::make_unique<Impl>(std::move(server_address))}
+{}
 
 Server::Server(Server &&server) noexcept
     : impl_{std::move(server.impl_)}

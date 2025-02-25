@@ -4,15 +4,14 @@
 #include <agrpc/server_rpc.hpp>
 #include <exec/task.hpp>
 #include <quite/proto/probe.grpc.pb.h>
-
 namespace quite::proto
 {
-using GetViewsRPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestGetViews>;
-struct GetViewsRpcHandler
+using MouseActionRPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestMouseAction>;
+struct MouseActionRpcHandler
 {
-    exec::task<void> operator()(GetViewsRPC &rpc, const GetViewsRPC::Request &request);
+    exec::task<void> operator()(MouseActionRPC &, const MouseActionRPC::Request &);
 };
 
-agrpc::detail::RPCHandlerSender<GetViewsRPC, GetViewsRpcHandler> make_rpc_fetch_windows(
+agrpc::detail::RPCHandlerSender<MouseActionRPC, MouseActionRpcHandler> make_rpc_mouse_injection(
     agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service);
 } // namespace quite::proto
