@@ -2,9 +2,9 @@
 #include <QCoreApplication>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <fmt/format.h>
+#include <quite/logger.hpp>
 #include "../qtstdexec.h"
 
-#include <quite/logger.hpp>
 DEFINE_LOGGER(rpc_find_object_logger)
 
 namespace quite::probe

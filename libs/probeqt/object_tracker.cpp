@@ -9,8 +9,6 @@
 #include <fmt/ranges.h>
 #include <private/qv4executablecompilationunit_p.h>
 #include <quite/logger.hpp>
-#include "property_collector.hpp"
-#include "proto_converters.hpp"
 #include "qt_meta_type_accessor.hpp"
 
 DEFINE_LOGGER(object_tracker_logger)
@@ -88,7 +86,7 @@ const std::unordered_set<QObject *> &ObjectTracker::top_level_views() const
     return top_level_views_;
 }
 
-Result<ObjectInfo> ObjectTracker::find_object(const std::string &object_name) const
+Result<ObjectReference> ObjectTracker::find_object(const std::string &object_name) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
@@ -96,14 +94,14 @@ Result<ObjectInfo> ObjectTracker::find_object(const std::string &object_name) co
     {
         if (obj->objectName() == QString::fromStdString(object_name))
         {
-            return ObjectInfo{
+            return ObjectReference{
                 .object_id = reinterpret_cast<std::uintptr_t>(obj),
-                .class_type = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id()),
+                .type_id = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id()),
             };
         }
     }
-    return make_error_result<ObjectInfo>(ErrorCode::not_found,
-                                         fmt::format("Could not found object with name {}", object_name));
+    return make_error_result<ObjectReference>(ErrorCode::not_found,
+                                              fmt::format("Could not found object with name {}", object_name));
 }
 
 namespace
@@ -168,19 +166,6 @@ Result<QObject *> ObjectTracker::get_object_by_id(probe::ObjectId obj_id) const
         return *it;
     }
     return make_error_result<QObject *>(ErrorCode::not_found, fmt::format("Could not find object with id {}", obj_id));
-}
-
-std::expected<std::string, ObjectErrC> ObjectTracker::get_property(probe::ObjectId obj_id,
-                                                                   const std::string &property_name) const
-{
-    std::shared_lock l{locker_};
-    InOwnContext c{own_ctx_};
-    auto it = tracked_objects_.find(reinterpret_cast<QObject *>(obj_id));
-    if (it != tracked_objects_.end())
-    {
-        return (*it)->property(property_name.c_str()).toString().toStdString();
-    }
-    return std::unexpected(ObjectErrC::not_found);
 }
 
 void ObjectTracker::remove_object(QObject *obj)

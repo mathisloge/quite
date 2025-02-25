@@ -1,6 +1,5 @@
 #include "mouse_injector.hpp"
 #include <QCoreApplication>
-#include <QMouseEvent>
 #include <QPointer>
 
 namespace quite::probe

@@ -12,12 +12,6 @@
 
 namespace quite::probe
 {
-struct ObjectInfo
-{
-    std::uintptr_t object_id;
-    meta::TypeId class_type;
-};
-
 enum class ObjectErrC
 {
     not_found
@@ -36,10 +30,9 @@ class ObjectTracker final : public QObject
     void end_context();
 
     const std::unordered_set<QObject *> &top_level_views() const;
-    Result<ObjectInfo> find_object(const std::string &object_name) const;
+    Result<ObjectReference> find_object(const std::string &object_name) const;
     Result<ObjectReference> find_object_by_query(const ObjectQuery &query) const;
     Result<QObject *> get_object_by_id(probe::ObjectId obj_id) const;
-    std::expected<std::string, ObjectErrC> get_property(probe::ObjectId obj_id, const std::string &property_name) const;
 
   private:
     void start_timer();
