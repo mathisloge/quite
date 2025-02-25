@@ -8,8 +8,6 @@ import "quite/proto/types.proto";
 import "quite/proto/methods.proto";
 
 service ProbeService {
-  rpc Exit(ExitRequest) returns (ExitReponse) {}
-
   rpc FindObject(ObjectRequest) returns (ObjectReply) {}
   rpc GetObjectProperties(GetObjectPropertiesRequest)
       returns (GetObjectPropertiesResponse) {}

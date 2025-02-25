@@ -1,6 +1,7 @@
 #pragma once
 #include <QMouseEvent>
 #include <QPointingDevice>
+#include <quite/injectors/mouse_injector.hpp>
 #include <quite/proto/common.pb.h>
 #include <quite/proto/keyboard.pb.h>
 #include <quite/proto/mouse.pb.h>
@@ -9,27 +10,19 @@
 namespace quite::probe
 {
 
-class MouseInjector final
+class MouseInjector final : public core::IMouseInjector
 {
   public:
-    explicit MouseInjector(ObjectTracker &object_tracker);
-    ~MouseInjector();
+    explicit MouseInjector(const ObjectTracker &object_tracker);
+    ~MouseInjector() override;
 
-    void perform_action(ObjectId target_id,
-                        const proto::MouseAction &action,
-                        const proto::MouseButton &button,
-                        const proto::KeyboardModifierKey &mod_key,
-                        const proto::Vector2F &local_target_point);
+    AsyncResult<void> single_action(ObjectId target_id, core::MouseAction action) override;
 
   private:
-    void dispatch_mouse_event(QObject *target,
-                              QMouseEvent::Type event,
-                              const proto::MouseButton &button,
-                              const proto::KeyboardModifierKey &mod_key,
-                              const proto::Vector2F &local_target_point);
+    static void dispatch_mouse_event(QObject *target, std::unique_ptr<QMouseEvent> event);
 
   private:
-    ObjectTracker &object_tracker_;
+    const ObjectTracker &object_tracker_;
     QPointingDevice mouse_;
 };
 } // namespace quite::probe

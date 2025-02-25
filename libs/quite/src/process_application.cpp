@@ -21,7 +21,6 @@ ProcessApplication::~ProcessApplication() = default;
 
 AsyncResult<void> ProcessApplication::exit()
 {
-    co_await grpc_impl::GrpcApplication::exit();
     if (process_.is_open())
     {
         LOG_DEBUG(process_application_logger(), "Process still running. Trying to gracefully stop it.");

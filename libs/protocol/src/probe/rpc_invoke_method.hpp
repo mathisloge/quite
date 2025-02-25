@@ -7,12 +7,12 @@
 
 namespace quite::proto
 {
-using GetViewsRPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestGetViews>;
-struct GetViewsRpcHandler
+using InvokeMethodRPC = agrpc::ServerRPC<&quite::proto::ProbeService::AsyncService::RequestInvokeMethod>;
+struct InvokeMethodRpcHandler
 {
-    exec::task<void> operator()(GetViewsRPC &rpc, const GetViewsRPC::Request &request);
+    exec::task<void> operator()(InvokeMethodRPC &, const InvokeMethodRPC::Request &);
 };
 
-agrpc::detail::RPCHandlerSender<GetViewsRPC, GetViewsRpcHandler> make_rpc_fetch_windows(
+agrpc::detail::RPCHandlerSender<InvokeMethodRPC, InvokeMethodRpcHandler> make_rpc_invoke_method(
     agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service);
 } // namespace quite::proto

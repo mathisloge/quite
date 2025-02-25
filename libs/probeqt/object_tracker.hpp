@@ -6,8 +6,9 @@
 #include <unordered_set>
 #include <quite/meta/meta_type_id.hpp>
 #include <quite/result.hpp>
+#include <quite/value/object_id.hpp>
+#include <quite/value/object_query.hpp>
 #include "object_id.hpp"
-#include "quite/proto/probe.pb.h"
 
 namespace quite::probe
 {
@@ -36,7 +37,7 @@ class ObjectTracker final : public QObject
 
     const std::unordered_set<QObject *> &top_level_views() const;
     Result<ObjectInfo> find_object(const std::string &object_name) const;
-    std::expected<ObjectInfo, ObjectErrC> find_object_by_query(const proto::ObjectSearchQuery &query) const;
+    Result<ObjectReference> find_object_by_query(const ObjectQuery &query) const;
     Result<QObject *> get_object_by_id(probe::ObjectId obj_id) const;
     std::expected<std::string, ObjectErrC> get_property(probe::ObjectId obj_id, const std::string &property_name) const;
 

@@ -1,10 +1,11 @@
 #include "mouse_injector.hpp"
 #include <QCoreApplication>
 #include <QMouseEvent>
+#include <QPointer>
 
 namespace quite::probe
 {
-MouseInjector::MouseInjector(ObjectTracker &object_tracker)
+MouseInjector::MouseInjector(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
     , mouse_{QStringLiteral("QuiteProbeTestingMouse"),
              100,
@@ -17,55 +18,90 @@ MouseInjector::MouseInjector(ObjectTracker &object_tracker)
 
 MouseInjector::~MouseInjector() = default;
 
-void MouseInjector::perform_action(ObjectId target_id,
-                                   const proto::MouseAction &action,
-                                   const proto::MouseButton &button,
-                                   const proto::KeyboardModifierKey &mod_key,
-                                   const proto::Vector2F &local_target_point)
+AsyncResult<void> MouseInjector::single_action(ObjectId target_id, core::MouseAction action)
 {
-    auto target_resp = object_tracker_.get_object_by_id(target_id);
-    if (target_resp.has_value())
+    auto target = object_tracker_.get_object_by_id(target_id);
+    if (not target.has_value())
     {
-        auto *target = target_resp.value();
-        switch (action)
-        {
-        case proto::click:
-            dispatch_mouse_event(target, QMouseEvent::Type::MouseButtonPress, button, mod_key, local_target_point);
-            dispatch_mouse_event(target, QMouseEvent::Type::MouseButtonRelease, button, mod_key, local_target_point);
-            break;
-        case proto::double_click:
-            dispatch_mouse_event(target, QMouseEvent::Type::MouseButtonDblClick, button, mod_key, local_target_point);
-            break;
-        case proto::press:
-            dispatch_mouse_event(target, QMouseEvent::Type::MouseButtonPress, button, mod_key, local_target_point);
-            break;
-        case proto::release:
-            dispatch_mouse_event(target, QMouseEvent::Type::MouseButtonRelease, button, mod_key, local_target_point);
-            break;
-        case proto::move:
-            dispatch_mouse_event(target, QMouseEvent::Type::MouseMove, button, mod_key, local_target_point);
-            break;
-        case proto::none:
-        case proto::MouseAction_INT_MIN_SENTINEL_DO_NOT_USE_:
-        case proto::MouseAction_INT_MAX_SENTINEL_DO_NOT_USE_:
-            break;
-        }
-    };
+        co_return std::unexpected{target.error()};
+    }
+    std::unique_ptr<QMouseEvent> event;
+    switch (action.trigger)
+    {
+    case core::MouseTrigger::none:
+        break;
+    case core::MouseTrigger::click:
+        dispatch_mouse_event(target.value(),
+                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonPress,
+                                                           QPointF{action.position.x, action.position.y},
+                                                           QPointF{},
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::KeyboardModifiers{},
+                                                           &mouse_));
+        dispatch_mouse_event(target.value(),
+                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonRelease,
+                                                           QPointF{action.position.x, action.position.y},
+                                                           QPointF{},
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::KeyboardModifiers{},
+                                                           &mouse_));
+        break;
+    case core::MouseTrigger::double_click:
+        dispatch_mouse_event(target.value(),
+                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonDblClick,
+                                                           QPointF{action.position.x, action.position.y},
+                                                           QPointF{},
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::KeyboardModifiers{},
+                                                           &mouse_));
+        break;
+    case core::MouseTrigger::press:
+        dispatch_mouse_event(target.value(),
+                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonPress,
+                                                           QPointF{action.position.x, action.position.y},
+                                                           QPointF{},
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::KeyboardModifiers{},
+                                                           &mouse_));
+        break;
+    case core::MouseTrigger::release:
+        dispatch_mouse_event(target.value(),
+                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonRelease,
+                                                           QPointF{action.position.x, action.position.y},
+                                                           QPointF{},
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::KeyboardModifiers{},
+                                                           &mouse_));
+        break;
+    case core::MouseTrigger::move:
+        dispatch_mouse_event(target.value(),
+                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseMove,
+                                                           QPointF{action.position.x, action.position.y},
+                                                           QPointF{},
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::MouseButton::LeftButton,
+                                                           Qt::KeyboardModifiers{},
+                                                           &mouse_));
+        break;
+    }
+
+    if (event != nullptr)
+    {
+        QCoreApplication::postEvent(target.value(), event.release());
+    }
+    co_return {};
 }
 
-void MouseInjector::dispatch_mouse_event(QObject *target,
-                                         QMouseEvent::Type event,
-                                         const proto::MouseButton &button,
-                                         const proto::KeyboardModifierKey &mod_key,
-                                         const proto::Vector2F &local_target_point)
+void MouseInjector::dispatch_mouse_event(QObject *target, std::unique_ptr<QMouseEvent> event)
 {
-    auto ev = new QMouseEvent(event,
-                              QPointF{local_target_point.x(), local_target_point.y()},
-                              QPointF{0, 0},
-                              Qt::MouseButton::LeftButton,
-                              Qt::MouseButton::LeftButton,
-                              {},
-                              &mouse_);
-    QCoreApplication::postEvent(target, std::move(ev));
+    if (event != nullptr)
+    {
+        QCoreApplication::postEvent(target, event.release());
+    }
 }
 } // namespace quite::probe

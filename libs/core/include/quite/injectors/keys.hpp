@@ -7,7 +7,8 @@ enum class MouseTrigger
     click,
     double_click,
     press,
-    release
+    release,
+    move
 };
 
 enum class MouseButton

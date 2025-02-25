@@ -7,8 +7,6 @@ target_sources(quite_client PRIVATE
     make_get_object_properties_request.hpp
     make_create_snapshot_request.cpp
     make_create_snapshot_request.hpp
-    make_exit_request.cpp
-    make_exit_request.hpp
     make_find_object_request.cpp
     make_find_object_request.hpp
     make_mouse_click_request.cpp
