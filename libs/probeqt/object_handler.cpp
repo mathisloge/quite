@@ -4,6 +4,7 @@
 #include <QQuickItemGrabResult>
 #include <QQuickWindow>
 #include "object_tracker.hpp"
+#include "property_collector.hpp"
 #include "qt_meta_type_accessor.hpp"
 #include "qtstdexec.h"
 
@@ -52,16 +53,13 @@ AsyncResult<entt::meta_any> ObjectHandler::object_instance(ObjectId object_id)
 
 AsyncResult<ObjectHandler::ImageData> ObjectHandler::take_snapshot(ObjectId object_id)
 {
-    auto object =
-        co_await stdexec::then(stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())),
-                               [this, object_id]() { return object_tracker_.get_object_by_id(object_id); });
-
+    auto object = object_tracker_.get_object_by_id(object_id);
     if (not object.has_value())
     {
         co_return std::unexpected{std::move(object.error())};
     }
-    auto expected_image = co_await stdexec::starts_on(
-        QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread()), take_snapshot_of_qobject(*object));
+    auto expected_image = co_await stdexec::starts_on(QtStdExec::qThreadAsScheduler(object.value()->thread()),
+                                                      take_snapshot_of_qobject(*object));
     if (not expected_image.has_value())
     {
         co_return std::unexpected{std::move(expected_image.error())};
@@ -94,9 +92,27 @@ AsyncResult<ObjectReference> ObjectHandler::find_object(ObjectQuery query)
     co_return obj_info;
 }
 
-AsyncResult<ObjectHandler::PropertyMap> ObjectHandler::fetch_properties(ObjectId object_id)
+AsyncResult<ObjectHandler::PropertyMap> ObjectHandler::fetch_properties(ObjectId object_id,
+                                                                        std::span<const std::string> properties)
 {
-    co_return make_error_result<ObjectHandler::PropertyMap>(ErrorCode::unimplemented, "...");
+    auto obj_result = object_tracker_.get_object_by_id(object_id);
+    if (not obj_result.has_value())
+    {
+        co_return std::unexpected{std::move(obj_result.error())};
+    }
+    auto collected_properties =
+        co_await (stdexec::just(QPointer<QObject>{obj_result.value()}) |
+                  stdexec::continues_on(QtStdExec::qThreadAsScheduler(obj_result.value()->thread())) |
+                  stdexec::then([](auto &&object) { return ObjectMeta::from_qobject(object); }) |
+                  stdexec::then([properties](auto &&object_meta) -> Result<ObjectHandler::PropertyMap> {
+                      if (object_meta.meta_object == nullptr)
+                      {
+                          return make_error_result<ObjectHandler::PropertyMap>(ErrorCode::failed_precondition,
+                                                                               "Could not get a QMetaObject");
+                      }
+                      return collect_properties(object_meta, properties);
+                  }));
+    co_return collected_properties;
 }
 
 AsyncResult<std::vector<ObjectReference>> ObjectHandler::fetch_windows()

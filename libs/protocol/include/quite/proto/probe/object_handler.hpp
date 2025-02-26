@@ -20,13 +20,13 @@ class QUITE_PROTOCOL_EXPORT IObjectHandler
         std::uint32_t height;
         std::vector<std::uint8_t> image_data;
     };
-    using PropertyMap = entt::dense_map<std::string, entt::any>;
+    using PropertyMap = entt::dense_map<std::string, entt::meta_any>;
 
     virtual ~IObjectHandler() = default;
     virtual AsyncResult<entt::meta_any> object_instance(ObjectId object_id) = 0;
     virtual AsyncResult<ImageData> take_snapshot(ObjectId object_id) = 0;
     virtual AsyncResult<ObjectReference> find_object(ObjectQuery query) = 0;
-    virtual AsyncResult<PropertyMap> fetch_properties(ObjectId object_id) = 0;
+    virtual AsyncResult<PropertyMap> fetch_properties(ObjectId object_id, std::span<const std::string> properties) = 0;
     virtual AsyncResult<std::vector<ObjectReference>> fetch_windows() = 0;
     virtual AsyncResult<entt::meta_any> invoke_method(const entt::meta_any &object,
                                                       std::string_view qualified_method_signature,

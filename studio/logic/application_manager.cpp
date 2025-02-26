@@ -9,7 +9,7 @@ ApplicationManager::ApplicationManager(SDL_Renderer *renderer)
 void ApplicationManager::addApplication(const std::string &application)
 {
     // const auto created_application = applications_.emplace_back(Application::CreateApplication(application));
-    // overviews_.emplace_back(std::make_unique<ApplicationOverview>(renderer_, created_application));
+    //  overviews_.emplace_back(std::make_unique<ApplicationOverview>(renderer_, created_application));
 }
 
 void ApplicationManager::draw()

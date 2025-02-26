@@ -17,7 +17,10 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
 {
     LOG_DEBUG(rpc_get_object_properties(), "START RequestGetObjectProperty={}", request.object_id());
     auto &object_handler = entt::locator<IObjectHandler>::value();
-    const auto properties_result = co_await object_handler.fetch_properties(request.object_id());
+    const auto properties_result =
+        co_await object_handler.fetch_properties(request.object_id(),
+                                                 std::span<const std::string>{*request.property_names().pointer_begin(),
+                                                                              *request.property_names().pointer_end()});
     if (not properties_result.has_value())
     {
         co_await rpc.finish_with_error(result2grpc_status(properties_result.error()));
