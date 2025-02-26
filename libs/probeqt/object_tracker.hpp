@@ -26,9 +26,6 @@ class ObjectTracker final : public QObject
 
     void add_object(QObject *);
     void remove_object(QObject *);
-    void begin_context();
-    void end_context();
-
     const std::unordered_set<QObject *> &top_level_views() const;
     Result<ObjectReference> find_object(const std::string &object_name) const;
     Result<ObjectReference> find_object_by_query(const ObjectQuery &query) const;

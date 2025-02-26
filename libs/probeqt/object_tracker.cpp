@@ -71,16 +71,6 @@ void ObjectTracker::add_object(QObject *obj)
     start_timer();
 }
 
-void ObjectTracker::begin_context()
-{
-    own_ctx_ = true;
-}
-
-void ObjectTracker::end_context()
-{
-    own_ctx_ = false;
-}
-
 const std::unordered_set<QObject *> &ObjectTracker::top_level_views() const
 {
     return top_level_views_;
@@ -190,26 +180,6 @@ void ObjectTracker::remove_object(QObject *obj)
 
 void ObjectTracker::start_timer()
 {
-    static const auto kStartFncIdx = QTimer::staticMetaObject.indexOfMethod("start()");
-    Q_ASSERT(kStartFncIdx >= 0);
-
-    if (init_timer_.isActive())
-    {
-        return;
-    }
-    // if (thread() == QThread::currentThread())
-    //{
-    //     init_timer_.start();
-    // }
-    // else
-    //{
-    static QMetaMethod m;
-    if (m.methodIndex() < 0)
-    {
-        m = QTimer::staticMetaObject.method(kStartFncIdx);
-        Q_ASSERT(m.methodIndex() >= 0);
-    }
-    m.invoke(&init_timer_, Qt::QueuedConnection);
-    //}
+    QMetaObject::invokeMethod(this, &ObjectTracker::process_new_objects, Qt::ConnectionType::QueuedConnection);
 }
 } // namespace quite::probe

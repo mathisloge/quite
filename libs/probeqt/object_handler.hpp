@@ -17,7 +17,7 @@ class ObjectHandler final : public proto::IObjectHandler
     AsyncResult<entt::meta_any> object_instance(ObjectId object_id) override;
     AsyncResult<ImageData> take_snapshot(ObjectId object_id) override;
     AsyncResult<ObjectReference> find_object(ObjectQuery query) override;
-    AsyncResult<PropertyMap> fetch_properties(ObjectId object_id) override;
+    AsyncResult<PropertyMap> fetch_properties(ObjectId object_id, std::span<const std::string> properties) override;
     AsyncResult<std::vector<ObjectReference>> fetch_windows() override;
     AsyncResult<entt::meta_any> invoke_method(const entt::meta_any &object,
                                               std::string_view qualified_method_signature,

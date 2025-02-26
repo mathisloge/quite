@@ -6,7 +6,6 @@
 #include <quite/logger.hpp>
 #include <quite/value/generic_value_class.hpp>
 #include "qt_meta_type_accessor.hpp"
-#include "value_converters.hpp"
 
 DEFINE_LOGGER(property_collector_logger)
 namespace quite
@@ -74,20 +73,29 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
     return {property.name(), std::move(value)};
 }
 
-std::unordered_map<std::string, entt::meta_any> collect_properties(ObjectMeta object_meta)
+entt::dense_map<std::string, entt::meta_any> collect_properties(ObjectMeta object_meta,
+                                                                std::span<const std::string> property_names)
 {
-    std::unordered_map<std::string, entt::meta_any> properties;
+    entt::dense_map<std::string, entt::meta_any> properties;
 
     auto view = std::ranges::iota_view(0, object_meta.meta_object->propertyCount()) | //
                 std::views::transform([&](int prop_idx) { return object_meta.meta_object->property(prop_idx); }) |
                 std::views::filter([](auto &&prop) { return prop.isValid() and prop.isReadable(); }) |
+                std::views::filter([&property_names](auto &&prop) {
+                    if (property_names.size() == 0)
+                    {
+                        return true;
+                    }
+                    const auto it = std::ranges::find(property_names, prop.name());
+                    return it != property_names.end();
+                }) |
                 std::views::transform([&](auto &&prop) {
                     return std::tuple{prop.read(object_meta.object), std::forward<decltype(prop)>(prop)};
                 }) |
                 std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); });
     for (auto &&property : view)
     {
-        properties.emplace(std::move(property));
+        properties.emplace(std::forward<decltype(property)>(property));
     }
 
     return properties;
