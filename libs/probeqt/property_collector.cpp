@@ -24,7 +24,9 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
     if (auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()}.value());
         custom_meta_type)
     {
-        value = custom_meta_type.from_void(&property_value);
+        LOG_DEBUG(property_collector_logger(), "got known type {}", custom_meta_type.info().name());
+        // create a copy of the underlying variant object and transfer the ownership.
+        value = custom_meta_type.from_void(property_value.metaType().create(property_value.data()), true);
     }
     else if (property.metaType().flags().testAnyFlags(QMetaType::IsGadget | QMetaType::PointerToGadget))
     {
@@ -61,8 +63,7 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
         object_list.reserve(size);
         for (qsizetype i = 0; i < size; i++)
         {
-            auto &&obj = qml_list.at(i);
-            object_list.emplace_back(obj);
+            object_list.emplace_back(entt::forward_as_meta(qml_list.at(i)));
         }
         value = std::move(object_list);
     }

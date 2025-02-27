@@ -32,7 +32,7 @@ exec::task<void> InvokeMethodRpcHandler::operator()(InvokeMethodRPC &rpc, const 
         return convert_value(value_registry, arg);
     });
     auto invoke_result =
-        co_await object_handler.invoke_method(*root_object, request.method_call().method_name(), params);
+        co_await object_handler.invoke_method(*root_object, request.method_call().method_name(), std::move(params));
     if (not invoke_result.has_value())
     {
         co_await rpc.finish_with_error(result2grpc_status(invoke_result.error()));

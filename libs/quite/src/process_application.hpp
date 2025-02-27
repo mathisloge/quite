@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <boost/asio/readable_pipe.hpp>
 #include <boost/process/v2.hpp>
 #include "context.hpp"

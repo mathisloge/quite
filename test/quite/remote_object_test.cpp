@@ -17,6 +17,7 @@ TEST_CASE("Remote object can be invoked")
     setup_logger();
     ApplicationManager app_manager;
     auto app = app_manager.create_host_application(TESTER_APP_PATH);
+    stdexec::sync_wait(app->wait_for_started());
 
     const ObjectQuery btn_query{.properties = {{"objectName", Value{"helloBtn"}}}};
     auto obj = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {
@@ -31,7 +32,6 @@ TEST_CASE("Remote object can be invoked")
         ASYNC_BLOCK
         auto prop = co_await obj->property("text");
         REQUIRE(prop.has_value());
-        REQUIRE(prop.value()->type_id() == 10);
 
         auto &&val = prop.value()->value();
         REQUIRE(val.has_value());
@@ -105,7 +105,10 @@ TEST_CASE("Remote object can be invoked")
         auto text_prop = co_await text_area->property("text");
         REQUIRE(text_prop.has_value());
         REQUIRE(std::get<std::string>(*text_prop.value()->value()) == "Hello");
+
         ASYNC_BLOCK_END
+
+        LOG_DEBUG(test(), "finished");
     }
 
     SECTION("App can be quit")

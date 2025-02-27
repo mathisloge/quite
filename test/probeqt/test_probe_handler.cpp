@@ -1,3 +1,4 @@
+#include <QColor>
 #include <QCoreApplication>
 #include <QEventLoop>
 #include <catch2/catch_test_macros.hpp>
@@ -8,6 +9,7 @@
 #include "object_tracker.hpp"
 #include "probe_instances.hpp"
 #include "qtstdexec.h"
+#include "value_converters.hpp"
 
 using namespace quite;
 using namespace quite::probe;
@@ -22,14 +24,24 @@ void spin_eventloop_once()
     QEventLoop loop;
     REQUIRE(loop.processEvents());
 }
+
+class MyTestObject : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QColor color MEMBER some_color_);
+
+  private:
+    QColor some_color_{Qt::red};
+};
+
 } // namespace
 TEST_CASE("Test ProbeHandler")
 {
     ObjectTracker tracker;
-    // ProbeInstances instances{tracker};
+    register_converters(entt::locator<ValueRegistry>::emplace());
     ObjectHandler probe_handler{tracker};
 
-    QObject test_obj{};
+    MyTestObject test_obj{};
     const auto test_obj_id = reinterpret_cast<ObjectId>(std::addressof(test_obj));
     test_obj.setObjectName("Test");
 
@@ -43,7 +55,8 @@ TEST_CASE("Test ProbeHandler")
         REQUIRE_FALSE(invalid_result.has_value());
         auto valid_result = co_await probe_handler.object_instance(test_obj_id);
         REQUIRE(valid_result.has_value());
-        REQUIRE(valid_result.value() == std::addressof(test_obj));
+        const auto other_id = valid_result.value();
+        REQUIRE(other_id == entt::forward_as_meta(static_cast<QObject *>(std::addressof(test_obj))));
         ASYNC_BLOCK_END
     }
 
@@ -53,15 +66,37 @@ TEST_CASE("Test ProbeHandler")
         exec::async_scope scope;
         auto snd = stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
                    stdexec::let_value([&]() { return probe_handler.fetch_properties(test_obj_id, {}); }) |
-                   stdexec::then([](auto &&result) {
+                   stdexec::then([&test_obj](auto &&result) {
                        REQUIRE(result.has_value());
+                       const ObjectHandler::PropertyMap &properties = result.value();
+                       REQUIRE(properties.size() == 2);
+                       const entt::meta_any &object_name_native = properties.at("objectName");
+                       auto &&object_name = object_name_native.allow_cast<std::string>().cast<std::string>();
+                       REQUIRE(object_name == test_obj.objectName().toStdString());
+
+                       REQUIRE(properties.at("color") == QColor{Qt::red});
                        QCoreApplication::quit();
                    });
         scope.spawn(std::move(snd));
-
         QCoreApplication::exec();
     }
 
     SECTION("test fetch_properties filtered")
-    {}
+    {
+        bool do_spin{true};
+        exec::async_scope scope;
+        const std::vector<std::string> filter{"color"};
+        auto snd = stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+                   stdexec::let_value([&]() { return probe_handler.fetch_properties(test_obj_id, filter); }) |
+                   stdexec::then([&test_obj](auto &&result) {
+                       REQUIRE(result.has_value());
+                       const ObjectHandler::PropertyMap &properties = result.value();
+                       REQUIRE(properties.size() == 1);
+                       REQUIRE(properties.at("color") == QColor{Qt::red});
+                       QCoreApplication::quit();
+                   });
+        scope.spawn(std::move(snd));
+        QCoreApplication::exec();
+    }
 }
+#include "test_probe_handler.moc"

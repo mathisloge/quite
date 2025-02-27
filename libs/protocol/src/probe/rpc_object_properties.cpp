@@ -17,10 +17,11 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
 {
     LOG_DEBUG(rpc_get_object_properties(), "START RequestGetObjectProperty={}", request.object_id());
     auto &object_handler = entt::locator<IObjectHandler>::value();
+    std::vector<std::string> property_names;
+    property_names.reserve(request.property_names_size());
+    std::move(request.property_names().begin(), request.property_names().end(), std::back_inserter(property_names));
     const auto properties_result =
-        co_await object_handler.fetch_properties(request.object_id(),
-                                                 std::span<const std::string>{*request.property_names().pointer_begin(),
-                                                                              *request.property_names().pointer_end()});
+        co_await object_handler.fetch_properties(request.object_id(), std::move(property_names));
     if (not properties_result.has_value())
     {
         co_await rpc.finish_with_error(result2grpc_status(properties_result.error()));
