@@ -22,6 +22,7 @@ class QUITE_CLIENT_EXPORT ApplicationManager
     ApplicationPtr create_host_application(const std::string &path_to_application,
                                            const std::vector<std::string> &args = {},
                                            const std::unordered_map<std::string, std::string> &environment = {});
+    ApplicationPtr attach_to_running(const std::string &connection_url);
 
   private:
     struct Impl;

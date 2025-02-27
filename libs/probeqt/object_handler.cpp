@@ -93,7 +93,7 @@ AsyncResult<ObjectReference> ObjectHandler::find_object(ObjectQuery query)
 }
 
 AsyncResult<ObjectHandler::PropertyMap> ObjectHandler::fetch_properties(ObjectId object_id,
-                                                                        std::span<const std::string> properties)
+                                                                        std::vector<std::string> properties)
 {
     auto obj_result = object_tracker_.get_object_by_id(object_id);
     if (not obj_result.has_value())
@@ -127,8 +127,8 @@ AsyncResult<std::vector<ObjectReference>> ObjectHandler::fetch_windows()
 }
 
 AsyncResult<entt::meta_any> ObjectHandler::invoke_method(const entt::meta_any &object,
-                                                         std::string_view qualified_method_signature,
-                                                         std::span<entt::meta_any> params)
+                                                         std::string qualified_method_signature,
+                                                         std::vector<entt::meta_any> params)
 {
     co_return co_await (
         stdexec::when_all(stdexec::just(object), stdexec::just(qualified_method_signature), stdexec::just(params)) |

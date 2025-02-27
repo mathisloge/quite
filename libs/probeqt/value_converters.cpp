@@ -95,5 +95,7 @@ void register_converters(ValueRegistry &value_registry)
         .type("QQuickAnchorLine"_hs)
         .custom<QMetaType>(QMetaType::fromType<QQuickAnchorLine>())
         .data<&QQuickAnchorLine::item>(value_registry.named_property("item"));
+
+    entt::meta_factory<QVariant>(meta_ctx).type("QVariant"_hs);
 }
 } // namespace quite::probe

@@ -12,12 +12,19 @@ ProcessApplication::ProcessApplication(Context &context,
                                        const std::vector<std::string> &args,
                                        const std::unordered_map<std::string, std::string> &enviroment)
     : GrpcApplication(context)
-    , process_{context.asioContext().get_executor(), path_to_application, args, enviroment}
+    , process_{context.asioContext().get_executor(),
+               path_to_application,
+               args,
+               enviroment,
+               boost::process::process_stdio{{}, {}, {}}}
 {
     do_read();
 }
 
-ProcessApplication::~ProcessApplication() = default;
+ProcessApplication::~ProcessApplication()
+{
+    LOG_DEBUG(process_application_logger(), "finished");
+}
 
 AsyncResult<void> ProcessApplication::exit()
 {

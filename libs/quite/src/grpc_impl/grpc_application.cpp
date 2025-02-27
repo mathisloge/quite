@@ -89,6 +89,11 @@ AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> GrpcApplication::get_vie
         });
 }
 
+AsyncResult<void> GrpcApplication::exit()
+{
+    co_return {};
+}
+
 meta::MetaRegistry &GrpcApplication::meta_registry()
 {
     return meta_type_registry_;
