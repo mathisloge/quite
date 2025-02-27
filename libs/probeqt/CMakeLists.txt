@@ -35,8 +35,6 @@ target_sources(probeqt
         object_handler.hpp
         value_converters.hpp
         value_converters.cpp
-        proto_converters.cpp
-        proto_converters.hpp
         probe_context.hpp
         probe_context.cpp
         probe_instances.hpp
