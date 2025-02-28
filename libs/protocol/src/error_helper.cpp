@@ -29,4 +29,46 @@ grpc::Status result2grpc_status(const Error &error)
     }();
     return grpc::Status{code, error.message};
 }
+
+Error grpc_status2result(const grpc::Status &error)
+{
+    const ErrorCode code = [code = error.error_code()]() {
+        switch (code)
+        {
+        case grpc::CANCELLED:
+            return ErrorCode::cancelled;
+        case grpc::INVALID_ARGUMENT:
+            return ErrorCode::invalid_argument;
+        case grpc::DEADLINE_EXCEEDED:
+            return ErrorCode::deadline_exceeded;
+        case grpc::NOT_FOUND:
+        case grpc::RESOURCE_EXHAUSTED:
+            return ErrorCode::not_found;
+        case grpc::ALREADY_EXISTS:
+        case grpc::PERMISSION_DENIED:
+        case grpc::FAILED_PRECONDITION:
+        case grpc::OUT_OF_RANGE:
+            return ErrorCode::failed_precondition;
+        case grpc::UNAUTHENTICATED:
+        case grpc::ABORTED:
+            return ErrorCode::aborted;
+        case grpc::UNIMPLEMENTED:
+            return ErrorCode::unimplemented;
+        case grpc::UNAVAILABLE:
+            return ErrorCode::unavailable;
+        case grpc::OK:
+        case grpc::DATA_LOSS:
+        case grpc::UNKNOWN:
+        case grpc::INTERNAL:
+        case grpc::DO_NOT_USE:
+            return ErrorCode::unknown;
+        }
+        return ErrorCode::unknown;
+    }();
+
+    return Error{
+        .code = code,
+        .message = error.error_message(),
+    };
+}
 } // namespace quite::proto

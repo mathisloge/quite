@@ -25,6 +25,7 @@ target_sources(quite_core
                 include/quite/result.hpp
                 include/quite/setup_logger.hpp
                 include/quite/logger.hpp
+                include/quite/image.hpp
                 include/quite/meta/meta_registry.hpp
                 include/quite/meta/meta_types.hpp
 
@@ -43,6 +44,7 @@ target_sources(quite_core
         src/error.cpp
         src/meta/meta_types.cpp
         src/logger.cpp
+        src/image.cpp
         src/value/value_registry.cpp
         src/value/object_query.cpp
 )

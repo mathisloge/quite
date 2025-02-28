@@ -1,44 +1,10 @@
 #pragma once
-#include <array>
-#include <cstdint>
-#include <filesystem>
-#include <memory>
-#include <optional>
-#include <span>
-#include <vector>
-#include <quite/disable_copy_move.hpp>
+#include <quite/image.hpp>
+#include <quite/result.hpp>
 #include "quite/quite_client_export.hpp"
-#include "quite/result.hpp"
 
 namespace quite
 {
-using PixelData = std::span<std::byte>;
-struct ImageView
-{
-    std::uint32_t width;
-    std::uint32_t height;
-    int channels;
-    PixelData data;
-};
-class QUITE_CLIENT_EXPORT Image
-{
-  public:
-    QUITE_DISABLE_COPY(Image);
-    Image();
-    explicit Image(std::vector<std::byte> image_data, std::uint32_t width, std::uint32_t height, int channels);
-    explicit Image(const std::filesystem::path &filename);
-    Image(Image &&) noexcept;
-    Image &operator=(Image &&other) noexcept;
-    virtual ~Image();
-
-    void save_to(const std::filesystem::path &destination) const;
-    ImageView data() const;
-
-  private:
-    class Impl;
-    std::unique_ptr<Impl> impl_;
-};
-
 struct PixelCompareOptions
 {
     float threshold{0.1};                        // matching threshold (0 to 1); smaller is more sensitive

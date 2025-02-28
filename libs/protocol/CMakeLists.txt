@@ -49,6 +49,8 @@ target_sources(quite_protocol
         include/quite/proto/probe/server.hpp
         include/quite/proto/probe/probe_handler.hpp
         include/quite/proto/probe/dependencies.hpp
+        include/quite/proto/client/probe_client.hpp
+        include/quite/proto/client/probe_service.hpp
     FILE_SET export_config
         TYPE HEADERS
         BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
@@ -62,3 +64,4 @@ target_sources(quite_protocol
 )
 
 add_subdirectory(src/probe)
+add_subdirectory(src/client)

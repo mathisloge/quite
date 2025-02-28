@@ -1,6 +1,7 @@
 #include "quite/testing/verification_point.hpp"
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <quite/image_utils.hpp>
 #include <quite/logger.hpp>
 #include "quite/utils/dump_properties.hpp"
 
