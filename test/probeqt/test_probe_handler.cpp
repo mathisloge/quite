@@ -3,7 +3,7 @@
 #include <QEventLoop>
 #include <catch2/catch_test_macros.hpp>
 #include <exec/async_scope.hpp>
-#include <object_handler.hpp>
+#include <qt_probe_handler.hpp>
 #include <quite/logger.hpp>
 #include "async_test_helper.hpp"
 #include "object_tracker.hpp"
@@ -39,7 +39,7 @@ TEST_CASE("Test ProbeHandler")
 {
     ObjectTracker tracker;
     register_converters(entt::locator<ValueRegistry>::emplace());
-    ObjectHandler probe_handler{tracker};
+    QtProbeHandler probe_handler{tracker};
 
     MyTestObject test_obj{};
     const auto test_obj_id = reinterpret_cast<ObjectId>(std::addressof(test_obj));
@@ -68,7 +68,7 @@ TEST_CASE("Test ProbeHandler")
                    stdexec::let_value([&]() { return probe_handler.fetch_properties(test_obj_id, {}); }) |
                    stdexec::then([&test_obj](auto &&result) {
                        REQUIRE(result.has_value());
-                       const ObjectHandler::PropertyMap &properties = result.value();
+                       const proto::IProbeHandler::PropertyMap &properties = result.value();
                        REQUIRE(properties.size() == 2);
                        const entt::meta_any &object_name_native = properties.at("objectName");
                        auto &&object_name = object_name_native.allow_cast<std::string>().cast<std::string>();
@@ -90,7 +90,7 @@ TEST_CASE("Test ProbeHandler")
                    stdexec::let_value([&]() { return probe_handler.fetch_properties(test_obj_id, filter); }) |
                    stdexec::then([&test_obj](auto &&result) {
                        REQUIRE(result.has_value());
-                       const ObjectHandler::PropertyMap &properties = result.value();
+                       const proto::IProbeHandler::PropertyMap &properties = result.value();
                        REQUIRE(properties.size() == 1);
                        REQUIRE(properties.at("color") == QColor{Qt::red});
                        QCoreApplication::quit();

@@ -1,13 +1,13 @@
 #include "rpc_fetch_windows.hpp"
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include "error_helper.hpp"
-#include "quite/proto/probe/object_handler.hpp"
+#include "quite/proto/probe/probe_handler.hpp"
 
 namespace quite::proto
 {
 exec::task<void> GetViewsRpcHandler::operator()(GetViewsRPC &rpc, const GetViewsRPC::Request &request)
 {
-    auto &object_handler = entt::locator<IObjectHandler>::value();
+    auto &object_handler = entt::locator<IProbeHandler>::value();
 
     auto windows_result = co_await object_handler.fetch_windows();
     if (not windows_result.has_value())

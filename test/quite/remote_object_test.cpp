@@ -93,7 +93,8 @@ TEST_CASE("Remote object can be invoked")
     SECTION("A method is invoked")
     {
         ASYNC_BLOCK
-        co_await obj->invoke_method("click()");
+        auto invoke_result = co_await obj->invoke_method("click()");
+        REQUIRE(invoke_result.has_value());
         const ObjectQuery text_area_query{.properties = {{"objectName", Value{"textArea"}}}};
         auto text_area = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {
                                                        auto obj = co_await app->find_object(text_area_query);

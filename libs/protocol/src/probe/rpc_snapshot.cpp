@@ -2,14 +2,14 @@
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <entt/locator/locator.hpp>
 #include "error_helper.hpp"
-#include "quite/proto/probe/object_handler.hpp"
+#include "quite/proto/probe/probe_handler.hpp"
 
 namespace quite::proto
 {
 
 exec::task<void> SnapshotRpcHandler::operator()(RpcSnapshot &rpc, const RpcSnapshot::Request &request) const
 {
-    auto &object_handler = entt::locator<IObjectHandler>::value();
+    auto &object_handler = entt::locator<IProbeHandler>::value();
     auto result = co_await object_handler.take_snapshot(request.object_id());
     if (not result.has_value())
     {

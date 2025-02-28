@@ -4,7 +4,7 @@
 #include <quite/value/object_query.hpp>
 #include <quite/value/value_registry.hpp>
 #include "error_helper.hpp"
-#include "quite/proto/probe/object_handler.hpp"
+#include "quite/proto/probe/probe_handler.hpp"
 #include "quite/proto/value.hpp"
 
 namespace quite::proto
@@ -38,7 +38,7 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
         child = child->container.get();
     }
 
-    auto &snapshot_handler = entt::locator<IObjectHandler>::value();
+    auto &snapshot_handler = entt::locator<IProbeHandler>::value();
     auto find_result = co_await snapshot_handler.find_object(std::move(object_query));
     if (not find_result.has_value())
     {

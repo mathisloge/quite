@@ -7,8 +7,6 @@
 
 namespace quite::proto
 {
-class IObjectHandler;
-
 class QUITE_PROTOCOL_EXPORT Server final
 {
   public:
