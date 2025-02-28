@@ -1,6 +1,6 @@
 #pragma once
-#include <SDL_render.h>
 #include <imgui.h>
+#include <quite/image.hpp>
 #include "object_tree.hpp"
 
 namespace quite::studio
@@ -8,7 +8,7 @@ namespace quite::studio
 class ImageView
 {
   public:
-    explicit ImageView(ObjectTree &tree, SDL_Renderer *renderer);
+    explicit ImageView(ObjectTree &tree);
     ~ImageView();
     void draw();
     void higlight_object(const ObjectTree::ObjectNode *object);
@@ -19,10 +19,9 @@ class ImageView
   private:
     struct AsyncImage
     {
-        SDL_Renderer *renderer;
         bool dirty{false};
         Image image;
-        std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> texture{nullptr, SDL_DestroyTexture};
+        // std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> texture{nullptr, SDL_DestroyTexture};
         ImVec2 size;
 
         ImVec2 start_point_;

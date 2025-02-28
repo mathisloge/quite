@@ -2,8 +2,7 @@
 namespace quite::studio
 {
 
-ApplicationManager::ApplicationManager(SDL_Renderer *renderer)
-    : renderer_{renderer}
+ApplicationManager::ApplicationManager()
 {}
 
 void ApplicationManager::addApplication(const std::string &application)

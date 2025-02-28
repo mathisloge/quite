@@ -1,4 +1,4 @@
-find_package(SDL2 CONFIG REQUIRED)
+find_package(SDL3 CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 
 cmrc_add_resource_library(studiorc ALIAS quite::studiorc NAMESPACE studiorc
@@ -10,8 +10,7 @@ target_link_libraries(quite-studio PRIVATE
     quite::client
     quite::studiorc
     imgui::imgui
-    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
-    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+    SDL3::SDL3
 )
 
 target_sources(quite-studio PRIVATE

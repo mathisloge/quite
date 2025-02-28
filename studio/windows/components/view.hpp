@@ -1,5 +1,4 @@
 #pragma once
-#include <SDL_render.h>
 #include <imgui.h>
 #include <quite/application.hpp>
 #include "element_tree_view.hpp"
@@ -10,13 +9,12 @@ namespace quite::studio
 class View final
 {
   public:
-    explicit View(SDL_Renderer *renderer, const std::shared_ptr<RemoteObject> &view);
+    explicit View(const std::shared_ptr<RemoteObject> &view);
     ~View();
 
     void draw();
 
   private:
-    SDL_Renderer *renderer_;
     std::shared_ptr<RemoteObject> view_;
 
     ObjectTree tree_;

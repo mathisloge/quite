@@ -6,9 +6,8 @@ DEFINE_LOGGER(ui_image_view);
 
 namespace quite::studio
 {
-ImageView::ImageView(ObjectTree &tree, SDL_Renderer *renderer)
+ImageView::ImageView(ObjectTree &tree)
     : tree_{tree}
-    , image_{renderer}
 {
     fetch_image();
 }
@@ -89,6 +88,7 @@ void ImageView::fetch_image()
 
 void ImageView::AsyncImage::show()
 {
+#if 0
     if (dirty)
     {
         auto image_data = image.data();
@@ -119,5 +119,6 @@ void ImageView::AsyncImage::show()
         const auto p1 = ImVec2{p0.x + end_point_.x, p0.y + end_point_.y};
         draw_list->AddRect(p0, p1, kHighlightColor);
     }
+#endif
 }
 } // namespace quite::studio
