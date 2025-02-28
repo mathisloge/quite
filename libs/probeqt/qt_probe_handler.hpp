@@ -1,7 +1,7 @@
 #pragma once
 #include <QObject>
 #include <quite/async_result.hpp>
-#include <quite/proto/probe/object_handler.hpp>
+#include <quite/proto/probe/probe_handler.hpp>
 #include "method_invoker.hpp"
 
 namespace quite::probe
@@ -9,10 +9,10 @@ namespace quite::probe
 AsyncResult<QImage> take_snapshot_of_qobject(QObject *object);
 
 class ObjectTracker;
-class ObjectHandler final : public proto::IObjectHandler
+class QtProbeHandler final : public proto::IProbeHandler
 {
   public:
-    explicit ObjectHandler(const ObjectTracker &object_tracker);
+    explicit QtProbeHandler(const ObjectTracker &object_tracker);
 
     AsyncResult<entt::meta_any> object_instance(ObjectId object_id) override;
     AsyncResult<ImageData> take_snapshot(ObjectId object_id) override;

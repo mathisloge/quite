@@ -11,7 +11,7 @@ struct ObjectQuery;
 }
 namespace quite::proto
 {
-class QUITE_PROTOCOL_EXPORT IObjectHandler
+class QUITE_PROTOCOL_EXPORT IProbeHandler
 {
   public:
     struct ImageData
@@ -22,7 +22,7 @@ class QUITE_PROTOCOL_EXPORT IObjectHandler
     };
     using PropertyMap = entt::dense_map<std::string, entt::meta_any>;
 
-    virtual ~IObjectHandler() = default;
+    virtual ~IProbeHandler() = default;
     virtual AsyncResult<entt::meta_any> object_instance(ObjectId object_id) = 0;
     virtual AsyncResult<ImageData> take_snapshot(ObjectId object_id) = 0;
     virtual AsyncResult<ObjectReference> find_object(ObjectQuery query) = 0;

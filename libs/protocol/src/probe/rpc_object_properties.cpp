@@ -5,7 +5,7 @@
 #include <quite/proto/value.hpp>
 #include <quite/value/value_registry.hpp>
 #include "error_helper.hpp"
-#include "quite/proto/probe/object_handler.hpp"
+#include "quite/proto/probe/probe_handler.hpp"
 
 DEFINE_LOGGER(rpc_get_object_properties)
 
@@ -16,7 +16,7 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
                                                            const GetObjectPropertiesRPC::Request &request)
 {
     LOG_DEBUG(rpc_get_object_properties(), "START RequestGetObjectProperty={}", request.object_id());
-    auto &object_handler = entt::locator<IObjectHandler>::value();
+    auto &object_handler = entt::locator<IProbeHandler>::value();
     std::vector<std::string> property_names;
     property_names.reserve(request.property_names_size());
     std::move(request.property_names().begin(), request.property_names().end(), std::back_inserter(property_names));

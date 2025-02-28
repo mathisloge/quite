@@ -3,7 +3,7 @@
 #include <entt/locator/locator.hpp>
 #include <fmt/core.h>
 #include "error_helper.hpp"
-#include "quite/proto/probe/object_handler.hpp"
+#include "quite/proto/probe/probe_handler.hpp"
 #include "quite/proto/value.hpp"
 
 namespace quite::proto
@@ -17,7 +17,7 @@ exec::task<void> InvokeMethodRpcHandler::operator()(InvokeMethodRPC &rpc, const 
             grpc::Status{grpc::StatusCode::FAILED_PRECONDITION, "Can't invoke a method without a passed mathod."});
         co_return;
     }
-    auto &object_handler = entt::locator<IObjectHandler>::value();
+    auto &object_handler = entt::locator<IProbeHandler>::value();
 
     auto root_object = co_await object_handler.object_instance(request.object_id());
     if (not root_object.has_value())

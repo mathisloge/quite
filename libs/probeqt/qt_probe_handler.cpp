@@ -1,4 +1,4 @@
-#include "object_handler.hpp"
+#include "qt_probe_handler.hpp"
 #include <QPointer>
 #include <QQuickItem>
 #include <QQuickItemGrabResult>
@@ -36,12 +36,12 @@ AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
                     object != nullptr ? object->objectName().toStdString() : "unknown"));
 }
 
-ObjectHandler::ObjectHandler(const ObjectTracker &object_tracker)
+QtProbeHandler::QtProbeHandler(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
     , method_invoker_{object_tracker}
 {}
 
-AsyncResult<entt::meta_any> ObjectHandler::object_instance(ObjectId object_id)
+AsyncResult<entt::meta_any> QtProbeHandler::object_instance(ObjectId object_id)
 {
     auto find_result = object_tracker_.get_object_by_id(object_id);
     if (find_result.has_value())
@@ -51,7 +51,7 @@ AsyncResult<entt::meta_any> ObjectHandler::object_instance(ObjectId object_id)
     co_return std::unexpected{std::move(find_result.error())};
 }
 
-AsyncResult<ObjectHandler::ImageData> ObjectHandler::take_snapshot(ObjectId object_id)
+AsyncResult<QtProbeHandler::ImageData> QtProbeHandler::take_snapshot(ObjectId object_id)
 {
     auto object = object_tracker_.get_object_by_id(object_id);
     if (not object.has_value())
@@ -75,7 +75,7 @@ AsyncResult<ObjectHandler::ImageData> ObjectHandler::take_snapshot(ObjectId obje
     co_return image;
 }
 
-AsyncResult<ObjectReference> ObjectHandler::find_object(ObjectQuery query)
+AsyncResult<ObjectReference> QtProbeHandler::find_object(ObjectQuery query)
 {
     auto obj_info = co_await (
         stdexec::when_all(stdexec::just(QPointer<const ObjectTracker>{std::addressof(object_tracker_)}),
@@ -92,8 +92,8 @@ AsyncResult<ObjectReference> ObjectHandler::find_object(ObjectQuery query)
     co_return obj_info;
 }
 
-AsyncResult<ObjectHandler::PropertyMap> ObjectHandler::fetch_properties(ObjectId object_id,
-                                                                        std::vector<std::string> properties)
+AsyncResult<QtProbeHandler::PropertyMap> QtProbeHandler::fetch_properties(ObjectId object_id,
+                                                                          std::vector<std::string> properties)
 {
     auto obj_result = object_tracker_.get_object_by_id(object_id);
     if (not obj_result.has_value())
@@ -104,18 +104,18 @@ AsyncResult<ObjectHandler::PropertyMap> ObjectHandler::fetch_properties(ObjectId
         co_await (stdexec::just(QPointer<QObject>{obj_result.value()}) |
                   stdexec::continues_on(QtStdExec::qThreadAsScheduler(obj_result.value()->thread())) |
                   stdexec::then([](auto &&object) { return ObjectMeta::from_qobject(object); }) |
-                  stdexec::then([properties](auto &&object_meta) -> Result<ObjectHandler::PropertyMap> {
+                  stdexec::then([properties](auto &&object_meta) -> Result<QtProbeHandler::PropertyMap> {
                       if (object_meta.meta_object == nullptr)
                       {
-                          return make_error_result<ObjectHandler::PropertyMap>(ErrorCode::failed_precondition,
-                                                                               "Could not get a QMetaObject");
+                          return make_error_result<QtProbeHandler::PropertyMap>(ErrorCode::failed_precondition,
+                                                                                "Could not get a QMetaObject");
                       }
                       return collect_properties(object_meta, properties);
                   }));
     co_return collected_properties;
 }
 
-AsyncResult<std::vector<ObjectReference>> ObjectHandler::fetch_windows()
+AsyncResult<std::vector<ObjectReference>> QtProbeHandler::fetch_windows()
 {
     std::vector<ObjectReference> windows;
     for (auto &&obj : object_tracker_.top_level_views())
@@ -126,9 +126,9 @@ AsyncResult<std::vector<ObjectReference>> ObjectHandler::fetch_windows()
     co_return windows;
 }
 
-AsyncResult<entt::meta_any> ObjectHandler::invoke_method(const entt::meta_any &object,
-                                                         std::string qualified_method_signature,
-                                                         std::vector<entt::meta_any> params)
+AsyncResult<entt::meta_any> QtProbeHandler::invoke_method(const entt::meta_any &object,
+                                                          std::string qualified_method_signature,
+                                                          std::vector<entt::meta_any> params)
 {
     co_return co_await (
         stdexec::when_all(stdexec::just(object), stdexec::just(qualified_method_signature), stdexec::just(params)) |
