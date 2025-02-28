@@ -17,6 +17,8 @@ class ProbeClient final
     core::IMouseInjector &mouse_injector();
     meta::MetaRegistry &meta_registry();
 
+    AsyncResult<void> wait_for_connected(std::chrono::seconds timeout);
+
   private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

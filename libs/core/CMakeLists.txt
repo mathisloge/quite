@@ -12,6 +12,7 @@ configure_file (
 target_link_libraries(quite_core PUBLIC
     fmt::fmt
     quill::quill
+    Boost::asio
 )
 
 target_sources(quite_core
@@ -20,6 +21,7 @@ target_sources(quite_core
             TYPE HEADERS
             BASE_DIRS include
             FILES
+                include/quite/asio2exec.hpp
                 include/quite/async_result.hpp
                 include/quite/error.hpp
                 include/quite/result.hpp
@@ -48,3 +50,4 @@ target_sources(quite_core
         src/value/value_registry.cpp
         src/value/object_query.cpp
 )
+target_compile_definitions(quite_core PUBLIC ASIO_TO_EXEC_USE_BOOST)

@@ -1,4 +1,5 @@
 #include "grpc_manager.hpp"
+#include <agrpc/asio_grpc.hpp>
 namespace quite::proto
 {
 GrpcManager::GrpcManager()
