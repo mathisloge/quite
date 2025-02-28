@@ -27,20 +27,6 @@
             "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
         },
         {
-            "name": "debug-build",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "release-build",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
             "name": "use-gcc",
             "hidden": true,
             "cacheVariables": {
@@ -62,15 +48,20 @@
                 "common",
                 "vcpkg",
                 "use-gcc",
-                "debug-build",
                 "developer"
             ]
         }
     ],
     "buildPresets": [
         {
-            "name": "developer-gcc",
-            "configurePreset": "developer-gcc"
+            "name": "developer-gcc-debug",
+            "configurePreset": "developer-gcc",
+            "configuration": "Debug"
+        },
+        {
+            "name": "developer-gcc-release",
+            "configurePreset": "developer-gcc",
+            "configuration": "Release"
         }
     ],
     "testPresets": [
