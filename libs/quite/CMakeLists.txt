@@ -22,7 +22,7 @@ target_sources(quite_client
                 include/quite/application.hpp
                 include/quite/application_manager.hpp
                 include/quite/asio2exec.hpp
-                include/quite/image.hpp
+                include/quite/image_utils.hpp
                 include/quite/indirect.hpp
                 include/quite/object_query.hpp
                 include/quite/property.hpp
@@ -43,7 +43,7 @@ target_sources(quite_client
         src/context.cpp
         src/context.hpp
         src/remote_object.cpp
-        src/image.cpp
+        src/image_utils.cpp
         src/object_query.cpp
 )
 

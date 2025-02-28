@@ -2,8 +2,8 @@
 #include <cstdint>
 #include <exec/task.hpp>
 #include <quite/async_result.hpp>
-#include "image.hpp"
 #include "property.hpp"
+#include "quite/image.hpp"
 #include "quite/quite_client_export.hpp"
 namespace quite
 {
