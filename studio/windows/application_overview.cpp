@@ -1,5 +1,4 @@
 #include "application_overview.hpp"
-#include <SDL_surface.h>
 #include <exec/static_thread_pool.hpp>
 #include <exec/task.hpp>
 #include <imgui.h>
@@ -10,9 +9,8 @@ DEFINE_LOGGER(application_overview);
 
 namespace quite::studio
 {
-ApplicationOverview::ApplicationOverview(SDL_Renderer *renderer, std::shared_ptr<Application> application)
-    : renderer_{renderer}
-    , application_(std::move(application))
+ApplicationOverview::ApplicationOverview(std::shared_ptr<Application> application)
+    : application_(std::move(application))
 {
     fetchViews();
 }
@@ -63,7 +61,7 @@ void ApplicationOverview::fetchViews()
             LOG_DEBUG(application_overview(), "got views");
             for (auto &&v : *view_result)
             {
-                self->views_[v->id()] = std::make_unique<View>(self->renderer_, v);
+                // self->views_[v->id()] = std::make_unique<View>(self->renderer_, v);
             }
         }
         else

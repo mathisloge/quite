@@ -8,7 +8,7 @@ namespace quite::studio
 class App final
 {
   public:
-    explicit App(SDL_Renderer *renderer);
+    explicit App();
     void setup();
     void show();
 
@@ -17,10 +17,9 @@ class App final
     void showMainMenu();
 
   private:
-    SDL_Renderer *renderer_;
     exec::static_thread_pool thread_pool_{1};
     exec::static_thread_pool::scheduler scheduler_{thread_pool_.get_scheduler()};
-    std::shared_ptr<ApplicationManager> app_manager_{std::make_shared<ApplicationManager>(renderer_)};
+    std::shared_ptr<ApplicationManager> app_manager_{std::make_shared<ApplicationManager>()};
     AutConnector aut_connector_{app_manager_};
 };
 } // namespace quite::studio

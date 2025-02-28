@@ -5,9 +5,7 @@
 CMRC_DECLARE(studiorc);
 namespace quite::studio
 {
-App::App(SDL_Renderer *renderer)
-    : renderer_{renderer}
-{}
+App::App() = default;
 
 void App::setup()
 {
