@@ -7,21 +7,16 @@
 
 namespace quite::proto
 {
-class QUITE_PROTOCOL_EXPORT ProbeClient final
+class QUITE_PROTOCOL_EXPORT ProbeClient
 {
   public:
     QUITE_DISABLE_COPY_MOVE(ProbeClient);
-    explicit ProbeClient(std::string connection_url = "unix:///tmp/grpc_probe.sock");
-    ~ProbeClient();
+    ProbeClient();
+    virtual ~ProbeClient();
 
-    IProbeService &probe_service();
-    core::IMouseInjector &mouse_injector();
-    meta::MetaRegistry &meta_registry();
-
-    AsyncResult<void> wait_for_connected(std::chrono::seconds timeout);
-
-  private:
-    struct Impl;
-    std::unique_ptr<Impl> impl_;
+    virtual IProbeService &probe_service() = 0;
+    virtual core::IMouseInjector &mouse_injector() = 0;
+    virtual meta::MetaRegistry &meta_registry() = 0;
+    virtual AsyncResult<void> wait_for_connected(std::chrono::seconds timeout) = 0;
 };
 } // namespace quite::proto

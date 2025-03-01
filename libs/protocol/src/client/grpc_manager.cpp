@@ -10,7 +10,10 @@ GrpcManager::GrpcManager()
     }}
 {}
 
-GrpcManager::~GrpcManager() = default;
+GrpcManager::~GrpcManager()
+{
+    grpc_context_->stop();
+};
 
 std::shared_ptr<agrpc::GrpcContext> GrpcManager::context()
 {
