@@ -10,7 +10,7 @@ DEFINE_LOGGER(grpc_app_logger)
 namespace quite
 {
 GrpcApplication::GrpcApplication(Context &context)
-    : client_{std::make_shared<proto::ProbeClient>()}
+    : client_{context.Instance().backend_client().create_probe_client()}
 {}
 
 AsyncResult<void> GrpcApplication::wait_for_started(std::chrono::seconds timeout)
