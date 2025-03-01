@@ -23,7 +23,7 @@ class QUITE_TEST_EXPORT Application
 
     RemoteObject find_object(std::shared_ptr<ObjectQuery> query);
     RemoteObject try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout);
-    void wait_for_connected();
+    void wait_for_connected(std::chrono::seconds timeout);
     void exit();
 
   private:

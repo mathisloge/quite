@@ -2,10 +2,10 @@
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <entt/locator/locator.hpp>
 #include <quite/logger.hpp>
-#include <quite/proto/value.hpp>
 #include <quite/value/value_registry.hpp>
 #include "error_helper.hpp"
 #include "quite/proto/probe/probe_handler.hpp"
+#include "value.hpp"
 
 DEFINE_LOGGER(rpc_get_object_properties)
 

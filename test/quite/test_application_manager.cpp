@@ -17,7 +17,7 @@ TEST_CASE("A host application is started")
     auto app = app_manager.create_host_application(TESTER_APP_PATH);
 
     ASYNC_BLOCK
-    const auto state = co_await app->wait_for_started();
+    const auto state = co_await app->wait_for_started(std::chrono::seconds{5});
     REQUIRE(state.has_value());
     co_await app->exit();
     ASYNC_BLOCK_END

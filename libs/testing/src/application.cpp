@@ -4,8 +4,8 @@
 #include <exec/task.hpp>
 #include <exec/when_any.hpp>
 #include <quite/application.hpp>
-#include <quite/object_query.hpp>
 #include <quite/quite.hpp>
+#include <quite/value/object_query.hpp>
 #include "quite/test/exceptions.hpp"
 
 namespace quite::test
@@ -20,9 +20,9 @@ Application::Application(std::shared_ptr<quite::Application> app)
     : app_{std::move(app)}
 {}
 
-void Application::wait_for_connected()
+void Application::wait_for_connected(std::chrono::seconds timeout)
 {
-    const auto [is_connected] = stdexec::sync_wait(app_->wait_for_started()).value();
+    const auto [is_connected] = stdexec::sync_wait(app_->wait_for_started(timeout)).value();
     if (not is_connected.has_value())
     {
         throw RemoteException{std::move(is_connected.error())};

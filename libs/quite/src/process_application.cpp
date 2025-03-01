@@ -2,6 +2,7 @@
 #include <boost/asio/steady_timer.hpp>
 #include <exec/when_any.hpp>
 #include <quite/logger.hpp>
+#include "quite/quite.hpp"
 
 DEFINE_LOGGER(process_application_logger)
 
@@ -12,7 +13,7 @@ ProcessApplication::ProcessApplication(Context &context,
                                        const std::vector<std::string> &args,
                                        const std::unordered_map<std::string, std::string> &enviroment)
     : GrpcApplication(context)
-    , process_{context.asioContext().get_executor(),
+    , process_{quite::asio_context().get_executor(),
                path_to_application,
                args,
                enviroment,
@@ -31,7 +32,7 @@ AsyncResult<void> ProcessApplication::exit()
     if (process_.is_open())
     {
         LOG_DEBUG(process_application_logger(), "Process still running. Trying to gracefully stop it.");
-        boost::asio::steady_timer timer{Context::Instance().asioContext().get_executor(), std::chrono::seconds(3)};
+        boost::asio::steady_timer timer{quite::asio_context().get_executor(), std::chrono::seconds(3)};
         boost::system::error_code ec;
         process_.request_exit(ec);
         co_await exec::when_any(

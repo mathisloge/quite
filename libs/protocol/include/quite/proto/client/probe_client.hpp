@@ -3,10 +3,11 @@
 #include <quite/injectors/mouse_injector.hpp>
 #include <quite/meta/meta_registry.hpp>
 #include "probe_service.hpp"
+#include "quite/quite_protocol_export.hpp"
 
 namespace quite::proto
 {
-class ProbeClient final
+class QUITE_PROTOCOL_EXPORT ProbeClient final
 {
   public:
     QUITE_DISABLE_COPY_MOVE(ProbeClient);

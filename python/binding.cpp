@@ -1,10 +1,12 @@
 #include <pybind11/chrono.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <quite/object_query.hpp>
+#include <quite/property.hpp>
 #include <quite/test/application.hpp>
 #include <quite/test/application_manager.hpp>
 #include <quite/test/remote_object.hpp>
+#include <quite/value.hpp>
+#include <quite/value/object_query.hpp>
 #include <quite/version.hpp>
 
 namespace py = pybind11;
@@ -48,7 +50,7 @@ class ObjectQueryBuilder
   private:
     ObjectQueryBuilder &add_property(std::string key, Value value)
     {
-        query_->properties.insert_or_assign(std::move(key), std::move(value));
+        query_->properties.insert_or_assign(std::move(key), details::convert(value));
         return *this;
     }
 

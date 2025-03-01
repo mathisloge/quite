@@ -4,7 +4,7 @@
 #include <fmt/core.h>
 #include "error_helper.hpp"
 #include "quite/proto/probe/probe_handler.hpp"
-#include "quite/proto/value.hpp"
+#include "value.hpp"
 
 namespace quite::proto
 {

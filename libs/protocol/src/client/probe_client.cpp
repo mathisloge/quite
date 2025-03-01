@@ -8,10 +8,15 @@
 #include <grpcpp/client_context.h>
 #include <grpcpp/create_channel.h>
 #include <quite/asio2exec.hpp>
+#include <quite/logger.hpp>
 #include "grpc_manager.hpp"
+#include "meta_registry_impl.hpp"
+#include "mouse_injector_impl.hpp"
 #include "probe_service_impl.hpp"
 #include "quite/proto/meta_service.grpc.pb.h"
 #include "quite/proto/probe.grpc.pb.h"
+
+DEFINE_LOGGER(probe_client)
 
 namespace quite::proto
 {
@@ -26,6 +31,8 @@ struct ProbeClient::Impl
     proto::ProbeService::Stub probe_service_stub_{grpc_channel_};
     proto::MetaService::Stub meta_service_stub_{grpc_channel_};
     ProbeServiceImpl probe_service_{grpc_context_, probe_service_stub_};
+    MetaRegistryImpl meta_registry_{grpc_context_, meta_service_stub_};
+    MouseInjectorImpl mouse_injector_{grpc_context_, probe_service_stub_};
 };
 
 ProbeClient::ProbeClient(std::string connection_url)
@@ -43,7 +50,7 @@ AsyncResult<void> ProbeClient::wait_for_connected(std::chrono::seconds timeout)
     }
 
     Result<void> return_result = make_error_result<void>(ErrorCode::unknown, "not initialized");
-    boost::asio::steady_timer timer{entt::locator<boost::asio::io_context>::value(), timeout};
+    boost::asio::steady_timer timer{entt::locator<asio2exec::asio_context>::value().get_executor(), timeout};
     co_await exec::when_any(
         agrpc::notify_on_state_change(*impl_->grpc_context_,
                                       *impl_->grpc_channel_,
@@ -71,6 +78,7 @@ AsyncResult<void> ProbeClient::wait_for_connected(std::chrono::seconds timeout)
             }) |
             exec::repeat_effect_until(),
         timer.async_wait(asio2exec::use_sender) | stdexec::then([&return_result](std::error_code) {
+            LOG_DEBUG(probe_client(), "timeout");
             return_result =
                 make_error_result<void>(ErrorCode::deadline_exceeded, "Could not get connection state in time");
         }));
@@ -83,9 +91,13 @@ IProbeService &ProbeClient::probe_service()
 }
 
 core::IMouseInjector &ProbeClient::mouse_injector()
-{}
+{
+    return impl_->mouse_injector_;
+}
 
 meta::MetaRegistry &ProbeClient::meta_registry()
-{}
+{
+    return impl_->meta_registry_;
+}
 
 } // namespace quite::proto

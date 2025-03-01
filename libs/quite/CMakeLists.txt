@@ -23,7 +23,6 @@ target_sources(quite_client
                 include/quite/application_manager.hpp
                 include/quite/image_utils.hpp
                 include/quite/indirect.hpp
-                include/quite/object_query.hpp
                 include/quite/property.hpp
                 include/quite/quite.hpp
                 include/quite/remote_object.hpp
@@ -43,7 +42,7 @@ target_sources(quite_client
         src/context.hpp
         src/remote_object.cpp
         src/image_utils.cpp
-        src/object_query.cpp
+        src/value.cpp
 )
 
 target_link_libraries(quite_client PRIVATE

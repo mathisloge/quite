@@ -24,6 +24,6 @@ ApplicationPtr ApplicationManager::create_host_application(
 
 ApplicationPtr ApplicationManager::attach_to_running([[maybe_unused]] const std::string &connection_url)
 {
-    return std::make_shared<grpc_impl::GrpcApplication>(Context::Instance());
+    return std::make_shared<GrpcApplication>(Context::Instance());
 }
 } // namespace quite
