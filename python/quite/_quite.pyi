@@ -28,8 +28,8 @@ class Application:
         Try to get a object in the specified time.
         """
 
-    def wait_for_connected(self) -> None:
-        """wait_for_connected(self: quite._quite.Application) -> None
+    def wait_for_connected(self, arg0: datetime.timedelta) -> None:
+        """wait_for_connected(self: quite._quite.Application, arg0: datetime.timedelta) -> None
 
         Wait until the application is connected.
         """

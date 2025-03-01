@@ -8,6 +8,8 @@
 namespace quite
 {
 class RemoteObject;
+struct ArrayObject;
+struct ClassObject;
 
 using Value = std::variant<std::int64_t,
                            std::uint64_t,
@@ -15,11 +17,11 @@ using Value = std::variant<std::int64_t,
                            bool,
                            std::string,
                            std::shared_ptr<RemoteObject>,
-                           xyz::indirect<struct ArrayObject>,
-                           xyz::indirect<struct ClassObject>>;
+                           xyz::indirect<ArrayObject>,
+                           xyz::indirect<ClassObject>>;
 
 } // namespace quite
 namespace quite::details
 {
-entt::meta_any QUITE_CLIENT_EXPORT convert(const quite::Value &value);
+QUITE_CLIENT_EXPORT entt::meta_any convert(const quite::Value &value);
 } // namespace quite::details

@@ -5,7 +5,6 @@
 #include <quite/test/application.hpp>
 #include <quite/test/application_manager.hpp>
 #include <quite/test/remote_object.hpp>
-#include <quite/value.hpp>
 #include <quite/value/object_query.hpp>
 #include <quite/version.hpp>
 
@@ -24,22 +23,22 @@ class ObjectQueryBuilder
 
     ObjectQueryBuilder &add_property(std::string key, std::int64_t value)
     {
-        return add_property(std::move(key), Value{value});
+        return add_property(std::move(key), entt::forward_as_meta(value));
     }
 
     ObjectQueryBuilder &add_property(std::string key, double value)
     {
-        return add_property(std::move(key), Value{value});
+        return add_property(std::move(key), entt::forward_as_meta(value));
     }
 
     ObjectQueryBuilder &add_property(std::string key, bool value)
     {
-        return add_property(std::move(key), Value{value});
+        return add_property(std::move(key), entt::forward_as_meta(value));
     }
 
     ObjectQueryBuilder &add_property(std::string key, std::string value)
     {
-        return add_property(std::move(key), Value{std::move(value)});
+        return add_property(std::move(key), entt::forward_as_meta(std::move(value)));
     }
 
     std::shared_ptr<ObjectQuery> query()
@@ -48,9 +47,9 @@ class ObjectQueryBuilder
     }
 
   private:
-    ObjectQueryBuilder &add_property(std::string key, Value value)
+    ObjectQueryBuilder &add_property(std::string key, entt::meta_any value)
     {
-        query_->properties.insert_or_assign(std::move(key), details::convert(value));
+        query_->properties.insert_or_assign(std::move(key), std::move(value));
         return *this;
     }
 
