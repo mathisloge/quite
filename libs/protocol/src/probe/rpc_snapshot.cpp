@@ -1,4 +1,5 @@
 #include "rpc_snapshot.hpp"
+#include <ranges>
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <entt/locator/locator.hpp>
 #include "error_helper.hpp"

@@ -32,7 +32,7 @@ exec::task<void> GetObjectPropertiesRpcHandler::operator()(GetObjectPropertiesRP
     GetObjectPropertiesRPC::Response response;
     for (auto &&[key, value] : *properties_result)
     {
-        response.mutable_property_values()->emplace(key, create_value(value_registry, value));
+        response.mutable_property_values()->insert({key, create_value(value_registry, value)});
     }
     co_await rpc.finish(response, grpc::Status::OK);
 }
