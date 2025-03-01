@@ -8,13 +8,13 @@ namespace quite
 namespace
 {
 AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visited_objects,
-                                            const RemoteObjectPtr &remote_object,
-                                            std::span<const std::string> properties);
+                                            RemoteObjectPtr remote_object,
+                                            std::vector<std::string> properties);
 
 struct ValueVisitor
 {
     std::unordered_set<ObjectId> &visited_objects;
-    std::span<const std::string> properties;
+    std::vector<std::string> properties;
     nlohmann::json &out;
 
     AsyncResult<void> operator()(auto &&value)
@@ -23,9 +23,9 @@ struct ValueVisitor
         co_return {};
     }
 
-    AsyncResult<void> operator()(const RemoteObjectPtr &object)
+    AsyncResult<void> operator()(RemoteObjectPtr object)
     {
-        auto props = co_await dump_properties(visited_objects, object, properties);
+        auto props = co_await dump_properties(visited_objects, std::move(object), std::move(properties));
         if (props.has_value())
         {
             out = props.value();
@@ -68,8 +68,8 @@ struct ValueVisitor
 };
 
 AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visited_objects,
-                                            const RemoteObjectPtr &remote_object,
-                                            std::span<const std::string> properties)
+                                            RemoteObjectPtr remote_object,
+                                            std::vector<std::string> properties)
 {
     if (visited_objects.contains(remote_object->id()))
     {
@@ -105,10 +105,9 @@ AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visite
 }
 
 } // namespace
-AsyncResult<nlohmann::json> dump_properties(const RemoteObjectPtr &remote_object,
-                                            std::span<const std::string> properties)
+AsyncResult<nlohmann::json> dump_properties(RemoteObjectPtr remote_object, std::vector<std::string> properties)
 {
     std::unordered_set<ObjectId> objects;
-    co_return co_await dump_properties(objects, remote_object, properties);
+    co_return co_await dump_properties(objects, std::move(remote_object), std::move(properties));
 }
 } // namespace quite

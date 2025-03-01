@@ -1,9 +1,10 @@
-#include "quite/proto/value.hpp"
+#include "value.hpp"
 #include <entt/core/hashed_string.hpp>
 #include <entt/meta/container.hpp>
 #include <entt/meta/resolve.hpp>
 #include <entt/meta/utility.hpp>
 #include "quite/value/generic_value_class.hpp"
+#include "quite/value/object_id.hpp"
 
 using namespace entt::literals;
 
@@ -65,7 +66,7 @@ entt::meta_any convert_value(const ValueRegistry &value_registry, const Value &v
     }
     if (value.has_string_val())
     {
-        return entt::forward_as_meta(value_registry.context(), value.string_val());
+        return entt::forward_as_meta(value_registry.context(), std::string{value.string_val()});
     }
     if (value.has_object_val())
     {
@@ -75,6 +76,17 @@ entt::meta_any convert_value(const ValueRegistry &value_registry, const Value &v
             constexpr bool kDontTransferOwnership{false};
             return type_id.from_void(reinterpret_cast<void *>(value.object_val().object_id()), kDontTransferOwnership);
         }
+        return entt::forward_as_meta(
+            value_registry.context(),
+            ObjectReference{.object_id = value.object_val().object_id(), .type_id = value.type_id()});
+    }
+    if (value.has_array_val())
+    {
+        // TODO
+    }
+    if (value.has_class_val())
+    {
+        // TODO
     }
     return entt::meta_any{};
 }

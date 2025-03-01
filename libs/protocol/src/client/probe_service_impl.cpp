@@ -2,7 +2,7 @@
 #include <quite/logger.hpp>
 #include "configure_client_context.hpp"
 #include "error_helper.hpp"
-#include "quite/proto/value.hpp"
+#include "value.hpp"
 
 DEFINE_LOGGER(grpc_probe)
 
@@ -41,18 +41,20 @@ AsyncResult<Image> ProbeServiceImpl::take_snapshot(ObjectId id)
 
     co_await rpc.start(probe_service_stub_, request, agrpc::use_sender);
 
-    RPC::Response response;
     bool do_read{true};
+    quite::proto::ImageMetadata meta_data;
+    std::vector<std::byte> image_data;
     while (do_read)
     {
-        proto::ImageResponse response;
+        RPC::Response response;
         do_read = co_await rpc.read(response, agrpc::use_sender);
-        LOG_DEBUG(grpc_probe(), "got snapshot chunk. Size={}. Has more to read={}", response.data().size(), do_read);
-
-        std::copy(response.data().begin(), response.data().end(), std::back_inserter(*response.mutable_data()));
+        const auto data_size = response.data().size();
+        LOG_DEBUG(grpc_probe(), "got snapshot chunk. Size={}. Has more to read={}", data_size, do_read);
+        const auto data_view = std::as_bytes(std::span{response.data().data(), data_size});
+        std::copy(data_view.begin(), data_view.end(), std::back_inserter(image_data));
         if (response.has_metadata())
         {
-            *response.mutable_metadata() = response.metadata();
+            meta_data = response.metadata();
         }
     }
     const auto status = co_await rpc.finish(agrpc::use_sender);
@@ -61,11 +63,8 @@ AsyncResult<Image> ProbeServiceImpl::take_snapshot(ObjectId id)
     {
         co_return std::unexpected(grpc_status2result(status));
     }
-    LOG_DEBUG(grpc_probe(), "got final snapshot. Size={}", response.data().size());
-    const auto data_size = response.data().size();
-    const auto data_view = std::as_bytes(std::span{response.data().data(), data_size});
-    std::vector<std::byte> image_data(data_view.begin(), data_view.end());
-    co_return Image{std::move(image_data), response.metadata().width(), response.metadata().height(), 4};
+    LOG_DEBUG(grpc_probe(), "got final snapshot. Size={}", image_data.size());
+    co_return Image{std::move(image_data), meta_data.width(), meta_data.height(), 4};
 }
 
 AsyncResult<ObjectReference> ProbeServiceImpl::find_object(ObjectQuery serach_query)
@@ -122,8 +121,7 @@ AsyncResult<std::vector<ObjectReference>> ProbeServiceImpl::query_top_level_view
 {
     using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncGetViews>;
     grpc::ClientContext client_context;
-    client_context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds{5});
-    client_context.set_wait_for_ready(true);
+    configure_client_context(client_context);
 
     RPC::Request request;
     RPC::Response response;
@@ -146,8 +144,7 @@ AsyncResult<entt::meta_any> ProbeServiceImpl::invoke_method(ObjectId id,
 {
     using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncInvokeMethod>;
     grpc::ClientContext client_context;
-    client_context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds{5});
-    client_context.set_wait_for_ready(true);
+    configure_client_context(client_context);
 
     RPC::Request request;
     request.set_object_id(id);

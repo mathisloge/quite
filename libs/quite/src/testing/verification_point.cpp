@@ -7,11 +7,6 @@
 
 DEFINE_LOGGER(vp_logger)
 
-namespace
-{
-constexpr auto kRequestedProperties =
-    std::array<std::string, 5>{"objectName", "width", "height", "children", "visible"};
-}
 namespace quite::testing
 {
 AsyncResult<bool> create_verification_point(RemoteObjectPtr object, const std::string &name)
@@ -21,7 +16,7 @@ AsyncResult<bool> create_verification_point(RemoteObjectPtr object, const std::s
     {
         co_return std::unexpected(snapshot.error());
     }
-    const auto props = co_await dump_properties(object, std::span{kRequestedProperties});
+    const auto props = co_await dump_properties(object, {"objectName", "width", "height", "children", "visible"});
     if (not props.has_value())
     {
         co_return std::unexpected(props.error());
@@ -44,7 +39,7 @@ AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::s
         LOG_ERROR(vp_logger(), "Error while creating the snapshot: {}", snapshot.error().message);
         co_return std::unexpected(snapshot.error());
     }
-    const auto props = co_await dump_properties(object, kRequestedProperties);
+    const auto props = co_await dump_properties(object, {"objectName", "width", "height", "children", "visible"});
     if (not props.has_value())
     {
         LOG_ERROR(vp_logger(), "Error while fetching the properties: {}", props.error().message);

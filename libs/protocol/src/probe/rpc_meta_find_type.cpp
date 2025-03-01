@@ -4,8 +4,8 @@
 #include <fmt/format.h>
 #include <quite/logger.hpp>
 #include <quite/meta/meta_registry.hpp>
-#include <quite/proto/meta_converters.hpp>
 #include "error_helper.hpp"
+#include "meta_converters.hpp"
 
 DEFINE_LOGGER(rpc_get_meta_object)
 

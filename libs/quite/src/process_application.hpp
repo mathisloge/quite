@@ -5,7 +5,7 @@
 #include "grpc_impl/grpc_application.hpp"
 namespace quite
 {
-class ProcessApplication final : public grpc_impl::GrpcApplication
+class ProcessApplication final : public GrpcApplication
 {
   public:
     explicit ProcessApplication(Context &context,

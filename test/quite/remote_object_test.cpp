@@ -17,9 +17,9 @@ TEST_CASE("Remote object can be invoked")
     setup_logger();
     ApplicationManager app_manager;
     auto app = app_manager.create_host_application(TESTER_APP_PATH);
-    stdexec::sync_wait(app->wait_for_started());
+    stdexec::sync_wait(app->wait_for_started(std::chrono::seconds{5}));
 
-    const ObjectQuery btn_query{.properties = {{"objectName", Value{"helloBtn"}}}};
+    const ObjectQuery btn_query{.properties = {{"objectName", entt::forward_as_meta(std::string{"helloBtn"})}}};
     auto obj = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {
                                              auto obj = co_await app->find_object(btn_query);
                                              REQUIRE(obj.has_value());
@@ -43,7 +43,7 @@ TEST_CASE("Remote object can be invoked")
 
     SECTION("Click the Button, then the text should have changed")
     {
-        const ObjectQuery query{.properties = {{"objectName", "textArea"}}};
+        const ObjectQuery query{.properties = {{"objectName", std::string{"textArea"}}}};
 
         ASYNC_BLOCK
         auto text_area = co_await app->find_object(query);
@@ -95,7 +95,7 @@ TEST_CASE("Remote object can be invoked")
         ASYNC_BLOCK
         auto invoke_result = co_await obj->invoke_method("click()");
         REQUIRE(invoke_result.has_value());
-        const ObjectQuery text_area_query{.properties = {{"objectName", Value{"textArea"}}}};
+        const ObjectQuery text_area_query{.properties = {{"objectName", std::string{"textArea"}}}};
         auto text_area = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {
                                                        auto obj = co_await app->find_object(text_area_query);
                                                        REQUIRE(obj.has_value());

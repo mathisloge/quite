@@ -1,5 +1,5 @@
+#include "meta_converters.hpp"
 #include <ranges>
-#include <quite/proto/meta_converters.hpp>
 
 namespace quite::proto
 {
