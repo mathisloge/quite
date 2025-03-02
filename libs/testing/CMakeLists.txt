@@ -3,7 +3,7 @@ add_library(quite::test ALIAS quite_test)
 set_target_properties(quite_test PROPERTIES
     POSITION_INDEPENDENT_CODE ON
 )
-generate_export_header(quite_test EXPORT_FILE_NAME quite_test_export.hpp)
+generate_export_header(quite_test EXPORT_FILE_NAME quite/quite_test_export.hpp)
 
 target_link_libraries(quite_test PUBLIC quite::client)
 
@@ -16,6 +16,8 @@ target_sources(quite_test
                 include/quite/test/application_manager.hpp
                 include/quite/test/application.hpp
                 include/quite/test/exceptions.hpp
+                include/quite/test/property.hpp
+                include/quite/test/remote_object.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}

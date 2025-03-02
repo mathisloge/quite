@@ -2,7 +2,7 @@
 #include <chrono>
 #include <memory>
 #include <quite/disable_copy_move.hpp>
-#include "quite_test_export.hpp"
+#include "quite/quite_test_export.hpp"
 #include "remote_object.hpp"
 
 namespace quite

@@ -11,10 +11,10 @@ class RemoteObject;
 struct ArrayObject;
 struct ClassObject;
 
-using Value = std::variant<std::int64_t,
+using Value = std::variant<bool,
                            std::uint64_t,
+                           std::int64_t,
                            double,
-                           bool,
                            std::string,
                            std::shared_ptr<RemoteObject>,
                            xyz::indirect<ArrayObject>,
