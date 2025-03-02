@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "quite_test_export.hpp"
+#include "quite/quite_test_export.hpp"
 
 namespace quite
 {
