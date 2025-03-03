@@ -55,7 +55,8 @@ AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string pr
 
 AsyncResult<Value> GrpcRemoteObject::fetch_property(std::string property_name)
 {
-    auto response = co_await client_->probe_service().get_object_properties(id(), {property_name});
+    std::vector<std::string> gcc13_workaround{property_name}; // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115660
+    auto response = co_await client_->probe_service().get_object_properties(id(), std::move(gcc13_workaround));
     co_return response.and_then([this, &property_name](auto &&properties) -> Result<Value> {
         auto it = properties.find(property_name);
         if (it == properties.end())
