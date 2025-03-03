@@ -132,12 +132,34 @@ class ObjectQueryBuilder:
         Sets the parent.
         """
 
+class Property:
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+    def fetch(self) -> bool | int | int | float | str | RemoteObject:
+        """fetch(self: quite._quite.Property) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
+
+    def value(self) -> bool | int | int | float | str | RemoteObject:
+        """value(self: quite._quite.Property) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
+
 class RemoteObject:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
 
+    def invoke(self, method: str) -> None:
+        """invoke(self: quite._quite.RemoteObject, method: str) -> None
+
+        Invokes the given method. Has to be the fully qualified name. If the qualified name is unknown, use the meta API to query the methods.
+        """
+
     def mouse_action(self) -> None:
         """mouse_action(self: quite._quite.RemoteObject) -> None"""
+
+    def property(self, name: str) -> Property:
+        """property(self: quite._quite.RemoteObject, name: str) -> quite._quite.Property
+
+        Reads a property from the object
+        """
 
     def take_snapshot(self) -> None:
         """take_snapshot(self: quite._quite.RemoteObject) -> None"""
