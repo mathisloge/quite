@@ -11,14 +11,16 @@ class Property;
 }
 namespace quite::test
 {
+class RemoteObject;
+
 class QUITE_TEST_EXPORT Property final
 {
   public:
     explicit Property(std::shared_ptr<quite::Property> property);
 
-    using Value = std::variant<bool, std::uint64_t, std::int64_t, double, std::string>;
+    using Value = std::variant<bool, std::uint64_t, std::int64_t, double, std::string, RemoteObject>;
     Value fetch();
-    const Value &value() const;
+    Property::Value value() const;
     void write(Value value);
 
   private:
