@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include <quite/image.hpp>
 #include <quite/result.hpp>
 #include "quite/quite_client_export.hpp"
