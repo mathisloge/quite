@@ -16,24 +16,22 @@ Application::Application(Application &&) noexcept = default;
 
 Application &Application::operator=(Application &&) noexcept = default;
 
-Application::Application(std::shared_ptr<quite::Application> app)
-    : app_{std::move(app)}
+Application::Application(std::shared_ptr<quite::Application> handle)
+    : handle_{std::move(handle)}
 {}
 
 void Application::wait_for_connected(std::chrono::seconds timeout)
 {
-    const auto [is_connected] = stdexec::sync_wait(app_->wait_for_started(timeout)).value();
+    const auto [is_connected] = stdexec::sync_wait(handle_->wait_for_started(timeout)).value();
     throw_unexpected(is_connected);
 }
 
 RemoteObject Application::find_object(std::shared_ptr<ObjectQuery> query)
 {
-    auto obj = std::get<Result<RemoteObjectPtr>>(
-        stdexec::sync_wait([app = app_, query = std::move(query)]() -> AsyncResult<RemoteObjectPtr> {
-            auto obj = co_await app->find_object(*query);
-            co_return obj;
-        }())
-            .value());
+    auto [obj] =
+        stdexec::sync_wait(stdexec::when_all(stdexec::just(handle_), stdexec::just(std::move(query))) |
+                           stdexec::let_value([](auto handle, auto query) { return handle->find_object(*query); }))
+            .value();
     throw_unexpected(obj);
     return RemoteObject{std::move(*obj)};
 }
@@ -41,13 +39,15 @@ RemoteObject Application::find_object(std::shared_ptr<ObjectQuery> query)
 RemoteObject Application::try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout)
 {
     Result<RemoteObjectPtr> found_object;
-    stdexec::sender auto find_obj_snd = stdexec::schedule(asio_context().get_scheduler()) |
-                                        stdexec::let_value([this, query]() { return app_->find_object(*query); }) |
-                                        stdexec::then([&found_object](auto &&result) {
-                                            found_object = std::forward<decltype(result)>(result);
-                                            return found_object.has_value();
-                                        }) |
-                                        exec::repeat_effect_until();
+    stdexec::sender auto find_obj_snd =
+        stdexec::when_all(stdexec::just(handle_), stdexec::just(std::move(query))) |
+        stdexec::continues_on(asio_context().get_scheduler()) |
+        stdexec::let_value([](auto handle, auto query) { return handle->find_object(*query); }) |
+        stdexec::then([&found_object](auto &&result) {
+            found_object = std::forward<decltype(result)>(result);
+            return found_object.has_value();
+        }) |
+        exec::repeat_effect_until();
 
     boost::asio::steady_timer timer{asio_context().get_executor(), timeout};
     stdexec::sender auto timeout_snd =
@@ -63,6 +63,6 @@ RemoteObject Application::try_find_object(std::shared_ptr<ObjectQuery> query, st
 
 void Application::exit()
 {
-    stdexec::sync_wait([app = app_]() -> exec::task<void> { co_await app->exit(); }());
+    stdexec::sync_wait([app = handle_]() -> exec::task<void> { co_await app->exit(); }());
 }
 } // namespace quite::test

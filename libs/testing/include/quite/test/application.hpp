@@ -28,10 +28,10 @@ class QUITE_TEST_EXPORT Application
 
   private:
     friend ApplicationManager;
-    explicit Application(std::shared_ptr<quite::Application> app);
+    explicit Application(std::shared_ptr<quite::Application> handle);
 
   private:
-    std::shared_ptr<quite::Application> app_;
+    std::shared_ptr<quite::Application> handle_;
 };
 } // namespace test
 } // namespace quite
