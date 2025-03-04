@@ -16,13 +16,13 @@ def app_manager():
 @pytest.fixture
 def hello_btn_query():
     query = ObjectQueryBuilder().add_property("objectName", "helloBtn")
-    return query.query()
+    return query.create()
 
 
 @pytest.fixture
 def text_field_query():
     query = ObjectQueryBuilder().add_property("objectName", "textArea")
-    return query.query()
+    return query.create()
 
 
 def test_launch_application(app_manager: ApplicationManager):
@@ -42,13 +42,13 @@ def test_find_object(app_manager: ApplicationManager, hello_btn_query):
         "objectName", "not-existing"
     )
     with pytest.raises(RuntimeError):
-        app.find_object(invalid_object_query.query())
+        app.find_object(invalid_object_query.create())
 
     btn = app.find_object(hello_btn_query)
     assert btn
 
     text_query = ObjectQueryBuilder().add_property("text", "...")
-    text = app.find_object(text_query.query())
+    text = app.find_object(text_query.create())
     assert text
 
 

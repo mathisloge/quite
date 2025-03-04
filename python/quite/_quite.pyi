@@ -118,8 +118,8 @@ class ObjectQueryBuilder:
         4. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
 
-    def query(self) -> ObjectQuery:
-        """query(self: quite._quite.ObjectQueryBuilder) -> quite._quite.ObjectQuery
+    def create(self) -> ObjectQuery:
+        """create(self: quite._quite.ObjectQueryBuilder) -> quite._quite.ObjectQuery
 
         Creates a object query to be used to e.g. find an object.
         """

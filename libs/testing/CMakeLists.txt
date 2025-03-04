@@ -16,6 +16,7 @@ target_sources(quite_test
                 include/quite/test/application_manager.hpp
                 include/quite/test/application.hpp
                 include/quite/test/exceptions.hpp
+                include/quite/test/object_query_builder.hpp
                 include/quite/test/property.hpp
                 include/quite/test/remote_object.hpp
         FILE_SET export_config
