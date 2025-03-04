@@ -34,4 +34,9 @@ Property RemoteObject::property(std::string name)
     throw_unexpected(result);
     return Property{std::move(result.value())};
 }
+
+bool RemoteObject::operator==(const RemoteObject &rhs) const
+{
+    return this->object_ == rhs.object_;
+}
 } // namespace quite::test

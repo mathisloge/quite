@@ -112,7 +112,8 @@ PYBIND11_MODULE(_quite, m)
     py_property.doc() = "Represents a property which is tied to a remote objects property";
     py_property //
         .def("fetch", &Property::fetch)
-        .def("value", &Property::value);
+        .def("value", &Property::value)
+        .def("wait_for_value", &Property::wait_for_value, py::arg{"target_value"}, py::arg{"timeout"});
 
     py_object_query_builder //
         .def(py::init())
