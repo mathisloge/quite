@@ -292,7 +292,7 @@ struct scheduler_t
                 }
                 try
                 {
-                    self._ctx->post(__sched_task_t{.self{&self}, .allocator{&self._buf}});
+                    __io::post(*self._ctx, __sched_task_t{.self{&self}, .allocator{&self._buf}});
                 }
                 catch (...)
                 {
