@@ -142,6 +142,13 @@ class Property:
     def value(self) -> bool | int | int | float | str | RemoteObject:
         """value(self: quite._quite.Property) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
 
+    def wait_for_value(
+        self,
+        target_value: bool | int | int | float | str | RemoteObject,
+        timeout: datetime.timedelta,
+    ) -> bool | int | int | float | str | RemoteObject:
+        """wait_for_value(self: quite._quite.Property, target_value: Union[bool, int, int, float, str, quite._quite.RemoteObject], timeout: datetime.timedelta) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
+
 class RemoteObject:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""

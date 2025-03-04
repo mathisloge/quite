@@ -17,7 +17,9 @@ class QUITE_TEST_EXPORT RemoteObject
     void mouse_action();
     void take_snapshot();
     void invoke_method(std::string method_name);
-    Property property(std::string name);
+    [[nodiscard]] Property property(std::string name);
+
+    [[nodiscard]] bool operator==(const RemoteObject &rhs) const;
 
   private:
     std::shared_ptr<quite::RemoteObject> object_;
