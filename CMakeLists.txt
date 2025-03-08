@@ -65,6 +65,8 @@ if(BUILD_TESTING)
     add_subdirectory(test)
 endif()
 
+add_subdirectory(examples)
+
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
