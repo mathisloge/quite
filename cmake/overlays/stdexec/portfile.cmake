@@ -3,8 +3,8 @@ set(VCPKG_BUILD_TYPE release) # header-only
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO mathisloge/stdexec
-    REF d1e153a07dbf3529c140436e261d34563e422fa5
-    SHA512 5f89ec4ae79f192a79422dce7b7620b515610f154bf52fc11d242b362b8a21d6b4ecafb8cbfe3db65ff30bfc9a91b1184001f7b6ef0b64a70e3fbd9e15b718ae
+    REF 8e23d8756b102aafaaeb25a4314848c7c26c6feb
+    SHA512 7c929ba64d8e10f8247c8ed032815f0abcb1289dda6b245e5e7dad5e3147f3c73d8216f2b67c937dd04c0455b80d5f560dcb6b0bb5c32da4f2c91593ff256964
     HEAD_REF main
 )
 

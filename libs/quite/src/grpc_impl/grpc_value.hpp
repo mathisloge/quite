@@ -1,11 +1,16 @@
 #pragma once
-#include <quite/property.hpp>
-#include <quite/proto/types.pb.h>
-#include "probe_handle.hpp"
-
-namespace quite::grpc_impl
+#include <quite/proto/client/probe_client.hpp>
+#include <quite/proto/client/value_converter.hpp>
+namespace quite
 {
-quite::Result<quite::Value> convert(const quite::proto::Value &value,
-                                    quite::grpc_impl::ProbeServiceHandle probe_service);
-quite::proto::Value convert(const quite::Value &value);
-} // namespace quite::grpc_impl
+class GrpcValueConverter final : public proto::IValueConverter
+{
+  public:
+    void set_client(std::shared_ptr<proto::ProbeClient> client);
+    entt::meta_any from(ObjectReference ref) const override;
+
+  private:
+    std::shared_ptr<proto::ProbeClient> client_;
+};
+// quite::Result<quite::Value> convert(const entt::meta_any &value, std::shared_ptr<proto::ProbeClient> client);
+} // namespace quite

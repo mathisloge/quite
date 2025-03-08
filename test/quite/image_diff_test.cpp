@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <cmrc/cmrc.hpp>
 #include <quite/image.hpp>
+#include <quite/image_utils.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>

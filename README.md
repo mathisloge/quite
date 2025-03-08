@@ -10,3 +10,9 @@ I welcome any feedback, suggestions, and contributions that can help make quite 
 > There is no API stability or other guarantees at this time. 
 > Changes may occur without notice, and existing code may become incompatible with future versions. 
 > This instability will persist until the release of version 1.0, where we will introduce API stability.
+
+
+## Which library should I use? 
+
+Only the quite::test library or the python bindings are considered as end user libraries. 
+The other libraries are intended for low-level usage with extended functionality for e.g. the quite-studio or the code generator.

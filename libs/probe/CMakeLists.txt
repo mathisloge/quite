@@ -6,7 +6,7 @@ add_library(quite::probe ALIAS probe)
 set_target_properties(probe PROPERTIES
     POSITION_INDEPENDENT_CODE ON
 )
-generate_export_header(probe)
+generate_export_header(probe EXPORT_FILE_NAME quite/quite_probe_export.hpp)
 
 
 target_sources(probe
@@ -20,7 +20,7 @@ target_sources(probe
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
             FILES
-                ${CMAKE_CURRENT_BINARY_DIR}/probe_export.h
+                ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_probe_export.hpp
     PRIVATE
         src/probe.cpp
 )

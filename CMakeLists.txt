@@ -58,12 +58,14 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 add_subdirectory(libs)
 add_subdirectory(python)
 if(QUITE_BUILD_STUDIO)
-    add_subdirectory(studio)
+    #add_subdirectory(studio)
 endif()
 if(BUILD_TESTING)
     find_package(Catch2 CONFIG REQUIRED)
     add_subdirectory(test)
 endif()
+
+add_subdirectory(examples)
 
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
@@ -72,7 +74,7 @@ feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 if(QUITE_INSTALL)
     include(CMakePackageConfigHelpers)
 
-    install(TARGETS quite_protocol quite_core quite_client probe
+    install(TARGETS quite_protocol quite_core quite_client quite_test probe
         EXPORT quiteTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

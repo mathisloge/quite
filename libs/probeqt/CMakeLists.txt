@@ -31,14 +31,14 @@ target_sources(probeqt
         object_tracker.hpp
         property_collector.cpp
         property_collector.hpp
-        snapshot.hpp
-        snapshot.cpp
+        qt_probe_handler.cpp
+        qt_probe_handler.hpp
         value_converters.hpp
         value_converters.cpp
-        proto_converters.cpp
-        proto_converters.hpp
         probe_context.hpp
         probe_context.cpp
+        probe_instances.hpp
+        probe_instances.cpp
         method_invoker.cpp
         method_invoker.hpp
         qt_meta_registry.cpp
@@ -47,9 +47,9 @@ target_sources(probeqt
         meta_adapter.hpp
         qt_meta_type_accessor.hpp
         qt_meta_type_accessor.cpp
+        meta_qt_containers.hpp
 )
 add_subdirectory(injector)
-add_subdirectory(rpc)
 
 #target_compile_options(probeqt PRIVATE -fno-omit-frame-pointer -fsanitize=address)
 #target_link_options(probeqt PRIVATE -fno-omit-frame-pointer -fsanitize=address)

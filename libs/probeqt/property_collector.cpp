@@ -4,47 +4,29 @@
 #include <ranges>
 #include <entt/meta/factory.hpp>
 #include <quite/logger.hpp>
+#include <quite/value/generic_value_class.hpp>
 #include "qt_meta_type_accessor.hpp"
 
 DEFINE_LOGGER(property_collector_logger)
 namespace quite
 {
-namespace
-{
-void insert_value(std::unordered_map<std::string, proto::Value> *properties,
-                  std::pair<std::string, proto::Value> property)
-{
-    properties->emplace(std::move(property));
-}
-} // namespace
-
 ObjectMeta ObjectMeta::from_qobject(QObject *object)
 {
     return ObjectMeta{.object = object, .meta_object = probe::try_get_qt_meta_object(object)};
 }
 
-std::pair<std::string, proto::Value> read_property(const QVariant property_value, const QMetaProperty &property)
+std::pair<std::string, entt::meta_any> read_property(const QVariant property_value, const QMetaProperty &property)
 {
-    proto::Value value;
+    entt::meta_any value;
 
     // important: check for explicit conversions first. E.g. QQuickAnchorLine is a QGadget but should be converted with
     // the explicit converter.
     if (auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()}.value());
         custom_meta_type)
     {
-        auto &&any_obj = custom_meta_type.from_void(&property_value);
-        if (any_obj.allow_cast<proto::Value>())
-        {
-            LOG_DEBUG(property_collector_logger(),
-                      "prop {}({}) convertible via meta",
-                      property.name(),
-                      property.metaType().name());
-            value = any_obj.cast<proto::Value>();
-        }
-        else
-        {
-            LOG_ERROR(property_collector_logger(), "could not cast {} to proto::Value", property.metaType().name());
-        }
+        LOG_DEBUG(property_collector_logger(), "got known type {}", custom_meta_type.info().name());
+        // create a copy of the underlying variant object and transfer the ownership.
+        value = custom_meta_type.from_void(property_value.metaType().create(property_value.data()), true);
     }
     else if (property.metaType().flags().testAnyFlags(QMetaType::IsGadget | QMetaType::PointerToGadget))
     {
@@ -54,23 +36,20 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
                   property.name(),
                   property.typeName(),
                   gadget_metaobj->propertyCount());
-        auto &&class_val = value.mutable_class_val();
-        class_val->set_type_name(property.typeName());
-
-        const auto add_val_to_class = [&](std::pair<std::string, proto::Value> property) {
-            auto &&val = class_val->add_value();
-            val->set_name(std::move(property.first));
-            *val->mutable_value() = std::move(property.second);
-        };
-        std::ranges::for_each(
+        GenericClass generic_class;
+        auto view =
             std::ranges::iota_view(0, gadget_metaobj->propertyCount()) |
-                std::views::transform([&](int prop_idx) { return gadget_metaobj->property(prop_idx); }) |
-                std::views::filter([](const QMetaProperty &prop) { return prop.isValid() and prop.isReadable(); }) |
-                std::views::transform([&](auto &&prop) {
-                    return std::tuple{prop.readOnGadget(property_value.data()), std::forward<decltype(prop)>(prop)};
-                }) |
-                std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); }),
-            add_val_to_class);
+            std::views::transform([&](int prop_idx) { return gadget_metaobj->property(prop_idx); }) |
+            std::views::filter([](const QMetaProperty &prop) { return prop.isValid() and prop.isReadable(); }) |
+            std::views::transform([&](auto &&prop) {
+                return std::tuple{prop.readOnGadget(property_value.data()), std::forward<decltype(prop)>(prop)};
+            }) |
+            std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); });
+        for (auto &&name_value : view)
+        {
+            generic_class.properties.emplace(std::forward<decltype(name_value)>(name_value));
+        }
+        value = std::move(generic_class);
     }
     else if (QQmlListReference qml_list{property_value};
              qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
@@ -80,12 +59,13 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
                   property.name(),
                   property.typeName());
         const auto size = qml_list.count();
+        std::vector<entt::meta_any> object_list;
+        object_list.reserve(size);
         for (qsizetype i = 0; i < size; i++)
         {
-            auto &&obj = qml_list.at(i);
-            value.mutable_array_val()->add_value()->mutable_object_val()->set_object_id(
-                reinterpret_cast<std::uint64_t>(obj));
+            object_list.emplace_back(entt::forward_as_meta(qml_list.at(i)));
         }
+        value = std::move(object_list);
     }
     else
     {
@@ -94,20 +74,31 @@ std::pair<std::string, proto::Value> read_property(const QVariant property_value
     return {property.name(), std::move(value)};
 }
 
-std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta object_meta)
+entt::dense_map<std::string, entt::meta_any> collect_properties(ObjectMeta object_meta,
+                                                                std::span<const std::string> property_names)
 {
-    std::unordered_map<std::string, proto::Value> properties;
+    entt::dense_map<std::string, entt::meta_any> properties;
 
-    std::ranges::for_each(
-        std::ranges::iota_view(0, object_meta.meta_object->propertyCount()) | //
-            std::views::transform([&](int prop_idx) { return object_meta.meta_object->property(prop_idx); }) |
-            std::views::filter([](auto &&prop) { return prop.isValid() and prop.isReadable(); }) |
-            std::views::transform([&](auto &&prop) {
-                return std::tuple{prop.read(object_meta.object), std::forward<decltype(prop)>(prop)};
-            }) |
-            std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); }),
-        std::bind(insert_value, &properties, std::placeholders::_1));
-    // Q: why doesn't a reference work here? Somehow a copy of the map will be created. Use a pointer for now.
+    auto view = std::ranges::iota_view(0, object_meta.meta_object->propertyCount()) | //
+                std::views::transform([&](int prop_idx) { return object_meta.meta_object->property(prop_idx); }) |
+                std::views::filter([](auto &&prop) { return prop.isValid() and prop.isReadable(); }) |
+                std::views::filter([&property_names](auto &&prop) {
+                    if (property_names.size() == 0)
+                    {
+                        return true;
+                    }
+                    const auto it = std::ranges::find(property_names, prop.name());
+                    return it != property_names.end();
+                }) |
+                std::views::transform([&](auto &&prop) {
+                    return std::tuple{prop.read(object_meta.object), std::forward<decltype(prop)>(prop)};
+                }) |
+                std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); });
+    for (auto &&property : view)
+    {
+        properties.emplace(std::forward<decltype(property)>(property));
+    }
+
     return properties;
 }
 

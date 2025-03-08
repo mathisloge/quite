@@ -1,128 +1,63 @@
 #include "grpc_value.hpp"
-#include <ranges>
-#include "grpc_remote_object.hpp"
+#include "grpc_impl/grpc_remote_object.hpp"
 
-namespace quite::grpc_impl
+namespace quite
 {
-quite::Result<quite::Value> convert(const quite::proto::Value &value,
-                                    quite::grpc_impl::ProbeServiceHandle probe_service)
+#if 0
+quite::Result<quite::Value> convert(const entt::meta_any &value, std::shared_ptr<proto::ProbeClient> client)
 {
-    if (value.has_bool_val())
+    const auto type = value.type();
+    const auto type_info = type.info();
+    if (type_info == entt::type_id<bool>())
     {
-        return value.bool_val();
+        return value.cast<bool>();
     }
-    if (value.has_int_val())
+    if (type.is_arithmetic() and type.is_integral())
     {
-        return value.int_val();
-    }
-    if (value.has_double_val())
-    {
-        return value.double_val();
-    }
-    if (value.has_string_val())
-    {
-        return value.string_val();
-    }
-    if (value.has_object_val())
-    {
-        return std::make_shared<quite::grpc_impl::GrpcRemoteObject>(
-            value.object_val().object_id(), value.type_id(), std::move(probe_service));
-    }
-    if (value.has_array_val())
-    {
-        quite::ArrayObject array{};
-        array.values.reserve(value.array_val().value_size());
-        for (auto &&val : value.array_val().value())
+        if (type.is_signed())
         {
-            // todo: propagate potential error up
-            array.values.emplace_back(*convert(val, probe_service));
+            return value.cast<std::int64_t>();
         }
-        return xyz::indirect<quite::ArrayObject>(std::move(array));
+        return value.cast<std::uint64_t>();
     }
-    if (value.has_class_val())
+    if (type.is_arithmetic())
     {
-        quite::ClassObject class_obj{};
-        class_obj.type_name = value.class_val().type_name();
-        class_obj.members.reserve(value.class_val().value_size());
-        for (auto &&val : value.class_val().value())
-        {
-            // todo: propagate potential error up
-            class_obj.members.emplace_back(val.name(), *convert(val.value(), probe_service));
-        }
-        return xyz::indirect<quite::ClassObject>(std::move(class_obj));
+        return value.cast<double>();
+    }
+    if (type_info == entt::type_id<std::string>())
+    {
+        return value.cast<std::string>();
+    }
+    if (type_info == entt::type_id<ObjectReference>())
+    {
+        auto ref = value.cast<ObjectReference>();
+        return std::make_shared<quite::GrpcRemoteObject>(ref, std::move(client));
+    }
+    if (type_info == entt::type_id<ArrayObject>())
+    {
+        return value.cast<ArrayObject>();
+    }
+    if (type_info == entt::type_id<MapObject>())
+    {
+        return value.cast<MapObject>();
+    }
+    if (type_info == entt::type_id<GenericClass>())
+    {
+        return value.cast<GenericClass>();
     }
 
-    return make_error_result<quite::Value>(
-        ErrorCode::invalid_argument,
-        fmt::format("Could not convert value. Has value field={}",
-                    (value.value_oneof_case() != quite::proto::Value::ValueOneofCase::VALUE_ONEOF_NOT_SET)));
+    return make_error_result<quite::Value>(ErrorCode::invalid_argument,
+                                           fmt::format("Could not convert value. Value name={}", type_info.name()));
+}
+#endif
+
+void GrpcValueConverter::set_client(std::shared_ptr<proto::ProbeClient> client)
+{
+    client_ = std::move(client);
 }
 
-struct ValueConverter
+entt::meta_any GrpcValueConverter::from(ObjectReference ref) const
 {
-    quite::proto::Value operator()(std::int64_t value) const
-    {
-        quite::proto::Value v;
-        v.set_int_val(std::move(value));
-        return v;
-    }
-
-    quite::proto::Value operator()(double value) const
-    {
-        quite::proto::Value v;
-        v.set_double_val(std::move(value));
-        return v;
-    }
-
-    quite::proto::Value operator()(bool value) const
-    {
-        quite::proto::Value v;
-        v.set_bool_val(std::move(value));
-        return v;
-    }
-
-    quite::proto::Value operator()(std::string value) const
-    {
-        quite::proto::Value v;
-        v.set_string_val(std::move(value));
-        return v;
-    }
-
-    quite::proto::Value operator()(const std::shared_ptr<RemoteObject> &value) const
-    {
-        quite::proto::Value v;
-        v.mutable_object_val()->set_object_id(value->id());
-        return v;
-    }
-
-    quite::proto::Value operator()(const xyz::indirect<ArrayObject> &value) const
-    {
-        quite::proto::Value v;
-        auto &&array = v.mutable_array_val();
-        for (auto &&val : value->values)
-        {
-            *array->add_value() = convert(val);
-        }
-        return v;
-    }
-
-    quite::proto::Value operator()(const xyz::indirect<ClassObject> &value) const
-    {
-        quite::proto::Value v;
-        auto &&class_val = v.mutable_class_val();
-        class_val->set_type_name(value->type_name);
-        for (auto &&member : value->members)
-        {
-            auto &&class_member = class_val->add_value();
-            class_member->set_name(member.name);
-            *class_member->mutable_value() = convert(member.value);
-        }
-        return v;
-    }
-};
-
-quite::proto::Value convert(const quite::Value &value)
-{
-    return std::visit(ValueConverter{}, value);
+    return entt::forward_as_meta(std::make_shared<quite::GrpcRemoteObject>(std::move(ref), client_));
 }
-} // namespace quite::grpc_impl
+} // namespace quite

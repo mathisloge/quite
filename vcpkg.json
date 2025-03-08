@@ -9,14 +9,14 @@
         "catch2",
         "stdexec",
         "stb",
-        "sdl2",
+        "sdl3",
         {
             "name": "imgui",
             "features": [
                 "freetype",
                 "docking-experimental",
-                "sdl2-binding",
-                "sdl2-renderer-binding"
+                "sdl3-binding",
+                "sdlgpu3-binding"
             ]
         },
         "nlohmann-json",
