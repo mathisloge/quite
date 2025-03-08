@@ -2,33 +2,58 @@
 #include <boost/asio/steady_timer.hpp>
 #include <exec/repeat_effect_until.hpp>
 #include <exec/when_any.hpp>
+#include <quite/logger.hpp>
+#include <quite/meta_any_formatter.hpp>
 #include <quite/property.hpp>
 #include <quite/quite.hpp>
+#include "quite/remote_object.hpp"
 #include "quite/test/remote_object.hpp"
 #include "throw_unexpected.hpp"
 
+DEFINE_LOGGER(test_property);
+
 namespace quite::test
 {
-struct Converter
+Property::Value convert_any(const entt::meta_any &value)
 {
-    auto operator()(std::shared_ptr<quite::RemoteObject> value) -> Property::Value
+    LOG_INFO(test_property(), "CONVERT ANY:{}", fmt::format("{}", value));
+    const auto type = value.type();
+
+    if (type.is_arithmetic())
     {
-        return quite::test::RemoteObject{std::move(value)};
+        if (type.info() == entt::type_id<bool>())
+        {
+            return value.cast<bool>();
+        }
+        if (type.is_integral())
+        {
+            if (type.is_signed())
+            {
+                return value.allow_cast<std::int64_t>().cast<int64_t>();
+            }
+            return value.allow_cast<std::uint64_t>().cast<uint64_t>();
+        }
+        return value.allow_cast<double>().cast<double>();
     }
 
-    auto operator()(xyz::indirect<quite::ArrayObject> /*unused*/) -> Property::Value
+    if (type.is_pointer_like())
     {
-        return {};
+        if (type.info() == entt::type_id<RemoteObjectPtr>())
+        {
+            return RemoteObject{value.cast<RemoteObjectPtr>()};
+        }
     }
-    auto operator()(xyz::indirect<quite::ClassObject> /*unused*/) -> Property::Value
+
+    if (type.is_class())
     {
-        return {};
+        if (type.info() == entt::type_id<std::string>())
+        {
+            return value.cast<std::string>();
+        }
     }
-    auto operator()(auto &&value) -> Property::Value
-    {
-        return value;
-    }
-};
+
+    return {};
+}
 
 Property::Property(std::shared_ptr<quite::Property> property)
     : property_{std::move(property)}
@@ -38,14 +63,14 @@ Property::Value Property::fetch()
 {
     const auto [result] = stdexec::sync_wait(property_->read()).value();
     throw_unexpected(result);
-    return std::visit(Converter{}, result.value());
+    return convert_any(result.value());
 }
 
 Property::Value Property::value() const
 {
     auto &&value = property_->value();
     throw_unexpected(value);
-    return std::visit(Converter{}, *value);
+    return convert_any(*value);
 }
 
 void Property::write(Property::Value value)
@@ -66,7 +91,7 @@ Property::Value Property::wait_for_value(Property::Value target_value, std::chro
             {
                 return false;
             }
-            return_value = std::visit(Converter{}, possible_value.value());
+            return_value = convert_any(possible_value.value());
             return return_value == target_value;
         }) |
         stdexec::let_value([](bool finished) -> exec::task<bool> {

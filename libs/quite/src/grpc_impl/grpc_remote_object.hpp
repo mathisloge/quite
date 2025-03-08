@@ -1,5 +1,4 @@
 #pragma once
-#include <agrpc/grpc_context.hpp>
 #include <quite/remote_object.hpp>
 #include <quite/value/object_id.hpp>
 #include "quite/proto/client/probe_client.hpp"
@@ -17,7 +16,7 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
         std::vector<std::string> properties) override;
 
     AsyncResult<PropertyPtr> property(std::string property_name) override;
-    AsyncResult<Value> fetch_property(std::string property_name);
+    AsyncResult<entt::meta_any> fetch_property(std::string property_name);
 
     AsyncResult<void> mouse_action() override;
 

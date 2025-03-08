@@ -4,6 +4,7 @@
 #include <quite/value/object_query.hpp>
 #include <quite/value/value_registry.hpp>
 #include "error_helper.hpp"
+#include "probe_value_converter.hpp"
 #include "quite/proto/probe/probe_handler.hpp"
 #include "value.hpp"
 
@@ -17,7 +18,7 @@ ObjectQuery::PropertyMap convert_properties(const ValueRegistry &value_registry,
     ObjectQuery::PropertyMap properties;
     for (auto &&prop : proto_properties)
     {
-        properties.emplace(prop.first, convert_value(value_registry, prop.second));
+        properties.emplace(prop.first, convert_value(value_registry, ProbeValueConverter{}, prop.second));
     }
     return properties;
 }

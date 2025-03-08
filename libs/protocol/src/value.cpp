@@ -16,6 +16,7 @@ void convert_class(const ValueRegistry &value_registry, Value &value, const entt
 void convert_string(Value &value, const entt::meta_any &any);
 void convert_arithmetic(Value &value, const entt::meta_any &any);
 void convert_object_ptr(Value &value, const entt::meta_any &any);
+void convert_sequence_container(const ValueRegistry &value_registry, Value &value, const entt::meta_any &any);
 } // namespace
 
 Value create_value(const ValueRegistry &value_registry, const entt::meta_any &any)
@@ -43,10 +44,14 @@ Value create_value(const ValueRegistry &value_registry, const entt::meta_any &an
     {
         convert_object_ptr(value, any);
     }
+    else if (type.is_sequence_container())
+    {
+        convert_sequence_container(value_registry, value, any);
+    }
     return value;
 }
 
-entt::meta_any convert_value(const ValueRegistry &value_registry, const Value &value)
+entt::meta_any convert_value(const ValueRegistry &value_registry, const IValueConverter &converter, const Value &value)
 {
     if (value.has_bool_val())
     {
@@ -76,17 +81,26 @@ entt::meta_any convert_value(const ValueRegistry &value_registry, const Value &v
             constexpr bool kDontTransferOwnership{false};
             return type_id.from_void(reinterpret_cast<void *>(value.object_val().object_id()), kDontTransferOwnership);
         }
-        return entt::forward_as_meta(
-            value_registry.context(),
-            ObjectReference{.object_id = value.object_val().object_id(), .type_id = value.type_id()});
+        return converter.from(ObjectReference{.object_id = value.object_val().object_id(), .type_id = value.type_id()});
     }
     if (value.has_array_val())
     {
-        // TODO
+        std::vector<entt::meta_any> array;
+        std::ranges::copy(std::views::transform(value.array_val().value(),
+                                                [&value_registry, &converter](auto &&value) {
+                                                    return convert_value(value_registry, converter, value);
+                                                }),
+                          std::back_inserter(array));
+        return entt::forward_as_meta(std::move(array));
     }
     if (value.has_class_val())
     {
-        // TODO
+        GenericClass generic;
+        for (auto &&member : value.class_val().value())
+        {
+            generic.properties.emplace(member.name(), convert_value(value_registry, converter, member.value()));
+        }
+        return entt::forward_as_meta(std::move(generic));
     }
     return entt::meta_any{};
 }
@@ -161,6 +175,15 @@ void convert_object_ptr(Value &value, const entt::meta_any &any)
 {
     const auto containing_value = *any;
     value.mutable_object_val()->set_object_id(reinterpret_cast<std::uint64_t>(containing_value.base().data()));
+}
+
+void convert_sequence_container(const ValueRegistry &value_registry, Value &value, const entt::meta_any &any)
+{
+    auto &&array = value.mutable_array_val();
+    for (auto &&el : any.as_sequence_container())
+    {
+        *array->add_value() = create_value(value_registry, el);
+    }
 }
 } // namespace
 } // namespace quite::proto

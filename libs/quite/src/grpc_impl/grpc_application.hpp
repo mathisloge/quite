@@ -2,6 +2,7 @@
 #include <quite/async_result.hpp>
 #include <quite/proto/client/probe_client.hpp>
 #include "../context.hpp"
+#include "grpc_value.hpp"
 #include "quite/application.hpp"
 #include "quite/remote_object.hpp"
 namespace quite
@@ -17,6 +18,7 @@ class GrpcApplication : public Application
     AsyncResult<void> exit() override;
 
   private:
+    std::shared_ptr<GrpcValueConverter> value_converter_{std::make_shared<GrpcValueConverter>()};
     std::shared_ptr<proto::ProbeClient> client_;
 };
 } // namespace quite

@@ -6,10 +6,11 @@ cmrc_add_resource_library(testrc ALIAS quite::testrc NAMESPACE testrc
 
 
 add_executable(api_test)
-target_link_libraries(api_test PRIVATE
+target_link_libraries(api_test PUBLIC
     Catch2::Catch2WithMain
     quite::tester_app
     quite::client
+    quite::core
     quite::testrc
 )
 catch_discover_tests(api_test)

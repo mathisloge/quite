@@ -5,7 +5,7 @@ DEFINE_LOGGER(grpc_property_logger)
 
 namespace quite
 {
-GrpcProperty::GrpcProperty(std::shared_ptr<GrpcRemoteObject> parent, std::string name, Value initial_value)
+GrpcProperty::GrpcProperty(std::shared_ptr<GrpcRemoteObject> parent, std::string name, entt::meta_any initial_value)
     : parent_{std::move(parent)}
     , name_{std::move(name)}
     , last_value_{std::move(initial_value)}
@@ -24,19 +24,19 @@ meta::TypeId GrpcProperty::type_id() const
     return type_id_;
 }
 
-const Result<Value> &GrpcProperty::value() const
+const Result<entt::meta_any> &GrpcProperty::value() const
 {
     return last_value_;
 }
 
-AsyncResult<Value> GrpcProperty::read()
+AsyncResult<entt::meta_any> GrpcProperty::read()
 {
     LOG_DEBUG(grpc_property_logger(), "get property[{}] for object={}", name_, parent_->id());
     last_value_ = co_await parent_->fetch_property({name_});
     co_return last_value_;
 }
 
-AsyncResult<Value> GrpcProperty::write(const Value &value)
+AsyncResult<entt::meta_any> GrpcProperty::write(entt::meta_any value)
 {
     co_return std::unexpected(Error{ErrorCode::unimplemented, "Client does not implement the write yet."});
 }
