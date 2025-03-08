@@ -3,6 +3,7 @@
 #include <entt/locator/locator.hpp>
 #include <fmt/core.h>
 #include "error_helper.hpp"
+#include "probe_value_converter.hpp"
 #include "quite/proto/probe/probe_handler.hpp"
 #include "value.hpp"
 
@@ -29,7 +30,7 @@ exec::task<void> InvokeMethodRpcHandler::operator()(InvokeMethodRPC &rpc, const 
     const auto &value_registry = entt::locator<ValueRegistry>::value();
     std::vector<entt::meta_any> params;
     std::ranges::transform(request.method_call().argument(), std::back_inserter(params), [&value_registry](auto &&arg) {
-        return convert_value(value_registry, arg);
+        return convert_value(value_registry, ProbeValueConverter{}, arg);
     });
     auto invoke_result =
         co_await object_handler.invoke_method(*root_object, request.method_call().method_name(), std::move(params));

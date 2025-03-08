@@ -11,9 +11,12 @@ DEFINE_LOGGER(probe_client)
 
 namespace quite::proto
 {
-ProbeClientImpl::ProbeClientImpl(GrpcManager &grpc_manager, std::string connection_url)
+ProbeClientImpl::ProbeClientImpl(GrpcManager &grpc_manager,
+                                 std::string connection_url,
+                                 std::shared_ptr<IValueConverter> value_converter)
     : grpc_context_{grpc_manager.context()}
     , grpc_channel_{::grpc::CreateChannel(std::move(connection_url), ::grpc::InsecureChannelCredentials())}
+    , value_converter_{std::move(value_converter)}
 {}
 
 AsyncResult<void> ProbeClientImpl::wait_for_connected(std::chrono::seconds timeout)

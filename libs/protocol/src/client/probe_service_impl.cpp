@@ -24,9 +24,11 @@ void write_query(proto::ObjectSearchQuery &proto_query, const ObjectQuery &query
 } // namespace
 
 ProbeServiceImpl::ProbeServiceImpl(std::shared_ptr<agrpc::GrpcContext> grpc_context,
-                                   ProbeService::Stub &probe_service_stub)
+                                   ProbeService::Stub &probe_service_stub,
+                                   std::shared_ptr<IValueConverter> value_converter)
     : grpc_context_{std::move(grpc_context)}
     , probe_service_stub_{probe_service_stub}
+    , value_converter_{std::move(value_converter)}
 {}
 
 AsyncResult<Image> ProbeServiceImpl::take_snapshot(ObjectId id)
@@ -87,7 +89,7 @@ AsyncResult<ObjectReference> ProbeServiceImpl::find_object(ObjectQuery serach_qu
     co_return ObjectReference{.object_id = response.object_id(), .type_id = response.type_id()};
 }
 
-AsyncResult<entt::dense_map<std::string, entt::meta_any>> ProbeServiceImpl::get_object_properties(
+AsyncResult<std::unordered_map<std::string, entt::meta_any>> ProbeServiceImpl::get_object_properties(
     ObjectId object_id, std::vector<std::string> properties)
 {
     using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncGetObjectProperties>;
@@ -109,10 +111,10 @@ AsyncResult<entt::dense_map<std::string, entt::meta_any>> ProbeServiceImpl::get_
         co_return std::unexpected(grpc_status2result(status));
     }
 
-    entt::dense_map<std::string, entt::meta_any> responses;
+    std::unordered_map<std::string, entt::meta_any> responses;
     for (auto &&[k, v] : response.property_values())
     {
-        responses.emplace(k, convert_value(entt::locator<ValueRegistry>::value(), v));
+        responses.emplace(k, convert_value(entt::locator<ValueRegistry>::value(), *value_converter_, v));
     }
     co_return responses;
 }
@@ -163,7 +165,8 @@ AsyncResult<entt::meta_any> ProbeServiceImpl::invoke_method(ObjectId id,
     }
     if (response.return_value().has_value())
     {
-        co_return convert_value(entt::locator<ValueRegistry>::value(), response.return_value().value());
+        co_return convert_value(
+            entt::locator<ValueRegistry>::value(), *value_converter_, response.return_value().value());
     }
     co_return entt::meta_any{std::in_place_type<void>};
 }

@@ -7,6 +7,7 @@
 
 namespace quite::proto
 {
+class IValueConverter;
 class ProbeClient;
 class QUITE_PROTOCOL_EXPORT Client final
 {
@@ -15,7 +16,8 @@ class QUITE_PROTOCOL_EXPORT Client final
     explicit Client(entt::locator<ValueRegistry>::node_type value_registry,
                     entt::locator<asio2exec::asio_context>::node_type io_context);
     ~Client();
-    std::shared_ptr<ProbeClient> create_probe_client(std::string connection_url = "unix:///tmp/grpc_probe.sock");
+    std::shared_ptr<ProbeClient> create_probe_client(std::shared_ptr<IValueConverter> value_converter,
+                                                     std::string connection_url = "unix:///tmp/grpc_probe.sock");
 
   private:
     class Impl;

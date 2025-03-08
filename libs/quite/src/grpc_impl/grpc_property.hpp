@@ -10,19 +10,19 @@ class GrpcProperty final : public Property
 {
   public:
     QUITE_DISABLE_COPY_MOVE(GrpcProperty);
-    explicit GrpcProperty(std::shared_ptr<GrpcRemoteObject> parent, std::string name, Value initial_value);
+    explicit GrpcProperty(std::shared_ptr<GrpcRemoteObject> parent, std::string name, entt::meta_any initial_value);
     ~GrpcProperty() override;
     const std::string &name() const override;
     meta::TypeId type_id() const override;
-    const Result<Value> &value() const override;
-    AsyncResult<Value> read() override;
-    AsyncResult<Value> write(const Value &value) override;
+    const Result<entt::meta_any> &value() const override;
+    AsyncResult<entt::meta_any> read() override;
+    AsyncResult<entt::meta_any> write(entt::meta_any value) override;
 
   private:
     std::shared_ptr<GrpcRemoteObject> parent_;
     std::string name_;
     meta::TypeId type_id_;
-    Result<Value> last_value_;
+    Result<entt::meta_any> last_value_;
 };
 
 } // namespace quite

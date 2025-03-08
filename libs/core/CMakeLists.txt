@@ -13,6 +13,7 @@ target_link_libraries(quite_core PUBLIC
     fmt::fmt
     quill::quill
     Boost::asio
+    EnTT::EnTT
 )
 
 target_sources(quite_core
@@ -28,6 +29,7 @@ target_sources(quite_core
                 include/quite/setup_logger.hpp
                 include/quite/logger.hpp
                 include/quite/image.hpp
+                include/quite/meta_any_formatter.hpp
                 include/quite/meta/meta_registry.hpp
                 include/quite/meta/meta_types.hpp
 

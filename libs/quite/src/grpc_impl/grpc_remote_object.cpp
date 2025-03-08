@@ -2,7 +2,6 @@
 #include <fmt/ranges.h>
 #include <quite/logger.hpp>
 #include "grpc_property.hpp"
-#include "grpc_value.hpp"
 
 DEFINE_LOGGER(grpc_remote_object_logger);
 namespace quite
@@ -27,16 +26,11 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
               fmt::format("{}", fmt::join(properties, ",")),
               id());
     const auto result = co_await client_->probe_service().get_object_properties(id(), std::move(properties));
-    co_return result.and_then([this](auto &&properties) -> Result<RetVal> {
+    co_return result.transform([this](auto &&properties) -> RetVal {
         RetVal values;
         for (auto &&[key, value] : properties)
         {
-            auto converted_value = convert(value, client_);
-            if (not converted_value.has_value())
-            {
-                return std::unexpected{std::move(converted_value.error())};
-            }
-            values.emplace(key, std::make_shared<GrpcProperty>(shared_from_this(), key, std::move(*converted_value)));
+            values.emplace(key, std::make_shared<GrpcProperty>(shared_from_this(), key, value));
         }
         return values;
     });
@@ -53,17 +47,18 @@ AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string pr
     });
 }
 
-AsyncResult<Value> GrpcRemoteObject::fetch_property(std::string property_name)
+AsyncResult<entt::meta_any> GrpcRemoteObject::fetch_property(std::string property_name)
 {
     std::vector<std::string> gcc13_workaround{property_name}; // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115660
     auto response = co_await client_->probe_service().get_object_properties(id(), std::move(gcc13_workaround));
-    co_return response.and_then([this, &property_name](auto &&properties) -> Result<Value> {
+    co_return response.and_then([this, &property_name](auto &&properties) -> Result<entt::meta_any> {
         auto it = properties.find(property_name);
         if (it == properties.end())
         {
-            return std::unexpected(Error{ErrorCode::not_found, "Server did not return the expected property."});
+            return make_error_result<entt::meta_any>(ErrorCode::not_found,
+                                                     "Server did not return the expected property.");
         }
-        return convert(it->second, client_);
+        return it->second;
     });
 }
 

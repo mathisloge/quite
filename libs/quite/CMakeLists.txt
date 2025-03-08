@@ -22,7 +22,6 @@ target_sources(quite_client
                 include/quite/application.hpp
                 include/quite/application_manager.hpp
                 include/quite/image_utils.hpp
-                include/quite/indirect.hpp
                 include/quite/property.hpp
                 include/quite/quite.hpp
                 include/quite/remote_object.hpp
@@ -42,18 +41,15 @@ target_sources(quite_client
         src/context.hpp
         src/remote_object.cpp
         src/image_utils.cpp
-        src/value.cpp
 )
 
 target_link_libraries(quite_client PRIVATE
     Boost::asio
     Boost::process
-    asio-grpc::asio-grpc-stdexec
     nlohmann_json::nlohmann_json
     quite::protocol
 PUBLIC
     quite::core
-    STDEXEC::stdexec
 )
 add_subdirectory(src/grpc_impl)
 add_subdirectory(src/utils)
