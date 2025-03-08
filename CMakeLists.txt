@@ -57,6 +57,8 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 
 add_subdirectory(libs)
 add_subdirectory(python)
+add_subdirectory(remote-manager)
+add_subdirectory(examples)
 if(QUITE_BUILD_STUDIO)
     #add_subdirectory(studio)
 endif()
@@ -65,7 +67,6 @@ if(BUILD_TESTING)
     add_subdirectory(test)
 endif()
 
-add_subdirectory(examples)
 
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
