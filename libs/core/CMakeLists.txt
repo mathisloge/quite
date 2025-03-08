@@ -12,6 +12,8 @@ configure_file (
 target_link_libraries(quite_core PUBLIC
     fmt::fmt
     quill::quill
+    Boost::asio
+    EnTT::EnTT
 )
 
 target_sources(quite_core
@@ -20,14 +22,22 @@ target_sources(quite_core
             TYPE HEADERS
             BASE_DIRS include
             FILES
+                include/quite/asio2exec.hpp
                 include/quite/async_result.hpp
                 include/quite/error.hpp
                 include/quite/result.hpp
                 include/quite/setup_logger.hpp
                 include/quite/logger.hpp
+                include/quite/image.hpp
+                include/quite/meta_any_formatter.hpp
                 include/quite/meta/meta_registry.hpp
                 include/quite/meta/meta_types.hpp
-                include/quite/details/process.hpp
+
+                include/quite/value/value_registry.hpp
+                include/quite/value/generic_value_class.hpp
+                include/quite/value/object_query.hpp
+
+                include/quite/injectors/mouse_injector.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
@@ -37,6 +47,9 @@ target_sources(quite_core
     PRIVATE
         src/error.cpp
         src/meta/meta_types.cpp
-        src/details/process.cpp
         src/logger.cpp
+        src/image.cpp
+        src/value/value_registry.cpp
+        src/value/object_query.cpp
 )
+target_compile_definitions(quite_core PUBLIC ASIO_TO_EXEC_USE_BOOST)

@@ -1,7 +1,7 @@
 #pragma once
 #include <quite/application_manager.hpp>
 #include <quite/disable_copy_move.hpp>
-#include "quite_test_export.hpp"
+#include "quite/quite_test_export.hpp"
 
 namespace quite
 {

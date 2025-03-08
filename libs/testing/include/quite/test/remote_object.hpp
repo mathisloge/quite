@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
-#include "quite_test_export.hpp"
+#include "property.hpp"
+#include "quite/quite_test_export.hpp"
 
 namespace quite
 {
@@ -13,9 +14,12 @@ class QUITE_TEST_EXPORT RemoteObject
   public:
     explicit RemoteObject(std::shared_ptr<quite::RemoteObject> object);
 
-    // todo: should this be a free standing function taking a remote object?
     void mouse_action();
     void take_snapshot();
+    void invoke_method(std::string method_name);
+    [[nodiscard]] Property property(std::string name);
+
+    [[nodiscard]] bool operator==(const RemoteObject &rhs) const;
 
   private:
     std::shared_ptr<quite::RemoteObject> object_;

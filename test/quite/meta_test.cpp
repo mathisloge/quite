@@ -1,6 +1,3 @@
-#include <asio/co_spawn.hpp>
-#include <asio/detached.hpp>
-#include <asio/steady_timer.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <nlohmann/json.hpp>
 #include <quite/application.hpp>

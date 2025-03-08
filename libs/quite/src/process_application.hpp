@@ -1,13 +1,11 @@
 #pragma once
-#include <array>
 #include <boost/asio/readable_pipe.hpp>
 #include <boost/process/v2.hpp>
-#include <quite/details/process.hpp>
 #include "context.hpp"
 #include "grpc_impl/grpc_application.hpp"
 namespace quite
 {
-class ProcessApplication final : public grpc_impl::GrpcApplication
+class ProcessApplication final : public GrpcApplication
 {
   public:
     explicit ProcessApplication(Context &context,

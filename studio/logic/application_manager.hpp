@@ -7,12 +7,11 @@ namespace quite::studio
 class ApplicationManager
 {
   public:
-    explicit ApplicationManager(SDL_Renderer *renderer);
+    explicit ApplicationManager();
     void addApplication(const std::string &application);
     void draw();
 
   private:
-    SDL_Renderer *renderer_;
     std::vector<std::shared_ptr<Application>> applications_;
     std::vector<std::unique_ptr<ApplicationOverview>> overviews_;
 };

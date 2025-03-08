@@ -2,8 +2,8 @@
 #include <cstdint>
 #include <exec/task.hpp>
 #include <quite/async_result.hpp>
-#include "image.hpp"
 #include "property.hpp"
+#include "quite/image.hpp"
 #include "quite/quite_client_export.hpp"
 namespace quite
 {
@@ -21,7 +21,7 @@ class QUITE_CLIENT_EXPORT RemoteObject
     virtual meta::TypeId type_id() const = 0;
 
     virtual AsyncResult<std::unordered_map<std::string, PropertyPtr>> fetch_properties(
-        std::span<const std::string> properties) = 0;
+        std::vector<std::string> properties) = 0;
 
     virtual AsyncResult<PropertyPtr> property(std::string property_name) = 0;
 

@@ -11,6 +11,9 @@ from ._quite import (
     ObjectQueryBuilder as ObjectQueryBuilder,
 )
 from ._quite import (
+    Property as Property,
+)
+from ._quite import (
     RemoteObject as RemoteObject,
 )
 from ._quite import (
@@ -28,6 +31,7 @@ __all__ = [
     "ApplicationManager",
     "ObjectQuery",
     "ObjectQueryBuilder",
+    "Property",
     "RemoteObject",
     "__doc__",
     "__version__",

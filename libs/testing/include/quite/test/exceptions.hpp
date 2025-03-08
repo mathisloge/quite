@@ -1,7 +1,7 @@
 #pragma once
 #include <stdexcept>
 #include <quite/error.hpp>
-#include "quite_test_export.hpp"
+#include "quite/quite_test_export.hpp"
 
 namespace quite::test
 {

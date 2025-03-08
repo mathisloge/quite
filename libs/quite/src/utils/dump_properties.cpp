@@ -1,6 +1,7 @@
 #include "quite/utils/dump_properties.hpp"
 #include <unordered_set>
 #include <nlohmann/json.hpp>
+#include <quite/meta_any_formatter.hpp>
 
 using json = nlohmann::json;
 namespace quite
@@ -8,68 +9,12 @@ namespace quite
 namespace
 {
 AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visited_objects,
-                                            const RemoteObjectPtr &remote_object,
-                                            std::span<const std::string> properties);
-
-struct ValueVisitor
-{
-    std::unordered_set<ObjectId> &visited_objects;
-    std::span<const std::string> properties;
-    nlohmann::json &out;
-
-    AsyncResult<void> operator()(auto &&value)
-    {
-        out = value;
-        co_return {};
-    }
-
-    AsyncResult<void> operator()(const RemoteObjectPtr &object)
-    {
-        auto props = co_await dump_properties(visited_objects, object, properties);
-        if (props.has_value())
-        {
-            out = props.value();
-            co_return {};
-        }
-        co_return std::unexpected(props.error());
-    }
-
-    AsyncResult<void> operator()(const xyz::indirect<ArrayObject> &array)
-    {
-        out = nlohmann::json::array();
-        for (auto &&value : array->values)
-        {
-            auto &&target = out.emplace_back(nlohmann::json::object());
-            auto prop_result = co_await std::visit(ValueVisitor{visited_objects, properties, target}, value);
-            if (not prop_result.has_value())
-            {
-                co_return std::unexpected(prop_result.error());
-            }
-        }
-        co_return {};
-    }
-    AsyncResult<void> operator()(const xyz::indirect<ClassObject> &class_obj)
-    {
-        out = nlohmann::json::object();
-        out["type_name"] = class_obj->type_name;
-        auto members = nlohmann::json::object();
-        for (auto &&member : class_obj->members)
-        {
-            auto &&target = members[member.name];
-            auto prop_result = co_await std::visit(ValueVisitor{visited_objects, properties, target}, member.value);
-            if (not prop_result.has_value())
-            {
-                co_return std::unexpected(prop_result.error());
-            }
-        }
-        out["members"] = std::move(members);
-        co_return {};
-    }
-};
+                                            RemoteObjectPtr remote_object,
+                                            std::vector<std::string> properties);
 
 AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visited_objects,
-                                            const RemoteObjectPtr &remote_object,
-                                            std::span<const std::string> properties)
+                                            RemoteObjectPtr remote_object,
+                                            std::vector<std::string> properties)
 {
     if (visited_objects.contains(remote_object->id()))
     {
@@ -88,11 +33,15 @@ AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visite
     {
         if (prop.second->value().has_value())
         {
-            auto prop_result =
-                co_await std::visit(ValueVisitor{visited_objects, properties, out[prop.first]}, *prop.second->value());
-            if (not prop_result.has_value())
+            auto any_json = prop.second->value()->allow_cast<nlohmann::json>();
+            if (any_json)
             {
-                co_return std::unexpected(prop_result.error());
+                out[prop.first] = any_json.cast<nlohmann::json>();
+            }
+            else
+            {
+                co_return make_error_result<nlohmann::json>(
+                    ErrorCode::invalid_argument, fmt::format("Could not create json from {}", *prop.second->value()));
             }
         }
         else
@@ -105,10 +54,9 @@ AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visite
 }
 
 } // namespace
-AsyncResult<nlohmann::json> dump_properties(const RemoteObjectPtr &remote_object,
-                                            std::span<const std::string> properties)
+AsyncResult<nlohmann::json> dump_properties(RemoteObjectPtr remote_object, std::vector<std::string> properties)
 {
     std::unordered_set<ObjectId> objects;
-    co_return co_await dump_properties(objects, remote_object, properties);
+    co_return co_await dump_properties(objects, std::move(remote_object), std::move(properties));
 }
 } // namespace quite

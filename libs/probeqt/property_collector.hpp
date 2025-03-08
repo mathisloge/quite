@@ -2,8 +2,7 @@
 #include <QMetaObject>
 #include <QObject>
 #include <string>
-#include <unordered_map>
-#include <quite/proto/types.pb.h>
+#include <entt/meta/meta.hpp>
 
 namespace quite
 {
@@ -14,8 +13,9 @@ struct ObjectMeta
 
     [[nodiscard]] static ObjectMeta from_qobject(QObject *object);
 };
-[[nodiscard]] std::pair<std::string, proto::Value> read_property(QVariant property_value,
-                                                                 const QMetaProperty &property);
-[[nodiscard]] std::unordered_map<std::string, proto::Value> collect_properties(ObjectMeta object_meta);
+[[nodiscard]] std::pair<std::string, entt::meta_any> read_property(QVariant property_value,
+                                                                   const QMetaProperty &property);
+[[nodiscard]] entt::dense_map<std::string, entt::meta_any> collect_properties(
+    ObjectMeta object_meta, std::span<const std::string> property_names);
 
 } // namespace quite

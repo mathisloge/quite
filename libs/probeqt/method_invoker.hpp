@@ -2,6 +2,7 @@
 #include <span>
 #include <entt/meta/meta.hpp>
 #include <quite/result.hpp>
+#include <quite/value/value_registry.hpp>
 
 namespace quite::probe
 {
@@ -17,5 +18,6 @@ class MethodInvoker
 
   private:
     const ObjectTracker &object_tracker_;
+    ValueRegistry &value_registry_{entt::locator<ValueRegistry>::value()};
 };
 } // namespace quite::probe
