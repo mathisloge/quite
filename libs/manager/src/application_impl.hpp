@@ -1,0 +1,20 @@
+#pragma once
+#include <boost/process/v2/process.hpp>
+#include "quite/manager/application.hpp"
+
+namespace quite::manager
+{
+class ApplicationImpl final : public Application
+{
+  public:
+    explicit ApplicationImpl(boost::process::v2::process &&process);
+    bool is_running() override;
+    int exit_code() override;
+    AsyncResult<int> async_wait_exit() override;
+    Result<void> request_exit() override;
+    Result<void> terminate() override;
+
+  private:
+    boost::process::v2::process process_;
+};
+} // namespace quite::manager
