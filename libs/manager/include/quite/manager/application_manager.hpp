@@ -4,6 +4,7 @@
 #include <vector>
 #include <quite/asio2exec.hpp>
 #include <quite/disable_copy_move.hpp>
+#include <quite/result.hpp>
 #include "quite/quite_manager_export.hpp"
 
 namespace quite::manager
@@ -35,6 +36,14 @@ class QUITE_MANAGER_EXPORT ApplicationManager
     ~ApplicationManager() = default;
     ApplicationManager(ApplicationManager &&) noexcept = default;
     ApplicationManager &operator=(ApplicationManager &&) noexcept = default;
+
+    /**
+     * @brief Tries to lookup the application with the given id.
+     *
+     * @param name the id of the application (which was used to launch or attach a application)
+     * @return Result<ApplicationHandle> An instance of an application or a not found error otherwise
+     */
+    Result<ApplicationHandle> application(const Id &name);
 
     /**
      * @brief Launches the application but does not preloads any probe. Can be used to start abitrary installed programs
