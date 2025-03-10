@@ -4,7 +4,7 @@
 #include <quite/meta/meta_types.hpp>
 #include <quite/property.hpp>
 #include "grpc_remote_object.hpp"
-namespace quite
+namespace quite::client
 {
 class GrpcProperty final : public Property
 {
@@ -25,4 +25,4 @@ class GrpcProperty final : public Property
     Result<entt::meta_any> last_value_;
 };
 
-} // namespace quite
+} // namespace quite::client

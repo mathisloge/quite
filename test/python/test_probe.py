@@ -5,12 +5,12 @@ import datetime
 import pytest
 from test_paths import APP_PATH
 
-from quite import ApplicationManager, ObjectQueryBuilder
+from quite import ObjectQueryBuilder, ProbeManager
 
 
 @pytest.fixture
-def app_manager():
-    return ApplicationManager()
+def probe_manager():
+    return ProbeManager()
 
 
 @pytest.fixture
@@ -25,8 +25,10 @@ def text_field_query():
     return query.create()
 
 
-def test_launch_application(app_manager: ApplicationManager):
-    app = app_manager.create_host_application(path_to_application=APP_PATH)
+def test_launch_application(probe_manager: ProbeManager):
+    app = probe_manager.launch_qt_probe_application(
+        name="tester", path_to_application=APP_PATH
+    )
     assert app
     app.wait_for_connected()
 
@@ -36,8 +38,10 @@ def test_launch_application(app_manager: ApplicationManager):
         app.wait_for_connected(timeout=datetime.timedelta(seconds=2))
 
 
-def test_find_object(app_manager: ApplicationManager, hello_btn_query):
-    app = app_manager.create_host_application(path_to_application=APP_PATH)
+def test_find_object(probe_manager: ProbeManager, hello_btn_query):
+    app = probe_manager.launch_qt_probe_application(
+        name="tester", path_to_application=APP_PATH
+    )
     invalid_object_query = ObjectQueryBuilder().add_property(
         "objectName", "not-existing"
     )
@@ -52,8 +56,10 @@ def test_find_object(app_manager: ApplicationManager, hello_btn_query):
     assert text
 
 
-def test_property(app_manager: ApplicationManager, hello_btn_query, text_field_query):
-    app = app_manager.create_host_application(path_to_application=APP_PATH)
+def test_property(probe_manager: ProbeManager, hello_btn_query, text_field_query):
+    app = probe_manager.launch_qt_probe_application(
+        name="tester", path_to_application=APP_PATH
+    )
 
     btn = app.find_object(hello_btn_query)
     text = app.find_object(text_field_query)
@@ -72,10 +78,10 @@ def test_property(app_manager: ApplicationManager, hello_btn_query, text_field_q
         text.property("non-existing-property")
 
 
-def test_method_invoke(
-    app_manager: ApplicationManager, hello_btn_query, text_field_query
-):
-    app = app_manager.create_host_application(path_to_application=APP_PATH)
+def test_method_invoke(probe_manager: ProbeManager, hello_btn_query, text_field_query):
+    app = probe_manager.launch_qt_probe_application(
+        name="tester", path_to_application=APP_PATH
+    )
 
     btn = app.find_object(hello_btn_query)
     text = app.find_object(text_field_query)
@@ -84,7 +90,9 @@ def test_method_invoke(
     assert text.property("text").fetch() == "Hello"
 
 
-def test_take_snapshot(app_manager: ApplicationManager, hello_btn_query):
-    app = app_manager.create_host_application(path_to_application=APP_PATH)
+def test_take_snapshot(probe_manager: ProbeManager, hello_btn_query):
+    app = probe_manager.launch_qt_probe_application(
+        name="tester", path_to_application=APP_PATH
+    )
     btn = app.find_object(hello_btn_query)
     btn.take_snapshot()

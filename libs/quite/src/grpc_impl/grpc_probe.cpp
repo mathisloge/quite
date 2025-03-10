@@ -1,4 +1,4 @@
-#include "grpc_application.hpp"
+#include "grpc_probe.hpp"
 #include <boost/asio/steady_timer.hpp>
 #include <exec/repeat_effect_until.hpp>
 #include <exec/when_any.hpp>
@@ -7,20 +7,21 @@
 
 DEFINE_LOGGER(grpc_app_logger)
 
-namespace quite
+namespace quite::client
 {
-GrpcApplication::GrpcApplication(Context &context)
-    : client_{context.Instance().backend_client().create_probe_client(value_converter_)}
+GrpcProbe::GrpcProbe(manager::ApplicationManager::ApplicationHandle process, proto::Client &client)
+    : BasicProbe{std::move(process)}
+    , client_{client.create_probe_client(value_converter_)}
 {
     value_converter_->set_client(client_);
 }
 
-AsyncResult<void> GrpcApplication::wait_for_started(std::chrono::seconds timeout)
+AsyncResult<void> GrpcProbe::wait_for_started(std::chrono::seconds timeout)
 {
     co_return co_await client_->wait_for_connected(timeout);
 }
 
-AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(ObjectQuery query)
+AsyncResult<std::shared_ptr<RemoteObject>> GrpcProbe::find_object(ObjectQuery query)
 {
     LOG_DEBUG(grpc_app_logger(), "Starting request with object_name={}", fmt::format("{}", query));
     const auto object_result = co_await client_->probe_service().find_object(std::move(query));
@@ -29,7 +30,7 @@ AsyncResult<std::shared_ptr<RemoteObject>> GrpcApplication::find_object(ObjectQu
     });
 }
 
-AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> GrpcApplication::get_views()
+AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> GrpcProbe::get_views()
 {
     LOG_TRACE_L1(grpc_app_logger(), "Requesting top level views from {}", "[TODO:APPNAME]");
     auto response = co_await client_->probe_service().query_top_level_views();
@@ -45,14 +46,9 @@ AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> GrpcApplication::get_vie
         });
 }
 
-AsyncResult<void> GrpcApplication::exit()
-{
-    co_return {};
-}
-
-meta::MetaRegistry &GrpcApplication::meta_registry()
+meta::MetaRegistry &GrpcProbe::meta_registry()
 {
     return client_->meta_registry();
 }
 
-} // namespace quite
+} // namespace quite::client

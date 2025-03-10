@@ -4,7 +4,7 @@
 #include "grpc_property.hpp"
 
 DEFINE_LOGGER(grpc_remote_object_logger);
-namespace quite
+namespace quite::client
 {
 GrpcRemoteObject::GrpcRemoteObject(ObjectReference reference, std::shared_ptr<proto::ProbeClient> client)
     : RemoteObject{reference.object_id}
@@ -89,4 +89,4 @@ AsyncResult<void> GrpcRemoteObject::invoke_method(std::string method_name)
     }
     co_return std::unexpected{std::move(response.error())};
 }
-} // namespace quite
+} // namespace quite::client

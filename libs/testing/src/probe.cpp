@@ -1,42 +1,40 @@
-#include "quite/test/application.hpp"
+#include "quite/test/probe.hpp"
 #include <boost/asio/steady_timer.hpp>
 #include <exec/repeat_effect_until.hpp>
 #include <exec/task.hpp>
 #include <exec/when_any.hpp>
-#include <quite/application.hpp>
 #include <quite/quite.hpp>
+#include <quite/remote_object.hpp>
 #include <quite/value/object_query.hpp>
+#include "quite/probe.hpp"
 #include "throw_unexpected.hpp"
 
 namespace quite::test
 {
-Application::~Application() = default;
+Probe::~Probe() = default;
 
-Application::Application(Application &&) noexcept = default;
+Probe::Probe(Probe &&) noexcept = default;
 
-Application &Application::operator=(Application &&) noexcept = default;
+Probe &Probe::operator=(Probe &&) noexcept = default;
 
-Application::Application(std::shared_ptr<quite::Application> handle)
+Probe::Probe(client::ProbeHandle handle)
     : handle_{std::move(handle)}
 {}
 
-void Application::wait_for_connected(std::chrono::seconds timeout)
+void Probe::wait_for_connected(std::chrono::seconds timeout)
 {
     const auto [is_connected] = stdexec::sync_wait(handle_->wait_for_started(timeout)).value();
     throw_unexpected(is_connected);
 }
 
-RemoteObject Application::find_object(std::shared_ptr<ObjectQuery> query)
+RemoteObject Probe::find_object(std::shared_ptr<ObjectQuery> query)
 {
-    auto [obj] =
-        stdexec::sync_wait(stdexec::when_all(stdexec::just(handle_), stdexec::just(std::move(query))) |
-                           stdexec::let_value([](auto handle, auto query) { return handle->find_object(*query); }))
-            .value();
+    auto [obj] = stdexec::sync_wait(handle_->find_object(*query)).value();
     throw_unexpected(obj);
     return RemoteObject{std::move(*obj)};
 }
 
-RemoteObject Application::try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout)
+RemoteObject Probe::try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout)
 {
     Result<RemoteObjectPtr> found_object;
     stdexec::sender auto find_obj_snd =
@@ -61,8 +59,8 @@ RemoteObject Application::try_find_object(std::shared_ptr<ObjectQuery> query, st
     return RemoteObject{std::move(*found_object)};
 }
 
-void Application::exit()
+void Probe::exit()
 {
-    stdexec::sync_wait([app = handle_]() -> exec::task<void> { co_await app->exit(); }());
+    stdexec::sync_wait(handle_->exit());
 }
 } // namespace quite::test

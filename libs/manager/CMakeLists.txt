@@ -1,12 +1,19 @@
 add_library(quite_manager)
 add_library(quite::manager ALIAS quite_manager)
+target_compile_features(quite_manager
+    PUBLIC cxx_std_23
+)
 set_target_properties(quite_manager PROPERTIES
     POSITION_INDEPENDENT_CODE ON
+    VISIBILITY_INLINES_HIDDEN ON
 )
 generate_export_header(quite_manager EXPORT_FILE_NAME quite/quite_manager_export.hpp)
 
-target_link_libraries(quite_manager PUBLIC
-    quite::core
+target_link_libraries(quite_manager
+    PUBLIC
+        quite::core
+    PRIVATE
+        Boost::process
 )
 
 target_sources(quite_manager

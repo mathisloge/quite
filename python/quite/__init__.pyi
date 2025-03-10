@@ -1,14 +1,14 @@
 from ._quite import (
-    Application as Application,
-)
-from ._quite import (
-    ApplicationManager as ApplicationManager,
-)
-from ._quite import (
     ObjectQuery as ObjectQuery,
 )
 from ._quite import (
     ObjectQueryBuilder as ObjectQueryBuilder,
+)
+from ._quite import (
+    Probe as Probe,
+)
+from ._quite import (
+    ProbeManager as ProbeManager,
 )
 from ._quite import (
     Property as Property,
@@ -27,10 +27,10 @@ from ._quite import (
 )
 
 __all__ = [
-    "Application",
-    "ApplicationManager",
     "ObjectQuery",
     "ObjectQueryBuilder",
+    "Probe",
+    "ProbeManager",
     "Property",
     "RemoteObject",
     "__doc__",
