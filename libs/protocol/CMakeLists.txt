@@ -2,8 +2,12 @@ set(proto_inc_dir "${CMAKE_CURRENT_LIST_DIR}/quite/proto")
 
 add_library(quite_protocol)
 add_library(quite::protocol ALIAS quite_protocol)
+target_compile_features(quite_protocol
+    PUBLIC cxx_std_23
+)
 set_target_properties(quite_protocol PROPERTIES
     POSITION_INDEPENDENT_CODE ON
+    VISIBILITY_INLINES_HIDDEN 1
 )
 generate_export_header(quite_protocol EXPORT_FILE_NAME quite/quite_protocol_export.hpp)
 asio_grpc_protobuf_generate(

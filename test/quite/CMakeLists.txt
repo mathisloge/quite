@@ -19,7 +19,7 @@ catch_discover_tests(api_test)
 target_sources(api_test PRIVATE
     #process_application.cpp # compile error on gcc-13
     remote_object_test.cpp
-    test_application_manager.cpp
+    test_probe_manager.cpp
     image_diff_test.cpp
     meta_test.cpp
 )

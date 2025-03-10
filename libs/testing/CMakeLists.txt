@@ -1,7 +1,9 @@
 add_library(quite_test)
 add_library(quite::test ALIAS quite_test)
+target_compile_features(quite_test PUBLIC cxx_std_17 PRIVATE cxx_std_23)
 set_target_properties(quite_test PROPERTIES
     POSITION_INDEPENDENT_CODE ON
+    VISIBILITY_INLINES_HIDDEN ON
 )
 generate_export_header(quite_test EXPORT_FILE_NAME quite/quite_test_export.hpp)
 
@@ -13,8 +15,8 @@ target_sources(quite_test
             TYPE HEADERS
             BASE_DIRS include
             FILES
-                include/quite/test/application_manager.hpp
-                include/quite/test/application.hpp
+                include/quite/test/probe_manager.hpp
+                include/quite/test/probe.hpp
                 include/quite/test/exceptions.hpp
                 include/quite/test/object_query_builder.hpp
                 include/quite/test/property.hpp

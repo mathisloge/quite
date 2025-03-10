@@ -3,7 +3,7 @@
 
 DEFINE_LOGGER(grpc_property_logger)
 
-namespace quite
+namespace quite::client
 {
 GrpcProperty::GrpcProperty(std::shared_ptr<GrpcRemoteObject> parent, std::string name, entt::meta_any initial_value)
     : parent_{std::move(parent)}
@@ -41,4 +41,4 @@ AsyncResult<entt::meta_any> GrpcProperty::write(entt::meta_any value)
     co_return std::unexpected(Error{ErrorCode::unimplemented, "Client does not implement the write yet."});
 }
 
-} // namespace quite
+} // namespace quite::client

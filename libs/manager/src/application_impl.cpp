@@ -4,6 +4,10 @@
 using boost::system::error_code;
 namespace quite::manager
 {
+ApplicationImpl::ApplicationImpl(boost::process::v2::process &&process)
+    : process_{std::move(process)}
+{}
+
 bool ApplicationImpl::is_running()
 {
     error_code ec;

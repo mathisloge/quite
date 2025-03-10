@@ -33,7 +33,7 @@ class QUITE_MANAGER_EXPORT ApplicationManager
   public:
     QUITE_DISABLE_COPY(ApplicationManager);
     explicit ApplicationManager(asio2exec::asio_context &context);
-    ~ApplicationManager() = default;
+    ~ApplicationManager();
     ApplicationManager(ApplicationManager &&) noexcept = default;
     ApplicationManager &operator=(ApplicationManager &&) noexcept = default;
 

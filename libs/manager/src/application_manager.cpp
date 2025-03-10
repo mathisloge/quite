@@ -19,6 +19,8 @@ ApplicationManager::ApplicationHandle::ApplicationHandle(std::shared_ptr<Applica
     : application_{std::move(app)}
 {}
 
+ApplicationManager::~ApplicationManager() = default;
+
 Application &ApplicationManager::ApplicationHandle::instance()
 {
     return *application_;

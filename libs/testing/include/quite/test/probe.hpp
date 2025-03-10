@@ -2,24 +2,24 @@
 #include <chrono>
 #include <memory>
 #include <quite/disable_copy_move.hpp>
+#include <quite/probe_handle.hpp>
 #include "quite/quite_test_export.hpp"
 #include "remote_object.hpp"
 
 namespace quite
 {
-class Application;
 class ObjectQuery;
 
 namespace test
 {
-class ApplicationManager;
-class QUITE_TEST_EXPORT Application
+class ProbeManager;
+class QUITE_TEST_EXPORT Probe
 {
   public:
-    QUITE_DISABLE_COPY(Application);
-    Application(Application &&) noexcept;
-    Application &operator=(Application &&) noexcept;
-    ~Application();
+    QUITE_DISABLE_COPY(Probe);
+    Probe(Probe &&) noexcept;
+    Probe &operator=(Probe &&) noexcept;
+    ~Probe();
 
     RemoteObject find_object(std::shared_ptr<ObjectQuery> query);
     RemoteObject try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout);
@@ -27,11 +27,11 @@ class QUITE_TEST_EXPORT Application
     void exit();
 
   private:
-    friend ApplicationManager;
-    explicit Application(std::shared_ptr<quite::Application> handle);
+    friend ProbeManager;
+    explicit Probe(client::ProbeHandle handle);
 
   private:
-    std::shared_ptr<quite::Application> handle_;
+    client::ProbeHandle handle_;
 };
 } // namespace test
 } // namespace quite

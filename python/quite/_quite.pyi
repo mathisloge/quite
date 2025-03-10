@@ -4,48 +4,6 @@ from typing import overload
 __version__: str
 __version_git_ref__: str
 
-class Application:
-    def __init__(self, *args, **kwargs) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-
-    def exit(self) -> None:
-        """exit(self: quite._quite.Application) -> None
-
-        Request to exit the application.
-        """
-
-    def find_object(self, object_query: ObjectQuery) -> RemoteObject:
-        """find_object(self: quite._quite.Application, object_query: quite._quite.ObjectQuery) -> quite._quite.RemoteObject
-
-        Try to get an instance of an object by the given query. If the object might not be present directly, use try_find_object.
-        """
-
-    def try_find_object(
-        self, object_query: ObjectQuery, timeout: datetime.timedelta
-    ) -> RemoteObject:
-        """try_find_object(self: quite._quite.Application, object_query: quite._quite.ObjectQuery, timeout: datetime.timedelta) -> quite._quite.RemoteObject
-
-        Try to get a object in the specified time.
-        """
-
-    def wait_for_connected(self, timeout: datetime.timedelta = ...) -> None:
-        """wait_for_connected(self: quite._quite.Application, timeout: datetime.timedelta = datetime.timedelta(seconds=5)) -> None
-
-        Wait until the application is connected.
-        """
-
-class ApplicationManager:
-    def __init__(self) -> None:
-        """__init__(self: quite._quite.ApplicationManager) -> None"""
-
-    def create_host_application(
-        self,
-        path_to_application: str,
-        args: list[str] = ...,
-        environment: dict[str, str] = ...,
-    ) -> Application:
-        """create_host_application(self: quite._quite.ApplicationManager, path_to_application: str, args: list[str] = [], environment: dict[str, str] = {}) -> quite._quite.Application"""
-
 class ObjectQuery:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
@@ -131,6 +89,43 @@ class ObjectQueryBuilder:
 
         Sets the parent.
         """
+
+class Probe:
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+    def exit(self) -> None:
+        """exit(self: quite._quite.Probe) -> None
+
+        Request to exit the application.
+        """
+
+    def find_object(self, object_query: ObjectQuery) -> RemoteObject:
+        """find_object(self: quite._quite.Probe, object_query: quite._quite.ObjectQuery) -> quite._quite.RemoteObject
+
+        Try to get an instance of an object by the given query. If the object might not be present directly, use try_find_object.
+        """
+
+    def try_find_object(
+        self, object_query: ObjectQuery, timeout: datetime.timedelta
+    ) -> RemoteObject:
+        """try_find_object(self: quite._quite.Probe, object_query: quite._quite.ObjectQuery, timeout: datetime.timedelta) -> quite._quite.RemoteObject
+
+        Try to get a object in the specified time.
+        """
+
+    def wait_for_connected(self, timeout: datetime.timedelta = ...) -> None:
+        """wait_for_connected(self: quite._quite.Probe, timeout: datetime.timedelta = datetime.timedelta(seconds=5)) -> None
+
+        Wait until the application is connected.
+        """
+
+class ProbeManager:
+    def __init__(self) -> None:
+        """__init__(self: quite._quite.ProbeManager) -> None"""
+
+    def launch_qt_probe_application(self, name: str, path_to_application: str) -> Probe:
+        """launch_qt_probe_application(self: quite._quite.ProbeManager, name: str, path_to_application: str) -> quite._quite.Probe"""
 
 class Property:
     def __init__(self, *args, **kwargs) -> None:

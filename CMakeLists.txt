@@ -15,7 +15,6 @@ include(GetGitRevisionDescription)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -75,7 +74,7 @@ feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 if(QUITE_INSTALL)
     include(CMakePackageConfigHelpers)
 
-    install(TARGETS quite_protocol quite_core quite_client quite_test probe
+    install(TARGETS quite_protocol quite_core quite_manager quite_client quite_test probe
         EXPORT quiteTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
