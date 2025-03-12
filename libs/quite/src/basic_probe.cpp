@@ -2,13 +2,13 @@
 #include <boost/asio/steady_timer.hpp>
 #include <exec/when_any.hpp>
 #include <quite/logger.hpp>
-#include "quite/manager/application.hpp"
+#include "quite/manager/process.hpp"
 #include "quite/quite.hpp"
 
 DEFINE_LOGGER(basic_probe)
 namespace quite::client
 {
-BasicProbe::BasicProbe(manager::ApplicationManager::ApplicationHandle process)
+BasicProbe::BasicProbe(manager::ProcessManager::ProcessHandle process)
     : process_{std::move(process)}
 {}
 
@@ -46,7 +46,7 @@ AsyncResult<void> BasicProbe::exit()
     co_return exit_result.transform([](int /* exit_code */) {});
 }
 
-manager::Application &BasicProbe::process()
+manager::Process &BasicProbe::process()
 {
     return process_.instance();
 }

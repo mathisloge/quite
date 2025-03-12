@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <quite/disable_copy_move.hpp>
-#include <quite/manager/application_manager.hpp>
+#include <quite/manager/process_manager.hpp>
 #include "probe_handle.hpp"
 #include "quite/quite_client_export.hpp"
 
@@ -16,7 +16,7 @@ class QUITE_CLIENT_EXPORT ProbeManager
     ProbeManager(ProbeManager &&) noexcept = default;
     ProbeManager &operator=(ProbeManager &&) noexcept = default;
 
-    ProbeHandle connect(manager::ApplicationManager::ApplicationHandle handle, const std::string &connection_url);
+    ProbeHandle connect(manager::ProcessManager::ProcessHandle handle, const std::string &connection_url);
 
   private:
     struct Impl;

@@ -2,7 +2,7 @@
 #include <nlohmann/json.hpp>
 #include <quite/asio2exec.hpp>
 #include <quite/logger.hpp>
-#include <quite/manager/application_manager.hpp>
+#include <quite/manager/process_manager.hpp>
 #include <quite/probe.hpp>
 #include <quite/probe_manager.hpp>
 #include <quite/property.hpp>
@@ -21,7 +21,7 @@ TEST_CASE("Test the qt build in meta types")
     quite::setup_logger();
 
     ASYNC_BLOCK
-    quite::manager::ApplicationManager process_manager{quite::asio_context()};
+    quite::manager::ProcessManager process_manager{quite::asio_context()};
     quite::client::ProbeManager probe_manager;
     auto app = probe_manager.connect(process_manager.launch_application("tester", TESTER_APP_PATH), "");
 

@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <quite/logger.hpp>
-#include <quite/manager/application_manager.hpp>
+#include <quite/manager/process_manager.hpp>
 #include <quite/probe.hpp>
 #include <quite/probe_manager.hpp>
 #include <quite/quite.hpp>
@@ -17,7 +17,7 @@ DEFINE_LOGGER(test);
 TEST_CASE("A host application is started")
 {
     setup_logger();
-    ApplicationManager process_manager{quite::asio_context()};
+    ProcessManager process_manager{quite::asio_context()};
     ProbeManager probe_manager;
     auto probe = probe_manager.connect(process_manager.launch_application("tester", TESTER_APP_PATH), "...");
 

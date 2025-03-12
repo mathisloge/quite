@@ -22,15 +22,15 @@ target_sources(quite_manager
             TYPE HEADERS
             BASE_DIRS include
             FILES
-                include/quite/manager/application_manager.hpp
-                include/quite/manager/application.hpp
+                include/quite/manager/process_manager.hpp
+                include/quite/manager/process.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
             FILES
                 ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_manager_export.hpp
     PRIVATE
-        src/application_manager.cpp
-        src/application_impl.hpp
-        src/application_impl.cpp
+        src/process_manager.cpp
+        src/process_impl.hpp
+        src/process_impl.cpp
 )
