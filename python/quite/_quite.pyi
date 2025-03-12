@@ -124,6 +124,9 @@ class ProbeManager:
     def __init__(self) -> None:
         """__init__(self: quite._quite.ProbeManager) -> None"""
 
+    def connect_to_probe(self, name: str) -> Probe:
+        """connect_to_probe(self: quite._quite.ProbeManager, name: str) -> quite._quite.Probe"""
+
     def launch_qt_probe_application(self, name: str, path_to_application: str) -> Probe:
         """launch_qt_probe_application(self: quite._quite.ProbeManager, name: str, path_to_application: str) -> quite._quite.Probe"""
 

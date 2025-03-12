@@ -14,6 +14,12 @@ target_link_libraries(quite_manager
         quite::core
     PRIVATE
         Boost::process
+        protobuf::libprotobuf
+        asio-grpc::asio-grpc-stdexec
+)
+
+target_include_directories(quite_manager PRIVATE
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>"
 )
 
 target_sources(quite_manager
@@ -33,4 +39,16 @@ target_sources(quite_manager
         src/process_manager.cpp
         src/process_impl.hpp
         src/process_impl.cpp
+        src/noop_process.hpp
+        src/noop_process.cpp
+)
+
+asio_grpc_protobuf_generate(
+    GENERATE_GRPC
+    USAGE_REQUIREMENT PRIVATE
+    TARGET quite_manager
+    OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated"
+    IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"
+    PROTOS
+        "protocol/process_service.proto"
 )

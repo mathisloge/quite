@@ -1,6 +1,7 @@
 #include "quite/manager/process_manager.hpp"
 #include <boost/process/v2.hpp>
 #include <quite/logger.hpp>
+#include "noop_process.hpp"
 #include "process_impl.hpp"
 
 DEFINE_LOGGER(process_manager)
@@ -53,14 +54,6 @@ ProcessManager::ProcessHandle ProcessManager::launch_application(
     return ProcessHandle{app->second};
 }
 
-/**
- * @brief Launches the application and preloads the Qt-Probe.
- *
- * @param path_to_application
- * @param args
- * @param environment
- * @return ProcessHandle
- */
 ProcessManager::ProcessHandle ProcessManager::launch_application(
     QtProbe,
     Id id_name,
@@ -75,31 +68,8 @@ ProcessManager::ProcessHandle ProcessManager::launch_application(
     return ProcessHandle{app->second};
 }
 
-/**
- * @brief Attaches the Qt-Probe to the running process.
- *
- * @param process_id
- * @return ProcessHandle
- */
-ProcessManager::ProcessHandle ProcessManager::attach_probe_to_running(QtProbe, Id id_name, PID process_id)
+ProcessManager::ProcessHandle ProcessManager::noop_process()
 {
-    bp::process process{impl_->context_.get_executor().get_executor(), static_cast<bp::pid_type>(process_id)};
-    auto [app, emplaced] =
-        impl_->applications_.emplace(std::move(id_name), std::make_shared<ProcessImpl>(std::move(process)));
-    return ProcessHandle{app->second};
-}
-
-/**
- * @brief Attaches to any running process.
- *
- * @param process_id
- * @return ProcessHandle
- */
-ProcessManager::ProcessHandle ProcessManager::attach_to_running(Id id_name, PID process_id)
-{
-    bp::process process{impl_->context_.get_executor().get_executor(), static_cast<bp::pid_type>(process_id)};
-    auto [app, emplaced] =
-        impl_->applications_.emplace(std::move(id_name), std::make_shared<ProcessImpl>(std::move(process)));
-    return ProcessHandle{app->second};
+    return ProcessHandle{std::make_shared<NoopProcess>()};
 }
 } // namespace quite::manager

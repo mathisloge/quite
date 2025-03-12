@@ -20,4 +20,10 @@ Probe ProbeManager::launch_probe_application(std::string name, const std::string
     auto probe_handle = probe_->connect(std::move(process), "...");
     return Probe{std::move(probe_handle)};
 }
+
+quite::test::Probe ProbeManager::connect_to_probe(std::string name)
+{
+    auto probe_handle = probe_->connect(local_->noop_process(), "...");
+    return Probe{std::move(probe_handle)};
+}
 } // namespace quite::test
