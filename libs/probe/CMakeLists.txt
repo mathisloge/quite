@@ -1,7 +1,7 @@
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-add_library(probe)
+add_library(probe SHARED)
 add_library(quite::probe ALIAS probe)
 target_compile_features(probe
     PUBLIC cxx_std_17

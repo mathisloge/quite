@@ -74,20 +74,11 @@ class QUITE_MANAGER_EXPORT ProcessManager
                                      const std::unordered_map<std::string, std::string> &environment = {});
 
     /**
-     * @brief Attaches the Qt-Probe to the running process.
+     * @brief Creates a handle with does nothing.
      *
-     * @param process_id
      * @return ProcessHandle
      */
-    ProcessHandle attach_probe_to_running(QtProbe, Id id_name, PID process_id);
-
-    /**
-     * @brief Attaches to any running process.
-     *
-     * @param process_id
-     * @return ProcessHandle
-     */
-    ProcessHandle attach_to_running(Id id_name, PID process_id);
+    ProcessHandle noop_process();
 
   private:
     struct Impl;

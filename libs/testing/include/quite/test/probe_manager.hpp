@@ -27,6 +27,7 @@ class QUITE_TEST_EXPORT ProbeManager
     ProbeManager &operator=(ProbeManager &&) noexcept = default;
     ~ProbeManager();
     quite::test::Probe launch_probe_application(std::string name, const std::string &path_to_application);
+    quite::test::Probe connect_to_probe(std::string name);
 
   private:
     std::unique_ptr<manager::ProcessManager> local_;

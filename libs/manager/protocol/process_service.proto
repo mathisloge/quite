@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package quite.manager;
+
+service ProcessService {
+  rpc StartProcess(StartProcessRequest) returns (StartProcessResponse) {}
+}
+
+message StartProcessRequest {
+  string process_id = 1;
+}
+
+message StartProcessResponse {}
