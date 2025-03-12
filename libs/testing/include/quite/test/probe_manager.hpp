@@ -11,7 +11,7 @@ class ProbeManager;
 }
 namespace manager
 {
-class ApplicationManager;
+class ProcessManager;
 }
 
 namespace test
@@ -29,7 +29,7 @@ class QUITE_TEST_EXPORT ProbeManager
     quite::test::Probe launch_probe_application(std::string name, const std::string &path_to_application);
 
   private:
-    std::unique_ptr<manager::ApplicationManager> local_;
+    std::unique_ptr<manager::ProcessManager> local_;
     std::unique_ptr<client::ProbeManager> probe_;
 };
 } // namespace test

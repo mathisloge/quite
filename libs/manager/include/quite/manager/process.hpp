@@ -3,10 +3,10 @@
 #include "quite/quite_manager_export.hpp"
 namespace quite::manager
 {
-class QUITE_MANAGER_EXPORT Application
+class QUITE_MANAGER_EXPORT Process
 {
   public:
-    virtual ~Application() = default;
+    virtual ~Process() = default;
     virtual bool is_running() = 0;
     virtual int exit_code() = 0;
     virtual AsyncResult<int> async_wait_exit() = 0;

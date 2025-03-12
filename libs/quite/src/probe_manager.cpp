@@ -14,8 +14,7 @@ ProbeManager::ProbeManager()
 ProbeManager::~ProbeManager()
 {}
 
-ProbeHandle ProbeManager::connect(manager::ApplicationManager::ApplicationHandle handle,
-                                  const std::string &connection_url)
+ProbeHandle ProbeManager::connect(manager::ProcessManager::ProcessHandle handle, const std::string &connection_url)
 {
     return ProbeHandle{std::make_shared<GrpcProbe>(std::move(handle), quite::Context::Instance().backend_client())};
 }

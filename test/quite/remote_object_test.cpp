@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <exec/task.hpp>
 #include <quite/logger.hpp>
-#include <quite/manager/application_manager.hpp>
+#include <quite/manager/process_manager.hpp>
 #include <quite/probe.hpp>
 #include <quite/probe_manager.hpp>
 #include <quite/setup_logger.hpp>
@@ -17,7 +17,7 @@ DEFINE_LOGGER(test);
 TEST_CASE("Remote object can be invoked")
 {
     setup_logger();
-    quite::manager::ApplicationManager process_manager{quite::asio_context()};
+    quite::manager::ProcessManager process_manager{quite::asio_context()};
     quite::client::ProbeManager probe_manager;
     auto app = probe_manager.connect(process_manager.launch_application("tester", TESTER_APP_PATH), "");
     stdexec::sync_wait(app->wait_for_started(std::chrono::seconds{5}));
