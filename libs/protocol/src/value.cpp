@@ -1,4 +1,5 @@
 #include "value.hpp"
+#include <ranges>
 #include <entt/core/hashed_string.hpp>
 #include <entt/meta/container.hpp>
 #include <entt/meta/resolve.hpp>
