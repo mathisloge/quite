@@ -19,7 +19,7 @@ TEST_CASE("Remote object can be invoked")
     setup_logger();
     quite::manager::ProcessManager process_manager{quite::asio_context()};
     quite::client::ProbeManager probe_manager;
-    auto app = probe_manager.connect(process_manager.launch_application("tester", TESTER_APP_PATH), "");
+    auto app = probe_manager.connect(*process_manager.launch_application("tester", TESTER_APP_PATH), "");
     stdexec::sync_wait(app->wait_for_started(std::chrono::seconds{5}));
 
     const ObjectQuery btn_query{.properties = {{"objectName", entt::forward_as_meta(std::string{"helloBtn"})}}};

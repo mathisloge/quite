@@ -52,3 +52,7 @@ asio_grpc_protobuf_generate(
     PROTOS
         "protocol/process_service.proto"
 )
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()

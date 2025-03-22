@@ -23,7 +23,7 @@ TEST_CASE("Test the qt build in meta types")
     ASYNC_BLOCK
     quite::manager::ProcessManager process_manager{quite::asio_context()};
     quite::client::ProbeManager probe_manager;
-    auto app = probe_manager.connect(process_manager.launch_application("tester", TESTER_APP_PATH), "");
+    auto app = probe_manager.connect(*process_manager.launch_application("tester", TESTER_APP_PATH), "");
 
     const auto void_type = co_await app->meta_registry().lookup_type(kVoidId);
     if (not void_type.has_value())
