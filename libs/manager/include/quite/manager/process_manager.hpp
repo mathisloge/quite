@@ -1,4 +1,5 @@
 #pragma once
+#include <filesystem>
 #include <memory>
 #include <unordered_map>
 #include <vector>
@@ -17,6 +18,7 @@ class QUITE_MANAGER_EXPORT ProcessManager
     {
       public:
         Process &instance();
+        Process *operator->();
 
       private:
         explicit ProcessHandle(std::shared_ptr<Process> app);
@@ -29,6 +31,8 @@ class QUITE_MANAGER_EXPORT ProcessManager
 
     using PID = std::uint64_t;
     using Id = std::string;
+
+    using Environment = std::unordered_map<std::string, std::string>;
 
   public:
     QUITE_DISABLE_COPY(ProcessManager);
@@ -54,10 +58,10 @@ class QUITE_MANAGER_EXPORT ProcessManager
      * @param environment
      * @return ProcessHandle
      */
-    ProcessHandle launch_application(Id id_name,
-                                     const std::string &path_to_application,
-                                     const std::vector<std::string> &args = {},
-                                     const std::unordered_map<std::string, std::string> &environment = {});
+    Result<ProcessHandle> launch_application(Id id_name,
+                                             const std::string &path_to_application,
+                                             const std::vector<std::string> &args = {},
+                                             const Environment &environment = current_environment());
 
     /**
      * @brief Launches the application and preloads the Qt-Probe.
@@ -67,11 +71,11 @@ class QUITE_MANAGER_EXPORT ProcessManager
      * @param environment
      * @return ProcessHandle
      */
-    ProcessHandle launch_application(QtProbe,
-                                     Id id_name,
-                                     const std::string &path_to_application,
-                                     const std::vector<std::string> &args = {},
-                                     const std::unordered_map<std::string, std::string> &environment = {});
+    Result<ProcessHandle> launch_application(QtProbe,
+                                             Id id_name,
+                                             const std::string &path_to_application,
+                                             const std::vector<std::string> &args = {},
+                                             const Environment &environment = current_environment());
 
     /**
      * @brief Creates a handle with does nothing.
@@ -79,6 +83,23 @@ class QUITE_MANAGER_EXPORT ProcessManager
      * @return ProcessHandle
      */
     ProcessHandle noop_process();
+
+    /**
+     * @brief Returns the current environment of the running process
+     *
+     * @return Environment
+     */
+    static Environment current_environment();
+
+    /**
+     * @brief Trys to find the given executable in the PATH equivalent enviroment entry.
+     *
+     * @param exe_name the application name
+     * @param environment the environment to search in
+     * @return Result<std::filesystem::path> either an error or the absolute path to the executable
+     */
+    static Result<std::filesystem::path> find_executable(std::filesystem::path exe_name,
+                                                         Environment environment = current_environment());
 
   private:
     struct Impl;
