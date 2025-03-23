@@ -3,11 +3,44 @@ syntax = "proto3";
 package quite.manager;
 
 service ProcessService {
-  rpc StartProcess(StartProcessRequest) returns (StartProcessResponse) {}
+  rpc GetCurrentEnvironment(GetCurrentEnvironmentRequest)
+      returns (GetCurrentEnvironmentResponse) {}
+  rpc LaunchProcess(LaunchProcessRequest) returns (LaunchProcessResponse) {}
+  rpc ProcessIsRunning(ProcessRequest) returns (ProcessRunningResponse) {}
+  rpc ProcessExitCode(ProcessRequest) returns (ProcessExitCodeResponse) {}
+  rpc ProcessRequestExit(ProcessRequest) returns (ProcessRequestExitResponse) {}
+  rpc ProcessTerminate(ProcessRequest) returns (ProcessTerminateResponse) {}
 }
 
-message StartProcessRequest {
+message GetCurrentEnvironmentRequest {}
+
+message GetCurrentEnvironmentResponse {
+  map<string, string> environment = 1;
+}
+
+message LaunchProcessRequest {
+  string process_id = 1;
+  string exe_path = 2;
+  repeated string args = 3;
+  map<string, string> environment = 4;
+}
+
+message LaunchProcessResponse {
   string process_id = 1;
 }
 
-message StartProcessResponse {}
+message ProcessRequest {
+  string process_id = 1;
+}
+
+message ProcessRunningResponse {
+  bool running = 1;
+}
+
+message ProcessExitCodeResponse {
+  int64 exit_code = 1;
+}
+
+message ProcessRequestExitResponse {}
+
+message ProcessTerminateResponse {}

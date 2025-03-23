@@ -28,19 +28,24 @@ target_sources(quite_manager
             TYPE HEADERS
             BASE_DIRS include
             FILES
+                include/quite/manager/basic_process_manager.hpp
                 include/quite/manager/process_manager.hpp
+                include/quite/manager/remote_process_manager.hpp
                 include/quite/manager/process.hpp
+                include/quite/manager/process_handle.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
             FILES
                 ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_manager_export.hpp
     PRIVATE
+        src/basic_process_manager.cpp
         src/process_manager.cpp
         src/process_impl.hpp
         src/process_impl.cpp
         src/noop_process.hpp
         src/noop_process.cpp
+        src/process_handle.cpp
 )
 
 asio_grpc_protobuf_generate(

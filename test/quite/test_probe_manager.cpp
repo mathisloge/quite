@@ -19,7 +19,7 @@ TEST_CASE("A host application is started")
     setup_logger();
     ProcessManager process_manager{quite::asio_context()};
     ProbeManager probe_manager;
-    auto probe = probe_manager.connect(*process_manager.launch_application("tester", TESTER_APP_PATH), "...");
+    auto probe = probe_manager.connect(*process_manager.launch_application({"tester"}, TESTER_APP_PATH), "...");
 
     ASYNC_BLOCK
     const auto state = co_await probe->wait_for_started(std::chrono::seconds{5});

@@ -4,7 +4,6 @@
 #include <fmt/ranges.h>
 #include <fmt/std.h>
 #include <quite/logger.hpp>
-#include "noop_process.hpp"
 #include "process_impl.hpp"
 
 DEFINE_LOGGER(process_manager)
@@ -16,50 +15,36 @@ namespace quite::manager
 struct ProcessManager::Impl
 {
     asio2exec::asio_context &context_;
-    std::unordered_map<Id, std::shared_ptr<Process>> applications_;
+    std::unordered_map<std::string, std::shared_ptr<Process>> applications_;
 };
-
-ProcessManager::ProcessHandle::ProcessHandle(std::shared_ptr<Process> app)
-    : application_{std::move(app)}
-{}
-
-ProcessManager::~ProcessManager() = default;
-
-Process &ProcessManager::ProcessHandle::instance()
-{
-    return *application_;
-}
-
-Process *ProcessManager::ProcessHandle::operator->()
-{
-    return application_.get();
-}
 
 ProcessManager::ProcessManager(asio2exec::asio_context &context)
     : impl_{std::make_unique<Impl>(context)}
 {}
 
-Result<ProcessManager::ProcessHandle> ProcessManager::application(const Id &name)
+ProcessManager::~ProcessManager() = default;
+
+Result<ProcessHandle> ProcessManager::application(const ProcessId &id)
 {
-    auto it = impl_->applications_.find(name);
+    const auto it = impl_->applications_.find(id.name);
     if (it == impl_->applications_.end())
     {
         return make_error_result<ProcessHandle>(ErrorCode::not_found,
-                                                fmt::format("Process with id '{}' is not present (anymore)", name));
+                                                fmt::format("Process with id '{}' is not present (anymore)", id.name));
     }
     return ProcessHandle{it->second};
 }
 
-Result<ProcessManager::ProcessHandle> ProcessManager::launch_application(Id id_name,
-                                                                         const std::string &path_to_application,
-                                                                         const std::vector<std::string> &args,
-                                                                         const Environment &environment)
+Result<ProcessHandle> ProcessManager::launch_application(ProcessId id,
+                                                         const std::string &path_to_application,
+                                                         const std::vector<std::string> &args,
+                                                         const Environment &environment)
 {
     try
     {
         bp::process process{
             impl_->context_.get_executor(), path_to_application, args, bp::process_environment{environment}};
-        auto [app, emplaced] = impl_->applications_.insert_or_assign(std::move(id_name),
+        auto [app, emplaced] = impl_->applications_.insert_or_assign(std::move(id.name),
                                                                      std::make_shared<ProcessImpl>(std::move(process)));
         if (not emplaced)
         {
@@ -73,20 +58,6 @@ Result<ProcessManager::ProcessHandle> ProcessManager::launch_application(Id id_n
     {
         return make_error_result<ProcessHandle>(ErrorCode::aborted, e.what());
     }
-}
-
-Result<ProcessManager::ProcessHandle> ProcessManager::launch_application(QtProbe /*qt-tag*/,
-                                                                         Id id_name,
-                                                                         const std::string &path_to_application,
-                                                                         const std::vector<std::string> &args,
-                                                                         const Environment &environment)
-{
-    return launch_application(id_name, path_to_application, args, environment);
-}
-
-ProcessManager::ProcessHandle ProcessManager::noop_process()
-{
-    return ProcessHandle{std::make_shared<NoopProcess>()};
 }
 
 ProcessManager::Environment ProcessManager::current_environment()
