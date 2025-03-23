@@ -16,7 +16,7 @@ class QUITE_CLIENT_EXPORT ProbeManager
     ProbeManager(ProbeManager &&) noexcept = default;
     ProbeManager &operator=(ProbeManager &&) noexcept = default;
 
-    ProbeHandle connect(manager::ProcessManager::ProcessHandle handle, const std::string &connection_url);
+    ProbeHandle connect(manager::ProcessHandle handle, const std::string &connection_url);
 
   private:
     struct Impl;
