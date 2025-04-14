@@ -16,12 +16,11 @@ ProbeManager::~ProbeManager() = default;
 
 Probe ProbeManager::launch_probe_application(std::string name, const std::string &path_to_application)
 {
-    auto probe_result =
-        std::get<0>(stdexec::sync_wait(local_->launch_application({std::move(name)}, path_to_application)).value())
-            .and_then([&](auto &&handle) -> Result<Probe> {
-                auto probe_handle = probe_->connect(std::forward<decltype(handle)>(handle), "...");
-                return Probe{std::move(probe_handle)};
-            });
+    auto [process] = stdexec::sync_wait(local_->launch_application({std::move(name)}, path_to_application)).value();
+    auto probe_result = process.and_then([&](auto &&handle) -> Result<Probe> {
+        auto probe_handle = probe_->connect(std::forward<decltype(handle)>(handle), "...");
+        return Probe{std::move(probe_handle)};
+    });
     if (probe_result.has_value())
     {
         return std::move(probe_result.value());
