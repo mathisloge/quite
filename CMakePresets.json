@@ -65,12 +65,26 @@
                 "debug-build",
                 "developer"
             ]
+        },
+        {
+            "name": "python-build",
+            "displayName": "Python build",
+            "binaryDir": "${sourceDir}/build",
+            "generator": "Ninja",
+            "installDir": "${sourceDir}/dist",
+            "cacheVariables": {
+                "QUITE_BUILD_PYTHON_PACKAGE": true
+            }
         }
     ],
     "buildPresets": [
         {
             "name": "developer-gcc",
             "configurePreset": "developer-gcc"
+        },
+        {
+            "name": "python-build",
+            "configurePreset": "python-build"
         }
     ],
     "testPresets": [
