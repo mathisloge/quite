@@ -15,8 +15,11 @@ TEST_CASE("Test ProcessManager", "[manager]")
 
     SECTION("A non probe process from environment can be launched")
     {
-        REQUIRE(manager.find_executable({"ls"})
-                    .and_then([&](auto &&path) { return manager.launch_application({"ls"}, path, {"-a", "."}, {}); })
+        auto [exe] = stdexec::sync_wait(manager.find_executable({"ls"})).value();
+        REQUIRE(exe.and_then([&](auto &&path) {
+                       return std::get<0>(
+                           stdexec::sync_wait(manager.launch_application({"ls"}, path, {"-a", "."}, {})).value());
+                   })
                     .and_then([&](auto &&process) {
                         auto [exit_code] = stdexec::sync_wait(process->async_wait_exit()).value();
                         REQUIRE(exit_code.has_value());
@@ -28,27 +31,32 @@ TEST_CASE("Test ProcessManager", "[manager]")
 
     SECTION("A non probe process can be launched")
     {
-        auto process = manager.launch_application({"runnable"}, kRunnablePath, {}, {}).value();
-        auto [exit_code] = stdexec::sync_wait(process->async_wait_exit()).value();
+        auto [process] = stdexec::sync_wait(manager.launch_application({"runnable"}, kRunnablePath, {}, {})).value();
+        auto [exit_code] = stdexec::sync_wait(process.value()->async_wait_exit()).value();
         REQUIRE(exit_code.has_value());
         REQUIRE(exit_code.value() == EXIT_SUCCESS);
 
-        REQUIRE(manager.application({"runnable"}).has_value());
-        REQUIRE(manager.application({"runnable"}).value()->exit_code() == EXIT_SUCCESS);
+        auto [runnable] = stdexec::sync_wait(manager.application({"runnable"})).value();
+        REQUIRE(runnable.has_value());
+        REQUIRE(runnable.value()->exit_code() == EXIT_SUCCESS);
     }
 
     SECTION("A non probe process can be launched with args")
     {
-        auto process = manager.launch_application({"runnable"}, kRunnablePath, {"--exit-code", "10"}, {}).value();
-        auto [exit_code] = stdexec::sync_wait(process->async_wait_exit()).value();
+        auto [process] =
+            stdexec::sync_wait(manager.launch_application({"runnable"}, kRunnablePath, {"--exit-code", "10"}, {}))
+                .value();
+        auto [exit_code] = stdexec::sync_wait(process.value()->async_wait_exit()).value();
         REQUIRE(exit_code.has_value());
         REQUIRE(exit_code.value() == 10);
     }
 
     SECTION("A non probe process can be launched with a custom environment")
     {
-        auto process = manager.launch_application({"runnable"}, kRunnablePath, {}, {{"TEST_EXIT_CODE", "20"}}).value();
-        auto [exit_code] = stdexec::sync_wait(process->async_wait_exit()).value();
+        auto [process] =
+            stdexec::sync_wait(manager.launch_application({"runnable"}, kRunnablePath, {}, {{"TEST_EXIT_CODE", "20"}}))
+                .value();
+        auto [exit_code] = stdexec::sync_wait(process.value()->async_wait_exit()).value();
         REQUIRE(exit_code.has_value());
         REQUIRE(exit_code.value() == 20);
     }
@@ -58,24 +66,27 @@ TEST_CASE("Test ProcessManager", "[manager]")
         for (int i = 0; i < 2; i++)
         {
             const auto expected_exit_code = i + 42;
-            auto process =
-                manager
-                    .launch_application(
-                        {"runnable"}, kRunnablePath, {"--exit-code", fmt::format("{}", expected_exit_code)}, {})
+            auto [process] =
+                stdexec::sync_wait(
+                    manager.launch_application(
+                        {"runnable"}, kRunnablePath, {"--exit-code", fmt::format("{}", expected_exit_code)}, {}))
                     .value();
-            auto [exit_code] = stdexec::sync_wait(process->async_wait_exit()).value();
+            auto [exit_code] = stdexec::sync_wait(process.value()->async_wait_exit()).value();
             REQUIRE(exit_code.has_value());
             REQUIRE(exit_code.value() == expected_exit_code);
 
-            REQUIRE(manager.application({"runnable"}).has_value());
-            REQUIRE(manager.application({"runnable"}).value()->exit_code() == expected_exit_code);
+            auto [runnable] = stdexec::sync_wait(manager.application({"runnable"})).value();
+            REQUIRE(runnable.has_value());
+            REQUIRE(runnable.value()->exit_code() == expected_exit_code);
         }
     }
 
     SECTION("An invalid process will not crash")
     {
-        auto process =
-            manager.launch_application({"not-found"}, "quite-not-found-program-42", {}, {{"TEST_EXIT_CODE", "42"}});
+        auto [process] =
+            stdexec::sync_wait(
+                manager.launch_application({"not-found"}, "quite-not-found-program-42", {}, {{"TEST_EXIT_CODE", "42"}}))
+                .value();
         REQUIRE_FALSE(process.has_value());
     }
 }

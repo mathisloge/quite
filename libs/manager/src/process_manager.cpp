@@ -24,21 +24,21 @@ ProcessManager::ProcessManager(asio2exec::asio_context &context)
 
 ProcessManager::~ProcessManager() = default;
 
-Result<ProcessHandle> ProcessManager::application(const ProcessId &id)
+AsyncResult<ProcessHandle> ProcessManager::application(const ProcessId &id)
 {
     const auto it = impl_->applications_.find(id.name);
     if (it == impl_->applications_.end())
     {
-        return make_error_result<ProcessHandle>(ErrorCode::not_found,
-                                                fmt::format("Process with id '{}' is not present (anymore)", id.name));
+        co_return make_error_result(ErrorCode::not_found,
+                                    fmt::format("Process with id '{}' is not present (anymore)", id.name));
     }
-    return ProcessHandle{it->second};
+    co_return ProcessHandle{it->second};
 }
 
-Result<ProcessHandle> ProcessManager::launch_application(ProcessId id,
-                                                         const std::string &path_to_application,
-                                                         const std::vector<std::string> &args,
-                                                         const Environment &environment)
+AsyncResult<ProcessHandle> ProcessManager::launch_application(ProcessId id,
+                                                              const std::string &path_to_application,
+                                                              const std::vector<std::string> &args,
+                                                              const Environment &environment)
 {
     try
     {
@@ -52,11 +52,11 @@ Result<ProcessHandle> ProcessManager::launch_application(ProcessId id,
                         "A process with id '{}' was already in place. Replaced with the newly launched process.",
                         app->first);
         }
-        return ProcessHandle{app->second};
+        co_return ProcessHandle{app->second};
     }
     catch (const boost::system::system_error &e)
     {
-        return make_error_result<ProcessHandle>(ErrorCode::aborted, e.what());
+        co_return make_error_result(ErrorCode::aborted, e.what());
     }
 }
 
@@ -71,14 +71,15 @@ ProcessManager::Environment ProcessManager::current_environment()
     return env;
 }
 
-Result<std::filesystem::path> ProcessManager::find_executable(std::filesystem::path exe_name, Environment environment)
+AsyncResult<std::filesystem::path> ProcessManager::find_executable(std::filesystem::path exe_name,
+                                                                   Environment environment)
 {
     auto exe = bp::environment::find_executable(bp::filesystem::path{std::move(exe_name)}, std::move(environment));
     if (exe.empty())
     {
-        return make_error_result<std::filesystem::path>(
-            ErrorCode::not_found, fmt::format("Could not find {} in enviroment {}", exe_name, environment));
+        co_return make_error_result(ErrorCode::not_found,
+                                    fmt::format("Could not find {} in enviroment {}", exe_name, environment));
     }
-    return std::filesystem::path{exe.string()};
+    co_return std::filesystem::path{exe.string()};
 }
 } // namespace quite::manager

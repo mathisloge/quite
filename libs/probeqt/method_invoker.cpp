@@ -42,11 +42,11 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
 
     if (meta_method.parameterCount() != params.size())
     {
-        return make_error_result<entt::meta_any>(ErrorCode::failed_precondition,
-                                                 fmt::format("Method {} expectes {} arguments but only {} were passed",
-                                                             qualified_method_signature,
-                                                             meta_method.parameterCount(),
-                                                             params.size()));
+        return make_error_result(ErrorCode::failed_precondition,
+                                 fmt::format("Method {} expectes {} arguments but only {} were passed",
+                                             qualified_method_signature,
+                                             meta_method.parameterCount(),
+                                             params.size()));
     }
 
     using MetaValue = std::unique_ptr<void, MetaValueDeleter>;
@@ -72,11 +72,11 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
         }
         else
         {
-            return make_error_result<entt::meta_any>(ErrorCode::invalid_argument,
-                                                     fmt::format("Could convert arg {} with base type {} to type {}",
-                                                                 i,
-                                                                 param_value.type().info().name(),
-                                                                 param_meta_type.name()));
+            return make_error_result(ErrorCode::invalid_argument,
+                                     fmt::format("Could convert arg {} with base type {} to type {}",
+                                                 i,
+                                                 param_value.type().info().name(),
+                                                 param_meta_type.name()));
         }
     }
 
@@ -103,11 +103,10 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
             return custom_meta_type.from_void(args[0].release(), kTransferOwnership);
         }
     }
-    return make_error_result<entt::meta_any>(
-        ErrorCode::cancelled,
-        fmt::format("Could not invoke or wrap return type. Call status = {}, convertable = ",
-                    call_result,
-                    static_cast<bool>(custom_meta_type)));
+    return make_error_result(ErrorCode::cancelled,
+                             fmt::format("Could not invoke or wrap return type. Call status = {}, convertable = ",
+                                         call_result,
+                                         static_cast<bool>(custom_meta_type)));
 }
 } // namespace
 
@@ -124,7 +123,6 @@ Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object
     {
         return invoke_qmeta_method(value_registry_.context(), *object_ref, qualified_method_signature, params);
     }
-    return make_error_result<entt::meta_any>(ErrorCode::invalid_argument,
-                                             "Could find a qobject for the given base type");
+    return make_error_result(ErrorCode::invalid_argument, "Could find a qobject for the given base type");
 }
 } // namespace quite::probe
