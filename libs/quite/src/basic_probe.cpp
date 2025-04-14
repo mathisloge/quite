@@ -29,7 +29,7 @@ AsyncResult<void> BasicProbe::exit()
             if (ec)
             {
                 LOG_ERROR(basic_probe(), "Could not wait for timer. Error: {}", ec.message());
-                return make_error_result<int>(ErrorCode::cancelled, ec.message());
+                return make_error_result(ErrorCode::cancelled, ec.message());
             }
             LOG_WARNING(basic_probe(), "Could not stop process gracefully. Going to terminate the process.");
             return process_.instance().terminate().transform([]() -> int { return EXIT_FAILURE; });

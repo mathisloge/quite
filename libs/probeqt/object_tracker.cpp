@@ -90,8 +90,7 @@ Result<ObjectReference> ObjectTracker::find_object(const std::string &object_nam
             };
         }
     }
-    return make_error_result<ObjectReference>(ErrorCode::not_found,
-                                              fmt::format("Could not found object with name {}", object_name));
+    return make_error_result(ErrorCode::not_found, fmt::format("Could not found object with name {}", object_name));
 }
 
 namespace
@@ -142,8 +141,7 @@ Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &q
         }
     }
 
-    return make_error_result<ObjectReference>(ErrorCode::not_found,
-                                              fmt::format("Could not find requested object by query {}", query));
+    return make_error_result(ErrorCode::not_found, fmt::format("Could not find requested object by query {}", query));
 }
 
 Result<QObject *> ObjectTracker::get_object_by_id(probe::ObjectId obj_id) const
@@ -155,7 +153,7 @@ Result<QObject *> ObjectTracker::get_object_by_id(probe::ObjectId obj_id) const
     {
         return *it;
     }
-    return make_error_result<QObject *>(ErrorCode::not_found, fmt::format("Could not find object with id {}", obj_id));
+    return make_error_result(ErrorCode::not_found, fmt::format("Could not find object with id {}", obj_id));
 }
 
 void ObjectTracker::remove_object(QObject *obj)

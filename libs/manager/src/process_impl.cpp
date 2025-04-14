@@ -24,7 +24,7 @@ AsyncResult<int> ProcessImpl::async_wait_exit()
     auto [ec, code] = co_await process_.async_wait(asio2exec::use_sender);
     if (ec)
     {
-        co_return make_error_result<int>(ErrorCode::aborted, ec.message());
+        co_return make_error_result(ErrorCode::aborted, ec.message());
     }
     co_return exit_code();
 }

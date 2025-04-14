@@ -61,7 +61,7 @@ AsyncResult<meta::Type> MetaRegistryImpl::lookup_type(meta::TypeId type_id)
     {
         co_return from_protocol(meta_type.object_type());
     }
-    co_return make_error_result<meta::Type>(
-        ErrorCode::failed_precondition, "Got a probe response but couldn't map protocol meta type to internal type.");
+    co_return make_error_result(ErrorCode::failed_precondition,
+                                "Got a probe response but couldn't map protocol meta type to internal type.");
 }
 } // namespace quite::proto

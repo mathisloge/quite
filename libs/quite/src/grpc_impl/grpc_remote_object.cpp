@@ -55,8 +55,7 @@ AsyncResult<entt::meta_any> GrpcRemoteObject::fetch_property(std::string propert
         auto it = properties.find(property_name);
         if (it == properties.end())
         {
-            return make_error_result<entt::meta_any>(ErrorCode::not_found,
-                                                     "Server did not return the expected property.");
+            return make_error_result(ErrorCode::not_found, "Server did not return the expected property.");
         }
         return it->second;
     });

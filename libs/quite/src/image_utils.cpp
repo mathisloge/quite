@@ -202,12 +202,12 @@ Result<int> pixel_match(const ImageView &expected_img,
     if (!is_pixel_data(expected_img.data) || !is_pixel_data(actual_img.data) ||
         (!is_pixel_data(output_image.data().data)))
     {
-        return make_error_result<int>(ErrorCode::failed_precondition, "Some image is empty");
+        return make_error_result(ErrorCode::failed_precondition, "Some image is empty");
     }
 
     if (expected_img.data.size() != actual_img.data.size())
     {
-        return make_error_result<int>(ErrorCode::failed_precondition, "Image sizes do not match.");
+        return make_error_result(ErrorCode::failed_precondition, "Image sizes do not match.");
     }
 
     // check if images are identical

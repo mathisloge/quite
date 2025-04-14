@@ -40,8 +40,8 @@ AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visite
             }
             else
             {
-                co_return make_error_result<nlohmann::json>(
-                    ErrorCode::invalid_argument, fmt::format("Could not create json from {}", *prop.second->value()));
+                co_return make_error_result(ErrorCode::invalid_argument,
+                                            fmt::format("Could not create json from {}", *prop.second->value()));
             }
         }
         else

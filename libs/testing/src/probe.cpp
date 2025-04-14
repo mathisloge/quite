@@ -50,8 +50,7 @@ RemoteObject Probe::try_find_object(std::shared_ptr<ObjectQuery> query, std::chr
     boost::asio::steady_timer timer{asio_context().get_executor(), timeout};
     stdexec::sender auto timeout_snd =
         timer.async_wait(asio2exec::use_sender) | stdexec::then([&found_object](auto &&ec) {
-            found_object = quite::make_error_result<RemoteObjectPtr>(ErrorCode::deadline_exceeded,
-                                                                     "Could not find object in time.");
+            found_object = quite::make_error_result(ErrorCode::deadline_exceeded, "Could not find object in time.");
         });
     stdexec::sender auto wait_snd = exec::when_any(std::move(find_obj_snd), std::move(timeout_snd));
     stdexec::sync_wait(std::move(wait_snd));

@@ -30,10 +30,9 @@ AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
             co_return grabbed_image;
         }
     }
-    co_return make_error_result<QImage>(
-        ErrorCode::not_found,
-        fmt::format("Could not capture an image from object '{}'",
-                    object != nullptr ? object->objectName().toStdString() : "unknown"));
+    co_return make_error_result(ErrorCode::not_found,
+                                fmt::format("Could not capture an image from object '{}'",
+                                            object != nullptr ? object->objectName().toStdString() : "unknown"));
 }
 
 QtProbeHandler::QtProbeHandler(const ObjectTracker &object_tracker)
@@ -77,18 +76,18 @@ AsyncResult<QtProbeHandler::ImageData> QtProbeHandler::take_snapshot(ObjectId ob
 
 AsyncResult<ObjectReference> QtProbeHandler::find_object(ObjectQuery query)
 {
-    auto obj_info = co_await (
-        stdexec::when_all(stdexec::just(QPointer<const ObjectTracker>{std::addressof(object_tracker_)}),
-                          stdexec::just(std::move(query))) |
-        stdexec::continues_on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
-        stdexec::then([](auto &&tracker, auto &&query) {
-            if (tracker)
-            {
-                return tracker->find_object_by_query(query);
-            }
-            return make_error_result<ObjectReference>(ErrorCode::failed_precondition,
-                                                      "ObjectTracker was already destroyed. Probably now in shutdown.");
-        }));
+    auto obj_info =
+        co_await (stdexec::when_all(stdexec::just(QPointer<const ObjectTracker>{std::addressof(object_tracker_)}),
+                                    stdexec::just(std::move(query))) |
+                  stdexec::continues_on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+                  stdexec::then([](auto &&tracker, auto &&query) -> Result<ObjectReference> {
+                      if (tracker)
+                      {
+                          return tracker->find_object_by_query(query);
+                      }
+                      return make_error_result(ErrorCode::failed_precondition,
+                                               "ObjectTracker was already destroyed. Probably now in shutdown.");
+                  }));
     co_return obj_info;
 }
 
@@ -107,8 +106,7 @@ AsyncResult<QtProbeHandler::PropertyMap> QtProbeHandler::fetch_properties(Object
                   stdexec::then([properties](auto &&object_meta) -> Result<QtProbeHandler::PropertyMap> {
                       if (object_meta.meta_object == nullptr)
                       {
-                          return make_error_result<QtProbeHandler::PropertyMap>(ErrorCode::failed_precondition,
-                                                                                "Could not get a QMetaObject");
+                          return make_error_result(ErrorCode::failed_precondition, "Could not get a QMetaObject");
                       }
                       return collect_properties(object_meta, properties);
                   }));

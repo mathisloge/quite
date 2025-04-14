@@ -41,8 +41,8 @@ Result<meta::Type> convert_enum_type(QMetaType type)
     const QMetaObject *meta_object = type.metaObject();
     if (type.metaObject() == nullptr)
     {
-        return make_error_result<meta::Type>(ErrorCode::failed_precondition,
-                                             fmt::format("Could not get a QMetaObject from '{}'", type.name()));
+        return make_error_result(ErrorCode::failed_precondition,
+                                 fmt::format("Could not get a QMetaObject from '{}'", type.name()));
     }
 
     // the indexOfEnumerator function expect the simple name, but the type.name() always returns the fully qualified
@@ -57,11 +57,10 @@ Result<meta::Type> convert_enum_type(QMetaType type)
     const auto enum_idx = meta_object->indexOfEnumerator(simple_enum_name.begin());
     if (enum_idx < 0)
     {
-        return make_error_result<meta::Type>(
-            ErrorCode::failed_precondition,
-            fmt::format("Could not find enum index of type '{}' in enclosing type '{}'",
-                        type.name(),
-                        meta_object->className()));
+        return make_error_result(ErrorCode::failed_precondition,
+                                 fmt::format("Could not find enum index of type '{}' in enclosing type '{}'",
+                                             type.name(),
+                                             meta_object->className()));
     }
     const auto qt_meta_enum = meta_object->enumerator(enum_idx);
 
@@ -115,7 +114,7 @@ Result<meta::Type> convert_object_type(QMetaType type)
                 return convert_map_type(
                     type, iterable.metaContainer().keyMetaType(), iterable.metaContainer().mappedMetaType());
             }
-            return make_error_result<meta::Type>(
+            return make_error_result(
                 ErrorCode::failed_precondition,
                 fmt::format("Could not create an instance of '{}'. Type is default constructible ={}",
                             type.name(),
@@ -126,8 +125,7 @@ Result<meta::Type> convert_object_type(QMetaType type)
     const QMetaObject *meta_object = type.metaObject();
     if (meta_object == nullptr)
     {
-        return make_error_result<meta::Type>(ErrorCode::failed_precondition,
-                                             "Could not create a meta type from object");
+        return make_error_result(ErrorCode::failed_precondition, "Could not create a meta type from object");
     }
     std::unique_ptr<meta::ObjectType> obj = std::make_unique<meta::ObjectType>();
     obj->name = meta_object->className();
@@ -189,7 +187,6 @@ AsyncResult<meta::Type> QtMetaRegistry::lookup_type(meta::TypeId type_id)
     {
     }
 
-    co_return make_error_result<meta::Type>(ErrorCode::not_found,
-                                            fmt::format("Could not find type with id '{}'", type_id));
+    co_return make_error_result(ErrorCode::not_found, fmt::format("Could not find type with id '{}'", type_id));
 }
 } // namespace quite::probe

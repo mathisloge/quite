@@ -24,7 +24,7 @@ class QUITE_MANAGER_EXPORT ProcessManager : public BasicProcessManager
      * @param id the id of the application (which was used to launch or attach a application)
      * @return Result<ProcessHandle> An instance of an application or a not found error otherwise
      */
-    Result<ProcessHandle> application(const ProcessId &id) override;
+    AsyncResult<ProcessHandle> application(const ProcessId &id) override;
 
     /**
      * @brief Launches the application but does not preloads any probe. Can be used to start abitrary installed programs
@@ -35,10 +35,10 @@ class QUITE_MANAGER_EXPORT ProcessManager : public BasicProcessManager
      * @param environment
      * @return ProcessHandle
      */
-    Result<ProcessHandle> launch_application(ProcessId id,
-                                             const std::string &path_to_application,
-                                             const std::vector<std::string> &args = {},
-                                             const Environment &environment = current_environment()) override;
+    AsyncResult<ProcessHandle> launch_application(ProcessId id,
+                                                  const std::string &path_to_application,
+                                                  const std::vector<std::string> &args = {},
+                                                  const Environment &environment = current_environment()) override;
 
     /**
      * @brief Returns the current environment of the running process where the ProcessManager lives
@@ -54,8 +54,8 @@ class QUITE_MANAGER_EXPORT ProcessManager : public BasicProcessManager
      * @param environment the environment to search in
      * @return Result<std::filesystem::path> either an error or the absolute path to the executable
      */
-    Result<std::filesystem::path> find_executable(std::filesystem::path exe_name,
-                                                  Environment environment = current_environment()) override;
+    AsyncResult<std::filesystem::path> find_executable(std::filesystem::path exe_name,
+                                                       Environment environment = current_environment()) override;
 
   private:
     struct Impl;
