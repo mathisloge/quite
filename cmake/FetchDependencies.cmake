@@ -45,12 +45,26 @@ function(fetch_dependencies)
         FIND_PACKAGE_ARGS
     )
 
+    set(ASIO_GRPC_INSTALL ON)
     FetchContent_Declare(
-        asiogrpc
+        asio-grpc
         GIT_REPOSITORY https://github.com/Tradias/asio-grpc
         GIT_TAG        v3.4.3
         FIND_PACKAGE_ARGS
     )
 
-    FetchContent_MakeAvailable(fmt quill cmakerc entt cli11 stdexec asiogrpc)
+    FetchContent_Declare(
+        nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json
+        GIT_TAG        v3.12.0
+        FIND_PACKAGE_ARGS
+    )
+
+    FetchContent_Declare(
+        stb
+        GIT_REPOSITORY https://github.com/nothings/stb
+        GIT_TAG        f0569113c93ad095470c54bf34a17b36646bbbb5
+    )
+
+    FetchContent_MakeAvailable(fmt quill cmakerc entt cli11 stdexec asio-grpc nlohmann_json)
 endfunction()

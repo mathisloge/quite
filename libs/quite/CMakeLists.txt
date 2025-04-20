@@ -49,7 +49,7 @@ target_sources(quite_client
 )
 
 target_link_libraries(quite_client PRIVATE
-    Boost::asio
+    Boost::headers
     nlohmann_json::nlohmann_json
     quite::protocol
 PUBLIC

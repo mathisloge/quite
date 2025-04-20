@@ -18,8 +18,10 @@ configure_file (
 target_link_libraries(quite_core PUBLIC
     fmt::fmt
     quill::quill
-    Boost::asio
+    Boost::headers
     EnTT::EnTT
+    STDEXEC::stdexec
+    stb::stb
 )
 
 target_sources(quite_core
