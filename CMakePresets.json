@@ -73,7 +73,8 @@
             "generator": "Ninja",
             "installDir": "${sourceDir}/dist",
             "cacheVariables": {
-                "QUITE_BUILD_PYTHON_PACKAGE": true
+                "QUITE_BUILD_PYTHON_PACKAGE": true,
+                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/DependencyProvider.cmake"
             }
         }
     ],

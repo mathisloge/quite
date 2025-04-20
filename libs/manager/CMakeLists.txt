@@ -13,7 +13,7 @@ target_link_libraries(quite_manager
     PUBLIC
         quite::core
     PRIVATE
-        Boost::process
+        Boost::headers
         protobuf::libprotobuf
         asio-grpc::asio-grpc-stdexec
 )
