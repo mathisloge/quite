@@ -1,5 +1,4 @@
 #include <catch2/catch_test_macros.hpp>
-#include <nlohmann/json.hpp>
 #include <quite/asio2exec.hpp>
 #include <quite/logger.hpp>
 #include <quite/manager/process_manager.hpp>

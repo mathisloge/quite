@@ -29,6 +29,7 @@ function(fetch_dependencies)
         FIND_PACKAGE_ARGS
     )
 
+    set(CLI11_PRECOMPILED ON)
     FetchContent_Declare(
         cli11
         GIT_REPOSITORY https://github.com/CLIUtils/CLI11
@@ -65,6 +66,16 @@ function(fetch_dependencies)
         GIT_REPOSITORY https://github.com/nothings/stb
         GIT_TAG        f0569113c93ad095470c54bf34a17b36646bbbb5
     )
-
     FetchContent_MakeAvailable(fmt quill cmakerc entt cli11 stdexec asio-grpc nlohmann_json)
+
+    if(BUILD_TESTING)
+        FetchContent_Declare(
+            Catch2
+            GIT_REPOSITORY https://github.com/catchorg/Catch2
+            GIT_TAG        v3.8.1
+            FIND_PACKAGE_ARGS
+        )
+        FetchContent_MakeAvailable(Catch2)
+    endif()
+
 endfunction()

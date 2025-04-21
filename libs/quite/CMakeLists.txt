@@ -50,9 +50,9 @@ target_sources(quite_client
 
 target_link_libraries(quite_client PRIVATE
     Boost::headers
-    nlohmann_json::nlohmann_json
     quite::protocol
 PUBLIC
+    nlohmann_json::nlohmann_json
     quite::core
     quite::manager
 )
