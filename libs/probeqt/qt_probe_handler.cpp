@@ -18,7 +18,7 @@ AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
         {
             auto grab_job = item->grabToImage();
 
-            co_await QtStdExec::qObjectAsSender(grab_job.get(), &QQuickItemGrabResult::ready);
+            co_await qobject_as_sender(grab_job.get(), &QQuickItemGrabResult::ready);
             co_return grab_job->image();
         }
     }
@@ -57,8 +57,8 @@ AsyncResult<QtProbeHandler::ImageData> QtProbeHandler::take_snapshot(ObjectId ob
     {
         co_return std::unexpected{std::move(object.error())};
     }
-    auto expected_image = co_await stdexec::starts_on(QtStdExec::qThreadAsScheduler(object.value()->thread()),
-                                                      take_snapshot_of_qobject(*object));
+    auto expected_image =
+        co_await stdexec::starts_on(qthread_as_scheduler(object.value()->thread()), take_snapshot_of_qobject(*object));
     if (not expected_image.has_value())
     {
         co_return std::unexpected{std::move(expected_image.error())};
@@ -79,7 +79,7 @@ AsyncResult<ObjectReference> QtProbeHandler::find_object(ObjectQuery query)
     auto obj_info =
         co_await (stdexec::when_all(stdexec::just(QPointer<const ObjectTracker>{std::addressof(object_tracker_)}),
                                     stdexec::just(std::move(query))) |
-                  stdexec::continues_on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+                  stdexec::continues_on(qthread_as_scheduler(QCoreApplication::instance()->thread())) |
                   stdexec::then([](auto &&tracker, auto &&query) -> Result<ObjectReference> {
                       if (tracker)
                       {
@@ -101,7 +101,7 @@ AsyncResult<QtProbeHandler::PropertyMap> QtProbeHandler::fetch_properties(Object
     }
     auto collected_properties =
         co_await (stdexec::just(QPointer<QObject>{obj_result.value()}) |
-                  stdexec::continues_on(QtStdExec::qThreadAsScheduler(obj_result.value()->thread())) |
+                  stdexec::continues_on(qthread_as_scheduler(obj_result.value()->thread())) |
                   stdexec::then([](auto &&object) { return ObjectMeta::from_qobject(object); }) |
                   stdexec::then([properties](auto &&object_meta) -> Result<QtProbeHandler::PropertyMap> {
                       if (object_meta.meta_object == nullptr)
@@ -130,7 +130,7 @@ AsyncResult<entt::meta_any> QtProbeHandler::invoke_method(const entt::meta_any &
 {
     co_return co_await (
         stdexec::when_all(stdexec::just(object), stdexec::just(qualified_method_signature), stdexec::just(params)) |
-        stdexec::continues_on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+        stdexec::continues_on(qthread_as_scheduler(QCoreApplication::instance()->thread())) |
         stdexec::then([this](auto &&object, auto &&qualified_method_signature, auto &&params) {
             return method_invoker_.invoke_method(object, qualified_method_signature, params);
         }));
