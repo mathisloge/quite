@@ -3,6 +3,11 @@ add_library(quite::manager ALIAS quite_manager)
 target_compile_features(quite_manager
     PUBLIC cxx_std_23
 )
+# workaround for https://github.com/boostorg/process/issues/312
+target_compile_definitions(quite_manager PRIVATE
+    BOOST_PROCESS_V2_SEPARATE_COMPILATION=1
+    BOOST_PROCESS_USE_STD_FS=1
+)
 set_target_properties(quite_manager PROPERTIES
     POSITION_INDEPENDENT_CODE ON
     VISIBILITY_INLINES_HIDDEN ON

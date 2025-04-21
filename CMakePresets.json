@@ -72,7 +72,11 @@
             "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
             "installDir": "${sourceDir}/dist",
+            "inherits":[
+                "developer"
+            ],
             "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "QUITE_BUILD_PYTHON_PACKAGE": true,
                 "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/DependencyProvider.cmake"
             }
