@@ -1,5 +1,4 @@
-#ifndef QTHREADSENDER_H
-#define QTHREADSENDER_H
+#pragma once
 
 #include <QAbstractEventDispatcher>
 #include <QMetaObject>
@@ -11,7 +10,7 @@
 #include <stdexec/concepts.hpp>
 #include <stdexec/execution.hpp>
 
-namespace QtStdExec
+namespace quite
 {
 
 template <class Recv>
@@ -93,12 +92,12 @@ class QThreadScheduler
     QThread *m_thread = nullptr;
 };
 
-inline QThreadScheduler qThreadAsScheduler(QThread *thread)
+inline QThreadScheduler qthread_as_scheduler(QThread *thread)
 {
     return QThreadScheduler(thread);
 }
 
-inline QThreadScheduler qThreadAsScheduler(QThread &thread)
+inline QThreadScheduler qthread_as_scheduler(QThread &thread)
 {
     return QThreadScheduler(&thread);
 }
@@ -203,18 +202,16 @@ class QObjectOperationState
 };
 
 template <class QObj, class Ret, class... Args>
-inline QObjectSender<QObj, Ret, Args...> qObjectAsSender(QObj *obj, Ret (QObj::*ptr)(Args...))
+inline QObjectSender<QObj, Ret, Args...> qobject_as_sender(QObj *obj, Ret (QObj::*ptr)(Args...))
 {
     return QObjectSender<QObj, Ret, Args...>(obj, ptr);
 }
 
 template <class QObj, class Ret, class... Args>
-inline auto qObjectAsTupleSender(QObj *obj, Ret (QObj::*ptr)(Args...))
+inline auto qobject_as_tuple_sender(QObj *obj, Ret (QObj::*ptr)(Args...))
 {
     return QObjectSender<QObj, Ret, Args...>(obj, ptr) |
            stdexec::then([](Args... args) { return std::tuple<std::remove_reference_t<Args>...>(std::move(args)...); });
 }
 
-} // namespace QtStdExec
-
-#endif // QTHREADSENDER_H
+} // namespace quite

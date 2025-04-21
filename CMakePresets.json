@@ -14,17 +14,19 @@
             "installDir": "${sourceDir}/dist",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays",
                 "Python3_FIND_VIRTUALENV": "FIRST",
                 "Python3_EXECUTABLE": "${sourceDir}/venv",
-                "QUITE_BUILD_STUDIO": "ON",
                 "BUILD_SHARED_LIBS": "ON"
             }
         },
+        
         {
             "name": "vcpkg",
             "hidden": true,
-            "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays"
+            }
         },
         {
             "name": "debug-build",
@@ -73,10 +75,10 @@
             "generator": "Ninja",
             "installDir": "${sourceDir}/dist",
             "inherits":[
+                "common",
                 "developer"
             ],
             "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "QUITE_BUILD_PYTHON_PACKAGE": true,
                 "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/DependencyProvider.cmake"
             }
