@@ -20,7 +20,7 @@ build-dir = "./build-python"
 backport.find-python = "3.28.0"
 [tool.scikit-build.cmake.define]
 QUITE_BUILD_PYTHON_PACKAGE = "ON"
-
+BUILD_TESTING = "OFF"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
