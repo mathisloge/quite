@@ -144,10 +144,6 @@
                 {
                     "type": "test",
                     "name": "ci"
-                },
-                {
-                    "type": "package",
-                    "name": "ci"
                 }
             ]
         }
