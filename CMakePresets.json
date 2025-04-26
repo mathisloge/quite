@@ -82,6 +82,20 @@
                 "QUITE_BUILD_PYTHON_PACKAGE": true,
                 "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/DependencyProvider.cmake"
             }
+        },
+        {
+            "name": "ci",
+            "displayName": "CI configuration",
+            "inherits": [
+                "common"
+            ],
+            "cacheVariables": {
+                "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays",
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "BUILD_TESTING": true,
+                "CMAKE_C_COMPILER": "gcc-13",
+                "CMAKE_CXX_COMPILER": "g++-13"
+            }
         }
     ],
     "buildPresets": [
@@ -92,12 +106,50 @@
         {
             "name": "python-build",
             "configurePreset": "python-build"
+        },
+        {
+            "name": "ci",
+            "configurePreset": "ci"
         }
     ],
     "testPresets": [
         {
             "name": "developer-gcc",
             "configurePreset": "developer-gcc"
+        },
+        {
+            "name": "ci",
+            "configurePreset": "ci",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "ignore",
+                "stopOnFailure": true
+            }
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "ci",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "ci"
+                },
+                {
+                    "type": "build",
+                    "name": "ci"
+                },
+                {
+                    "type": "test",
+                    "name": "ci"
+                },
+                {
+                    "type": "package",
+                    "name": "ci"
+                }
+            ]
         }
     ]
 }
