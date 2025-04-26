@@ -50,30 +50,16 @@
             }
         },
         {
-            "name": "use-gcc",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++"
-            }
-        },
-        {
             "name": "developer",
-            "hidden": true,
+            "displayName": "Developer",
+            "inherits": [
+                "common",
+                "debug-build",
+                "fetch-dependencies"
+            ],
             "cacheVariables": {
                 "BUILD_TESTING": "ON"
             }
-        },
-        {
-            "name": "developer-gcc",
-            "displayName": "Developer gcc",
-            "inherits": [
-                "common",
-                "vcpkg",
-                "use-gcc",
-                "debug-build",
-                "developer"
-            ]
         },
         {
             "name": "python-build",
@@ -108,8 +94,8 @@
     ],
     "buildPresets": [
         {
-            "name": "developer-gcc",
-            "configurePreset": "developer-gcc"
+            "name": "developer",
+            "configurePreset": "developer"
         },
         {
             "name": "python-build",
@@ -122,8 +108,8 @@
     ],
     "testPresets": [
         {
-            "name": "developer-gcc",
-            "configurePreset": "developer-gcc"
+            "name": "developer",
+            "configurePreset": "developer"
         },
         {
             "name": "ci",

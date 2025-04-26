@@ -7,7 +7,7 @@ qt_add_executable(appqt-qml
 )
 
 qt_add_qml_module(appqt-qml
-    URI qt-qml
+    URI "Example.Qml"
     VERSION 1.0
     QML_FILES
         Main.qml
