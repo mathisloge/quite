@@ -30,7 +30,8 @@ PYBIND11_MODULE(_quite, m)
         .def("launch_qt_probe_application",
              &ProbeManager::launch_probe_application,
              py::arg{"name"},
-             py::arg{"path_to_application"})
+             py::arg{"path_to_application"},
+             py::arg{"args"})
         .def("connect_to_probe", &ProbeManager::connect_to_probe, py::arg{"name"});
 
     py_probe //

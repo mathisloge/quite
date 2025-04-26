@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <vector>
 #include <quite/disable_copy_move.hpp>
 #include "quite/quite_test_export.hpp"
 
@@ -26,7 +27,9 @@ class QUITE_TEST_EXPORT ProbeManager
     ProbeManager(ProbeManager &&) noexcept = default;
     ProbeManager &operator=(ProbeManager &&) noexcept = default;
     ~ProbeManager();
-    quite::test::Probe launch_probe_application(std::string name, const std::string &path_to_application);
+    quite::test::Probe launch_probe_application(std::string name,
+                                                const std::string &path_to_application,
+                                                const std::vector<std::string> &args = {});
     quite::test::Probe connect_to_probe(std::string name);
 
   private:

@@ -88,7 +88,8 @@ feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 if(QUITE_INSTALL)
     include(CMakePackageConfigHelpers)
 
-    install(TARGETS quite_protocol quite_core quite_manager quite_client quite_test probe
+    install(TARGETS quite_protocol quite_core quite_manager quite_client quite_test probe fmt quill stb_fetched nlohmann_json EnTT
+
         EXPORT quiteTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

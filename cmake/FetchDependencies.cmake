@@ -42,7 +42,7 @@ function(fetch_dependencies)
     FetchContent_Declare(
         stdexec
         GIT_REPOSITORY https://github.com/NVIDIA/stdexec.git
-        GIT_TAG        954159ad82386b3564ea4125d9f4b7a68ccb912c
+        GIT_TAG        dc8f1688bad95eff99699c775251ee47e82bd4f1
         FIND_PACKAGE_ARGS
     )
 
