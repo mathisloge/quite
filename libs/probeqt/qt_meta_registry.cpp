@@ -118,7 +118,7 @@ Result<meta::Type> convert_object_type(QMetaType type)
                 ErrorCode::failed_precondition,
                 fmt::format("Could not create an instance of '{}'. Type is default constructible ={}",
                             type.name(),
-                            type.isDefaultConstructible()));
+                            type.flags().testFlag(QMetaType::TypeFlag::NeedsConstruction)));
         }
     }
 
