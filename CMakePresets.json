@@ -58,7 +58,8 @@
                 "fetch-dependencies"
             ],
             "cacheVariables": {
-                "BUILD_TESTING": "ON"
+                "BUILD_TESTING": true,
+                "QUITE_INSTALL": true
             }
         },
         {
