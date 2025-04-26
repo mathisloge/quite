@@ -33,6 +33,8 @@ target_link_libraries(quite_protocol
         quite::core
     PRIVATE
         protobuf::libprotobuf
+        gRPC::grpc
+        gRPC::grpc++
         asio-grpc::asio-grpc-stdexec
 )
 
