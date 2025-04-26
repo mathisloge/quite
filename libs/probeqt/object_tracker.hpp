@@ -8,14 +8,9 @@
 #include <quite/result.hpp>
 #include <quite/value/object_id.hpp>
 #include <quite/value/object_query.hpp>
-#include "object_id.hpp"
 
 namespace quite::probe
 {
-enum class ObjectErrC
-{
-    not_found
-};
 class ObjectTracker final : public QObject
 {
     Q_OBJECT
@@ -29,7 +24,7 @@ class ObjectTracker final : public QObject
     const std::unordered_set<QObject *> &top_level_views() const;
     Result<ObjectReference> find_object(const std::string &object_name) const;
     Result<ObjectReference> find_object_by_query(const ObjectQuery &query) const;
-    Result<QObject *> get_object_by_id(probe::ObjectId obj_id) const;
+    Result<QObject *> get_object_by_id(ObjectId obj_id) const;
 
   private:
     void start_timer();

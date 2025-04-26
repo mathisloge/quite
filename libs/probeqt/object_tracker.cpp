@@ -9,7 +9,9 @@
 #include <fmt/ranges.h>
 #include <private/qv4executablecompilationunit_p.h>
 #include <quite/logger.hpp>
+#include <quite/meta_any_formatter.hpp>
 #include "qt_meta_type_accessor.hpp"
+#include "to_object_id.hpp"
 
 DEFINE_LOGGER(object_tracker_logger)
 
@@ -85,7 +87,7 @@ Result<ObjectReference> ObjectTracker::find_object(const std::string &object_nam
         if (obj->objectName() == QString::fromStdString(object_name))
         {
             return ObjectReference{
-                .object_id = reinterpret_cast<std::uintptr_t>(obj),
+                .object_id = to_object_id(obj),
                 .type_id = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id()),
             };
         }
@@ -100,17 +102,22 @@ bool operator==(const QVariant &variant, const entt::meta_any &value)
     auto custom_meta_type = entt::resolve(entt::hashed_string{variant.metaType().name()}.value());
     if (not custom_meta_type)
     {
+        LOG_DEBUG(object_tracker_logger(), "no custom_meta_type");
         return false;
     }
     const auto any_obj = custom_meta_type.from_void(variant.data());
-
     const entt::meta_any casted_value = any_obj.allow_cast(value.type());
+
+    LOG_DEBUG(object_tracker_logger(),
+              "custom_meta_type: {} cmp with casted value: {}",
+              fmt::format("{}", any_obj),
+              fmt::format("{}", casted_value));
     return casted_value == value;
 }
 
 bool match_property(QObject *object, std::string_view property_name, const entt::meta_any &value)
 {
-    const auto property_value = object->property(property_name.data());
+    const auto property_value = object->property(property_name.cbegin());
     return property_value.isValid() and property_value == value;
 }
 } // namespace
@@ -133,10 +140,7 @@ Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &q
 
         if (property_matches)
         {
-            LOG_DEBUG(object_tracker_logger(),
-                      "TODO: write a clean abstraction to get the metatype. Qml instances have to use the superClass "
-                      "to get a valid metaType");
-            return ObjectReference{.object_id = reinterpret_cast<std::uintptr_t>(obj),
+            return ObjectReference{.object_id = to_object_id(obj),
                                    .type_id = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id())};
         }
     }
@@ -144,11 +148,11 @@ Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &q
     return make_error_result(ErrorCode::not_found, fmt::format("Could not find requested object by query {}", query));
 }
 
-Result<QObject *> ObjectTracker::get_object_by_id(probe::ObjectId obj_id) const
+Result<QObject *> ObjectTracker::get_object_by_id(ObjectId obj_id) const
 {
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
-    auto it = tracked_objects_.find(reinterpret_cast<QObject *>(obj_id));
+    auto it = tracked_objects_.find(from_object_id(obj_id));
     if (it != tracked_objects_.end())
     {
         return *it;

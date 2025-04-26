@@ -53,3 +53,7 @@ add_subdirectory(injector)
 
 #target_compile_options(probeqt PRIVATE -fno-omit-frame-pointer -fsanitize=address)
 #target_link_options(probeqt PRIVATE -fno-omit-frame-pointer -fsanitize=address)
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
