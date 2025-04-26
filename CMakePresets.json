@@ -86,7 +86,7 @@
                 "fetch-dependencies"
             ],
             "cacheVariables": {
-                "QUITE_BUILD_PYTHON_PACKAGE": true,
+                "QUITE_BUILD_PYTHON_PACKAGE": true
             }
         },
         {
