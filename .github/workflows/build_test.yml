@@ -42,7 +42,7 @@ jobs:
           if [ "${RUNNER_OS}" == "Linux" ]; then
             sudo apt update
             sudo apt -y install \
-              ninja-build qt6-base-dev qt6-base-private-dev qt6-declarative-dev qt6-declarative-private-dev libgl1-mesa-dev libegl1-mesa-dev libxkbcommon-dev libboost-all-dev
+              ninja-build qt6-base-dev qt6-base-private-dev qt6-declarative-dev qt6-declarative-private-dev libgl1-mesa-dev libegl1-mesa-dev libxkbcommon-dev libboost-all-dev libgrpc-dev
           elif [ "${RUNNER_OS}" == "macOS" ]; then
             brew install \
               ninja
