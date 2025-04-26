@@ -24,6 +24,11 @@ if(QUITE_BUILD_PYTHON_PACKAGE)
     set(QUITE_BUILD_PROBES ${BUILD_TESTING})
     set(QUITE_INSTALL OFF)
     set(QUITE_EXAMPLES OFF)
+    set(QUITE_FETCH_DEPENDENCIES ON)
+endif()
+
+option(QUITE_FETCH_DEPENDENCIES "Fetches the header only libraries and other commonly not available libraries" OFF)
+if(QUITE_FETCH_DEPENDENCIES)
     fetch_dependencies()
 endif()
 

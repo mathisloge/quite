@@ -23,7 +23,8 @@
             "name": "fetch-dependencies",
             "hidden": true,
             "cacheVariables": {
-                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/DependencyProvider.cmake"
+                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/DependencyProvider.cmake",
+                "QUITE_FETCH_DEPENDENCIES": true
             }
         },
         {
@@ -97,7 +98,6 @@
                 "fetch-dependencies"
             ],
             "cacheVariables": {
-                "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "BUILD_TESTING": true,
                 "CMAKE_C_COMPILER": "gcc-13",
