@@ -20,21 +20,13 @@ jobs:
   build_matrix:
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-24.04]
     runs-on: ${{ matrix.os }}
     name: Buid & Test
     needs: format-source-code
     steps:
       - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v4
-
-      - name: Install system dependencies for ubuntu-22.04
-        if: matrix.os == 'ubuntu-22.04'
-        run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-          sudo add-apt-repository universe
-          sudo apt update -y
-          sudo apt install gcc-13 g++-13
 
       - name: Install required system packages
         shell: bash
