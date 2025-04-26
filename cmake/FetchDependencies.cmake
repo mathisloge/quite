@@ -11,7 +11,7 @@ function(fetch_dependencies)
     FetchContent_Declare(
         quill
         GIT_REPOSITORY https://github.com/odygrd/quill.git
-        GIT_TAG        v9.0.0
+        GIT_TAG        v9.0.2
         FIND_PACKAGE_ARGS
     )
 
