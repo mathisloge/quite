@@ -126,8 +126,46 @@ Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &q
     std::shared_lock l{locker_};
     InOwnContext c{own_ctx_};
 
+    // Helper function to recursively match the parent hierarchy
+    const auto match_parent_hierarchy = [](QObject *object, const std::shared_ptr<ObjectQuery> &query) -> bool {
+        QObject *current_parent = object->parent();
+        auto current_query = query;
+
+        while (current_query && current_parent)
+        {
+            bool matched{false};
+            // Check if the current parent matches the current query
+            for (auto &&[prop_name, prop_value] : current_query->properties)
+            {
+                if (not match_property(current_parent, prop_name, prop_value))
+                {
+                    current_parent = current_parent->parent();
+                    matched = false;
+                    break;
+                }
+                matched = true;
+            }
+
+            if (matched)
+            {
+                // Move up the hierarchy
+                current_parent = current_parent->parent();
+                current_query = current_query->container;
+            }
+        }
+
+        return current_query == nullptr;
+    };
+
     for (auto &&obj : tracked_objects_)
     {
+        // First, check if the parent hierarchy matches
+        if (query.container && !match_parent_hierarchy(obj, query.container))
+        {
+            continue;
+        }
+
+        // Then, check if the properties of the current object match
         bool property_matches = true;
         for (auto &&[prop_name, prop_value] : query.properties)
         {
