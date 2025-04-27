@@ -55,6 +55,25 @@ Image &Image::operator=(Image &&other) noexcept
     return *this;
 }
 
+Image::Image(const Image &other)
+    : Image{}
+{
+    *this = other;
+}
+
+Image &Image::operator=(const Image &other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+    std::ranges::copy(other.impl_->image_data_, std::back_inserter(impl_->image_data_));
+    this->impl_->channels_ = other.impl_->channels_;
+    this->impl_->width_ = other.impl_->width_;
+    this->impl_->height_ = other.impl_->height_;
+    return *this;
+}
+
 Image::~Image() = default;
 
 void Image::save_to(const std::filesystem::path &destination) const

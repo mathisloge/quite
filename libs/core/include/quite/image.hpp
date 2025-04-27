@@ -19,12 +19,13 @@ struct ImageView
 class QUITE_CORE_EXPORT Image
 {
   public:
-    QUITE_DISABLE_COPY(Image);
     Image();
     explicit Image(std::vector<std::byte> image_data, std::uint32_t width, std::uint32_t height, int channels);
     explicit Image(const std::filesystem::path &filename);
     Image(Image &&) noexcept;
     Image &operator=(Image &&other) noexcept;
+    Image(const Image &);
+    Image &operator=(const Image &other);
     virtual ~Image();
 
     void save_to(const std::filesystem::path &destination) const;
