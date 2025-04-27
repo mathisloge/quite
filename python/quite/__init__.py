@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from ._quite import (
+    Image,
+    ImageView,
     ObjectQuery,
     ObjectQueryBuilder,
     Probe,
@@ -10,9 +12,12 @@ from ._quite import (
     __doc__,
     __version__,
     __version_git_ref__,
+    pixel_match,
 )
 
 __all__ = [
+    "Image",
+    "ImageView",
     "ObjectQuery",
     "ObjectQueryBuilder",
     "Probe",
@@ -22,4 +27,5 @@ __all__ = [
     "__doc__",
     "__version__",
     "__version_git_ref__",
+    "pixel_match",
 ]

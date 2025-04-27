@@ -1,6 +1,8 @@
 #include <pybind11/chrono.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/stl/filesystem.h>
+#include <quite/image_utils.hpp>
 #include <quite/property.hpp>
 #include <quite/test/object_query_builder.hpp>
 #include <quite/test/probe.hpp>
@@ -24,6 +26,8 @@ PYBIND11_MODULE(_quite, m)
     auto py_property = py::class_<Property>(m, "Property");
     auto py_object_query_builder = py::class_<ObjectQueryBuilder>(m, "ObjectQueryBuilder");
     py::class_<quite::ObjectQuery, std::shared_ptr<quite::ObjectQuery>> py_object_query(m, "ObjectQuery");
+    auto py_image = py::class_<quite::Image>(m, "Image");
+    auto py_image_view = py::class_<quite::ImageView>(m, "ImageView");
 
     py_probe_manager //
         .def(py::init())
@@ -89,6 +93,32 @@ PYBIND11_MODULE(_quite, m)
              py::overload_cast<std::string, std::string>(&ObjectQueryBuilder::add_property),
              py::arg{"key"},
              py::arg{"value"});
+
+    py_image.doc() =
+        "Holds the data of an image in the format of RGBA. Use .data() with other libraries for more complex use cases";
+    py_image //
+        .def(py::init())
+        .def(py::init<std::filesystem::path>(), py::arg{"file_path"})
+        .def("save_to", &quite::Image::save_to, py::arg{"file_path"})
+        .def("data", &quite::Image::data);
+
+    py_image_view.doc() = "A non owning reference to the data of a Image.";
+    py_image_view
+        .def(
+            "data",
+            [](quite::ImageView view) { return py::memoryview::from_memory(view.data.data(), view.data.size_bytes()); })
+        .def_readonly("channels", &quite::ImageView::channels)
+        .def_readonly("width", &quite::ImageView::width)
+        .def_readonly("height", &quite::ImageView::height);
+
+    auto py_image_match = m.def(
+        "pixel_match",
+        [](const quite::ImageView &expected_img, const quite::ImageView &actual_img) {
+            auto result = quite::pixel_match(expected_img, actual_img, {});
+            return std::move(result->diff_image);
+        },
+        py::arg{"expected"},
+        py::arg{"actual"});
 
     m.attr("__version__") = quite::kVersion;
     m.attr("__version_git_ref__") = quite::kGitRef;

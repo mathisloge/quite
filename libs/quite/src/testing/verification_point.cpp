@@ -60,19 +60,18 @@ AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::s
         o << std::setw(4) << *props << std::endl;
     }
 
-    Image diff_img;
-    const auto diff_pixels = pixel_match(expected_snapshot.data(), snapshot->data(), PixelCompareOptions{}, diff_img);
-    if (not diff_pixels.has_value())
+    const auto cmp_result = pixel_match(expected_snapshot.data(), snapshot->data(), PixelCompareOptions{});
+    if (not cmp_result.has_value())
     {
-        LOG_ERROR(vp_logger(), "Error while comparing the images: {}", diff_pixels.error().message);
-        co_return std::unexpected(diff_pixels.error());
+        LOG_ERROR(vp_logger(), "Error while comparing the images: {}", cmp_result.error().message);
+        co_return std::unexpected(cmp_result.error());
     }
 
-    verified = (verified && diff_pixels == 0);
+    verified = (verified && cmp_result->diff == 0);
     if (not verified)
     {
-        LOG_INFO(vp_logger(), "Images does not match. Failed with compare {}", *diff_pixels);
-        diff_img.save_to(fmt::format("{}_diff.png", name));
+        LOG_INFO(vp_logger(), "Images does not match. Failed with compare {}", cmp_result->diff);
+        cmp_result->diff_image.save_to(fmt::format("{}_diff.png", name));
         snapshot->save_to(fmt::format("{}_current.png", name));
     }
 

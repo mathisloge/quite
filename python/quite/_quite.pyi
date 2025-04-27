@@ -1,8 +1,50 @@
 import datetime
+import os
 from typing import overload
 
 __version__: str
 __version_git_ref__: str
+
+class Image:
+    @overload
+    def __init__(self) -> None:
+        """__init__(*args, **kwargs)
+        Overloaded function.
+
+        1. __init__(self: quite._quite.Image) -> None
+
+        2. __init__(self: quite._quite.Image, file_path: os.PathLike) -> None
+        """
+
+    @overload
+    def __init__(self, file_path: os.PathLike) -> None:
+        """__init__(*args, **kwargs)
+        Overloaded function.
+
+        1. __init__(self: quite._quite.Image) -> None
+
+        2. __init__(self: quite._quite.Image, file_path: os.PathLike) -> None
+        """
+
+    def data(self) -> ImageView:
+        """data(self: quite._quite.Image) -> quite._quite.ImageView"""
+
+    def save_to(self, file_path: os.PathLike) -> None:
+        """save_to(self: quite._quite.Image, file_path: os.PathLike) -> None"""
+
+class ImageView:
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+    def data(self) -> memoryview:
+        """data(self: quite._quite.ImageView) -> memoryview"""
+
+    @property
+    def channels(self) -> int: ...
+    @property
+    def height(self) -> int: ...
+    @property
+    def width(self) -> int: ...
 
 class ObjectQuery:
     def __init__(self, *args, **kwargs) -> None:
@@ -168,5 +210,8 @@ class RemoteObject:
         Reads a property from the object
         """
 
-    def take_snapshot(self) -> None:
-        """take_snapshot(self: quite._quite.RemoteObject) -> None"""
+    def take_snapshot(self) -> Image:
+        """take_snapshot(self: quite._quite.RemoteObject) -> quite._quite.Image"""
+
+def pixel_match(expected: ImageView, actual: ImageView) -> Image:
+    """pixel_match(expected: quite._quite.ImageView, actual: quite._quite.ImageView) -> quite._quite.Image"""

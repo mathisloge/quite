@@ -7,6 +7,7 @@
 #include "property_collector.hpp"
 #include "qt_meta_type_accessor.hpp"
 #include "qtstdexec.h"
+#include "to_object_id.hpp"
 
 namespace quite::probe
 {
@@ -118,7 +119,7 @@ AsyncResult<std::vector<ObjectReference>> QtProbeHandler::fetch_windows()
     std::vector<ObjectReference> windows;
     for (auto &&obj : object_tracker_.top_level_views())
     {
-        windows.emplace_back(ObjectReference{.object_id = reinterpret_cast<ObjectId>(obj),
+        windows.emplace_back(ObjectReference{.object_id = to_object_id(obj),
                                              .type_id = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id())});
     }
     co_return windows;

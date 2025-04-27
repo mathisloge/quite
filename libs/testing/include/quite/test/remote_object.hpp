@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <quite/image.hpp>
 #include "property.hpp"
 #include "quite/quite_test_export.hpp"
 
@@ -15,8 +16,8 @@ class QUITE_TEST_EXPORT RemoteObject
     explicit RemoteObject(std::shared_ptr<quite::RemoteObject> object);
 
     void mouse_action();
-    void take_snapshot();
     void invoke_method(std::string method_name);
+    [[nodiscard]] Image take_snapshot();
     [[nodiscard]] Property property(std::string name);
 
     [[nodiscard]] bool operator==(const RemoteObject &rhs) const;
