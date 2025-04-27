@@ -33,21 +33,20 @@ TEST_CASE("Image diff")
     const Image expected_image{load_from_rc("assets/expected_image.png")};
     const Image expected_diff_image{load_from_rc("assets/diff_image.png")};
 
-    Image diff_image;
-    auto diff_result = pixel_match(actual_image.data(), expected_image.data(), PixelCompareOptions{}, diff_image);
+    auto diff_result = pixel_match(actual_image.data(), expected_image.data());
 
     REQUIRE(diff_result.has_value());
-    REQUIRE(*diff_result == 192);
-    REQUIRE(std::equal(
-        diff_image.data().data.cbegin(), diff_image.data().data.cend(), expected_diff_image.data().data.cbegin()));
+    REQUIRE(diff_result->diff == 192);
+    REQUIRE(std::equal(diff_result->diff_image.data().data.cbegin(),
+                       diff_result->diff_image.data().data.cend(),
+                       expected_diff_image.data().data.cbegin()));
 }
 
 TEST_CASE("Image diff with different sizes")
 {
     const Image sample1{std::vector<std::byte>{2000}, 20, 10, 10};
     const Image sample2{std::vector<std::byte>{1000}, 10, 10, 10};
-    Image diff_image;
-    auto diff_result = pixel_match(sample1.data(), sample2.data(), PixelCompareOptions{}, diff_image);
+    auto diff_result = pixel_match(sample1.data(), sample2.data());
 
     REQUIRE(not diff_result.has_value());
 }

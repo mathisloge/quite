@@ -4,7 +4,7 @@
 class QObject;
 namespace quite::probe
 {
-constexpr ObjectId to_object_id(QObject *obj)
+constexpr ObjectId to_object_id(const QObject *obj)
 {
     return reinterpret_cast<std::uintptr_t>(obj);
 }
