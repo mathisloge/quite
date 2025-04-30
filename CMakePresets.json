@@ -63,6 +63,21 @@
             }
         },
         {
+            "name": "developer-vcpkg",
+            "displayName": "Developer (vcpkg)",
+            "inherits": [
+                "common",
+                "debug-build",
+                "vcpkg"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": true,
+                "QUITE_INSTALL": true,
+                "CMAKE_C_COMPILER": "gcc-13",
+                "CMAKE_CXX_COMPILER": "g++-13"
+            }
+        },
+        {
             "name": "python-build",
             "displayName": "Python build",
             "binaryDir": "${sourceDir}/build",
@@ -99,6 +114,10 @@
             "configurePreset": "developer"
         },
         {
+            "name": "developer (vcpkg)",
+            "configurePreset": "developer"
+        },
+        {
             "name": "python-build",
             "configurePreset": "python-build"
         },
@@ -111,6 +130,10 @@
         {
             "name": "developer",
             "configurePreset": "developer"
+        },
+        {
+            "name": "developer (vcpkg)",
+            "configurePreset": "developer-vcpkg"
         },
         {
             "name": "ci",
