@@ -6,10 +6,17 @@
 #include "quite/utils/dump_properties.hpp"
 
 DEFINE_LOGGER(vp_logger)
-
+namespace fstd = std::filesystem;
 namespace quite::testing
 {
-AsyncResult<bool> create_verification_point(RemoteObjectPtr object, const std::string &name)
+
+bool has_verification_point(const std::string &name)
+{
+    return fstd::exists(fstd::path(name).replace_extension(".png")) and
+           fstd::exists(fstd::path(name).replace_extension(".json"));
+}
+
+AsyncResult<void> create_verification_point(RemoteObjectPtr object, const std::string &name)
 {
     const auto snapshot = co_await object->take_snapshot();
     if (not snapshot.has_value())
@@ -22,12 +29,10 @@ AsyncResult<bool> create_verification_point(RemoteObjectPtr object, const std::s
         co_return std::unexpected(props.error());
     }
 
-    snapshot->save_to(std::filesystem::path(name).replace_extension(".png"));
+    snapshot->save_to(fstd::path(name).replace_extension(".png"));
 
-    std::ofstream o{std::filesystem::path(name).replace_extension(".json")};
+    std::ofstream o{fstd::path(name).replace_extension(".json")};
     o << std::setw(4) << *props << std::endl;
-
-    co_return true;
 }
 
 AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::string &name)
@@ -39,6 +44,7 @@ AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::s
         LOG_ERROR(vp_logger(), "Error while creating the snapshot: {}", snapshot.error().message);
         co_return std::unexpected(snapshot.error());
     }
+
     const auto props = co_await dump_properties(object, {"objectName", "width", "height", "children", "visible"});
     if (not props.has_value())
     {
@@ -46,8 +52,13 @@ AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::s
         co_return std::unexpected(props.error());
     }
 
-    const Image expected_snapshot{std::filesystem::path(name).replace_extension(".png")};
-    std::ifstream json_prop_file(std::filesystem::path(name).replace_extension(".json"));
+    if (not has_verification_point(name))
+    {
+        co_return make_error_result(ErrorCode::failed_precondition, fmt::format("Could not locate {}.png|.json", name));
+    }
+
+    const Image expected_snapshot{fstd::path(name).replace_extension(".png")};
+    std::ifstream json_prop_file(fstd::path(name).replace_extension(".json"));
     const nlohmann::json expected_props = nlohmann::json::parse(json_prop_file);
 
     //! TODO: maybe flatten both json objects and then iterating over them with the cmp op. It would then be quite easy

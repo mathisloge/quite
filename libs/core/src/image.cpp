@@ -1,4 +1,5 @@
 #include "quite/image.hpp"
+#include <algorithm>
 #include <utility>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION

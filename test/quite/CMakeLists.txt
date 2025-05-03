@@ -13,6 +13,7 @@ target_link_libraries(api_test PUBLIC
     quite::core
     quite::testrc
 )
+target_include_directories(api_test PRIVATE ${Stb_INCLUDE_DIR})
 catch_discover_tests(api_test)
 
 

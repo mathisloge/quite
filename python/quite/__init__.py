@@ -12,7 +12,6 @@ from ._quite import (
     __doc__,
     __version__,
     __version_git_ref__,
-    pixel_match,
 )
 
 __all__ = [
@@ -27,5 +26,4 @@ __all__ = [
     "__doc__",
     "__version__",
     "__version_git_ref__",
-    "pixel_match",
 ]

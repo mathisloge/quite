@@ -1,5 +1,5 @@
 #include "quite/test/expect.hpp"
-
+#include "expect_screenshot.hpp"
 namespace quite::test
 {
 
@@ -10,8 +10,14 @@ class RemoteObjectExpect : public IExpectBuilder
         : obj_{remote_object}
     {}
 
-    bool to_have_screenshot() {
-
+    bool to_have_screenshot(const std::string &name) override
+    {
+        if (has_screenshot_expect(name))
+        {
+            return verify_screenshot_expect(obj_, name);
+        }
+        create_screenshot_expect(obj_, name);
+        return true;
     };
 
   private:
