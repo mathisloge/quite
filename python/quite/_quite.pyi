@@ -5,6 +5,13 @@ from typing import overload
 __version__: str
 __version_git_ref__: str
 
+class IExpectBuilder:
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+    def screenshot(self, name: str) -> bool:
+        """screenshot(self: quite._quite.IExpectBuilder, name: str) -> bool"""
+
 class Image:
     @overload
     def __init__(self) -> None:
@@ -170,9 +177,9 @@ class ProbeManager:
         """connect_to_probe(self: quite._quite.ProbeManager, name: str) -> quite._quite.Probe"""
 
     def launch_qt_probe_application(
-        self, name: str, path_to_application: str, args: list[str]
+        self, name: str, path_to_application: str, args: list[str] = ...
     ) -> Probe:
-        """launch_qt_probe_application(self: quite._quite.ProbeManager, name: str, path_to_application: str, args: list[str]) -> quite._quite.Probe"""
+        """launch_qt_probe_application(self: quite._quite.ProbeManager, name: str, path_to_application: str, args: list[str] = []) -> quite._quite.Probe"""
 
 class Property:
     def __init__(self, *args, **kwargs) -> None:
@@ -212,3 +219,6 @@ class RemoteObject:
 
     def take_snapshot(self) -> Image:
         """take_snapshot(self: quite._quite.RemoteObject) -> quite._quite.Image"""
+
+def expect(object: RemoteObject) -> IExpectBuilder:
+    """expect(object: quite._quite.RemoteObject) -> quite._quite.IExpectBuilder"""

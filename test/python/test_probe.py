@@ -5,7 +5,7 @@ import datetime
 import pytest
 from test_paths import APP_PATH
 
-from quite import ObjectQueryBuilder, ProbeManager
+from quite import ObjectQueryBuilder, ProbeManager, expect
 
 
 @pytest.fixture
@@ -96,3 +96,11 @@ def test_take_snapshot(probe_manager: ProbeManager, hello_btn_query):
     )
     btn = app.find_object(hello_btn_query)
     btn.take_snapshot()
+
+
+def test_expect_screenshot(probe_manager: ProbeManager, hello_btn_query):
+    app = probe_manager.launch_qt_probe_application(
+        name="tester", path_to_application=APP_PATH
+    )
+    btn = app.find_object(hello_btn_query)
+    expect(object=btn).screenshot(name="test1")

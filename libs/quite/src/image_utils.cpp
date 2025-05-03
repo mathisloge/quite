@@ -230,7 +230,7 @@ Result<ImageCompareResult> pixel_match(const ImageView &expected_img,
     double maxDelta = 35215 * options.threshold * options.threshold;
     auto &&aaColor = options.anti_aliased_color;
     auto &&diffColor = options.diff_color;
-    auto &&diffColorAlt = options.diff_color_alt.has_value() ? options.diff_color : *options.diff_color_alt;
+    auto &&diffColorAlt = options.diff_color_alt.has_value() ? *options.diff_color_alt : options.diff_color;
     int &diff = result.diff;
 
     for (int y = 0; y < actual_img.height; y++)

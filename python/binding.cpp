@@ -3,6 +3,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
 #include <quite/property.hpp>
+#include <quite/test/expect.hpp>
 #include <quite/test/object_query_builder.hpp>
 #include <quite/test/probe.hpp>
 #include <quite/test/probe_manager.hpp>
@@ -27,6 +28,7 @@ PYBIND11_MODULE(_quite, m)
     py::class_<quite::ObjectQuery, std::shared_ptr<quite::ObjectQuery>> py_object_query(m, "ObjectQuery");
     auto py_image = py::class_<quite::Image>(m, "Image");
     auto py_image_view = py::class_<quite::ImageView>(m, "ImageView");
+    auto py_expect = py::class_<IExpectBuilder>{m, "IExpectBuilder"};
 
     py_probe_manager //
         .def(py::init())
@@ -34,7 +36,7 @@ PYBIND11_MODULE(_quite, m)
              &ProbeManager::launch_probe_application,
              py::arg{"name"},
              py::arg{"path_to_application"},
-             py::arg{"args"})
+             py::arg{"args"} = std::vector<std::string>{})
         .def("connect_to_probe", &ProbeManager::connect_to_probe, py::arg{"name"});
 
     py_probe //
@@ -109,6 +111,9 @@ PYBIND11_MODULE(_quite, m)
         .def_readonly("channels", &quite::ImageView::channels)
         .def_readonly("width", &quite::ImageView::width)
         .def_readonly("height", &quite::ImageView::height);
+
+    m.def("expect", &expect, py::arg{"object"});
+    py_expect.def("screenshot", &IExpectBuilder::to_have_screenshot, py::arg{"name"});
 
     m.attr("__version__") = quite::kVersion;
     m.attr("__version_git_ref__") = quite::kGitRef;

@@ -10,7 +10,8 @@
                 "ms-vscode.cmake-tools",
                 "llvm-vs-code-extensions.vscode-clangd",
                 "ms-python.python",
-                "zxh404.vscode-proto3"
+                "zxh404.vscode-proto3",
+                "charliermarsh.ruff"
             ]
         }
     },
