@@ -7,4 +7,5 @@ target_sources(quite_test PRIVATE
     remote_object.cpp
     expect_screenshot.cpp
     expect_screenshot.hpp
+    expect.cpp
 )

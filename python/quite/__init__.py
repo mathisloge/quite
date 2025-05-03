@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from ._quite import (
+    IExpectBuilder,
     Image,
     ImageView,
     ObjectQuery,
@@ -12,9 +13,11 @@ from ._quite import (
     __doc__,
     __version__,
     __version_git_ref__,
+    expect,
 )
 
 __all__ = [
+    "IExpectBuilder",
     "Image",
     "ImageView",
     "ObjectQuery",
@@ -26,4 +29,5 @@ __all__ = [
     "__doc__",
     "__version__",
     "__version_git_ref__",
+    "expect",
 ]

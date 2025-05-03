@@ -4,10 +4,37 @@
 #include <quite/meta_any_formatter.hpp>
 
 using json = nlohmann::json;
+
 namespace quite
 {
+void to_json(json &j, const GenericClass &v);
+}
+
+namespace entt
+{
+void to_json(json &j, const entt::meta_any &v)
+{
+    const auto type = v.type();
+
+    if (type.info() == entt::type_id<quite::GenericClass>())
+    {
+        j = v.cast<quite::GenericClass>();
+    }
+    else
+    {
+        j = json{{"unkown_value_type", type.info().name()}};
+    }
+}
+} // namespace entt
+namespace quite
+{
+void to_json(json &j, const GenericClass &v)
+{
+    j = json{v.properties};
+}
 namespace
 {
+
 AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visited_objects,
                                             RemoteObjectPtr remote_object,
                                             std::vector<std::string> properties);
@@ -33,10 +60,10 @@ AsyncResult<nlohmann::json> dump_properties(std::unordered_set<ObjectId> &visite
     {
         if (prop.second->value().has_value())
         {
-            auto any_json = prop.second->value()->allow_cast<nlohmann::json>();
+            auto any_json = prop.second->value();
             if (any_json)
             {
-                out[prop.first] = any_json.cast<nlohmann::json>();
+                out[prop.first] = any_json.value();
             }
             else
             {
