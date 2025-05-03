@@ -212,6 +212,3 @@ class RemoteObject:
 
     def take_snapshot(self) -> Image:
         """take_snapshot(self: quite._quite.RemoteObject) -> quite._quite.Image"""
-
-def pixel_match(expected: ImageView, actual: ImageView) -> Image:
-    """pixel_match(expected: quite._quite.ImageView, actual: quite._quite.ImageView) -> quite._quite.Image"""

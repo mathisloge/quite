@@ -35,6 +35,11 @@ Property RemoteObject::property(std::string name)
     return Property{std::move(result.value())};
 }
 
+std::shared_ptr<quite::RemoteObject> RemoteObject::underlying_object()
+{
+    return object_;
+}
+
 bool RemoteObject::operator==(const RemoteObject &rhs) const
 {
     return this->object_ == rhs.object_;

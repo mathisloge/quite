@@ -31,9 +31,6 @@ from ._quite import (
 from ._quite import (
     __version_git_ref__ as __version_git_ref__,
 )
-from ._quite import (
-    pixel_match as pixel_match,
-)
 
 __all__ = [
     "Image",
@@ -47,5 +44,4 @@ __all__ = [
     "__doc__",
     "__version__",
     "__version_git_ref__",
-    "pixel_match",
 ]

@@ -1,14 +1,15 @@
 #pragma once
 #include <memory>
+#include "quite/quite_test_export.hpp"
 #include "remote_object.hpp"
 
 namespace quite::test
 {
-struct IExpectBuilder
+struct QUITE_TEST_EXPORT IExpectBuilder
 {
     virtual ~IExpectBuilder() = default;
-    virtual bool to_have_screenshot() = 0;
+    virtual bool to_have_screenshot(const std::string &name) = 0;
 };
 
-std::unique_ptr<IExpectBuilder> expect(RemoteObject remote_object);
+[[nodiscard]] QUITE_TEST_EXPORT std::unique_ptr<IExpectBuilder> expect(RemoteObject remote_object);
 } // namespace quite::test

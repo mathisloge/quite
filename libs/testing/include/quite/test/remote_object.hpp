@@ -22,6 +22,8 @@ class QUITE_TEST_EXPORT RemoteObject
 
     [[nodiscard]] bool operator==(const RemoteObject &rhs) const;
 
+    std::shared_ptr<quite::RemoteObject> underlying_object();
+
   private:
     std::shared_ptr<quite::RemoteObject> object_;
 };

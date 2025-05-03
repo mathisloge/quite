@@ -21,8 +21,9 @@ target_link_libraries(quite_core PUBLIC
     Boost::headers
     EnTT::EnTT
     STDEXEC::stdexec
-    stb::stb
 )
+
+target_include_directories(quite_core PRIVATE ${Stb_INCLUDE_DIR})
 
 target_sources(quite_core
     PUBLIC

@@ -13,7 +13,7 @@
             "generator": "Ninja",
             "installDir": "${sourceDir}/dist",
             "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "Python3_FIND_VIRTUALENV": "FIRST",
                 "Python3_EXECUTABLE": "${sourceDir}/venv",
                 "BUILD_SHARED_LIBS": "ON"

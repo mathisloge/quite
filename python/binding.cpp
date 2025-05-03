@@ -2,7 +2,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
-#include <quite/image_utils.hpp>
 #include <quite/property.hpp>
 #include <quite/test/object_query_builder.hpp>
 #include <quite/test/probe.hpp>
@@ -102,7 +101,7 @@ PYBIND11_MODULE(_quite, m)
         .def("save_to", &quite::Image::save_to, py::arg{"file_path"})
         .def("data", &quite::Image::data);
 
-    py_image_view.doc() = "A non owning reference to the data of a Image.";
+    py_image_view.doc() = "A non owning reference to the data of an Image.";
     py_image_view
         .def(
             "data",
@@ -110,15 +109,6 @@ PYBIND11_MODULE(_quite, m)
         .def_readonly("channels", &quite::ImageView::channels)
         .def_readonly("width", &quite::ImageView::width)
         .def_readonly("height", &quite::ImageView::height);
-
-    auto py_image_match = m.def(
-        "pixel_match",
-        [](const quite::ImageView &expected_img, const quite::ImageView &actual_img) {
-            auto result = quite::pixel_match(expected_img, actual_img, {});
-            return std::move(result->diff_image);
-        },
-        py::arg{"expected"},
-        py::arg{"actual"});
 
     m.attr("__version__") = quite::kVersion;
     m.attr("__version_git_ref__") = quite::kGitRef;
