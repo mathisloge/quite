@@ -27,7 +27,7 @@ message(STATUS "git_sha: ${git_sha}")
 message(STATUS "git_branch: ${git_branch}")
 
 
-### NOTE: Set CPM_USE_LOCAL_PACKAGES to true if you want to use system packages or a package manager like vcpkg.
+### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
 include(get_cpm)
 set(BOOST_VERSION "1.87.0")
 list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
@@ -49,6 +49,7 @@ CPMAddPackage(URI "gh:NVIDIA/stdexec#dc8f1688bad95eff99699c775251ee47e82bd4f1" O
 CPMAddPackage("gh:Tradias/asio-grpc@3.4.3")
 CPMAddPackage("gh:nlohmann/json@3.12.0")
 CPMAddPackage("gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5")
+CPMAddPackage("gh:pybind/pybind11#c630e22c1cb90251ac5316e508dde38545a4bdd2")
 if(BUILD_TESTING)
     CPMAddPackage("gh:catchorg/Catch2@3.8.1")
 endif()
@@ -57,7 +58,6 @@ find_package(Stb REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 if(BUILD_TESTING)
-    find_package(Catch2 3 CONFIG REQUIRED)
     list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/extras")
     include(Catch)
 endif()
