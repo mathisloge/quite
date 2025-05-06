@@ -1,5 +1,7 @@
+import collections.abc
 import datetime
 import os
+import typing
 from typing import overload
 
 __version__: str
@@ -20,24 +22,24 @@ class Image:
 
         1. __init__(self: quite._quite.Image) -> None
 
-        2. __init__(self: quite._quite.Image, file_path: os.PathLike) -> None
+        2. __init__(self: quite._quite.Image, file_path: Union[os.PathLike, str, bytes]) -> None
         """
 
     @overload
-    def __init__(self, file_path: os.PathLike) -> None:
+    def __init__(self, file_path: os.PathLike | str | bytes) -> None:
         """__init__(*args, **kwargs)
         Overloaded function.
 
         1. __init__(self: quite._quite.Image) -> None
 
-        2. __init__(self: quite._quite.Image, file_path: os.PathLike) -> None
+        2. __init__(self: quite._quite.Image, file_path: Union[os.PathLike, str, bytes]) -> None
         """
 
     def data(self) -> ImageView:
         """data(self: quite._quite.Image) -> quite._quite.ImageView"""
 
-    def save_to(self, file_path: os.PathLike) -> None:
-        """save_to(self: quite._quite.Image, file_path: os.PathLike) -> None"""
+    def save_to(self, file_path: os.PathLike | str | bytes) -> None:
+        """save_to(self: quite._quite.Image, file_path: Union[os.PathLike, str, bytes]) -> None"""
 
 class ImageView:
     def __init__(self, *args, **kwargs) -> None:
@@ -62,15 +64,15 @@ class ObjectQueryBuilder:
         """__init__(self: quite._quite.ObjectQueryBuilder) -> None"""
 
     @overload
-    def add_property(self, key: str, value: int) -> ObjectQueryBuilder:
+    def add_property(self, key: str, value: typing.SupportsInt) -> ObjectQueryBuilder:
         """add_property(*args, **kwargs)
         Overloaded function.
 
-        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: int) -> quite._quite.ObjectQueryBuilder
+        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: float) -> quite._quite.ObjectQueryBuilder
+        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
 
         3. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
@@ -78,15 +80,15 @@ class ObjectQueryBuilder:
         """
 
     @overload
-    def add_property(self, key: str, value: float) -> ObjectQueryBuilder:
+    def add_property(self, key: str, value: typing.SupportsFloat) -> ObjectQueryBuilder:
         """add_property(*args, **kwargs)
         Overloaded function.
 
-        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: int) -> quite._quite.ObjectQueryBuilder
+        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: float) -> quite._quite.ObjectQueryBuilder
+        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
 
         3. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
@@ -98,11 +100,11 @@ class ObjectQueryBuilder:
         """add_property(*args, **kwargs)
         Overloaded function.
 
-        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: int) -> quite._quite.ObjectQueryBuilder
+        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: float) -> quite._quite.ObjectQueryBuilder
+        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
 
         3. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
@@ -114,11 +116,11 @@ class ObjectQueryBuilder:
         """add_property(*args, **kwargs)
         Overloaded function.
 
-        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: int) -> quite._quite.ObjectQueryBuilder
+        1. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: float) -> quite._quite.ObjectQueryBuilder
+        2. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
 
         3. add_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
@@ -177,9 +179,12 @@ class ProbeManager:
         """connect_to_probe(self: quite._quite.ProbeManager, name: str) -> quite._quite.Probe"""
 
     def launch_qt_probe_application(
-        self, name: str, path_to_application: str, args: list[str] = ...
+        self,
+        name: str,
+        path_to_application: str,
+        args: collections.abc.Sequence[str] = ...,
     ) -> Probe:
-        """launch_qt_probe_application(self: quite._quite.ProbeManager, name: str, path_to_application: str, args: list[str] = []) -> quite._quite.Probe"""
+        """launch_qt_probe_application(self: quite._quite.ProbeManager, name: str, path_to_application: str, args: collections.abc.Sequence[str] = []) -> quite._quite.Probe"""
 
 class Property:
     def __init__(self, *args, **kwargs) -> None:
@@ -193,10 +198,17 @@ class Property:
 
     def wait_for_value(
         self,
-        target_value: bool | int | int | float | str | RemoteObject,
+        target_value: (
+            bool
+            | typing.SupportsInt
+            | typing.SupportsInt
+            | typing.SupportsFloat
+            | str
+            | RemoteObject
+        ),
         timeout: datetime.timedelta,
     ) -> bool | int | int | float | str | RemoteObject:
-        """wait_for_value(self: quite._quite.Property, target_value: Union[bool, int, int, float, str, quite._quite.RemoteObject], timeout: datetime.timedelta) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
+        """wait_for_value(self: quite._quite.Property, target_value: Union[bool, typing.SupportsInt, typing.SupportsInt, typing.SupportsFloat, str, quite._quite.RemoteObject], timeout: datetime.timedelta) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
 
 class RemoteObject:
     def __init__(self, *args, **kwargs) -> None:

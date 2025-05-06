@@ -1,6 +1,3 @@
-find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
-find_package(pybind11 CONFIG REQUIRED)
-
 pybind11_add_module(_quite binding.cpp)
 set_target_properties(_quite PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/quite)
 target_link_libraries(_quite PRIVATE
