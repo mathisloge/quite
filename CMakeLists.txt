@@ -7,30 +7,12 @@ include(GenerateExportHeader)
 include(FeatureSummary)
 include(GNUInstallDirs)
 include(GetGitRevisionDescription)
-include(FetchContent)
-include(FetchDependencies)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
-option(QUITE_BUILD_PYTHON_PACKAGE "On if the python package is build" OFF)
-add_feature_info(Python QUITE_BUILD_PYTHON_PACKAGE "Build python bindings.")
-if(QUITE_BUILD_PYTHON_PACKAGE)
-    set(BUILD_SHARED_LIBS OFF)
-    set(QUITE_BUILD_STUDIO OFF)
-    set(QUITE_BUILD_PROBES ${BUILD_TESTING})
-    set(QUITE_INSTALL OFF)
-    set(QUITE_EXAMPLES OFF)
-    set(QUITE_FETCH_DEPENDENCIES ON)
-endif()
-
-option(QUITE_FETCH_DEPENDENCIES "Fetches the header only libraries and other commonly not available libraries" OFF)
-if(QUITE_FETCH_DEPENDENCIES)
-    fetch_dependencies()
-endif()
 
 option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
 option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
@@ -44,22 +26,35 @@ get_git_head_revision(git_branch git_sha)
 message(STATUS "git_sha: ${git_sha}")
 message(STATUS "git_branch: ${git_branch}")
 
-find_package(Boost CONFIG REQUIRED COMPONENTS filesystem)
-find_package(stdexec CONFIG REQUIRED)
-set_package_properties(stdexec PROPERTIES URL "https://github.com/NVIDIA/stdexec" PURPOSE "needed for async code. should be disabled for *hopefully* c++26.")
-find_package(quill CONFIG REQUIRED)
-set_package_properties(quill PROPERTIES URL "https://github.com/odygrd/quill")
-find_package(asio-grpc CONFIG REQUIRED)
-set_package_properties(asio-grpc PROPERTIES URL "https://github.com/Tradias/asio-grpc")
+
+### NOTE: Set CPM_USE_LOCAL_PACKAGES to true if you want to use system packages or a package manager like vcpkg.
+include(get_cpm)
+set(BOOST_VERSION "1.87.0")
+list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
+CPMAddPackage(
+  NAME Boost
+  VERSION "${BOOST_VERSION}"
+  URL https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}-cmake.tar.xz
+  URL_HASH SHA256=7da75f171837577a52bbf217e17f8ea576c7c246e4594d617bfde7fafd408be5
+  EXCLUDE_FROM_ALL ON
+  SYSTEM ON
+  OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
+)
+CPMAddPackage("gh:fmtlib/fmt#11.2.0")
+CPMAddPackage("gh:odygrd/quill@9.0.2")
+CPMAddPackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237")
+CPMAddPackage("gh:skypjack/entt@3.15.0")
+CPMAddPackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
+CPMAddPackage(URI "gh:NVIDIA/stdexec#dc8f1688bad95eff99699c775251ee47e82bd4f1" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF")
+CPMAddPackage("gh:Tradias/asio-grpc@3.4.3")
+CPMAddPackage("gh:nlohmann/json@3.12.0")
+CPMAddPackage("gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5")
+if(BUILD_TESTING)
+    CPMAddPackage("gh:catchorg/Catch2@3.8.1")
+endif()
+
 find_package(Stb REQUIRED)
-set_package_properties(Stb PROPERTIES URL "https://github.com/nothings/stb" PURPOSE "saving and loading of images")
-find_package(nlohmann_json CONFIG REQUIRED)
-set_package_properties(nlohmann_json PROPERTIES URL "https://github.com/nlohmann/json")
-find_package(EnTT CONFIG REQUIRED)
-find_package(fmt CONFIG REQUIRED)
-find_package(CMakeRC CONFIG REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
-find_package(CLI11 CONFIG REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 if(BUILD_TESTING)
     find_package(Catch2 3 CONFIG REQUIRED)
@@ -88,8 +83,7 @@ feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 if(QUITE_INSTALL)
     include(CMakePackageConfigHelpers)
 
-    install(TARGETS quite_protocol quite_core quite_manager quite_client quite_test probe fmt quill stb_fetched nlohmann_json EnTT
-
+    install(TARGETS quite_protocol quite_core quite_manager quite_client quite_test probe
         EXPORT quiteTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

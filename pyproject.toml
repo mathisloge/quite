@@ -20,8 +20,12 @@ build-dir = "./build-python"
 backport.find-python = "3.28.0"
 [tool.scikit-build.cmake.define]
 CMAKE_PROJECT_TOP_LEVEL_INCLUDES = "./cmake/DependencyProvider.cmake"
-QUITE_BUILD_PYTHON_PACKAGE = "ON"
+QUITE_BUILD_PROBES = "OFF"
+QUITE_BUILD_STUDIO = "OFF"
+QUITE_EXAMPLES = "OFF"
+BUILD_SHARED_LIBS = "OFF"
 BUILD_TESTING = "OFF"
+
 
 [tool.pytest.ini_options]
 minversion = "6.0"
