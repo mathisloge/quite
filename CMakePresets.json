@@ -162,10 +162,6 @@
                 {
                     "type": "build",
                     "name": "ci"
-                },
-                {
-                    "type": "test",
-                    "name": "ci"
                 }
             ]
         }
