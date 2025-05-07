@@ -1,0 +1,18 @@
+site_name: quite
+site_url: https://github.com/mathisloge/ng-quite
+theme:
+  name: material
+
+site_dir: build/public
+
+
+plugins:
+  - search
+  - mkdoxy:
+      projects:
+        quite:
+          src-dirs: ../libs
+          full-doc: True
+          doxy-cfg: # standard doxygen configuration (key: value)
+            FILE_PATTERNS: "*.cpp *.h*" # specify file patterns to filter out
+            RECURSIVE: True # recursive search in source directories
