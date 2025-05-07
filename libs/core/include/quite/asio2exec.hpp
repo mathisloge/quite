@@ -32,11 +32,11 @@
 #include "asio/io_context.hpp"
 #include "asio/post.hpp"
 #else
-#include "boost/asio/associated_executor.hpp"
-#include "boost/asio/async_result.hpp"
-#include "boost/asio/cancellation_signal.hpp"
-#include "boost/asio/io_context.hpp"
-#include "boost/asio/post.hpp"
+#include <boost/asio/associated_executor.hpp>
+#include <boost/asio/async_result.hpp>
+#include <boost/asio/cancellation_signal.hpp>
+#include <boost/asio/io_context.hpp>
+#include <boost/asio/post.hpp>
 #endif
 
 #include "stdexec/execution.hpp"
@@ -110,7 +110,9 @@ class asio_context
     {
         stop();
         if (_th.joinable())
+        {
             _th.join();
+        }
     }
 
     __detail::scheduler_t get_scheduler() noexcept;
