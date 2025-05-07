@@ -18,7 +18,7 @@ configure_file (
 target_link_libraries(quite_core PUBLIC
     fmt::fmt
     quill::quill
-    Boost::headers
+    Boost::asio
     EnTT::EnTT
     STDEXEC::stdexec
 )
