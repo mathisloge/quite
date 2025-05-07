@@ -1,10 +1,6 @@
 #include "quite/manager/process_manager.hpp"
 #include <filesystem>
-#include <boost/process.hpp>
-
-#if BOOST_VERSION < 108500
-#include <boost/process/v2/src.hpp>
-#endif
+#include <boost/process/v2.hpp>
 #include <fmt/ranges.h>
 #include <fmt/std.h>
 #include <quite/logger.hpp>
