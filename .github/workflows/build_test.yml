@@ -26,8 +26,16 @@ jobs:
     needs: format-source-code
     steps:
       - uses: lukka/get-cmake@latest
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip' # caching pip dependencies
+      - run: pip install -r requirements-dev.txt
+
       - uses: actions/checkout@v4
 
       - name: Install required system packages

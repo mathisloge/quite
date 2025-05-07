@@ -29,13 +29,13 @@ message(STATUS "git_branch: ${git_branch}")
 
 ### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
 include(get_cpm)
-set(BOOST_VERSION "1.87.0")
+set(BOOST_VERSION "1.88.0")
 list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
 CPMAddPackage(
   NAME Boost
   VERSION "${BOOST_VERSION}"
   URL https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}-cmake.tar.xz
-  URL_HASH SHA256=7da75f171837577a52bbf217e17f8ea576c7c246e4594d617bfde7fafd408be5
+  URL_HASH SHA256=f48b48390380cfb94a629872346e3a81370dc498896f16019ade727ab72eb1ec
   EXCLUDE_FROM_ALL ON
   SYSTEM ON
   OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_PROCESS_USE_STD_FS ON" "BOOST_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
