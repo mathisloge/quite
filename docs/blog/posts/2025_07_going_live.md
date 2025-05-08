@@ -13,6 +13,8 @@ I’m excited to introduce quite, an open‑source C++ library with python bindi
 
 For now it's just Qt but I hope that the project is ready to take on other UI frameworks as well. Time will tell.
 
+<!-- more -->
+
 ## What does **quite** do?
 
 At its core, **quite** lets you automate and inspect an application running on any device where you’ve installed a small “remote manager” daemon. From your test code, you can:
