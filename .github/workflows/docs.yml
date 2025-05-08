@@ -2,7 +2,7 @@ name: docs
 on:
   push:
     branches:
-      - feature/remoteapplication_manager
+      - main
 permissions:
   contents: write
 jobs:
