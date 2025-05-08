@@ -24,5 +24,6 @@ jobs:
           path: .cache 
           restore-keys: |
             quite-docs-
+      - run: sudo apt install doxygen
       - run: pip install mkdoxy mkdocs-material 
       - run: mkdocs gh-deploy --force
