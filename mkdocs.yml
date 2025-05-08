@@ -11,7 +11,7 @@ plugins:
   - mkdoxy:
       projects:
         quite:
-          src-dirs: ../libs
+          src-dirs: ../../libs
           full-doc: True
           doxy-cfg: # standard doxygen configuration (key: value)
             FILE_PATTERNS: "*.cpp *.h*" # specify file patterns to filter out
