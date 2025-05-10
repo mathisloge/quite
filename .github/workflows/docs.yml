@@ -25,5 +25,5 @@ jobs:
           restore-keys: |
             quite-docs-
       - run: sudo apt install doxygen
-      - run: pip install mkdoxy mkdocs-material 
+      - run: pip install -r requirements-dev.txt
       - run: mkdocs gh-deploy --force
