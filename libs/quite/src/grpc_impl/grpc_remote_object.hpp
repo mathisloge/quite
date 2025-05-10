@@ -3,7 +3,7 @@
 #include <quite/value/object_id.hpp>
 #include "quite/proto/client/probe_client.hpp"
 
-namespace quite
+namespace quite::client
 {
 class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObject>, public RemoteObject
 {
@@ -28,4 +28,4 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
     std::shared_ptr<proto::ProbeClient> client_;
     meta::TypeId type_id_;
 };
-} // namespace quite
+} // namespace quite::client

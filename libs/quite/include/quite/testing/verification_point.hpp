@@ -6,7 +6,8 @@
 namespace quite::testing
 {
 
-QUITE_CLIENT_EXPORT AsyncResult<bool> create_verification_point(RemoteObjectPtr object, const std::string &name);
+[[nodiscard]] QUITE_CLIENT_EXPORT bool has_verification_point(const std::string &name);
+QUITE_CLIENT_EXPORT AsyncResult<void> create_verification_point(RemoteObjectPtr object, const std::string &name);
 QUITE_CLIENT_EXPORT AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::string &name);
 
 } // namespace quite::testing

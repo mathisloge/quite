@@ -11,7 +11,6 @@
 #include <entt/meta/meta.hpp>
 #include <private/qquickanchors_p_p.h>
 #include <quite/logger.hpp>
-#include <quite/proto/types.pb.h>
 #include <quite/value/generic_value_class.hpp>
 #include <quite/value/value_registry.hpp>
 #include "meta_qt_containers.hpp"

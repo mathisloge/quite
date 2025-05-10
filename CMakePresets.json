@@ -13,18 +13,28 @@
             "generator": "Ninja",
             "installDir": "${sourceDir}/dist",
             "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
-                "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "Python3_FIND_VIRTUALENV": "FIRST",
                 "Python3_EXECUTABLE": "${sourceDir}/venv",
-                "QUITE_BUILD_STUDIO": "ON",
                 "BUILD_SHARED_LIBS": "ON"
+            }
+        },
+        {
+            "name": "fetch-dependencies",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/DependencyProvider.cmake",
+                "QUITE_FETCH_DEPENDENCIES": true
             }
         },
         {
             "name": "vcpkg",
             "hidden": true,
-            "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "VCPKG_OVERLAY_PORTS": "${sourceDir}/cmake/overlays",
+                "CPM_USE_LOCAL_PACKAGES": true
+            }
         },
         {
             "name": "debug-build",
@@ -41,42 +51,119 @@
             }
         },
         {
-            "name": "use-gcc",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++"
-            }
-        },
-        {
             "name": "developer",
-            "hidden": true,
-            "cacheVariables": {
-                "BUILD_TESTING": "ON"
-            }
-        },
-        {
-            "name": "developer-gcc",
-            "displayName": "Developer gcc",
+            "displayName": "Developer",
             "inherits": [
                 "common",
-                "vcpkg",
-                "use-gcc",
                 "debug-build",
-                "developer"
-            ]
+                "fetch-dependencies"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": true,
+                "QUITE_INSTALL": false
+            }
+        },
+        {
+            "name": "developer-vcpkg",
+            "displayName": "Developer (vcpkg)",
+            "inherits": [
+                "common",
+                "debug-build",
+                "vcpkg"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": true,
+                "QUITE_INSTALL": true,
+                "CMAKE_C_COMPILER": "gcc-13",
+                "CMAKE_CXX_COMPILER": "g++-13"
+            }
+        },
+        {
+            "name": "python-build",
+            "displayName": "Python build",
+            "binaryDir": "${sourceDir}/build",
+            "generator": "Ninja",
+            "installDir": "${sourceDir}/dist",
+            "inherits":[
+                "common",
+                "developer",
+                "fetch-dependencies"
+            ],
+            "cacheVariables": {
+                "BUILD_SHARED_LIBS": false,
+                "QUITE_BUILD_STUDIO": false,
+                "QUITE_BUILD_PROBES": true,
+                "QUITE_EXAMPLES": false
+            }
+        },
+        {
+            "name": "ci",
+            "displayName": "CI configuration",
+            "inherits": [
+                "common",
+                "fetch-dependencies"
+            ],
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "BUILD_TESTING": true,
+                "CMAKE_C_COMPILER": "gcc-13",
+                "CMAKE_CXX_COMPILER": "g++-13",
+                "QUITE_INSTALL": false
+            }
         }
     ],
     "buildPresets": [
         {
-            "name": "developer-gcc",
-            "configurePreset": "developer-gcc"
+            "name": "developer",
+            "configurePreset": "developer"
+        },
+        {
+            "name": "developer (vcpkg)",
+            "configurePreset": "developer"
+        },
+        {
+            "name": "python-build",
+            "configurePreset": "python-build"
+        },
+        {
+            "name": "ci",
+            "configurePreset": "ci"
         }
     ],
     "testPresets": [
         {
-            "name": "developer-gcc",
-            "configurePreset": "developer-gcc"
+            "name": "developer",
+            "configurePreset": "developer"
+        },
+        {
+            "name": "developer (vcpkg)",
+            "configurePreset": "developer-vcpkg"
+        },
+        {
+            "name": "ci",
+            "configurePreset": "ci",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "ignore",
+                "stopOnFailure": true
+            }
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "ci",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "ci"
+                },
+                {
+                    "type": "build",
+                    "name": "ci"
+                }
+            ]
         }
     ]
 }

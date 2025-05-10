@@ -2,7 +2,7 @@
 #include <QMouseEvent>
 #include <QPointingDevice>
 #include <quite/injectors/mouse_injector.hpp>
-#include "object_id.hpp"
+#include <quite/value/object_id.hpp>
 #include "object_tracker.hpp"
 namespace quite::probe
 {

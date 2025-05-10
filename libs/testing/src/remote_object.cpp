@@ -15,11 +15,11 @@ void RemoteObject::mouse_action()
     throw_unexpected(action_result);
 }
 
-void RemoteObject::take_snapshot()
+Image RemoteObject::take_snapshot()
 {
-    const auto [snapshot] = stdexec::sync_wait(object_->take_snapshot()).value();
+    auto [snapshot] = stdexec::sync_wait(object_->take_snapshot()).value();
     throw_unexpected(snapshot);
-    snapshot->save_to("test.png");
+    return std::move(snapshot.value());
 }
 
 void RemoteObject::invoke_method(std::string method_name)
@@ -33,6 +33,11 @@ Property RemoteObject::property(std::string name)
     auto [result] = stdexec::sync_wait(object_->property(std::move(name))).value();
     throw_unexpected(result);
     return Property{std::move(result.value())};
+}
+
+std::shared_ptr<quite::RemoteObject> RemoteObject::underlying_object()
+{
+    return object_;
 }
 
 bool RemoteObject::operator==(const RemoteObject &rhs) const

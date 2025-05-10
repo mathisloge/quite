@@ -4,7 +4,7 @@
 #include "grpc_property.hpp"
 
 DEFINE_LOGGER(grpc_remote_object_logger);
-namespace quite
+namespace quite::client
 {
 GrpcRemoteObject::GrpcRemoteObject(ObjectReference reference, std::shared_ptr<proto::ProbeClient> client)
     : RemoteObject{reference.object_id}
@@ -55,8 +55,7 @@ AsyncResult<entt::meta_any> GrpcRemoteObject::fetch_property(std::string propert
         auto it = properties.find(property_name);
         if (it == properties.end())
         {
-            return make_error_result<entt::meta_any>(ErrorCode::not_found,
-                                                     "Server did not return the expected property.");
+            return make_error_result(ErrorCode::not_found, "Server did not return the expected property.");
         }
         return it->second;
     });
@@ -89,4 +88,4 @@ AsyncResult<void> GrpcRemoteObject::invoke_method(std::string method_name)
     }
     co_return std::unexpected{std::move(response.error())};
 }
-} // namespace quite
+} // namespace quite::client

@@ -1,10 +1,15 @@
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-add_library(probe)
+add_library(probe SHARED)
 add_library(quite::probe ALIAS probe)
+target_compile_features(probe
+    PUBLIC cxx_std_17
+    PRIVATE cxx_std_23
+)
 set_target_properties(probe PROPERTIES
     POSITION_INDEPENDENT_CODE ON
+    VISIBILITY_INLINES_HIDDEN ON
 )
 generate_export_header(probe EXPORT_FILE_NAME quite/quite_probe_export.hpp)
 

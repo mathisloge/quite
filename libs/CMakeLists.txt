@@ -1,4 +1,5 @@
 add_subdirectory(core)
+add_subdirectory(manager)
 add_subdirectory(protocol)
 add_subdirectory(quite)
 add_subdirectory(testing)

@@ -1,7 +1,13 @@
-add_library(quite_core)
+add_library(quite_core SHARED)
 add_library(quite::core ALIAS quite_core)
+
+target_compile_definitions(quite_core PUBLIC ASIO_TO_EXEC_USE_BOOST)
+target_compile_features(quite_core
+    PUBLIC cxx_std_23
+)
 set_target_properties(quite_core PROPERTIES
     POSITION_INDEPENDENT_CODE ON
+    VISIBILITY_INLINES_HIDDEN ON
 )
 generate_export_header(quite_core EXPORT_FILE_NAME quite/quite_core_export.hpp)
 configure_file (
@@ -14,7 +20,10 @@ target_link_libraries(quite_core PUBLIC
     quill::quill
     Boost::asio
     EnTT::EnTT
+    STDEXEC::stdexec
 )
+
+target_include_directories(quite_core PRIVATE ${Stb_INCLUDE_DIR})
 
 target_sources(quite_core
     PUBLIC
@@ -52,4 +61,3 @@ target_sources(quite_core
         src/value/value_registry.cpp
         src/value/object_query.cpp
 )
-target_compile_definitions(quite_core PUBLIC ASIO_TO_EXEC_USE_BOOST)
