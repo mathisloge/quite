@@ -7,6 +7,7 @@
 #include "property_collector.hpp"
 #include "qt_meta_type_accessor.hpp"
 #include "qtstdexec.h"
+#include "to_object_id.hpp"
 
 namespace quite::probe
 {
@@ -18,7 +19,7 @@ AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
         {
             auto grab_job = item->grabToImage();
 
-            co_await QtStdExec::qObjectAsSender(grab_job.get(), &QQuickItemGrabResult::ready);
+            co_await qobject_as_sender(grab_job.get(), &QQuickItemGrabResult::ready);
             co_return grab_job->image();
         }
     }
@@ -30,10 +31,9 @@ AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
             co_return grabbed_image;
         }
     }
-    co_return make_error_result<QImage>(
-        ErrorCode::not_found,
-        fmt::format("Could not capture an image from object '{}'",
-                    object != nullptr ? object->objectName().toStdString() : "unknown"));
+    co_return make_error_result(ErrorCode::not_found,
+                                fmt::format("Could not capture an image from object '{}'",
+                                            object != nullptr ? object->objectName().toStdString() : "unknown"));
 }
 
 QtProbeHandler::QtProbeHandler(const ObjectTracker &object_tracker)
@@ -58,8 +58,8 @@ AsyncResult<QtProbeHandler::ImageData> QtProbeHandler::take_snapshot(ObjectId ob
     {
         co_return std::unexpected{std::move(object.error())};
     }
-    auto expected_image = co_await stdexec::starts_on(QtStdExec::qThreadAsScheduler(object.value()->thread()),
-                                                      take_snapshot_of_qobject(*object));
+    auto expected_image =
+        co_await stdexec::starts_on(qthread_as_scheduler(object.value()->thread()), take_snapshot_of_qobject(*object));
     if (not expected_image.has_value())
     {
         co_return std::unexpected{std::move(expected_image.error())};
@@ -77,18 +77,18 @@ AsyncResult<QtProbeHandler::ImageData> QtProbeHandler::take_snapshot(ObjectId ob
 
 AsyncResult<ObjectReference> QtProbeHandler::find_object(ObjectQuery query)
 {
-    auto obj_info = co_await (
-        stdexec::when_all(stdexec::just(QPointer<const ObjectTracker>{std::addressof(object_tracker_)}),
-                          stdexec::just(std::move(query))) |
-        stdexec::continues_on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
-        stdexec::then([](auto &&tracker, auto &&query) {
-            if (tracker)
-            {
-                return tracker->find_object_by_query(query);
-            }
-            return make_error_result<ObjectReference>(ErrorCode::failed_precondition,
-                                                      "ObjectTracker was already destroyed. Probably now in shutdown.");
-        }));
+    auto obj_info =
+        co_await (stdexec::when_all(stdexec::just(QPointer<const ObjectTracker>{std::addressof(object_tracker_)}),
+                                    stdexec::just(std::move(query))) |
+                  stdexec::continues_on(qthread_as_scheduler(QCoreApplication::instance()->thread())) |
+                  stdexec::then([](auto &&tracker, auto &&query) -> Result<ObjectReference> {
+                      if (tracker)
+                      {
+                          return tracker->find_object_by_query(query);
+                      }
+                      return make_error_result(ErrorCode::failed_precondition,
+                                               "ObjectTracker was already destroyed. Probably now in shutdown.");
+                  }));
     co_return obj_info;
 }
 
@@ -102,13 +102,12 @@ AsyncResult<QtProbeHandler::PropertyMap> QtProbeHandler::fetch_properties(Object
     }
     auto collected_properties =
         co_await (stdexec::just(QPointer<QObject>{obj_result.value()}) |
-                  stdexec::continues_on(QtStdExec::qThreadAsScheduler(obj_result.value()->thread())) |
+                  stdexec::continues_on(qthread_as_scheduler(obj_result.value()->thread())) |
                   stdexec::then([](auto &&object) { return ObjectMeta::from_qobject(object); }) |
                   stdexec::then([properties](auto &&object_meta) -> Result<QtProbeHandler::PropertyMap> {
                       if (object_meta.meta_object == nullptr)
                       {
-                          return make_error_result<QtProbeHandler::PropertyMap>(ErrorCode::failed_precondition,
-                                                                                "Could not get a QMetaObject");
+                          return make_error_result(ErrorCode::failed_precondition, "Could not get a QMetaObject");
                       }
                       return collect_properties(object_meta, properties);
                   }));
@@ -120,7 +119,7 @@ AsyncResult<std::vector<ObjectReference>> QtProbeHandler::fetch_windows()
     std::vector<ObjectReference> windows;
     for (auto &&obj : object_tracker_.top_level_views())
     {
-        windows.emplace_back(ObjectReference{.object_id = reinterpret_cast<ObjectId>(obj),
+        windows.emplace_back(ObjectReference{.object_id = to_object_id(obj),
                                              .type_id = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id())});
     }
     co_return windows;
@@ -132,7 +131,7 @@ AsyncResult<entt::meta_any> QtProbeHandler::invoke_method(const entt::meta_any &
 {
     co_return co_await (
         stdexec::when_all(stdexec::just(object), stdexec::just(qualified_method_signature), stdexec::just(params)) |
-        stdexec::continues_on(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+        stdexec::continues_on(qthread_as_scheduler(QCoreApplication::instance()->thread())) |
         stdexec::then([this](auto &&object, auto &&qualified_method_signature, auto &&params) {
             return method_invoker_.invoke_method(object, qualified_method_signature, params);
         }));

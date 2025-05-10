@@ -36,7 +36,7 @@ void ProbeContext::install_qt_hooks()
     const auto qt_minor = (qt_version_number >> 8) & 0xFF;
     const auto qt_patch = qt_version_number & 0xFF;
 
-    LOG_INFO(probe_ctx_logger(), "installing Qt hooks for Qt version {}.{}.{}", qt_major, qt_minor, qt_patch);
+    LOG_INFO(probe_ctx_logger(), "Installing Qt hooks for Qt version {}.{}.{}", qt_major, qt_minor, qt_patch);
 
     next_add_qobject_hook_ = reinterpret_cast<QHooks::AddQObjectCallback>(qtHookData[QHooks::AddQObject]);
     next_remove_qobject_hook_ = reinterpret_cast<QHooks::RemoveQObjectCallback>(qtHookData[QHooks::RemoveQObject]);

@@ -25,7 +25,6 @@ target_link_libraries(tester PRIVATE
     Qt6::Qml
     Qt6::Quick
     quite::probe
-    asio-grpc::asio-grpc-stdexec
 )
 
 file(GENERATE OUTPUT tester_app.hpp INPUT tester_app.in.hpp TARGET tester)

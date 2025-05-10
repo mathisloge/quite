@@ -1,11 +1,13 @@
 #include <catch2/catch_test_macros.hpp>
 #include <exec/task.hpp>
-#include <quite/application.hpp>
-#include <quite/application_manager.hpp>
 #include <quite/logger.hpp>
+#include <quite/manager/process_manager.hpp>
+#include <quite/probe.hpp>
+#include <quite/probe_manager.hpp>
 #include <quite/setup_logger.hpp>
 #include <quite/testing/verification_point.hpp>
 #include "async_test_helper.hpp"
+#include "quite/quite.hpp"
 #include "tester_app.hpp"
 
 using namespace quite;
@@ -15,8 +17,10 @@ DEFINE_LOGGER(test);
 TEST_CASE("Remote object can be invoked")
 {
     setup_logger();
-    ApplicationManager app_manager;
-    auto app = app_manager.create_host_application(TESTER_APP_PATH);
+    quite::manager::ProcessManager process_manager{quite::asio_context()};
+    quite::client::ProbeManager probe_manager;
+    auto [process] = stdexec::sync_wait(process_manager.launch_application({"tester"}, TESTER_APP_PATH)).value();
+    auto app = probe_manager.connect(*process, "");
     stdexec::sync_wait(app->wait_for_started(std::chrono::seconds{5}));
 
     const ObjectQuery btn_query{.properties = {{"objectName", entt::forward_as_meta(std::string{"helloBtn"})}}};

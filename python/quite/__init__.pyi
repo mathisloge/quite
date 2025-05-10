@@ -1,14 +1,23 @@
 from ._quite import (
-    Application as Application,
+    IExpectBuilder as IExpectBuilder,
 )
 from ._quite import (
-    ApplicationManager as ApplicationManager,
+    Image as Image,
+)
+from ._quite import (
+    ImageView as ImageView,
 )
 from ._quite import (
     ObjectQuery as ObjectQuery,
 )
 from ._quite import (
     ObjectQueryBuilder as ObjectQueryBuilder,
+)
+from ._quite import (
+    Probe as Probe,
+)
+from ._quite import (
+    ProbeManager as ProbeManager,
 )
 from ._quite import (
     Property as Property,
@@ -25,15 +34,22 @@ from ._quite import (
 from ._quite import (
     __version_git_ref__ as __version_git_ref__,
 )
+from ._quite import (
+    expect as expect,
+)
 
 __all__ = [
-    "Application",
-    "ApplicationManager",
+    "IExpectBuilder",
+    "Image",
+    "ImageView",
     "ObjectQuery",
     "ObjectQueryBuilder",
+    "Probe",
+    "ProbeManager",
     "Property",
     "RemoteObject",
     "__doc__",
     "__version__",
     "__version_git_ref__",
+    "expect",
 ]

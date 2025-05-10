@@ -27,7 +27,7 @@ AsyncResult<void> ProbeClientImpl::wait_for_connected(std::chrono::seconds timeo
         co_return {};
     }
 
-    Result<void> return_result = make_error_result<void>(ErrorCode::unknown, "not initialized");
+    Result<void> return_result = make_error_result(ErrorCode::unknown, "not initialized");
     boost::asio::steady_timer timer{entt::locator<asio2exec::asio_context>::value().get_executor(), timeout};
     co_await exec::when_any(
         agrpc::notify_on_state_change(*grpc_context_,
@@ -48,8 +48,8 @@ AsyncResult<void> ProbeClientImpl::wait_for_connected(std::chrono::seconds timeo
                 }
                 if (state == grpc_connectivity_state::GRPC_CHANNEL_SHUTDOWN)
                 {
-                    return_result = make_error_result<void>(ErrorCode::cancelled,
-                                                            "Channel had an unrecoverable error or was shutdown.");
+                    return_result =
+                        make_error_result(ErrorCode::cancelled, "Channel had an unrecoverable error or was shutdown.");
                     return true;
                 }
                 return false;
@@ -57,8 +57,7 @@ AsyncResult<void> ProbeClientImpl::wait_for_connected(std::chrono::seconds timeo
             exec::repeat_effect_until(),
         timer.async_wait(asio2exec::use_sender) | stdexec::then([&return_result](std::error_code) {
             LOG_DEBUG(probe_client(), "timeout");
-            return_result =
-                make_error_result<void>(ErrorCode::deadline_exceeded, "Could not get connection state in time");
+            return_result = make_error_result(ErrorCode::deadline_exceeded, "Could not get connection state in time");
         }));
     co_return return_result;
 }

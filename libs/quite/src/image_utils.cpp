@@ -12,22 +12,22 @@ constexpr bool is_pixel_data(const PixelData data)
 
 constexpr auto rgb2y(uint8_t r, uint8_t g, uint8_t b)
 {
-    return r * 0.29889531 + g * 0.58662247 + b * 0.11448223;
+    return (r * 0.29889531) + (g * 0.58662247) + (b * 0.11448223);
 }
 
 constexpr auto rgb2i(uint8_t r, uint8_t g, uint8_t b)
 {
-    return r * 0.59597799 - g * 0.27417610 - b * 0.32180189;
+    return (r * 0.59597799) - (g * 0.27417610) - (b * 0.32180189);
 }
 
 constexpr auto rgb2q(uint8_t r, uint8_t g, uint8_t b)
 {
-    return r * 0.21147017 - g * 0.52261711 + b * 0.31114694;
+    return (r * 0.21147017) - (g * 0.52261711) + (b * 0.31114694);
 }
 
 constexpr uint8_t blend(double c, double a)
 {
-    return static_cast<uint8_t>(255 + (c - 255) * a);
+    return static_cast<uint8_t>(255 + ((c - 255) * a));
 }
 
 constexpr void draw_pixel(PixelData output, size_t pos, uint8_t r, uint8_t g, uint8_t b)
@@ -92,7 +92,7 @@ constexpr double color_delta(const PixelData img1, const PixelData img2, int k, 
     const auto i = rgb2i(r1, g1, b1) - rgb2i(r2, g2, b2);
     const auto q = rgb2q(r1, g1, b1) - rgb2q(r2, g2, b2);
 
-    const auto delta = 0.5053 * y * y + 0.299 * i * i + 0.1957 * q * q;
+    const auto delta = (0.5053 * y * y) + (0.299 * i * i) + (0.1957 * q * q);
     return y1 > y2 ? -delta : delta;
 }
 
@@ -190,45 +190,48 @@ constexpr bool antialiased(const PixelData img, int x1, int y1, int width, int h
 
 } // namespace
 
-Result<int> pixel_match(const ImageView &expected_img,
-                        const ImageView &actual_img,
-                        const PixelCompareOptions &options,
-                        Image &output_image)
+Result<ImageCompareResult> pixel_match(const ImageView &expected_img,
+                                       const ImageView &actual_img,
+                                       const PixelCompareOptions &options)
 {
     std::vector<std::byte> out_image_data{
         static_cast<size_t>(actual_img.width * actual_img.height * actual_img.channels)};
-    output_image = Image{std::move(out_image_data), actual_img.width, actual_img.height, actual_img.channels};
+
+    ImageCompareResult result{
+        .diff_image = Image{std::move(out_image_data), actual_img.width, actual_img.height, actual_img.channels},
+    };
+    auto &output_image = result.diff_image;
 
     if (!is_pixel_data(expected_img.data) || !is_pixel_data(actual_img.data) ||
         (!is_pixel_data(output_image.data().data)))
     {
-        return make_error_result<int>(ErrorCode::failed_precondition, "Some image is empty");
+        return make_error_result(ErrorCode::failed_precondition, "Some image is empty");
     }
 
     if (expected_img.data.size() != actual_img.data.size())
     {
-        return make_error_result<int>(ErrorCode::failed_precondition, "Image sizes do not match.");
+        return make_error_result(ErrorCode::failed_precondition, "Image sizes do not match.");
     }
 
     // check if images are identical
     const bool identical = std::equal(expected_img.data.cbegin(), expected_img.data.cend(), actual_img.data.cbegin());
     if (identical)
     {
-        if (!options.diffMask)
+        if (!options.diff_mask)
         {
             for (size_t i = 0; i < (static_cast<size_t>(actual_img.width * actual_img.height)); i++)
             {
                 draw_gray_pixel(actual_img.data, actual_img.channels * i, options.alpha, output_image.data().data);
             }
         }
-        return 0;
+        return result;
     }
 
     double maxDelta = 35215 * options.threshold * options.threshold;
-    auto &&aaColor = options.aaColor;
-    auto &&diffColor = options.diffColor;
-    auto &&diffColorAlt = options.diffColorAlt.has_value() ? options.diffColor : *options.diffColorAlt;
-    int diff = 0;
+    auto &&aaColor = options.anti_aliased_color;
+    auto &&diffColor = options.diff_color;
+    auto &&diffColorAlt = options.diff_color_alt.has_value() ? *options.diff_color_alt : options.diff_color;
+    int &diff = result.diff;
 
     for (int y = 0; y < actual_img.height; y++)
     {
@@ -238,11 +241,11 @@ Result<int> pixel_match(const ImageView &expected_img,
             const double delta = color_delta(expected_img.data, actual_img.data, pos, pos);
             if (std::abs(delta) > maxDelta)
             {
-                if (!options.includeAA &&
+                if (!options.skip_anti_aliasing &&
                     (antialiased(expected_img.data, x, y, expected_img.width, expected_img.height, actual_img.data) ||
                      antialiased(actual_img.data, x, y, expected_img.width, expected_img.height, expected_img.data)))
                 {
-                    if (!options.diffMask)
+                    if (!options.diff_mask)
                     {
                         draw_pixel(output_image.data().data, pos, aaColor[0], aaColor[1], aaColor[2]);
                     }
@@ -260,13 +263,13 @@ Result<int> pixel_match(const ImageView &expected_img,
                     diff++;
                 }
             }
-            else if (!options.diffMask)
+            else if (!options.diff_mask)
             {
                 draw_gray_pixel(expected_img.data, pos, options.alpha, output_image.data().data);
             }
         }
     }
-    return diff;
+    return result;
 }
 
 } // namespace quite

@@ -64,7 +64,7 @@ TEST_CASE("Test ProbeHandler")
     {
         bool do_spin{true};
         exec::async_scope scope;
-        auto snd = stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+        auto snd = stdexec::schedule(qthread_as_scheduler(QCoreApplication::instance()->thread())) |
                    stdexec::let_value([&]() { return probe_handler.fetch_properties(test_obj_id, {}); }) |
                    stdexec::then([&test_obj](auto &&result) {
                        REQUIRE(result.has_value());
@@ -86,7 +86,7 @@ TEST_CASE("Test ProbeHandler")
         bool do_spin{true};
         exec::async_scope scope;
         const std::vector<std::string> filter{"color"};
-        auto snd = stdexec::schedule(QtStdExec::qThreadAsScheduler(QCoreApplication::instance()->thread())) |
+        auto snd = stdexec::schedule(qthread_as_scheduler(QCoreApplication::instance()->thread())) |
                    stdexec::let_value([&]() { return probe_handler.fetch_properties(test_obj_id, filter); }) |
                    stdexec::then([&test_obj](auto &&result) {
                        REQUIRE(result.has_value());

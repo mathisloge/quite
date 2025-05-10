@@ -17,7 +17,7 @@ exec::task<void> SnapshotRpcHandler::operator()(RpcSnapshot &rpc, const RpcSnaps
         co_await rpc.finish(result2grpc_status(result.error()));
         co_return;
     }
-    constexpr std::int64_t k4Mb = 4000000;
+    constexpr std::int64_t k4Mb = 4'000'000;
     auto &image = *result;
     RpcSnapshot::Response response;
     response.mutable_metadata()->set_width(image.width);

@@ -1,4 +1,5 @@
 #include "quite/image.hpp"
+#include <algorithm>
 #include <utility>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
@@ -52,6 +53,25 @@ Image::Image(Image &&other) noexcept
 Image &Image::operator=(Image &&other) noexcept
 {
     impl_ = std::exchange(other.impl_, nullptr);
+    return *this;
+}
+
+Image::Image(const Image &other)
+    : Image{}
+{
+    *this = other;
+}
+
+Image &Image::operator=(const Image &other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+    std::ranges::copy(other.impl_->image_data_, std::back_inserter(impl_->image_data_));
+    this->impl_->channels_ = other.impl_->channels_;
+    this->impl_->width_ = other.impl_->width_;
+    this->impl_->height_ = other.impl_->height_;
     return *this;
 }
 

@@ -1,0 +1,44 @@
+site_name: quite
+site_url: https://github.com/mathisloge/ng-quite
+site_author: Mathis Logemann
+
+repo_name: mathisloge/ng-quite
+repo_url: https://github.com/mathisloge/ng-quite
+
+copyright: Copyright &copy; 2024 - 2025 Mathis Logemann
+
+theme:
+  name: material
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - navigation.footer
+    - navigation.top
+    - navigation.tabs
+    - navigation.tracking
+    - navigation.instant
+    - navigation.instant.progress
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+
+site_dir: ../build/public
+
+
+plugins:
+  - search
+  - blog
+  - privacy:
+      enabled: !ENV [CI, false]
+  - mkdoxy:
+      projects:
+        quite:
+          src-dirs: libs
+          full-doc: True
+          doxy-cfg: # standard doxygen configuration (key: value)
+            FILE_PATTERNS: "*.cpp *.h*" # specify file patterns to filter out
+            RECURSIVE: True # recursive search in source directories
