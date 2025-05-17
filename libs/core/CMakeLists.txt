@@ -1,4 +1,4 @@
-add_library(quite_core SHARED)
+add_library(quite_core)
 add_library(quite::core ALIAS quite_core)
 
 target_compile_definitions(quite_core PUBLIC ASIO_TO_EXEC_USE_BOOST)
