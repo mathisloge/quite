@@ -23,7 +23,6 @@
             "name": "fetch-dependencies",
             "hidden": true,
             "cacheVariables": {
-                "CMAKE_PROJECT_TOP_LEVEL_INCLUDES": "${sourceDir}/cmake/DependencyProvider.cmake",
                 "QUITE_FETCH_DEPENDENCIES": true
             }
         },

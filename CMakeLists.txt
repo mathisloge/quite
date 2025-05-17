@@ -49,12 +49,11 @@ CPMAddPackage(URI "gh:NVIDIA/stdexec#dc8f1688bad95eff99699c775251ee47e82bd4f1" O
 CPMAddPackage("gh:Tradias/asio-grpc@3.4.3")
 CPMAddPackage("gh:nlohmann/json@3.12.0")
 CPMAddPackage("gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5")
+set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${stb_SOURCE_DIR}>")
 CPMAddPackage("gh:pybind/pybind11#c630e22c1cb90251ac5316e508dde38545a4bdd2")
 if(BUILD_TESTING)
     CPMAddPackage("gh:catchorg/Catch2@3.8.1")
 endif()
-
-find_package(Stb REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 if(BUILD_TESTING)
