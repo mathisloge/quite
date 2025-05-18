@@ -1,3 +1,4 @@
+set(QUITE_USES_BOOST ON)
 add_library(quite_core)
 add_library(quite::core ALIAS quite_core)
 
@@ -13,6 +14,10 @@ generate_export_header(quite_core EXPORT_FILE_NAME quite/quite_core_export.hpp)
 configure_file (
     "${CMAKE_CURRENT_SOURCE_DIR}/version.hpp.in"
     "${CMAKE_CURRENT_BINARY_DIR}/quite/version.hpp"
+)
+configure_file (
+    "${CMAKE_CURRENT_SOURCE_DIR}/asio_config.hpp.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/quite/asio_config.hpp"
 )
 
 target_link_libraries(quite_core PUBLIC
@@ -31,13 +36,13 @@ target_sources(quite_core
             TYPE HEADERS
             BASE_DIRS include
             FILES
-                include/quite/asio2exec.hpp
                 include/quite/async_result.hpp
                 include/quite/error.hpp
                 include/quite/result.hpp
                 include/quite/setup_logger.hpp
                 include/quite/logger.hpp
                 include/quite/image.hpp
+                include/quite/asio_context.hpp
                 include/quite/meta_any_formatter.hpp
                 include/quite/meta/meta_registry.hpp
                 include/quite/meta/meta_types.hpp
@@ -53,11 +58,13 @@ target_sources(quite_core
             FILES
                 ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_core_export.hpp
                 ${CMAKE_CURRENT_BINARY_DIR}/quite/version.hpp
+                ${CMAKE_CURRENT_BINARY_DIR}/quite/asio_config.hpp
     PRIVATE
         src/error.cpp
         src/meta/meta_types.cpp
         src/logger.cpp
         src/image.cpp
+        src/asio_context.cpp
         src/value/value_registry.cpp
         src/value/object_query.cpp
 )

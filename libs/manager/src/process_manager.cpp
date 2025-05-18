@@ -14,12 +14,12 @@ namespace quite::manager
 {
 struct ProcessManager::Impl
 {
-    asio2exec::asio_context &context_;
+    quite::asio_impl::any_io_executor executor_;
     std::unordered_map<std::string, std::shared_ptr<Process>> applications_;
 };
 
-ProcessManager::ProcessManager(asio2exec::asio_context &context)
-    : impl_{std::make_unique<Impl>(context)}
+ProcessManager::ProcessManager(const quite::asio_impl::any_io_executor &executor)
+    : impl_{std::make_unique<Impl>(executor)}
 {}
 
 ProcessManager::~ProcessManager() = default;
@@ -42,8 +42,7 @@ AsyncResult<ProcessHandle> ProcessManager::launch_application(ProcessId id,
 {
     try
     {
-        bp::process process{
-            impl_->context_.get_executor(), path_to_application, args, bp::process_environment{environment}};
+        bp::process process{impl_->executor_, path_to_application, args, bp::process_environment{environment}};
         auto [app, emplaced] = impl_->applications_.insert_or_assign(std::move(id.name),
                                                                      std::make_shared<ProcessImpl>(std::move(process)));
         if (not emplaced)

@@ -1,8 +1,10 @@
 #include "quite/test/probe.hpp"
 #include <boost/asio/steady_timer.hpp>
+#include <asioexec/use_sender.hpp>
 #include <exec/repeat_effect_until.hpp>
 #include <exec/task.hpp>
 #include <exec/when_any.hpp>
+#include <quite/asio_context.hpp>
 #include <quite/quite.hpp>
 #include <quite/remote_object.hpp>
 #include <quite/value/object_query.hpp>
@@ -47,9 +49,9 @@ RemoteObject Probe::try_find_object(std::shared_ptr<ObjectQuery> query, std::chr
         }) |
         exec::repeat_effect_until();
 
-    boost::asio::steady_timer timer{asio_context().get_executor(), timeout};
+    boost::asio::steady_timer timer{get_executor(), timeout};
     stdexec::sender auto timeout_snd =
-        timer.async_wait(asio2exec::use_sender) | stdexec::then([&found_object](auto &&ec) {
+        timer.async_wait(asioexec::use_sender) | stdexec::then([&found_object](auto &&...) {
             found_object = quite::make_error_result(ErrorCode::deadline_exceeded, "Could not find object in time.");
         });
     stdexec::sender auto wait_snd = exec::when_any(std::move(find_obj_snd), std::move(timeout_snd));

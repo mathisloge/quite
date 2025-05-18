@@ -1,7 +1,7 @@
 #pragma once
 #include <filesystem>
 #include <vector>
-#include <quite/asio2exec.hpp>
+#include <quite/asio_config.hpp>
 #include <quite/disable_copy_move.hpp>
 #include <quite/result.hpp>
 #include "basic_process_manager.hpp"
@@ -15,7 +15,7 @@ class QUITE_MANAGER_EXPORT ProcessManager : public BasicProcessManager
   public:
     QUITE_DISABLE_COPY(ProcessManager);
     QUITE_DEFAULT_MOVE(ProcessManager);
-    explicit ProcessManager(asio2exec::asio_context &context);
+    explicit ProcessManager(const asio_impl::any_io_executor &executor);
     ~ProcessManager() override;
 
     /**
