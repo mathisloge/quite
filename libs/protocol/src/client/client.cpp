@@ -10,12 +10,10 @@ struct Client::Impl
     GrpcManager grpc_;
 };
 
-Client::Client(entt::locator<ValueRegistry>::node_type value_registry,
-               entt::locator<asio2exec::asio_context>::node_type io_context)
+Client::Client(entt::locator<ValueRegistry>::node_type value_registry)
     : impl_{std::make_unique<Impl>()}
 {
     entt::locator<ValueRegistry>::reset(std::move(value_registry));
-    entt::locator<asio2exec::asio_context>::reset(std::move(io_context));
 }
 
 Client::~Client() = default;

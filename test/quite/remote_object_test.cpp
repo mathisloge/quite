@@ -7,7 +7,7 @@
 #include <quite/setup_logger.hpp>
 #include <quite/testing/verification_point.hpp>
 #include "async_test_helper.hpp"
-#include "quite/quite.hpp"
+#include "quite/asio_context.hpp"
 #include "tester_app.hpp"
 
 using namespace quite;
@@ -17,7 +17,7 @@ DEFINE_LOGGER(test);
 TEST_CASE("Remote object can be invoked")
 {
     setup_logger();
-    quite::manager::ProcessManager process_manager{quite::asio_context()};
+    quite::manager::ProcessManager process_manager{get_executor()};
     quite::client::ProbeManager probe_manager;
     auto [process] = stdexec::sync_wait(process_manager.launch_application({"tester"}, TESTER_APP_PATH)).value();
     auto app = probe_manager.connect(*process, "");

@@ -2,9 +2,9 @@
 #include <boost/asio/steady_timer.hpp>
 #include <asioexec/use_sender.hpp>
 #include <exec/when_any.hpp>
+#include <quite/asio_context.hpp>
 #include <quite/logger.hpp>
 #include <quite/manager/process.hpp>
-#include "quite/quite.hpp"
 
 DEFINE_LOGGER(basic_probe)
 namespace quite::client
@@ -20,7 +20,7 @@ AsyncResult<void> BasicProbe::exit()
         co_return {};
     }
     LOG_DEBUG(basic_probe(), "Process still running. Trying to gracefully stop it.");
-    boost::asio::steady_timer timer{quite::asio_context().executor(), std::chrono::seconds(3)};
+    boost::asio::steady_timer timer{get_executor(), std::chrono::seconds(3)};
     boost::system::error_code ec;
     std::ignore = process_.instance().request_exit();
 
@@ -31,8 +31,8 @@ AsyncResult<void> BasicProbe::exit()
                                        "Could not stop process gracefully. Going to terminate the process.");
                            return process_.instance().terminate().transform([]() -> int { return EXIT_FAILURE; });
                        })) |
-        stdexec::upon_error([](auto &&ec) -> Result<int> {
-            LOG_ERROR(basic_probe(), "Could not wait for timer. Error: {}", ec.message());
+        stdexec::upon_error([]([[maybe_unused]] std::exception_ptr &&ec) -> Result<int> {
+            LOG_ERROR(basic_probe(), "Could not wait for timer.");
             return EXIT_FAILURE;
         }));
 
