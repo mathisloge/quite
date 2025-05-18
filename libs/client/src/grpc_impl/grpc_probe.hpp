@@ -4,7 +4,7 @@
 #include <quite/proto/client/probe_client.hpp>
 #include "basic_probe.hpp"
 #include "grpc_value.hpp"
-#include "quite/remote_object.hpp"
+#include "quite/client/remote_object.hpp"
 namespace quite::client
 {
 class GrpcProbe : public BasicProbe

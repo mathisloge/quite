@@ -1,4 +1,4 @@
-#include "quite/probe_manager.hpp"
+#include "quite/client/probe_manager.hpp"
 #include "context.hpp"
 #include "grpc_impl/grpc_probe.hpp"
 

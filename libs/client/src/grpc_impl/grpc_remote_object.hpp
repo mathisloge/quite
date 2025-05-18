@@ -1,5 +1,5 @@
 #pragma once
-#include <quite/remote_object.hpp>
+#include <quite/client/remote_object.hpp>
 #include <quite/value/object_id.hpp>
 #include "quite/proto/client/probe_client.hpp"
 

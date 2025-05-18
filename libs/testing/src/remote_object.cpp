@@ -1,11 +1,12 @@
 #include "quite/test/remote_object.hpp"
-#include <quite/remote_object.hpp>
+#include <quite/client/remote_object.hpp>
+#include "quite/test/property.hpp"
 #include "throw_unexpected.hpp"
 
 namespace quite::test
 {
 
-RemoteObject::RemoteObject(std::shared_ptr<quite::RemoteObject> object)
+RemoteObject::RemoteObject(std::shared_ptr<client::RemoteObject> object)
     : object_{std::move(object)}
 {}
 
@@ -35,7 +36,7 @@ Property RemoteObject::property(std::string name)
     return Property{std::move(result.value())};
 }
 
-std::shared_ptr<quite::RemoteObject> RemoteObject::underlying_object()
+std::shared_ptr<client::RemoteObject> RemoteObject::underlying_object()
 {
     return object_;
 }

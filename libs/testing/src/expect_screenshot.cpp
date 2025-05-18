@@ -1,5 +1,5 @@
 #include "expect_screenshot.hpp"
-#include <quite/testing/verification_point.hpp>
+#include <quite/client/testing/verification_point.hpp>
 #include "throw_unexpected.hpp"
 
 namespace quite::test

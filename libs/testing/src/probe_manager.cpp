@@ -1,7 +1,7 @@
 #include "quite/test/probe_manager.hpp"
 #include <quite/asio_context.hpp>
+#include <quite/client/probe_manager.hpp>
 #include <quite/manager/process_manager.hpp>
-#include <quite/probe_manager.hpp>
 #include <quite/setup_logger.hpp>
 #include "quite/test/probe.hpp"
 

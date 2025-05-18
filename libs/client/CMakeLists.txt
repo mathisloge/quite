@@ -21,15 +21,14 @@ target_sources(quite_client
             TYPE HEADERS
             BASE_DIRS include
             FILES
-                include/quite/testing/verification_point.hpp
-                include/quite/utils/dump_properties.hpp
-                include/quite/probe.hpp
-                include/quite/probe_handle.hpp
-                include/quite/probe_manager.hpp
-                include/quite/image_utils.hpp
-                include/quite/property.hpp
-                include/quite/quite.hpp
-                include/quite/remote_object.hpp
+                include/quite/client/testing/verification_point.hpp
+                include/quite/client/utils/dump_properties.hpp
+                include/quite/client/probe.hpp
+                include/quite/client/probe_handle.hpp
+                include/quite/client/probe_manager.hpp
+                include/quite/client/property.hpp
+                include/quite/client/quite.hpp
+                include/quite/client/remote_object.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
@@ -45,7 +44,6 @@ target_sources(quite_client
         src/context.cpp
         src/context.hpp
         src/remote_object.cpp
-        src/image_utils.cpp
 )
 
 target_link_libraries(quite_client PRIVATE

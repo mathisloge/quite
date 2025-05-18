@@ -1,7 +1,7 @@
 add_subdirectory(core)
 add_subdirectory(manager)
 add_subdirectory(protocol)
-add_subdirectory(quite)
+add_subdirectory(client)
 add_subdirectory(testing)
 if(QUITE_BUILD_PROBES)
     add_subdirectory(probeqt)

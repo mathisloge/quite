@@ -1,5 +1,5 @@
-#include <quite/remote_object.hpp>
-namespace quite
+#include <quite/client/remote_object.hpp>
+namespace quite::client
 {
 RemoteObject::RemoteObject(ObjectId id)
     : id_{id}
@@ -11,4 +11,4 @@ ObjectId RemoteObject::id() const noexcept
 {
     return id_;
 }
-} // namespace quite
+} // namespace quite::client
