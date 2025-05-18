@@ -1,4 +1,5 @@
 #include "context.hpp"
+#include <execpools/asio/asio_thread_pool.hpp>
 #include <quite/value/value_registry.hpp>
 
 namespace quite
@@ -6,9 +7,8 @@ namespace quite
 
 Context::Context()
 {
-    auto &asio_context = entt::locator<asio2exec::asio_context>::emplace();
+    auto &asio_context = entt::locator<execpools::asio_thread_pool>::emplace(2);
     entt::locator<ValueRegistry>::emplace();
-    asio_context.start();
     client_ = std::make_unique<proto::Client>(entt::locator<ValueRegistry>::handle(),
                                               entt::locator<asio2exec::asio_context>::handle());
 }
@@ -23,9 +23,9 @@ proto::Client &Context::backend_client()
     return *client_;
 }
 
-asio2exec::asio_context &Context::asio_context()
+execpools::asio_thread_pool &Context::asio_context()
 {
-    return entt::locator<asio2exec::asio_context>::value();
+    return entt::locator<execpools::asio_thread_pool>::value();
 }
 
 Context &Context::Instance()
