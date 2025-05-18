@@ -1,8 +1,8 @@
 #pragma once
 #include <chrono>
 #include <memory>
+#include <quite/client/probe_handle.hpp>
 #include <quite/disable_copy_move.hpp>
-#include <quite/probe_handle.hpp>
 #include "quite/quite_test_export.hpp"
 #include "remote_object.hpp"
 

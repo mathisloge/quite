@@ -42,6 +42,7 @@ target_sources(quite_core
                 include/quite/setup_logger.hpp
                 include/quite/logger.hpp
                 include/quite/image.hpp
+                include/quite/image_utils.hpp
                 include/quite/asio_context.hpp
                 include/quite/meta_any_formatter.hpp
                 include/quite/meta/meta_registry.hpp
@@ -64,6 +65,7 @@ target_sources(quite_core
         src/meta/meta_types.cpp
         src/logger.cpp
         src/image.cpp
+        src/image_utils.cpp
         src/asio_context.cpp
         src/value/value_registry.cpp
         src/value/object_query.cpp

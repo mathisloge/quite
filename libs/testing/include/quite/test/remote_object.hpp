@@ -6,14 +6,17 @@
 
 namespace quite
 {
+namespace client
+{
 class RemoteObject;
+}
 
 namespace test
 {
 class QUITE_TEST_EXPORT RemoteObject
 {
   public:
-    explicit RemoteObject(std::shared_ptr<quite::RemoteObject> object);
+    explicit RemoteObject(std::shared_ptr<client::RemoteObject> object);
 
     void mouse_action();
     void invoke_method(std::string method_name);
@@ -22,10 +25,10 @@ class QUITE_TEST_EXPORT RemoteObject
 
     [[nodiscard]] bool operator==(const RemoteObject &rhs) const;
 
-    std::shared_ptr<quite::RemoteObject> underlying_object();
+    std::shared_ptr<client::RemoteObject> underlying_object();
 
   private:
-    std::shared_ptr<quite::RemoteObject> object_;
+    std::shared_ptr<client::RemoteObject> object_;
 };
 } // namespace test
 } // namespace quite

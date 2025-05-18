@@ -1,4 +1,4 @@
-#include "quite/utils/dump_properties.hpp"
+#include "quite/client/utils/dump_properties.hpp"
 #include <unordered_set>
 #include <nlohmann/json.hpp>
 #include <quite/meta_any_formatter.hpp>
@@ -32,6 +32,8 @@ void to_json(json &j, const GenericClass &v)
 {
     j = json{v.properties};
 }
+namespace client
+{
 namespace
 {
 
@@ -86,4 +88,5 @@ AsyncResult<nlohmann::json> dump_properties(RemoteObjectPtr remote_object, std::
     std::unordered_set<ObjectId> objects;
     co_return co_await dump_properties(objects, std::move(remote_object), std::move(properties));
 }
+} // namespace client
 } // namespace quite

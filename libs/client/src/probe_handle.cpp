@@ -1,4 +1,4 @@
-#include "quite/probe_handle.hpp"
+#include "quite/client/probe_handle.hpp"
 
 namespace quite::client
 {

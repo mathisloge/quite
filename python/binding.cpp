@@ -2,7 +2,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
-#include <quite/property.hpp>
+#include <quite/client/property.hpp>
 #include <quite/test/expect.hpp>
 #include <quite/test/object_query_builder.hpp>
 #include <quite/test/probe.hpp>

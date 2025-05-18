@@ -5,10 +5,10 @@
 #include <exec/task.hpp>
 #include <exec/when_any.hpp>
 #include <quite/asio_context.hpp>
-#include <quite/quite.hpp>
-#include <quite/remote_object.hpp>
+#include <quite/client/quite.hpp>
+#include <quite/client/remote_object.hpp>
 #include <quite/value/object_query.hpp>
-#include "quite/probe.hpp"
+#include "quite/client/probe.hpp"
 #include "throw_unexpected.hpp"
 
 namespace quite::test
@@ -38,10 +38,10 @@ RemoteObject Probe::find_object(std::shared_ptr<ObjectQuery> query)
 
 RemoteObject Probe::try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout)
 {
-    Result<RemoteObjectPtr> found_object;
+    Result<client::RemoteObjectPtr> found_object;
     stdexec::sender auto find_obj_snd =
         stdexec::when_all(stdexec::just(handle_), stdexec::just(std::move(query))) |
-        stdexec::continues_on(asio_context().get_scheduler()) |
+        stdexec::continues_on(client::asio_context().get_scheduler()) |
         stdexec::let_value([](auto handle, auto query) { return handle->find_object(*query); }) |
         stdexec::then([&found_object](auto &&result) {
             found_object = std::forward<decltype(result)>(result);

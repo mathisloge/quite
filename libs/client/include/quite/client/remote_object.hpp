@@ -5,7 +5,7 @@
 #include "property.hpp"
 #include "quite/image.hpp"
 #include "quite/quite_client_export.hpp"
-namespace quite
+namespace quite::client
 {
 
 using ObjectId = std::uint64_t;
@@ -35,4 +35,4 @@ class QUITE_CLIENT_EXPORT RemoteObject
     const ObjectId id_;
 };
 using RemoteObjectPtr = std::shared_ptr<RemoteObject>;
-} // namespace quite
+} // namespace quite::client

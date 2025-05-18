@@ -1,6 +1,6 @@
 #pragma once
 #include <quite/manager/process_handle.hpp>
-#include "quite/probe.hpp"
+#include "quite/client/probe.hpp"
 namespace quite::client
 {
 class BasicProbe : public Probe

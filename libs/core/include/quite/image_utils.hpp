@@ -1,8 +1,8 @@
 #pragma once
 #include <optional>
-#include <quite/image.hpp>
-#include <quite/result.hpp>
-#include "quite/quite_client_export.hpp"
+#include "quite/image.hpp"
+#include "quite/quite_core_export.hpp"
+#include "quite/result.hpp"
 
 namespace quite
 {
@@ -25,7 +25,7 @@ struct ImageCompareResult
     Image diff_image;
 };
 
-QUITE_CLIENT_EXPORT Result<ImageCompareResult> pixel_match(const ImageView &expected_img,
-                                                           const ImageView &actual_img,
-                                                           const PixelCompareOptions &options = {});
+QUITE_CORE_EXPORT Result<ImageCompareResult> pixel_match(const ImageView &expected_img,
+                                                         const ImageView &actual_img,
+                                                         const PixelCompareOptions &options = {});
 } // namespace quite

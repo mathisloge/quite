@@ -2,8 +2,9 @@
 #include <quite/disable_copy_move.hpp>
 #include <quite/meta/meta_type_id.hpp>
 #include <quite/meta/meta_types.hpp>
-#include <quite/property.hpp>
 #include "grpc_remote_object.hpp"
+#include "quite/client/property.hpp"
+
 namespace quite::client
 {
 class GrpcProperty final : public Property

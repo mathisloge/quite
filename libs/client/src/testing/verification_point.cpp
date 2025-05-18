@@ -1,9 +1,9 @@
-#include "quite/testing/verification_point.hpp"
+#include "quite/client/testing/verification_point.hpp"
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <quite/image_utils.hpp>
 #include <quite/logger.hpp>
-#include "quite/utils/dump_properties.hpp"
+#include "quite/client/utils/dump_properties.hpp"
 
 DEFINE_LOGGER(vp_logger)
 namespace fstd = std::filesystem;
@@ -16,7 +16,7 @@ bool has_verification_point(const std::string &name)
            fstd::exists(fstd::path(name).replace_extension(".json"));
 }
 
-AsyncResult<void> create_verification_point(RemoteObjectPtr object, const std::string &name)
+AsyncResult<void> create_verification_point(client::RemoteObjectPtr object, const std::string &name)
 {
     const auto snapshot = co_await object->take_snapshot();
     if (not snapshot.has_value())
@@ -36,7 +36,7 @@ AsyncResult<void> create_verification_point(RemoteObjectPtr object, const std::s
     co_return {};
 }
 
-AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::string &name)
+AsyncResult<bool> verify_verification_point(client::RemoteObjectPtr object, const std::string &name)
 {
     bool verified = true;
     const auto snapshot = co_await object->take_snapshot();
