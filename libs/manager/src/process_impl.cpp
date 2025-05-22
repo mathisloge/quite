@@ -1,5 +1,5 @@
 #include "process_impl.hpp"
-#include <quite/asio2exec.hpp>
+#include <asioexec/use_sender.hpp>
 
 using boost::system::error_code;
 namespace quite::manager
@@ -21,12 +21,8 @@ int ProcessImpl::exit_code()
 
 AsyncResult<int> ProcessImpl::async_wait_exit()
 {
-    auto [ec, code] = co_await process_.async_wait(asio2exec::use_sender);
-    if (ec)
-    {
-        co_return make_error_result(ErrorCode::aborted, ec.message());
-    }
-    co_return exit_code();
+    auto exit_code = co_await process_.async_wait(asioexec::use_sender);
+    co_return exit_code;
 }
 
 Result<void> ProcessImpl::request_exit()

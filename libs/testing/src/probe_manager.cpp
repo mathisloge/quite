@@ -1,14 +1,14 @@
 #include "quite/test/probe_manager.hpp"
+#include <quite/asio_context.hpp>
 #include <quite/manager/process_manager.hpp>
 #include <quite/probe_manager.hpp>
-#include <quite/quite.hpp>
 #include <quite/setup_logger.hpp>
 #include "quite/test/probe.hpp"
 
 namespace quite::test
 {
 ProbeManager::ProbeManager()
-    : local_{std::make_unique<manager::ProcessManager>(quite::asio_context())}
+    : local_{std::make_unique<manager::ProcessManager>(quite::get_executor())}
     , probe_{std::make_unique<client::ProbeManager>()}
 {}
 

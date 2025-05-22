@@ -33,6 +33,7 @@ AsyncResult<void> create_verification_point(RemoteObjectPtr object, const std::s
 
     std::ofstream o{fstd::path(name).replace_extension(".json")};
     o << std::setw(4) << *props << std::endl;
+    co_return {};
 }
 
 AsyncResult<bool> verify_verification_point(RemoteObjectPtr object, const std::string &name)

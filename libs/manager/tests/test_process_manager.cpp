@@ -1,4 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
+#include <quite/asio_context.hpp>
 #include <quite/manager/process.hpp>
 #include <quite/manager/process_manager.hpp>
 #include <quite/setup_logger.hpp>
@@ -9,9 +10,8 @@ using namespace quite::manager;
 TEST_CASE("Test ProcessManager", "[manager]")
 {
     quite::setup_logger();
-    asio2exec::asio_context ctx;
-    ctx.start();
-    ProcessManager manager{ctx};
+    quite::create_asio_context();
+    ProcessManager manager{quite::get_executor()};
 
     SECTION("A non probe process from environment can be launched")
     {

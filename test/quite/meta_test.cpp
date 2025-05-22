@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include <quite/asio2exec.hpp>
+#include <quite/asio_context.hpp>
 #include <quite/logger.hpp>
 #include <quite/manager/process_manager.hpp>
 #include <quite/probe.hpp>
@@ -20,7 +20,7 @@ TEST_CASE("Test the qt build in meta types")
     quite::setup_logger();
 
     ASYNC_BLOCK
-    quite::manager::ProcessManager process_manager{quite::asio_context()};
+    quite::manager::ProcessManager process_manager{quite::get_executor()};
     quite::client::ProbeManager probe_manager;
     auto [process] = stdexec::sync_wait(process_manager.launch_application({"tester"}, TESTER_APP_PATH)).value();
     auto app = probe_manager.connect(*process, "");
