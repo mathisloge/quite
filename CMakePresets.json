@@ -60,9 +60,6 @@
             "cacheVariables": {
                 "BUILD_TESTING": true,
                 "QUITE_INSTALL": false
-            },
-            "environment": {
-                "WAYLAND_DISPLAY": "wl-test-env"
             }
         },
         {

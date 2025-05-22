@@ -6,4 +6,4 @@
 namespace quite::client
 {
 QUITE_CLIENT_EXPORT execpools::asio_thread_pool &asio_context();
-} // namespace quite
+} // namespace quite::client
