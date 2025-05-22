@@ -59,8 +59,15 @@ jobs:
               ninja
           fi
 
-      - name: "Start weston compositor for ui tests"
-        run: RUNNER_TRACKING_ID="" && ./start_weston_headless.sh
+      - name: Start Weston Headless
+        run: |
+          ./start_weston_headless.sh &
+          echo $! > weston.pid
+          sleep 2
 
       - name: Run workflow
         run: cmake --workflow ci
+
+      - name: Stop Weston
+        if: always()
+        run: kill $(cat weston.pid) || true
