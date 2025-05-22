@@ -7,6 +7,7 @@
 #include <quite/setup_logger.hpp>
 #include <stdexec/execution.hpp>
 #include "async_test_helper.hpp"
+#include "quite/asio_context.hpp"
 #include "tester_app.hpp"
 
 using namespace quite;
@@ -18,7 +19,7 @@ DEFINE_LOGGER(test);
 TEST_CASE("A host application is started")
 {
     setup_logger();
-    ProcessManager process_manager{quite::asio_context()};
+    ProcessManager process_manager{get_executor()};
     ProbeManager probe_manager;
     auto [process] = stdexec::sync_wait(process_manager.launch_application({"tester"}, TESTER_APP_PATH)).value();
     auto probe = probe_manager.connect(process.value(), "...");

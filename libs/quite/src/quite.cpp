@@ -3,7 +3,7 @@
 
 namespace quite
 {
-asio2exec::asio_context &asio_context()
+execpools::asio_thread_pool &asio_context()
 {
     return Context::Instance().asio_context();
 }
