@@ -60,6 +60,9 @@
             "cacheVariables": {
                 "BUILD_TESTING": true,
                 "QUITE_INSTALL": false
+            },
+            "environment": {
+                "WAYLAND_DISPLAY": "wl-test-env"
             }
         },
         {
@@ -108,6 +111,9 @@
                 "CMAKE_C_COMPILER": "gcc-13",
                 "CMAKE_CXX_COMPILER": "g++-13",
                 "QUITE_INSTALL": false
+            },
+            "environment": {
+                "WAYLAND_DISPLAY": "wl-test-env"
             }
         }
     ],
@@ -160,6 +166,10 @@
                 },
                 {
                     "type": "build",
+                    "name": "ci"
+                },
+                {
+                    "type": "test",
                     "name": "ci"
                 }
             ]
