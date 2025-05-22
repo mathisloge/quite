@@ -18,8 +18,8 @@ struct ProcessManager::Impl
     std::unordered_map<std::string, std::shared_ptr<Process>> applications_;
 };
 
-ProcessManager::ProcessManager(const quite::asio_impl::any_io_executor &executor)
-    : impl_{std::make_unique<Impl>(executor)}
+ProcessManager::ProcessManager(asio_impl::thread_pool::executor_type executor)
+    : impl_{std::make_unique<Impl>(std::move(executor))}
 {}
 
 ProcessManager::~ProcessManager() = default;
@@ -42,6 +42,20 @@ AsyncResult<ProcessHandle> ProcessManager::launch_application(ProcessId id,
 {
     try
     {
+        LOG_DEBUG(process_manager(), "Trying to launch application {}...", path_to_application);
+        if (not std::filesystem::exists(path_to_application))
+        {
+            LOG_DEBUG(process_manager(), "Could not find application as path. Trying to find it in the environment...");
+            const auto exe_found_in_env = co_await find_executable(path_to_application, environment);
+            if (not exe_found_in_env.has_value())
+            {
+                LOG_ERROR(process_manager(), "Could not find application as path or in the environment.");
+                co_return make_error_result(
+                    ErrorCode::not_found,
+                    fmt::format("Could not find {} as path or in given environment.", path_to_application));
+            }
+        }
+
         bp::process process{impl_->executor_, path_to_application, args, bp::process_environment{environment}};
         auto [app, emplaced] = impl_->applications_.insert_or_assign(std::move(id.name),
                                                                      std::make_shared<ProcessImpl>(std::move(process)));

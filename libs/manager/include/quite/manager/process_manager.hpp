@@ -15,7 +15,7 @@ class QUITE_MANAGER_EXPORT ProcessManager : public BasicProcessManager
   public:
     QUITE_DISABLE_COPY(ProcessManager);
     QUITE_DEFAULT_MOVE(ProcessManager);
-    explicit ProcessManager(const asio_impl::any_io_executor &executor);
+    explicit ProcessManager(asio_impl::thread_pool::executor_type executor);
     ~ProcessManager() override;
 
     /**
