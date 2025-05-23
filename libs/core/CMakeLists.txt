@@ -20,12 +20,13 @@ configure_file (
     "${CMAKE_CURRENT_BINARY_DIR}/quite/asio_config.hpp"
 )
 
-target_link_libraries(quite_core PUBLIC
-    fmt::fmt
-    quill::quill
-    Boost::asio
-    EnTT::EnTT
-    STDEXEC::stdexec
+target_link_libraries(quite_core
+    PUBLIC
+        fmt::fmt
+        quill::quill
+        Boost::asio
+        EnTT::EnTT
+        STDEXEC::stdexec
 )
 
 target_include_directories(quite_core PRIVATE ${Stb_INCLUDE_DIR})
@@ -70,3 +71,5 @@ target_sources(quite_core
         src/value/value_registry.cpp
         src/value/object_query.cpp
 )
+
+add_subdirectory(test)
