@@ -1,3 +1,1 @@
-target_sources(quite_client PRIVATE
-    dump_properties.cpp
-)
+target_sources(quite_client PRIVATE dump_properties.cpp)

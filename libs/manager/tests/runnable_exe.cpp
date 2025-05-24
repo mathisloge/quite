@@ -3,7 +3,7 @@
 
 int main(int argc, char **argv)
 {
-    CLI::App app{"A simple test programm"};
+    CLI::App app{"A simple test program"};
     argv = app.ensure_utf8(argv);
 
     int exit_code{EXIT_SUCCESS};

@@ -19,12 +19,9 @@ qt_add_qml_module(tester
     DEPENDENCIES QtQuick
 )
 
-target_link_libraries(tester PRIVATE
-    Qt6::Core
-    Qt6::Gui
-    Qt6::Qml
-    Qt6::Quick
-    quite::probe
+target_link_libraries(
+    tester
+    PRIVATE Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick quite::probe
 )
 
 file(GENERATE OUTPUT tester_app.hpp INPUT tester_app.in.hpp TARGET tester)

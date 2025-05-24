@@ -32,7 +32,7 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
     {
         auto &&gadget_metaobj = property.metaType().metaObject();
         LOG_DEBUG(property_collector_logger(),
-                  "prop {}={} convertable to QGadget (props={})",
+                  "prop {}={} convertible to QGadget (props={})",
                   property.name(),
                   property.typeName(),
                   gadget_metaobj->propertyCount());
@@ -55,7 +55,7 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
              qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
     {
         LOG_DEBUG(property_collector_logger(),
-                  "prop {}={} convertable to QQmlListReference",
+                  "prop {}={} convertible to QQmlListReference",
                   property.name(),
                   property.typeName());
         const auto size = qml_list.count();
@@ -69,7 +69,7 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
     }
     else
     {
-        LOG_DEBUG(property_collector_logger(), "prop {}={} not convertable", property.name(), property.typeName());
+        LOG_DEBUG(property_collector_logger(), "prop {}={} not convertible", property.name(), property.typeName());
     }
     return {property.name(), std::move(value)};
 }

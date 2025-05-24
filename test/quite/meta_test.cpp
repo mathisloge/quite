@@ -28,7 +28,7 @@ TEST_CASE("Test the qt build in meta types")
     const auto void_type = co_await app->meta_registry().lookup_type(kVoidId);
     if (not void_type.has_value())
     {
-        LOG_ERROR(test(), "Could not aquire type. Failed with {}", void_type.error().message);
+        LOG_ERROR(test(), "Could not acquire type. Failed with {}", void_type.error().message);
     }
 
     REQUIRE(void_type.has_value());

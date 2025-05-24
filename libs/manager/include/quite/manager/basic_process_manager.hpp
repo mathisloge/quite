@@ -31,7 +31,8 @@ class QUITE_MANAGER_EXPORT BasicProcessManager
     virtual AsyncResult<ProcessHandle> application(const ProcessId &name) = 0;
 
     /**
-     * @brief Launches the application but does not preloads any probe. Can be used to start abitrary installed programs
+     * @brief Launches the application but does not preloads any probe. Can be used to start arbitrary installed
+     * programs
      *
      * @param id a user defined id (name) to retrieve a handle later on
      * @param path_to_application
@@ -45,7 +46,7 @@ class QUITE_MANAGER_EXPORT BasicProcessManager
                                                           const Environment &environment) = 0;
 
     /**
-     * @brief Trys to find the given executable in the PATH equivalent enviroment entry.
+     * @brief Tries to find the given executable in the PATH equivalent environment entry.
      *
      * @param exe_name the application name
      * @param environment the environment to search in

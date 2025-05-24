@@ -63,20 +63,20 @@ void ObjectTree::construct_node_from_properties(const ObjectNodePtr &node)
     }
     else if (node->properties.contains(kChildrenKey.data()))
     {
-        auto childs = node->properties.at(kChildrenKey.data());
-        if (not childs->value().has_value())
+        auto children = node->properties.at(kChildrenKey.data());
+        if (not children->value().has_value())
         {
             LOG_ERROR(logic_object_tree(),
                       "property {} does not contain any value. Value error: {}",
-                      childs->name(),
-                      childs->value().error().message);
+                      children->name(),
+                      children->value().error().message);
             return;
         }
 
-        auto &&value = childs->value().value();
+        auto &&value = children->value().value();
         if (not std::holds_alternative<xyz::indirect<ArrayObject>>(value))
         {
-            LOG_ERROR(logic_object_tree(), "property {} does not contain a array value.", childs->name());
+            LOG_ERROR(logic_object_tree(), "property {} does not contain a array value.", children->name());
             return;
         }
 
