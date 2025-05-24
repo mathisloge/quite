@@ -38,7 +38,6 @@ AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
 
 QtProbeHandler::QtProbeHandler(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
-    , method_invoker_{object_tracker}
 {}
 
 AsyncResult<entt::meta_any> QtProbeHandler::object_instance(ObjectId object_id)

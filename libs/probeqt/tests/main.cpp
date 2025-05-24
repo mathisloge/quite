@@ -1,5 +1,5 @@
 #include <QCoreApplication>
-#include <catch2/catch_session.hpp>
+#include <boost/ut.hpp>
 #include <quill/Frontend.h>
 #include <quill/LogMacros.h>
 #include <quill/core/LogLevel.h>
@@ -38,12 +38,10 @@ void quite_message_handler(QtMsgType type, const QMessageLogContext &context, co
 
 int main(int argc, char *argv[])
 {
-    quite::probe::register_converters(entt::locator<quite::ValueRegistry>::emplace());
-    qInstallMessageHandler(quite_message_handler);
     quite::setup_logger();
+    qInstallMessageHandler(quite_message_handler);
+    quite::probe::register_converters(entt::locator<quite::ValueRegistry>::emplace());
     QCoreApplication app{argc, argv};
-
-    const int result = Catch::Session().run(argc, argv);
-
-    return result;
+    return static_cast<int>(
+        boost::ut::cfg<>.run({.report_errors = true, .argc = argc, .argv = const_cast<const char **>(argv)}));
 }
