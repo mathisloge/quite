@@ -6,4 +6,5 @@ target_sources(test_probe_qt PRIVATE
     test_object_tracker.cpp
     test_method_invoker.cpp
     test_property_collector.cpp
+    test_value_containers.cpp
 )
