@@ -25,7 +25,7 @@ class SimpleObject : public QObject
 };
 } // namespace
 
-static suite<"qtprobe propertycollector"> _ = [] {
+static suite<"qtprobe propertycollector"> _ = [] { // NOLINT
     "read_property returns correct int and string"_test = [] {
         SimpleObject obj;
         const QMetaObject *meta = obj.metaObject();

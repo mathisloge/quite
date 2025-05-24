@@ -14,7 +14,7 @@ namespace
 {
 void quite_message_handler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-    quill::LogLevel lvl;
+    quill::LogLevel lvl{};
     switch (type)
     {
     case QtDebugMsg:
