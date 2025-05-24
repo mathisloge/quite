@@ -15,7 +15,7 @@ exec::task<void> InvokeMethodRpcHandler::operator()(InvokeMethodRPC &rpc, const 
     if (not request.has_method_call())
     {
         co_await rpc.finish_with_error(
-            grpc::Status{grpc::StatusCode::FAILED_PRECONDITION, "Can't invoke a method without a passed mathod."});
+            grpc::Status{grpc::StatusCode::FAILED_PRECONDITION, "Can't invoke a method without a passed method."});
         co_return;
     }
     auto &object_handler = entt::locator<IProbeHandler>::value();

@@ -91,7 +91,7 @@ AsyncResult<std::filesystem::path> ProcessManager::find_executable(std::filesyst
     if (exe.empty())
     {
         co_return make_error_result(ErrorCode::not_found,
-                                    fmt::format("Could not find {} in enviroment {}", exe_name, environment));
+                                    fmt::format("Could not find {} in environment {}", exe_name, environment));
     }
     co_return std::filesystem::path{exe.string()};
 }

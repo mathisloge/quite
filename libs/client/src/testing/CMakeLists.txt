@@ -1,3 +1,1 @@
-target_sources(quite_client PRIVATE
-    verification_point.cpp
-)
+target_sources(quite_client PRIVATE verification_point.cpp)

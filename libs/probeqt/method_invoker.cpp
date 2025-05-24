@@ -43,7 +43,7 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
     if (meta_method.parameterCount() != params.size())
     {
         return make_error_result(ErrorCode::failed_precondition,
-                                 fmt::format("Method {} expectes {} arguments but only {} were passed",
+                                 fmt::format("Method {} expects {} arguments but only {} were passed",
                                              qualified_method_signature,
                                              meta_method.parameterCount(),
                                              params.size()));
@@ -104,7 +104,7 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
         }
     }
     return make_error_result(ErrorCode::cancelled,
-                             fmt::format("Could not invoke or wrap return type. Call status = {}, convertable = ",
+                             fmt::format("Could not invoke or wrap return type. Call status = {}, convertible = ",
                                          call_result,
                                          static_cast<bool>(custom_meta_type)));
 }
