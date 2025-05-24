@@ -43,7 +43,7 @@ TEST_CASE("Test MethodInvoker")
     auto &meta_context = value_registry.context();
     register_converters(value_registry);
     ObjectTracker tracker{};
-    MethodInvoker method_invoker{tracker};
+    MethodInvoker method_invoker{};
     MyTestClass my_test_class;
     SECTION("Test with different types")
     {

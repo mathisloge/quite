@@ -10,14 +10,10 @@ class ObjectTracker;
 class MethodInvoker
 {
   public:
-    MethodInvoker(const ObjectTracker &object_tracker);
+    MethodInvoker();
 
     Result<entt::meta_any> invoke_method(const entt::meta_any &object,
                                          std::string_view qualified_method_signature,
                                          std::span<entt::meta_any> params) const;
-
-  private:
-    const ObjectTracker &object_tracker_;
-    ValueRegistry &value_registry_{entt::locator<ValueRegistry>::value()};
 };
 } // namespace quite::probe

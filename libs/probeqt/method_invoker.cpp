@@ -110,8 +110,7 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
 }
 } // namespace
 
-MethodInvoker::MethodInvoker(const ObjectTracker &object_tracker)
-    : object_tracker_{object_tracker}
+MethodInvoker::MethodInvoker()
 {}
 
 Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object,
@@ -121,7 +120,8 @@ Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object
     const auto *object_ref = object.try_cast<QObject *>();
     if (object_ref != nullptr)
     {
-        return invoke_qmeta_method(value_registry_.context(), *object_ref, qualified_method_signature, params);
+        auto &value_registy = entt::locator<ValueRegistry>::value_or();
+        return invoke_qmeta_method(value_registy.context(), *object_ref, qualified_method_signature, params);
     }
     return make_error_result(ErrorCode::invalid_argument, "Could find a qobject for the given base type");
 }
