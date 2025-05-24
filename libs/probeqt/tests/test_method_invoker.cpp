@@ -19,19 +19,19 @@ class TestObject : public QObject
 {
     Q_OBJECT
   public:
-    Q_INVOKABLE int add(int a, int b)
+    Q_INVOKABLE int add(int a, int b) // NOLINT
     {
         return a + b;
     }
-    Q_INVOKABLE void setValue(int v)
+    Q_INVOKABLE void setValue(int v) // NOLINT
     {
         value = v;
     }
-    Q_INVOKABLE int getValue() const
+    Q_INVOKABLE int getValue() const // NOLINT
     {
         return value;
     }
-    Q_INVOKABLE QString echo(const QString &s)
+    Q_INVOKABLE QString echo(const QString &s) // NOLINT
     {
         return s;
     }
@@ -39,7 +39,7 @@ class TestObject : public QObject
 };
 } // namespace
 
-static suite<"qtprobe methodinvoker"> _ = [] {
+static suite<"qtprobe methodinvoker"> _ = [] { // NOLINT
     "invoke int add(int,int)"_test = [] {
         MethodInvoker invoker;
 

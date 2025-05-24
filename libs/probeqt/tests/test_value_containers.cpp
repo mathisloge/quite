@@ -18,7 +18,7 @@ using namespace quite::probe;
 using namespace boost::ut;
 using namespace entt::literals;
 
-static suite<"qtprobe value converters"> _ = [] {
+static suite<"qtprobe value converters"> _ = [] { // NOLINT
     "register_converters registers QString"_test = [] {
         ValueRegistry registry;
         register_converters(registry);
@@ -132,7 +132,5 @@ static suite<"qtprobe value converters"> _ = [] {
         register_converters(registry);
 
         QT_FOR_EACH_STATIC_PRIMITIVE_NON_VOID_TYPE(TEST_PRIMITIVE_TYPE);
-
-#undef TEST_PRIMITIVE_TYPE
     };
 };
