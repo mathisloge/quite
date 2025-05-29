@@ -24,7 +24,12 @@ ProbeContext::ProbeContext(std::string server_address)
     install_qt_hooks();
 }
 
-ProbeContext::~ProbeContext() = default;
+ProbeContext::~ProbeContext()
+{
+    qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(next_add_qobject_hook_);
+    qtHookData[QHooks::RemoveQObject] = reinterpret_cast<quintptr>(next_remove_qobject_hook_);
+    qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(next_startup_hook_);
+}
 
 void ProbeContext::install_qt_hooks()
 {
