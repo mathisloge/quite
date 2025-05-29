@@ -74,3 +74,4 @@ target_sources(
 
 add_subdirectory(src/probe)
 add_subdirectory(src/client)
+add_subdirectory(tests)
