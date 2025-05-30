@@ -59,15 +59,7 @@ jobs:
               ninja
           fi
 
-      - name: Start Weston Headless
+      - name: Run workflow
         run: |
           ./start_weston_headless.sh &
-          echo $! > weston.pid
-          sleep 2
-
-      - name: Run workflow
-        run: cmake --workflow ci
-
-      - name: Stop Weston
-        if: always()
-        run: kill $(cat weston.pid) || true
+          cmake --workflow ci
