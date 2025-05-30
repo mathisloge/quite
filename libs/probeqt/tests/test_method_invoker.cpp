@@ -78,7 +78,6 @@ static suite<"qtprobe methodinvoker"> _ = [] { // NOLINT
         std::vector<entt::meta_any> params = {std::string{"hello"}};
         auto result = invoker.invoke_method(obj_any, "echo(QString)", params);
 
-        fmt::println("Result: {}", result);
         expect(result.has_value());
         expect(result->cast<QString>().toStdString() == "hello"sv);
     };

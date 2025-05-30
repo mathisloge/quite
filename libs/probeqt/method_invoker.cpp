@@ -65,31 +65,27 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
         const auto &param_value = params[i];
 
         const QMetaType *any_meta_type = param_value.type().custom();
-        if (auto custom_meta_type = entt::resolve(entt::hashed_string{param_meta_type.name()}.value());
-            custom_meta_type)
-        {
-            auto casted = param_value.allow_cast(custom_meta_type);
-            if (casted)
-            {
-                auto &&value = args.emplace_back(create_meta_value(param_meta_type));
-                custom_meta_type.from_void(value.get(), false).assign(std::move(casted));
-            }
-        }
-        else if (any_meta_type != nullptr)
+
+        // first try to convert with Qt. If that fails, try to convert with the custom meta system.
+        if (any_meta_type != nullptr and QMetaType::canConvert(*any_meta_type, param_meta_type))
         {
             auto &&value = args.emplace_back(create_meta_value(param_meta_type));
-            if (QMetaType::canConvert(*any_meta_type, param_meta_type))
-            {
-                QMetaType::convert(*any_meta_type, param_value.base().data(), param_meta_type, value.get());
-            }
-            else
-            {
-                return make_error_result(ErrorCode::invalid_argument,
-                                         fmt::format("Could convert arg {} with base type {} to type {}",
-                                                     i,
-                                                     param_value.type().info().name(),
-                                                     param_meta_type.name()));
-            }
+            QMetaType::convert(*any_meta_type, param_value.base().data(), param_meta_type, value.get());
+        }
+        else if (auto param_meta_value =
+                     param_value.allow_cast(entt::resolve(entt::hashed_string{param_meta_type.name()}.value()));
+                 param_meta_value)
+        {
+            auto &&value = args.emplace_back(create_meta_value(param_meta_type));
+            param_meta_value.type().from_void(value.get(), false).assign(std::move(param_value));
+        }
+        else
+        {
+            return make_error_result(ErrorCode::invalid_argument,
+                                     fmt::format("Could convert arg {} with base type {} to type {}",
+                                                 i,
+                                                 param_value.type().info().name(),
+                                                 param_meta_type.name()));
         }
     }
 
