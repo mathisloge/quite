@@ -5,7 +5,6 @@
 #include <entt/meta/resolve.hpp>
 #include <fmt/format.h>
 #include <quite/logger.hpp>
-#include "object_tracker.hpp"
 
 DEFINE_LOGGER(method_invoker)
 
@@ -64,19 +63,33 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
     {
         const auto param_meta_type = meta_method.parameterMetaType(i);
         const auto &param_value = params[i];
-        const QMetaType any_meta_type = param_value.type().custom();
-        auto &&value = args.emplace_back(create_meta_value(param_meta_type));
-        if (QMetaType::canConvert(any_meta_type, param_meta_type))
+
+        const QMetaType *any_meta_type = param_value.type().custom();
+        if (auto custom_meta_type = entt::resolve(entt::hashed_string{param_meta_type.name()}.value());
+            custom_meta_type)
         {
-            QMetaType::convert(any_meta_type, param_value.base().data(), param_meta_type, value.get());
+            auto casted = param_value.allow_cast(custom_meta_type);
+            if (casted)
+            {
+                auto &&value = args.emplace_back(create_meta_value(param_meta_type));
+                custom_meta_type.from_void(value.get(), false).assign(std::move(casted));
+            }
         }
-        else
+        else if (any_meta_type != nullptr)
         {
-            return make_error_result(ErrorCode::invalid_argument,
-                                     fmt::format("Could convert arg {} with base type {} to type {}",
-                                                 i,
-                                                 param_value.type().info().name(),
-                                                 param_meta_type.name()));
+            auto &&value = args.emplace_back(create_meta_value(param_meta_type));
+            if (QMetaType::canConvert(*any_meta_type, param_meta_type))
+            {
+                QMetaType::convert(*any_meta_type, param_value.base().data(), param_meta_type, value.get());
+            }
+            else
+            {
+                return make_error_result(ErrorCode::invalid_argument,
+                                         fmt::format("Could convert arg {} with base type {} to type {}",
+                                                     i,
+                                                     param_value.type().info().name(),
+                                                     param_meta_type.name()));
+            }
         }
     }
 

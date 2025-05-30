@@ -3,6 +3,7 @@
 #include <QString>
 #include <boost/ut.hpp>
 #include <fmt/base.h>
+#include <fmt/std.h>
 #include <quite/error.hpp>
 #include <quite/meta_any_formatter.hpp>
 #include <quite/value/object_query.hpp>
@@ -74,9 +75,10 @@ static suite<"qtprobe methodinvoker"> _ = [] { // NOLINT
 
         TestObject obj;
         entt::meta_any obj_any = static_cast<QObject *>(&obj);
-        std::vector<entt::meta_any> params = {QStringLiteral("hello")};
+        std::vector<entt::meta_any> params = {std::string{"hello"}};
         auto result = invoker.invoke_method(obj_any, "echo(QString)", params);
 
+        fmt::println("Result: {}", result);
         expect(result.has_value());
         expect(result->cast<QString>().toStdString() == "hello"sv);
     };
