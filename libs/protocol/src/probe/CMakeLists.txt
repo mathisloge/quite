@@ -16,5 +16,4 @@ target_sources(
         rpc_snapshot.hpp
         rpc_snapshot.cpp
         server.cpp
-        dependencies.cpp
 )

@@ -55,7 +55,6 @@ target_sources(
         FILES
             include/quite/proto/probe/server.hpp
             include/quite/proto/probe/probe_handler.hpp
-            include/quite/proto/probe/dependencies.hpp
             include/quite/proto/client/probe_client.hpp
             include/quite/proto/client/probe_service.hpp
             include/quite/proto/client/client.hpp

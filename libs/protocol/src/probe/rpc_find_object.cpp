@@ -26,21 +26,19 @@ ObjectQuery::PropertyMap convert_properties(const ValueRegistry &value_registry,
 
 exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const FindObjectRPC::Request &request)
 {
-    const auto &value_registry = entt::locator<ValueRegistry>::value();
     ObjectQuery object_query;
-    object_query.properties = convert_properties(value_registry, request.query().properties());
+    object_query.properties = convert_properties(*value_registry, request.query().properties());
     ObjectQuery *child = &object_query;
     const proto::ObjectSearchQuery *parent{&request.query()};
     while (parent->has_parent())
     {
         parent = &request.query().parent();
         child->container = std::make_shared<ObjectQuery>();
-        child->container->properties = convert_properties(value_registry, parent->properties());
+        child->container->properties = convert_properties(*value_registry, parent->properties());
         child = child->container.get();
     }
 
-    auto &snapshot_handler = entt::locator<IProbeHandler>::value();
-    auto find_result = co_await snapshot_handler.find_object(std::move(object_query));
+    auto find_result = co_await probe_handler->find_object(std::move(object_query));
     if (not find_result.has_value())
     {
         co_await rpc.finish_with_error(result2grpc_status(find_result.error()));
@@ -55,9 +53,13 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
 }
 
 agrpc::detail::RPCHandlerSender<FindObjectRPC, FindObjectRpcHandler> make_rpc_find_object(
-    agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service)
+    agrpc::GrpcContext &grpc_context,
+    quite::proto::ProbeService::AsyncService &service,
+    ProbeHandlerHandle probe_handler,
+    ServiceHandle<ValueRegistry> value_registry)
 {
-    return agrpc::register_sender_rpc_handler<FindObjectRPC>(grpc_context, service, FindObjectRpcHandler{});
+    return agrpc::register_sender_rpc_handler<FindObjectRPC>(
+        grpc_context, service, FindObjectRpcHandler{std::move(probe_handler), std::move(value_registry)});
 }
 
 } // namespace quite::proto

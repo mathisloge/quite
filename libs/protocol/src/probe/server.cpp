@@ -22,13 +22,25 @@ namespace quite::proto
 {
 class Server::Impl
 {
+    ServiceHandle<IProbeHandler> probe_handler_;
+    ServiceHandle<core::IMouseInjector> mouse_injector_;
+    ServiceHandle<meta::MetaRegistry> meta_registry_;
+    ServiceHandle<ValueRegistry> value_registry_;
     std::jthread grpc_runner_;
     std::unique_ptr<grpc::Server> grpc_server_;
     std::unique_ptr<agrpc::GrpcContext> grpc_context_;
 
   public:
-    Impl(std::string server_address)
-        : grpc_runner_{[this, server_address = std::move(server_address)](std::stop_token stoken) {
+    Impl(std::string server_address,
+         ServiceHandle<IProbeHandler> probe_handler,
+         ServiceHandle<core::IMouseInjector> mouse_injector,
+         ServiceHandle<meta::MetaRegistry> meta_registry,
+         ServiceHandle<ValueRegistry> value_registry)
+        : probe_handler_{std::move(probe_handler)}
+        , mouse_injector_{std::move(mouse_injector)}
+        , meta_registry_{std::move(meta_registry)}
+        , value_registry_{std::move(value_registry)}
+        , grpc_runner_{[this, server_address = std::move(server_address)](std::stop_token stoken) {
             run_server_until_stopped(std::move(stoken), std::move(server_address));
         }}
     {}
@@ -73,14 +85,17 @@ class Server::Impl
 
         agrpc::start_health_check_service(*grpc_server_, *grpc_context_);
 
-        stdexec::sender auto rpc_snapshot = make_rpc_snapshot(*grpc_context_, object_service);
-        stdexec::sender auto rpc_find_object = make_rpc_find_object(*grpc_context_, object_service);
+        stdexec::sender auto rpc_snapshot = make_rpc_snapshot(*grpc_context_, object_service, probe_handler_);
+        stdexec::sender auto rpc_find_object =
+            make_rpc_find_object(*grpc_context_, object_service, probe_handler_, value_registry_);
         stdexec::sender auto rpc_fetch_object_properties =
-            make_rpc_fetch_object_properties(*grpc_context_, object_service);
-        stdexec::sender auto rpc_fetch_windows = make_rpc_fetch_windows(*grpc_context_, object_service);
-        stdexec::sender auto rpc_invoke_method = make_rpc_invoke_method(*grpc_context_, object_service);
-        stdexec::sender auto rpc_mouse_injection = make_rpc_mouse_injection(*grpc_context_, object_service);
-        stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(*grpc_context_, meta_service);
+            make_rpc_fetch_object_properties(*grpc_context_, object_service, probe_handler_, value_registry_);
+        stdexec::sender auto rpc_fetch_windows = make_rpc_fetch_windows(*grpc_context_, object_service, probe_handler_);
+        stdexec::sender auto rpc_invoke_method =
+            make_rpc_invoke_method(*grpc_context_, object_service, probe_handler_, value_registry_);
+        stdexec::sender auto rpc_mouse_injection =
+            make_rpc_mouse_injection(*grpc_context_, object_service, mouse_injector_);
+        stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(*grpc_context_, meta_service, meta_registry_);
 
         // only start the server if the stop has not been requested
         if (not stoken.stop_requested())
@@ -97,8 +112,16 @@ class Server::Impl
     }
 };
 
-Server::Server(std::string server_address)
-    : impl_{std::make_unique<Impl>(std::move(server_address))}
+Server::Server(std::string server_address,
+               ServiceHandle<IProbeHandler> probe_handler,
+               ServiceHandle<core::IMouseInjector> mouse_injector,
+               ServiceHandle<meta::MetaRegistry> meta_registry,
+               ServiceHandle<ValueRegistry> value_registry)
+    : impl_{std::make_unique<Impl>(std::move(server_address),
+                                   std::move(probe_handler),
+                                   std::move(mouse_injector),
+                                   std::move(meta_registry),
+                                   std::move(value_registry))}
 {}
 
 Server::Server(Server &&server) noexcept

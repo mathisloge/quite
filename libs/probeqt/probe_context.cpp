@@ -18,9 +18,9 @@ void quite_app_startup();
 } // namespace
 
 ProbeContext::ProbeContext(std::string server_address)
-    : server_{std::move(server_address)}
+    : server_{std::move(server_address), probe_handler_, mouse_injector_, meta_registry_, value_registry_}
 {
-    quite::probe::register_converters(entt::locator<ValueRegistry>::value());
+    quite::probe::register_converters(*value_registry_);
     install_qt_hooks();
 }
 

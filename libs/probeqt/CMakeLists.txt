@@ -40,8 +40,6 @@ target_sources(
         value_converters.cpp
         probe_context.hpp
         probe_context.cpp
-        probe_instances.hpp
-        probe_instances.cpp
         method_invoker.cpp
         method_invoker.hpp
         qt_meta_registry.cpp

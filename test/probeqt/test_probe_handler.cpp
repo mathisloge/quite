@@ -7,7 +7,6 @@
 #include <quite/logger.hpp>
 #include "async_test_helper.hpp"
 #include "object_tracker.hpp"
-#include "probe_instances.hpp"
 #include "qtstdexec.h"
 #include "value_converters.hpp"
 
