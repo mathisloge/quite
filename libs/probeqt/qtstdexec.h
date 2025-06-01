@@ -106,12 +106,12 @@ template <class Recv>
 class QThreadOperationState
 {
   public:
+    using operation_state_concept = stdexec::operation_state_t;
     QThreadOperationState(Recv &&receiver, QThread *thread)
         : m_receiver(std::move(receiver))
         , m_thread(thread)
     {}
-
-    void start() & noexcept
+    void start() noexcept
     {
         QMetaObject::invokeMethod(
             m_thread->eventDispatcher(), [this]() { stdexec::set_value(std::move(m_receiver)); }, Qt::QueuedConnection);
@@ -145,8 +145,9 @@ class QObjectSender
 
   public:
     using is_sender = void;
-    using completion_signatures =
-        stdexec::completion_signatures<stdexec::set_value_t(Args...), stdexec::set_error_t(std::exception_ptr)>;
+    using completion_signatures = stdexec::completion_signatures<stdexec::set_value_t(Args...),
+                                                                 stdexec::set_error_t(std::exception_ptr),
+                                                                 stdexec::set_stopped_t()>;
 
     using m_ptr_type = Ret (QObj::*)(Args...);
     QObjectSender(QObj *obj, m_ptr_type ptr)
@@ -164,7 +165,7 @@ class QObjectSender
     template <class Recv>
     QObjectOperationState<Recv, QObj, Ret, Args...> connect(Recv &&receiver)
     {
-        return QObjectOperationState<Recv, QObj, Ret, Args...>{std::forward<Recv>(receiver), m_obj, m_ptr};
+        return QObjectOperationState<Recv, QObj, Ret, Args...>(std::forward<Recv>(receiver), m_obj, m_ptr);
     }
 
   private:
@@ -176,29 +177,68 @@ template <class Recv, class QObj, class Ret, class... Args>
 class QObjectOperationState
 {
   public:
+    using operation_state_concept = stdexec::operation_state_t;
     using m_ptr_type = Ret (QObj::*)(Args...);
-    explicit QObjectOperationState(Recv &&receiver, QObj *obj, m_ptr_type ptr)
+
+    QObjectOperationState(Recv &&receiver, QObj *obj, m_ptr_type ptr)
         : m_receiver(std::move(receiver))
         , m_obj(obj)
         , m_ptr(ptr)
     {}
 
-    void start() & noexcept
+  private:
+    struct stop_callback_t
     {
-        connection = QObject::connect(m_obj, m_ptr, [this](Args... args) {
-            stdexec::set_value(std::move(m_receiver), std::forward<Args>(args)...);
-        });
-    }
-    ~QObjectOperationState()
+        QObjectOperationState *self;
+
+        void operator()() const noexcept
+        {
+            self->m_stop_callback.reset();
+            QObject::disconnect(self->m_connection);
+            if (!self->m_completed.test_and_set(std::memory_order_acq_rel))
+            {
+                QMetaObject::invokeMethod(
+                    self->m_obj->thread()->eventDispatcher(),
+                    [this]() { stdexec::set_stopped(std::move(self->m_receiver)); },
+                    Qt::QueuedConnection);
+            }
+        }
+    };
+
+  private:
+    using stop_token_type = stdexec::stop_token_of_t<stdexec::env_of_t<Recv>>;
+    using stop_callback_type = typename stop_token_type::template callback_type<stop_callback_t>;
+
+  public:
+    void start() noexcept
     {
-        QObject::disconnect(connection);
+        m_stop_callback.emplace(stdexec::get_stop_token(stdexec::get_env(m_receiver)), stop_callback_t{this});
+        m_connection = QObject::connect(
+            m_obj,
+            m_ptr,
+            m_obj,
+            [this](Args... args) {
+                QObject::disconnect(m_connection);
+                m_stop_callback.reset();
+                if (!m_completed.test_and_set(std::memory_order_acq_rel))
+                {
+                    QMetaObject::invokeMethod(
+                        m_obj,
+                        [this, &args...] { stdexec::set_value(std::move(m_receiver), std::forward<Args>(args)...); },
+                        Qt::QueuedConnection);
+                }
+            },
+            Qt::SingleShotConnection);
     }
+    ~QObjectOperationState() = default;
 
   private:
     Recv m_receiver;
     QObj *m_obj;
     m_ptr_type m_ptr;
-    QMetaObject::Connection connection;
+    QMetaObject::Connection m_connection;
+    std::atomic_flag m_completed{false};
+    std::optional<stop_callback_type> m_stop_callback;
 };
 
 template <class QObj, class Ret, class... Args>
