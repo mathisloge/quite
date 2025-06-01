@@ -10,8 +10,7 @@ namespace quite::proto
 
 exec::task<void> SnapshotRpcHandler::operator()(RpcSnapshot &rpc, const RpcSnapshot::Request &request) const
 {
-    auto &object_handler = entt::locator<IProbeHandler>::value();
-    auto result = co_await object_handler.take_snapshot(request.object_id());
+    auto result = co_await probe_handler->take_snapshot(request.object_id());
     if (not result.has_value())
     {
         co_await rpc.finish(result2grpc_status(result.error()));
@@ -41,8 +40,11 @@ exec::task<void> SnapshotRpcHandler::operator()(RpcSnapshot &rpc, const RpcSnaps
 }
 
 agrpc::detail::RPCHandlerSender<RpcSnapshot, SnapshotRpcHandler> make_rpc_snapshot(
-    agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service)
+    agrpc::GrpcContext &grpc_context,
+    quite::proto::ProbeService::AsyncService &service,
+    ProbeHandlerHandle probe_handler)
 {
-    return agrpc::register_sender_rpc_handler<RpcSnapshot>(grpc_context, service, SnapshotRpcHandler{});
+    return agrpc::register_sender_rpc_handler<RpcSnapshot>(
+        grpc_context, service, SnapshotRpcHandler{std::move(probe_handler)});
 }
 } // namespace quite::proto

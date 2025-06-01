@@ -40,6 +40,7 @@ target_sources(
             include/quite/image.hpp
             include/quite/image_utils.hpp
             include/quite/asio_context.hpp
+            include/quite/service_handle.hpp
             include/quite/meta_any_formatter.hpp
             include/quite/meta/meta_registry.hpp
             include/quite/meta/meta_types.hpp
