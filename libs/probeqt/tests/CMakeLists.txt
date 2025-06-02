@@ -9,4 +9,5 @@ target_sources(
         test_method_invoker.cpp
         test_property_collector.cpp
         test_value_containers.cpp
+        test_probe_context.cpp
 )

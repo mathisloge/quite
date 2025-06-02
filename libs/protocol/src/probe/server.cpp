@@ -40,19 +40,25 @@ class Server::Impl
         , mouse_injector_{std::move(mouse_injector)}
         , meta_registry_{std::move(meta_registry)}
         , value_registry_{std::move(value_registry)}
-        , grpc_runner_{[this, server_address = std::move(server_address)](std::stop_token stoken) {
-            run_server_until_stopped(std::move(stoken), std::move(server_address));
+        , grpc_runner_{[this, server_address = std::move(server_address)]() {
+            run_server_until_stopped(std::move(server_address));
         }}
     {}
 
     ~Impl()
     {
-        if (grpc_server_ != nullptr)
+        while (grpc_context_ == nullptr)
         {
-            grpc_server_->Shutdown();
-            grpc_context_ = nullptr; // Ensure the context is destroyed before the server
-            grpc_server_->Wait();
+            // reschedule the thread
+            std::this_thread::sleep_for(std::chrono::milliseconds(0));
         }
+
+        // wait for the grpc context to be running at least once otherwise we have race conditions in the
+        // initialization.
+        stdexec::sync_wait(stdexec::schedule(grpc_context_->get_scheduler()));
+        grpc_server_->Shutdown();
+        grpc_context_ = nullptr; // Ensure the context is destroyed before the server
+        grpc_server_->Wait();
     }
 
   private:
@@ -68,7 +74,7 @@ class Server::Impl
             stdexec::when_all(std::move(all_snd), stdexec::just() | stdexec::then([&]() { grpc_context.run(); })));
     }
 
-    void run_server_until_stopped(std::stop_token stoken, std::string server_address)
+    void run_server_until_stopped(std::string server_address)
     {
         grpc::ServerBuilder builder;
         builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
@@ -97,18 +103,14 @@ class Server::Impl
             make_rpc_mouse_injection(*grpc_context_, object_service, mouse_injector_);
         stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(*grpc_context_, meta_service, meta_registry_);
 
-        // only start the server if the stop has not been requested
-        if (not stoken.stop_requested())
-        {
-            run_grpc_context_for_sender(*grpc_context_,
-                                        stdexec::when_all(std::move(rpc_snapshot),
-                                                          std::move(rpc_find_object),
-                                                          std::move(rpc_fetch_object_properties),
-                                                          std::move(rpc_fetch_windows),
-                                                          std::move(rpc_invoke_method),
-                                                          std::move(rpc_mouse_injection),
-                                                          std::move(rpc_meta_find_type)));
-        }
+        run_grpc_context_for_sender(*grpc_context_,
+                                    stdexec::when_all(std::move(rpc_snapshot),
+                                                      std::move(rpc_find_object),
+                                                      std::move(rpc_fetch_object_properties),
+                                                      std::move(rpc_fetch_windows),
+                                                      std::move(rpc_invoke_method),
+                                                      std::move(rpc_mouse_injection),
+                                                      std::move(rpc_meta_find_type)));
     }
 };
 
