@@ -29,6 +29,7 @@ class Server::Impl
     std::jthread grpc_runner_;
     std::unique_ptr<grpc::Server> grpc_server_;
     std::unique_ptr<agrpc::GrpcContext> grpc_context_;
+    stdexec::run_loop loop_;
 
   public:
     Impl(std::string server_address,
@@ -55,10 +56,14 @@ class Server::Impl
 
         // wait for the grpc context to be running at least once otherwise we have race conditions in the
         // initialization.
-        stdexec::sync_wait(stdexec::schedule(grpc_context_->get_scheduler()));
-        grpc_server_->Shutdown();
-        grpc_context_ = nullptr; // Ensure the context is destroyed before the server
-        grpc_server_->Wait();
+        stdexec::sync_wait(stdexec::schedule(grpc_context_->get_scheduler()) |
+                           stdexec::then([this] { grpc_context_->stop(); }) |
+                           stdexec::continues_on(loop_.get_scheduler()) | stdexec::then([this] {
+                               grpc_server_->Shutdown();
+                               grpc_context_ = nullptr; // Ensure the context is destroyed before the server
+                               grpc_server_->Wait();
+                           }));
+        loop_.finish();
     }
 
   private:
@@ -70,8 +75,11 @@ class Server::Impl
                           stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.work_finished(); }));
 
         grpc_context.work_started();
-        stdexec::sync_wait(
-            stdexec::when_all(std::move(all_snd), stdexec::just() | stdexec::then([&]() { grpc_context.run(); })));
+        stdexec::start_detached(
+            stdexec::when_all(std::move(all_snd),
+                              stdexec::schedule(loop_.get_scheduler()) | stdexec::then([&]() { grpc_context.run(); })));
+
+        loop_.run();
     }
 
     void run_server_until_stopped(std::string server_address)
