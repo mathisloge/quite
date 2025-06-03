@@ -59,8 +59,7 @@ class Server::Impl
         stdexec::sync_wait(stdexec::schedule(grpc_context_->get_scheduler()) |
                            stdexec::then([this] { grpc_context_->stop(); }) |
                            stdexec::continues_on(loop_.get_scheduler()) | stdexec::then([this] {
-                               grpc_server_->Shutdown();
-                               grpc_context_ = nullptr; // Ensure the context is destroyed before the server
+                               grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{10});
                                grpc_server_->Wait();
                            }));
         loop_.finish();
