@@ -20,13 +20,6 @@
             }
         },
         {
-            "name": "fetch-dependencies",
-            "hidden": true,
-            "cacheVariables": {
-                "QUITE_FETCH_DEPENDENCIES": true
-            }
-        },
-        {
             "name": "vcpkg",
             "hidden": true,
             "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
@@ -54,8 +47,7 @@
             "displayName": "Developer",
             "inherits": [
                 "common",
-                "debug-build",
-                "fetch-dependencies"
+                "debug-build"
             ],
             "cacheVariables": {
                 "BUILD_TESTING": true,
@@ -83,10 +75,9 @@
             "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
             "installDir": "${sourceDir}/dist",
-            "inherits":[
+            "inherits": [
                 "common",
-                "developer",
-                "fetch-dependencies"
+                "developer"
             ],
             "cacheVariables": {
                 "BUILD_SHARED_LIBS": false,
@@ -99,8 +90,7 @@
             "name": "ci",
             "displayName": "CI configuration",
             "inherits": [
-                "common",
-                "fetch-dependencies"
+                "common"
             ],
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
@@ -135,7 +125,14 @@
     "testPresets": [
         {
             "name": "developer",
-            "configurePreset": "developer"
+            "configurePreset": "developer",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "ignore",
+                "stopOnFailure": true
+            }
         },
         {
             "name": "developer (vcpkg)",
