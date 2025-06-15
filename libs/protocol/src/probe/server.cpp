@@ -1,5 +1,6 @@
 #include "quite/proto/probe/server.hpp"
 #include <thread>
+#include <exec/env.hpp>
 #include <exec/finally.hpp>
 #include <quite/logger.hpp>
 #include <quite/proto/health.grpc.pb.h>
@@ -22,6 +23,7 @@ namespace quite::proto
 {
 class Server::Impl
 {
+    stdexec::inplace_stop_source ssource_;
     ServiceHandle<IProbeHandler> probe_handler_;
     ServiceHandle<core::IMouseInjector> mouse_injector_;
     ServiceHandle<meta::MetaRegistry> meta_registry_;
@@ -55,6 +57,7 @@ class Server::Impl
                            stdexec::then([this] { grpc_context_.stop(); }) | stdexec::then([this] {
                                grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{10});
                            }));
+        ssource_.request_stop();
         grpc_server_->Wait();
         loop_.finish();
     }
@@ -62,6 +65,7 @@ class Server::Impl
   private:
     void run_server_until_stopped(std::string server_address)
     {
+
         builder_.AddListeningPort(server_address, grpc::InsecureServerCredentials());
 
         ProbeService::AsyncService object_service;
@@ -94,7 +98,8 @@ class Server::Impl
                                             std::move(rpc_fetch_windows),
                                             std::move(rpc_invoke_method),
                                             std::move(rpc_mouse_injection),
-                                            std::move(rpc_meta_find_type)),
+                                            std::move(rpc_meta_find_type)) |
+                              exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()}),
                           stdexec::just() | stdexec::then([this] { grpc_context_.work_finished(); }));
 
         grpc_context_.work_started();
