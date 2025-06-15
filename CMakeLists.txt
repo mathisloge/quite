@@ -7,6 +7,7 @@ include(GenerateExportHeader)
 include(FeatureSummary)
 include(GNUInstallDirs)
 include(GetGitRevisionDescription)
+include(sanitizers)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -76,6 +77,8 @@ if(BUILD_TESTING)
     list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/extras")
     include(Catch)
 endif()
+
+add_sanitizer_support(address leak)
 
 add_subdirectory(utils)
 add_subdirectory(libs)
