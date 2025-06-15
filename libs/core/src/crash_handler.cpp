@@ -1,10 +1,12 @@
 #include "quite/crash_handler.hpp"
 #include <csignal>
 #include <cstring>
+#include <filesystem>
 #include <cpptrace/cpptrace.hpp>
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "quite/version.hpp"
 
 namespace quite
 {
@@ -43,7 +45,8 @@ void handler(int signo, siginfo_t *info, void *context)
         dup2(input_pipe.read_end, STDIN_FILENO);
         close(input_pipe.read_end);
         close(input_pipe.write_end);
-        execl("crash-tracer", "crash-tracer", nullptr);
+        std::filesystem::path crash_tracer_programm = std::filesystem::path{kRuntimeDir} / "crash-tracer";
+        execl(crash_tracer_programm.string().c_str(), "crash-tracer", nullptr);
         const char *exec_failure_message = "exec(crash-tracer) failed: Make sure the crash-tracer executable is in "
                                            "the current working directory and the binary's permissions are correct.\n";
         write(STDERR_FILENO, exec_failure_message, strlen(exec_failure_message));
