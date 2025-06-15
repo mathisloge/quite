@@ -26,10 +26,11 @@ class Server::Impl
     ServiceHandle<core::IMouseInjector> mouse_injector_;
     ServiceHandle<meta::MetaRegistry> meta_registry_;
     ServiceHandle<ValueRegistry> value_registry_;
-    std::jthread grpc_runner_;
-    std::unique_ptr<grpc::Server> grpc_server_;
-    std::unique_ptr<agrpc::GrpcContext> grpc_context_;
+    grpc::ServerBuilder builder_;
+    std::unique_ptr<grpc::Server> grpc_server_; // server has to be destroyed before grpc_context_
+    agrpc::GrpcContext grpc_context_{builder_.AddCompletionQueue()};
     stdexec::run_loop loop_;
+    std::jthread grpc_runner_;
 
   public:
     Impl(std::string server_address,
@@ -48,16 +49,10 @@ class Server::Impl
 
     ~Impl()
     {
-        while (grpc_context_ == nullptr)
-        {
-            // reschedule the thread
-            std::this_thread::sleep_for(std::chrono::milliseconds(0));
-        }
-
         // wait for the grpc context to be running at least once otherwise we have race conditions in the
         // initialization.
-        stdexec::sync_wait(stdexec::schedule(grpc_context_->get_scheduler()) |
-                           stdexec::then([this] { grpc_context_->stop(); }) |
+        stdexec::sync_wait(stdexec::schedule(grpc_context_.get_scheduler()) |
+                           stdexec::then([this] { grpc_context_.stop(); }) |
                            stdexec::continues_on(loop_.get_scheduler()) | stdexec::then([this] {
                                grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{10});
                                grpc_server_->Wait();
@@ -71,46 +66,43 @@ class Server::Impl
     {
         stdexec::sender auto all_snd =
             exec::finally(std::forward<Sender>(sender),
-                          stdexec::then(stdexec::just(), [&grpc_context] { grpc_context.work_finished(); }));
+                          stdexec::just() | stdexec::then([&grpc_context] { grpc_context.work_finished(); }));
 
         grpc_context.work_started();
         stdexec::start_detached(
             stdexec::when_all(std::move(all_snd),
                               stdexec::schedule(loop_.get_scheduler()) | stdexec::then([&]() { grpc_context.run(); })));
-
         loop_.run();
     }
 
     void run_server_until_stopped(std::string server_address)
     {
-        grpc::ServerBuilder builder;
-        builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+        builder_.AddListeningPort(server_address, grpc::InsecureServerCredentials());
 
         ProbeService::AsyncService object_service;
         MetaService::AsyncService meta_service;
 
-        builder.RegisterService(std::addressof(object_service));
-        builder.RegisterService(std::addressof(meta_service));
-        grpc_context_ = std::make_unique<agrpc::GrpcContext>(builder.AddCompletionQueue());
-        agrpc::add_health_check_service(builder);
+        builder_.RegisterService(std::addressof(object_service));
+        builder_.RegisterService(std::addressof(meta_service));
+        agrpc::add_health_check_service(builder_);
 
-        grpc_server_ = builder.BuildAndStart();
+        grpc_server_ = builder_.BuildAndStart();
 
-        agrpc::start_health_check_service(*grpc_server_, *grpc_context_);
+        agrpc::start_health_check_service(*grpc_server_, grpc_context_);
 
-        stdexec::sender auto rpc_snapshot = make_rpc_snapshot(*grpc_context_, object_service, probe_handler_);
+        stdexec::sender auto rpc_snapshot = make_rpc_snapshot(grpc_context_, object_service, probe_handler_);
         stdexec::sender auto rpc_find_object =
-            make_rpc_find_object(*grpc_context_, object_service, probe_handler_, value_registry_);
+            make_rpc_find_object(grpc_context_, object_service, probe_handler_, value_registry_);
         stdexec::sender auto rpc_fetch_object_properties =
-            make_rpc_fetch_object_properties(*grpc_context_, object_service, probe_handler_, value_registry_);
-        stdexec::sender auto rpc_fetch_windows = make_rpc_fetch_windows(*grpc_context_, object_service, probe_handler_);
+            make_rpc_fetch_object_properties(grpc_context_, object_service, probe_handler_, value_registry_);
+        stdexec::sender auto rpc_fetch_windows = make_rpc_fetch_windows(grpc_context_, object_service, probe_handler_);
         stdexec::sender auto rpc_invoke_method =
-            make_rpc_invoke_method(*grpc_context_, object_service, probe_handler_, value_registry_);
+            make_rpc_invoke_method(grpc_context_, object_service, probe_handler_, value_registry_);
         stdexec::sender auto rpc_mouse_injection =
-            make_rpc_mouse_injection(*grpc_context_, object_service, mouse_injector_);
-        stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(*grpc_context_, meta_service, meta_registry_);
+            make_rpc_mouse_injection(grpc_context_, object_service, mouse_injector_);
+        stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(grpc_context_, meta_service, meta_registry_);
 
-        run_grpc_context_for_sender(*grpc_context_,
+        run_grpc_context_for_sender(grpc_context_,
                                     stdexec::when_all(std::move(rpc_snapshot),
                                                       std::move(rpc_find_object),
                                                       std::move(rpc_fetch_object_properties),
