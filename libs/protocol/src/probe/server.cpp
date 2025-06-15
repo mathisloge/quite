@@ -53,7 +53,8 @@ class Server::Impl
         // initialization.
         stdexec::sync_wait(stdexec::schedule(grpc_context_.get_scheduler()) |
                            stdexec::then([this] { grpc_context_.stop(); }) |
-                           stdexec::continues_on(loop_.get_scheduler()) | stdexec::then([this] {
+                           stdexec::continues_on(loop_.get_scheduler()) | //
+                           stdexec::then([this] {
                                grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{10});
                                grpc_server_->Wait();
                            }));

@@ -10,4 +10,5 @@ inline constexpr std::string_view kGitRef = "@git_sha@";
 inline constexpr std::string_view kGitBranch = "@git_branch@";
 
 
+inline constexpr std::string_view kRuntimeDir = "@CMAKE_RUNTIME_OUTPUT_DIRECTORY@";
 } // namespace protodoc
