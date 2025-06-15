@@ -7,7 +7,7 @@ using namespace std::literals::string_view_literals;
 static suite<"protocol server"> _ = [] { // NOLINT
     "shutdown instant"_test = [] {
         // This test is to ensure that the server can be created and destroyed without issues.
-        for (int i = 0; i < 100; ++i)
+        for (int i = 0; i < 1000; ++i)
         {
             quite::proto::Server server{"unix:///tmp/grpc_probe.sock", {}, {}, {}, {}};
         }

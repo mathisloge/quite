@@ -27,7 +27,7 @@ class Server::Impl
     ServiceHandle<meta::MetaRegistry> meta_registry_;
     ServiceHandle<ValueRegistry> value_registry_;
     grpc::ServerBuilder builder_;
-    std::unique_ptr<grpc::Server> grpc_server_; // server has to be destroyed before grpc_context_
+    std::unique_ptr<grpc::Server> grpc_server_; // server has to be destroyed after grpc_context_
     agrpc::GrpcContext grpc_context_{builder_.AddCompletionQueue()};
     stdexec::run_loop loop_;
     std::jthread grpc_runner_;
@@ -52,27 +52,24 @@ class Server::Impl
         // wait for the grpc context to be running at least once otherwise we have race conditions in the
         // initialization.
         stdexec::sync_wait(stdexec::schedule(grpc_context_.get_scheduler()) |
-                           stdexec::then([this] { grpc_context_.stop(); }) |
-                           stdexec::continues_on(loop_.get_scheduler()) | //
-                           stdexec::then([this] {
+                           stdexec::then([this] { grpc_context_.stop(); }) | stdexec::then([this] {
                                grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{10});
-                               grpc_server_->Wait();
                            }));
+        grpc_server_->Wait();
         loop_.finish();
     }
 
   private:
-    template <class Sender>
-    void run_grpc_context_for_sender(agrpc::GrpcContext &grpc_context, Sender &&sender)
+    void run_grpc_context_for_sender(auto &&sender)
     {
         stdexec::sender auto all_snd =
-            exec::finally(std::forward<Sender>(sender),
-                          stdexec::just() | stdexec::then([&grpc_context] { grpc_context.work_finished(); }));
+            exec::finally(std::forward<decltype(sender)>(sender),
+                          stdexec::just() | stdexec::then([this] { grpc_context_.work_finished(); }));
 
-        grpc_context.work_started();
-        stdexec::start_detached(
-            stdexec::when_all(std::move(all_snd),
-                              stdexec::schedule(loop_.get_scheduler()) | stdexec::then([&]() { grpc_context.run(); })));
+        grpc_context_.work_started();
+        stdexec::start_detached(stdexec::when_all(std::move(all_snd),
+                                                  stdexec::schedule(loop_.get_scheduler()) |
+                                                      stdexec::then([this]() { grpc_context_.run(); })));
         loop_.run();
     }
 
@@ -103,8 +100,7 @@ class Server::Impl
             make_rpc_mouse_injection(grpc_context_, object_service, mouse_injector_);
         stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(grpc_context_, meta_service, meta_registry_);
 
-        run_grpc_context_for_sender(grpc_context_,
-                                    stdexec::when_all(std::move(rpc_snapshot),
+        run_grpc_context_for_sender(stdexec::when_all(std::move(rpc_snapshot),
                                                       std::move(rpc_find_object),
                                                       std::move(rpc_fetch_object_properties),
                                                       std::move(rpc_fetch_windows),
