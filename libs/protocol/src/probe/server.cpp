@@ -31,7 +31,6 @@ class Server::Impl
     grpc::ServerBuilder builder_;
     std::unique_ptr<grpc::Server> grpc_server_; // server has to be destroyed after grpc_context_
     agrpc::GrpcContext grpc_context_{builder_.AddCompletionQueue()};
-    stdexec::run_loop loop_;
     std::jthread grpc_runner_;
 
   public:
@@ -53,13 +52,13 @@ class Server::Impl
     {
         // wait for the grpc context to be running at least once otherwise we have race conditions in the
         // initialization.
-        stdexec::sync_wait(stdexec::schedule(grpc_context_.get_scheduler()) |
-                           stdexec::then([this] { grpc_context_.stop(); }) | stdexec::then([this] {
+        stdexec::sync_wait(stdexec::schedule(grpc_context_.get_scheduler()) | stdexec::then([this] {
+                               LOG_DEBUG(grpc_server_log(), "Shutting server down...");
+                               ssource_.request_stop();
+                               grpc_context_.stop();
                                grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{10});
-                           }));
-        ssource_.request_stop();
-        grpc_server_->Wait();
-        loop_.finish();
+                           }) |
+                           stdexec::then([this] { grpc_server_->Wait(); }));
     }
 
   private:
@@ -91,22 +90,34 @@ class Server::Impl
             make_rpc_mouse_injection(grpc_context_, object_service, mouse_injector_);
         stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(grpc_context_, meta_service, meta_registry_);
 
-        stdexec::sender auto all_snd =
-            exec::finally(stdexec::when_all(std::move(rpc_snapshot),
-                                            std::move(rpc_find_object),
-                                            std::move(rpc_fetch_object_properties),
-                                            std::move(rpc_fetch_windows),
-                                            std::move(rpc_invoke_method),
-                                            std::move(rpc_mouse_injection),
-                                            std::move(rpc_meta_find_type)) |
-                              exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()}),
-                          stdexec::just() | stdexec::then([this] { grpc_context_.work_finished(); }));
+        stdexec::sender auto all_snd = exec::finally(
+            stdexec::when_all(std::move(rpc_snapshot) |
+                                  exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()}),
+                              std::move(rpc_find_object) |
+                                  exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()}),
+                              std::move(rpc_fetch_object_properties) |
+                                  exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()}),
+                              std::move(rpc_fetch_windows) |
+                                  exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()}),
+                              std::move(rpc_invoke_method) |
+                                  exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()}),
+                              std::move(rpc_mouse_injection) |
+                                  exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()}),
+                              std::move(rpc_meta_find_type) |
+                                  exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()})),
+            stdexec::just() | stdexec::then([this] {
+                LOG_DEBUG(grpc_server_log(), "grpc_context_.work_finished");
+                grpc_context_.work_finished();
+            }));
+
+        LOG_DEBUG(grpc_server_log(), "grpc_context_.work_started");
 
         grpc_context_.work_started();
-        stdexec::start_detached(stdexec::when_all(std::move(all_snd),
-                                                  stdexec::schedule(loop_.get_scheduler()) |
-                                                      stdexec::then([this]() { grpc_context_.run(); })));
-        loop_.run();
+        stdexec::sync_wait(stdexec::when_all(std::move(all_snd), stdexec::just() | stdexec::then([this]() {
+                                                                     LOG_DEBUG(grpc_server_log(), "grpc_context_.run");
+                                                                     grpc_context_.run();
+                                                                 })));
+        LOG_DEBUG(grpc_server_log(), "grpc_context_.finished");
     }
 };
 
