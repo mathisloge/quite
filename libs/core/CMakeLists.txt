@@ -20,13 +20,7 @@ configure_file(
 
 target_link_libraries(
     quite_core
-    PUBLIC
-        fmt::fmt
-        quill::quill
-        Boost::asio
-        EnTT::EnTT
-        STDEXEC::stdexec
-        cpptrace::cpptrace
+    PUBLIC fmt::fmt quill::quill Boost::asio EnTT::EnTT STDEXEC::stdexec
 )
 
 target_include_directories(quite_core PRIVATE ${Stb_INCLUDE_DIR})
@@ -47,7 +41,6 @@ target_sources(
             include/quite/image_utils.hpp
             include/quite/asio_context.hpp
             include/quite/service_handle.hpp
-            include/quite/crash_handler.hpp
             include/quite/meta_any_formatter.hpp
             include/quite/meta/meta_registry.hpp
             include/quite/meta/meta_types.hpp
@@ -69,7 +62,6 @@ target_sources(
         src/image.cpp
         src/image_utils.cpp
         src/asio_context.cpp
-        src/crash_handler.cpp
         src/value/value_registry.cpp
         src/value/object_query.cpp
 )
