@@ -2,17 +2,17 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
-    -   id: check-yaml
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
         exclude: ^(mkdocs|.clang-format)
-    -   id: check-added-large-files
+      - id: check-added-large-files
 
   - repo: https://github.com/BlankSpruce/gersemi
     rev: 0.19.3
     hooks:
-    - id: gersemi
-      name: CMake linting
+      - id: gersemi
+        name: CMake linting
 
   - repo: https://github.com/psf/black
     rev: 25.1.0
@@ -25,10 +25,12 @@ repos:
         types_or: [c++, c, proto]
   # Check linting and style issues
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.11.13"
+    rev: "v0.12.0"
     hooks:
-      - id: ruff
-        args: ["--fix", "--show-fixes"]
+      # Run the linter.
+      - id: ruff-check
+        args: [--fix, --show-fixes]
+      # Run the formatter.
       - id: ruff-format
         exclude: ^(docs)
 
