@@ -1,4 +1,5 @@
 add_executable(test_manager_runnable runnable_exe.cpp)
+add_sanitizers(test_manager_runnable)
 target_link_libraries(test_manager_runnable PUBLIC CLI11::CLI11)
 file(
     GENERATE OUTPUT
@@ -14,6 +15,7 @@ target_include_directories(
 )
 
 add_executable(test_manager)
+add_sanitizers(test_manager)
 target_link_libraries(
     test_manager
     PRIVATE

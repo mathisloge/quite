@@ -3,6 +3,7 @@ set(CMAKE_AUTOUIC ON)
 
 add_library(probe SHARED)
 add_library(quite::probe ALIAS probe)
+add_sanitizers(probe)
 target_compile_features(probe PUBLIC cxx_std_17 PRIVATE cxx_std_23)
 set_target_properties(
     probe

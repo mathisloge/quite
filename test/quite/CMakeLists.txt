@@ -5,6 +5,7 @@ cmrc_add_resource_library(testrc ALIAS quite::testrc NAMESPACE testrc
 )
 
 add_executable(api_test)
+add_sanitizers(api_test)
 target_link_libraries(
     api_test
     PUBLIC
@@ -21,7 +22,7 @@ target_sources(
     api_test
     PRIVATE
         #process_application.cpp # compile error on gcc-13
-        #remote_object_test.cpp
+        remote_object_test.cpp
         test_probe_manager.cpp
     #image_diff_test.cpp
     #meta_test.cpp

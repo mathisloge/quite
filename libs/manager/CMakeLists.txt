@@ -1,5 +1,6 @@
 add_library(quite_manager)
 add_library(quite::manager ALIAS quite_manager)
+add_sanitizers(quite_manager)
 target_compile_features(quite_manager PUBLIC cxx_std_23)
 # workaround for https://github.com/boostorg/process/issues/312
 target_compile_definitions(

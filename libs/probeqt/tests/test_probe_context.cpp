@@ -1,12 +1,11 @@
 #include <QObject>
-#include <memory>
 #include <boost/ut.hpp>
 #include "probe_context.hpp"
 
 using namespace boost::ut;
 using quite::probe::ProbeContext;
 
-suite<"qtprobe ProbeContext"> _ = [] { // NOLINT
+static suite<"qtprobe ProbeContext"> _ = [] { // NOLINT
     "ProbeContext can be constructed and destructed"_test = [] {
         // Should not crash or throw
         ProbeContext ctx{"localhost:12345"};

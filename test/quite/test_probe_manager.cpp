@@ -22,11 +22,13 @@ TEST_CASE("A host application is started")
     ProcessManager process_manager{get_executor()};
     ProbeManager probe_manager;
     auto [process] = stdexec::sync_wait(process_manager.launch_application({"tester"}, TESTER_APP_PATH)).value();
-    auto probe = probe_manager.connect(process.value(), "...");
+    {
+        auto probe = probe_manager.connect(process.value(), "...");
 
-    ASYNC_BLOCK
-    const auto state = co_await probe->wait_for_started(std::chrono::seconds{5});
-    REQUIRE(state.has_value());
-    co_await probe->exit();
-    ASYNC_BLOCK_END
+        ASYNC_BLOCK
+        const auto state = co_await probe->wait_for_started(std::chrono::seconds{5});
+        REQUIRE(state.has_value());
+        co_await probe->exit();
+        ASYNC_BLOCK_END
+    }
 }

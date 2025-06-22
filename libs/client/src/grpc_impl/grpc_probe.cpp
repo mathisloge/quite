@@ -5,6 +5,8 @@
 #include <quite/logger.hpp>
 #include "grpc_remote_object.hpp"
 
+#include <fmt/base.h>
+
 DEFINE_LOGGER(grpc_app_logger)
 
 namespace quite::client

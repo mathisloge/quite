@@ -3,6 +3,7 @@ set(CMAKE_AUTOUIC ON)
 
 add_library(probeqt STATIC)
 add_library(quite::probeqt ALIAS probeqt)
+add_sanitizers(probeqt)
 set_target_properties(probeqt PROPERTIES POSITION_INDEPENDENT_CODE ON)
 generate_export_header(probeqt)
 

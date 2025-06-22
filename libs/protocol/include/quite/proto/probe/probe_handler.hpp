@@ -28,7 +28,7 @@ class QUITE_PROTOCOL_EXPORT IProbeHandler
     virtual AsyncResult<ObjectReference> find_object(ObjectQuery query) = 0;
     virtual AsyncResult<PropertyMap> fetch_properties(ObjectId object_id, std::vector<std::string> properties) = 0;
     virtual AsyncResult<std::vector<ObjectReference>> fetch_windows() = 0;
-    virtual AsyncResult<entt::meta_any> invoke_method(const entt::meta_any &object,
+    virtual AsyncResult<entt::meta_any> invoke_method(entt::meta_any object,
                                                       std::string qualified_method_signature,
                                                       std::vector<entt::meta_any> params) = 0;
 };

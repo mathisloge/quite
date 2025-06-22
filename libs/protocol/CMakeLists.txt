@@ -2,6 +2,7 @@ set(proto_inc_dir "${CMAKE_CURRENT_LIST_DIR}/quite/proto")
 
 add_library(quite_protocol)
 add_library(quite::protocol ALIAS quite_protocol)
+add_sanitizers(quite_protocol)
 target_compile_features(quite_protocol PUBLIC cxx_std_23)
 set_target_properties(
     quite_protocol

@@ -1,14 +1,17 @@
 cmake_minimum_required(VERSION 3.28)
 project(quite VERSION 0.0.1 LANGUAGES CXX)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(
+    APPEND
+    CMAKE_MODULE_PATH
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/sanitizers"
+)
 
 include(CTest)
 include(GenerateExportHeader)
 include(FeatureSummary)
 include(GNUInstallDirs)
 include(GetGitRevisionDescription)
-include(sanitizers)
-add_sanitizer_support(address leak)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -16,6 +19,11 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
+
+set(SANITIZE_ADDRESS ON)
+set(SANITIZE_UNDEFINED ON)
+set(SANITIZE_MEMORY OFF)
+set(SANITIZE_THREAD OFF)
 
 option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
 option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
@@ -37,6 +45,7 @@ get_git_head_revision(git_branch git_sha)
 message(STATUS "git_sha: ${git_sha}")
 message(STATUS "git_branch: ${git_branch}")
 
+find_package(Sanitizers REQUIRED)
 ### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
 include(get_cpm)
 set(BOOST_VERSION "1.88.0")

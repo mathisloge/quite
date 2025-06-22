@@ -4,6 +4,7 @@ set(CMAKE_AUTOUIC ON)
 qt_add_executable(tester
     main.cpp
 )
+add_sanitizers(tester)
 
 qt_add_qml_module(tester
     URI hello

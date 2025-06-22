@@ -1,5 +1,6 @@
 add_library(quite_test)
 add_library(quite::test ALIAS quite_test)
+add_sanitizers(quite_test)
 target_compile_features(quite_test PUBLIC cxx_std_17 PRIVATE cxx_std_23)
 set_target_properties(
     quite_test
