@@ -53,7 +53,7 @@ class Server::Impl
         // wait for the grpc context to be running at least once otherwise we have race conditions in the
         // initialization.
         stdexec::sync_wait(stdexec::schedule(grpc_context_.get_scheduler()) | stdexec::then([this] {
-                               LOG_DEBUG(grpc_server_log(), "Shutting grpc server down...");
+                               // LOG_DEBUG(grpc_server_log(), "Shutting grpc server down...");
                                ssource_.request_stop();
                                grpc_server_->Shutdown(std::chrono::system_clock::now() + std::chrono::seconds{10});
                            }) |
@@ -104,15 +104,15 @@ class Server::Impl
                           stdexec::then(stdexec::just(),
                                         [&] {
                                             grpc_context_.work_finished();
-                                            LOG_DEBUG(grpc_server_log(), "grpc context finished work.");
+                                            // LOG_DEBUG(grpc_server_log(), "grpc context finished work.");
                                         })),
             stdexec::then(stdexec::just(), [&] {
                 LOG_DEBUG(grpc_server_log(), "Starting grpc context...");
                 grpc_context_.run();
-                LOG_DEBUG(grpc_server_log(), "grpc context finished");
+                // LOG_DEBUG(grpc_server_log(), "grpc context finished");
             })));
 
-        LOG_DEBUG(grpc_server_log(), "grpc thread finished");
+        // LOG_DEBUG(grpc_server_log(), "grpc thread finished");
     }
 };
 

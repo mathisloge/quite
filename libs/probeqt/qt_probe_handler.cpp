@@ -124,7 +124,7 @@ AsyncResult<std::vector<ObjectReference>> QtProbeHandler::fetch_windows()
     co_return windows;
 }
 
-AsyncResult<entt::meta_any> QtProbeHandler::invoke_method(const entt::meta_any &object,
+AsyncResult<entt::meta_any> QtProbeHandler::invoke_method(entt::meta_any object,
                                                           std::string qualified_method_signature,
                                                           std::vector<entt::meta_any> params)
 {

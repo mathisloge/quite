@@ -1,5 +1,6 @@
 add_library(quite_client)
 add_library(quite::client ALIAS quite_client)
+add_sanitizers(quite_client)
 target_compile_features(quite_client PUBLIC cxx_std_23)
 set_target_properties(
     quite_client

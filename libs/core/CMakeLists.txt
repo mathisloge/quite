@@ -1,6 +1,7 @@
 set(QUITE_USES_BOOST ON)
 add_library(quite_core)
 add_library(quite::core ALIAS quite_core)
+add_sanitizers(quite_core)
 
 target_compile_definitions(quite_core PUBLIC ASIO_TO_EXEC_USE_BOOST)
 target_compile_features(quite_core PUBLIC cxx_std_23)

@@ -54,8 +54,11 @@ TEST_CASE("Test ProbeHandler")
         REQUIRE_FALSE(invalid_result.has_value());
         auto valid_result = co_await probe_handler.object_instance(test_obj_id);
         REQUIRE(valid_result.has_value());
-        const auto other_id = valid_result.value();
+        auto other_id = valid_result.value();
         REQUIRE(other_id == entt::forward_as_meta(static_cast<QObject *>(std::addressof(test_obj))));
+
+        auto *casted = other_id.try_cast<QObject *>();
+        REQUIRE(casted != nullptr);
         ASYNC_BLOCK_END
     }
 

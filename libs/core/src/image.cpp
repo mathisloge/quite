@@ -38,12 +38,19 @@ Image::Image(std::vector<std::byte> image_data, std::uint32_t width, std::uint32
 Image::Image(const std::filesystem::path &filename)
 {
     int w, h, channels;
-    auto data = stbi_load(filename.c_str(), &w, &h, &channels, 0);
-
-    const size_t image_size = w * h * channels;
-    std::vector<std::byte> image_data{reinterpret_cast<std::byte *>(data),
-                                      reinterpret_cast<std::byte *>(data) + image_size};
-    impl_ = std::make_unique<Impl>(std::move(image_data), w, h, channels);
+    auto *data = stbi_load(filename.c_str(), &w, &h, &channels, 0);
+    if (data != nullptr)
+    {
+        const size_t image_size = w * h * channels;
+        std::vector<std::byte> image_data{reinterpret_cast<std::byte *>(data),
+                                          reinterpret_cast<std::byte *>(data) + image_size};
+        stbi_image_free(data);
+        impl_ = std::make_unique<Impl>(std::move(image_data), w, h, channels);
+    }
+    else
+    {
+        impl_ = std::make_unique<Impl>(std::vector<std::byte>{}, 0, 0, 0);
+    }
 }
 
 Image::Image(Image &&other) noexcept

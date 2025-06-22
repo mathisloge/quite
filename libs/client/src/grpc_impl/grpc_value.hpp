@@ -10,7 +10,7 @@ class GrpcValueConverter final : public proto::IValueConverter
     entt::meta_any from(ObjectReference ref) const override;
 
   private:
-    std::shared_ptr<proto::ProbeClient> client_;
+    std::weak_ptr<proto::ProbeClient> client_;
 };
 // quite::Result<quite::Value> convert(const entt::meta_any &value, std::shared_ptr<proto::ProbeClient> client);
 } // namespace quite::client
