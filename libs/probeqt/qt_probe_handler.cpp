@@ -45,7 +45,7 @@ AsyncResult<entt::meta_any> QtProbeHandler::object_instance(ObjectId object_id)
     auto find_result = object_tracker_.get_object_by_id(object_id);
     if (find_result.has_value())
     {
-        co_return entt::forward_as_meta(find_result.value());
+        co_return entt::meta_any{std::in_place_type<QObject *>, find_result.value()};
     }
     co_return std::unexpected{std::move(find_result.error())};
 }
