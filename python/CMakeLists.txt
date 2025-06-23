@@ -11,9 +11,9 @@ add_custom_command(
     POST_BUILD
     BYPRODUCTS quite/_quite.pyi quite/__init__.pyi
     COMMAND
-        ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:_quite>/../ stubgen
-        -o ./ -p quite --include-docstrings
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_COMMAND} -E env bash -c
+        "libasan=\$(ldd \"$<TARGET_FILE:_quite>\" | grep libasan | awk '{print \$3}');echo \"Detected libasan: \$libasan\";LD_PRELOAD=\$libasan PYTHONPATH=\"$<TARGET_FILE_DIR:_quite>/..\" stubgen -o ./ -p quite --include-docstrings || (exit 0)"
+    VERBATIM
 )
 
 # enables loading when directly executing the module
