@@ -12,7 +12,6 @@ add_test(
 set_tests_properties(
     PythonTests
     PROPERTIES
-        DISABLED TRUE
         ENVIRONMENT
             "PYTHONPATH=$<TARGET_FILE_DIR:_quite>/../:${CMAKE_CURRENT_BINARY_DIR}"
 )

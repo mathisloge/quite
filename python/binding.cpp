@@ -17,7 +17,6 @@ namespace py = pybind11;
 PYBIND11_MODULE(_quite, m)
 {
     using namespace quite::test;
-
     m.doc() = "quite - a ui testing framework. See https://github.com/mathisloge/ng-quite";
 
     auto py_probe_manager = py::class_<ProbeManager>(m, "ProbeManager");
