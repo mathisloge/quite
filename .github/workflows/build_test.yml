@@ -58,12 +58,6 @@ jobs:
             fi
             sleep 0.1
           done
-          # Optional: dump Weston logs for debugging if it fails
-          if ! pgrep weston > /dev/null; then
-            echo "Weston failed to start:"
-            cat weston.log
-            exit 1
-          fi
 
       - name: Run CMake workflow
         run: cmake --workflow ci
