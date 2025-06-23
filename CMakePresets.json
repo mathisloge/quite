@@ -98,6 +98,9 @@
                 "CMAKE_C_COMPILER": "gcc-13",
                 "CMAKE_CXX_COMPILER": "g++-13",
                 "QUITE_INSTALL": false
+            },
+            "environment": {
+                "WAYLAND_DISPLAY": "wl-test-env"
             }
         }
     ],
