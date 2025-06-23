@@ -61,5 +61,21 @@ jobs:
 
       - name: Run workflow
         run: |
-          ./start_weston_headless.sh &
+          weston --no-config --socket=wl-test-env --backend=headless --idle-time=0 > weston.log 2>&1 &
+
+          # Wait for the Wayland socket to become available (timeout after 10s)
+          for i in {1..100}; do
+            if [ -e /run/user/$(id -u)/wayland-0 ] || [ -e /tmp/wayland-wl-test-env ]; then
+              break
+            fi
+            sleep 0.1
+          done
+
+          # Optional: dump Weston logs for debugging if it fails
+          if ! pgrep weston > /dev/null; then
+            echo "Weston failed to start:"
+            cat weston.log
+            exit 1
+          fi
+
           cmake --workflow ci
