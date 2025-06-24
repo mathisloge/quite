@@ -29,6 +29,7 @@ def test_launch_application(probe_manager: ProbeManager):
     app = probe_manager.launch_qt_probe_application(
         name="tester", path_to_application=APP_PATH
     )
+    pytest.fail("test")
     assert app
     app.wait_for_connected(timeout=datetime.timedelta(seconds=10))
 
