@@ -24,7 +24,7 @@ ProcessManager::ProcessManager(asio_impl::thread_pool::executor_type executor)
 
 ProcessManager::~ProcessManager() = default;
 
-AsyncResult<ProcessHandle> ProcessManager::application(const ProcessId &id)
+AsyncResult<ProcessHandle> ProcessManager::application(const ProcessId id)
 {
     const auto it = impl_->applications_.find(id.name);
     if (it == impl_->applications_.end())
@@ -36,9 +36,9 @@ AsyncResult<ProcessHandle> ProcessManager::application(const ProcessId &id)
 }
 
 AsyncResult<ProcessHandle> ProcessManager::launch_application(ProcessId id,
-                                                              const std::string &path_to_application,
-                                                              const std::vector<std::string> &args,
-                                                              const Environment &environment)
+                                                              std::string path_to_application,
+                                                              std::vector<std::string> args,
+                                                              Environment environment)
 {
     try
     {
@@ -56,7 +56,10 @@ AsyncResult<ProcessHandle> ProcessManager::launch_application(ProcessId id,
             }
         }
 
-        bp::process process{impl_->executor_, path_to_application, args, bp::process_environment{environment}};
+        bp::process process{impl_->executor_,
+                            std::move(path_to_application),
+                            std::move(args),
+                            bp::process_environment{std::move(environment)}};
         auto [app, emplaced] = impl_->applications_.insert_or_assign(std::move(id.name),
                                                                      std::make_shared<ProcessImpl>(std::move(process)));
         if (not emplaced)

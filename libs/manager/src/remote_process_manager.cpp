@@ -5,13 +5,13 @@ namespace quite::manager
 AsyncResult<RemoteProcessManager::Environment> RemoteProcessManager::current_remote_environment()
 {}
 
-AsyncResult<ProcessHandle> RemoteProcessManager::application(const ProcessId &name)
+AsyncResult<ProcessHandle> RemoteProcessManager::application(ProcessId name)
 {}
 
 AsyncResult<ProcessHandle> RemoteProcessManager::launch_application(ProcessId id,
-                                                                    const std::string &path_to_application,
-                                                                    const std::vector<std::string> &args,
-                                                                    const Environment &environment)
+                                                                    std::string path_to_application,
+                                                                    std::vector<std::string> args,
+                                                                    Environment environment)
 {}
 
 AsyncResult<std::filesystem::path> RemoteProcessManager::find_executable(std::filesystem::path exe_name,
