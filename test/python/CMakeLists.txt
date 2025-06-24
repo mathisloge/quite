@@ -15,8 +15,9 @@ add_test(
             echo 'libasan not found; running without LD_PRELOAD'
         else
             echo \"Using libasan: \$libasan\"
-            export ASAN_OPTIONS=detect_leaks=1:fast_unwind_on_malloc=0
+            export ASAN_OPTIONS=detect_leaks=1:abort_on_error=1
             export LD_PRELOAD=\$libasan
+            export LD_BIND_NOW=1
         fi
         ${Python_EXECUTABLE} -m pytest --capture=tee-sys -vv ${CMAKE_CURRENT_SOURCE_DIR}
     "
