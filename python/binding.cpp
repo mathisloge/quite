@@ -15,18 +15,8 @@
 
 namespace py = pybind11;
 
-class QuiteInitializer
-{
-  public:
-    QuiteInitializer()
-    {
-        quite::setup_logger();
-    }
-};
-
 PYBIND11_MODULE(_quite, m)
 {
-    [[maybe_unused]] static QuiteInitializer initializer;
     using namespace quite::test;
     m.doc() = "quite - a ui testing framework. See https://github.com/mathisloge/ng-quite";
 
