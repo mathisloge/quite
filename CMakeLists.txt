@@ -20,11 +20,6 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 
-set(SANITIZE_ADDRESS ON)
-set(SANITIZE_UNDEFINED ON)
-set(SANITIZE_MEMORY OFF)
-set(SANITIZE_THREAD OFF)
-
 option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
 option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
 option(QUITE_INSTALL "Decides if the libraries should be installed" ON)

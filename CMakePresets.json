@@ -51,7 +51,9 @@
             ],
             "cacheVariables": {
                 "BUILD_TESTING": true,
-                "QUITE_INSTALL": false
+                "QUITE_INSTALL": false,
+                "SANITIZE_ADDRESS": true,
+                "SANITIZE_UNDEFINED": true
             }
         },
         {
