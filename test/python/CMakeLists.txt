@@ -14,11 +14,11 @@ add_test(
         if [ -z \"\$libasan\" ]; then
             echo 'libasan not found; running without LD_PRELOAD'
             WAYLAND_DISPLAY=$ENV{WAYLAND_DISPLAY} LD_PRELOAD= PYTHONPATH=\"$<TARGET_FILE_DIR:_quite>/../:${CMAKE_CURRENT_BINARY_DIR}\" \
-                ${Python_EXECUTABLE} -m pytest -vv ${CMAKE_CURRENT_SOURCE_DIR}
+                ${Python_EXECUTABLE} -m pytest --capture=tee-sys -vv ${CMAKE_CURRENT_SOURCE_DIR}
         else
             echo \"Using libasan: \$libasan\"
             WAYLAND_DISPLAY=$ENV{WAYLAND_DISPLAY} ASAN_OPTIONS=\"detect_leaks=0:allocator_may_return_null=1:handle_segv=0\" LD_PRELOAD=\$libasan PYTHONPATH=\"$<TARGET_FILE_DIR:_quite>/../:${CMAKE_CURRENT_BINARY_DIR}\" \
-                ${Python_EXECUTABLE} -m pytest -vv ${CMAKE_CURRENT_SOURCE_DIR}
+                ${Python_EXECUTABLE} -m pytest --capture=tee-sys -vv ${CMAKE_CURRENT_SOURCE_DIR}
         fi
     "
 )

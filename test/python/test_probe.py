@@ -30,7 +30,7 @@ def test_launch_application(probe_manager: ProbeManager):
         name="tester", path_to_application=APP_PATH
     )
     assert app
-    app.wait_for_connected()
+    app.wait_for_connected(timeout=datetime.timedelta(seconds=10))
 
     app.exit()
 
