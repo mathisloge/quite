@@ -5,22 +5,18 @@ add_test(
         /bin/bash -c
         "
         set -e
-        target='$<TARGET_FILE:_quite>'
-        if [ ! -f \"$target\" ]; then
-            echo 'Target binary not found: ' \"$target\"
+        # Locate libasan from Python bindings (or any ASan-linked binary)
+        libasan=\$(ldd '$<TARGET_FILE:_quite>' | grep libasan | awk '{print \$3}')
+        if [ -z \"\$libasan\" ]; then
+            echo 'ERROR: libasan not found. Make sure target is built with -fsanitize=address'
             exit 1
         fi
-        libasan=\$(ldd \"$target\" | grep libasan | awk '{print \$3}')
-        if [ -z \"\$libasan\" ]; then
-            echo 'libasan not found; running without LD_PRELOAD'
-        else
-            echo \"Using libasan: \$libasan\"
-            export ASAN_OPTIONS=detect_leaks=0:allocator_may_return_null=1:handle_segv=0
-            export LD_PRELOAD=\$libasan
-            export LD_BIND_NOW=1
-        fi
-        ${Python_EXECUTABLE} -m pytest --capture=tee-sys -vv ${CMAKE_CURRENT_SOURCE_DIR}
-    "
+        echo \"Using libasan: \$libasan\"
+        export LD_PRELOAD=\$libasan
+        export ASAN_OPTIONS=detect_leaks=0:allocator_may_return_null=1:handle_segv=0
+        export LD_BIND_NOW=1  # Ensures symbols are resolved at load time (required by ASan)
+        exec ${Python_EXECUTABLE} -m pytest --capture=tee-sys -vv ${CMAKE_CURRENT_SOURCE_DIR}
+        "
 )
 set_tests_properties(
     PythonTests
