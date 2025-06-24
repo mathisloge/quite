@@ -37,6 +37,12 @@ jobs:
           packages: ninja-build doxygen libunwind-dev libgrpc++-dev protobuf-compiler-grpc weston
           version: 1.0
 
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.os }}
+          create-symlink: true
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:

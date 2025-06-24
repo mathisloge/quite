@@ -97,6 +97,8 @@
                 "BUILD_TESTING": true,
                 "CMAKE_C_COMPILER": "gcc-13",
                 "CMAKE_CXX_COMPILER": "g++-13",
+                "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
                 "QUITE_INSTALL": false
             },
             "environment": {
