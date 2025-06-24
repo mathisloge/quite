@@ -1,4 +1,5 @@
 pybind11_add_module(_quite binding.cpp)
+add_sanitizers(_quite)
 set_target_properties(
     _quite
     PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/quite
