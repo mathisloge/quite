@@ -24,6 +24,9 @@ jobs:
           path: .cache
           restore-keys: |
             quite-docs-
-      - run: sudo apt install doxygen
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: doxygen
+          version: 1.0
       - run: pip install -r requirements-dev.txt
       - run: mkdocs gh-deploy --force
