@@ -34,7 +34,7 @@ jobs:
 
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
-          packages: ninja-build doxygen libunwind-dev libgrpc++-dev protobuf-compiler-grpc weston
+          packages: ninja-build doxygen libunwind-dev libgrpc++-dev protobuf-compiler-grpc weston ccache
           version: 1.0
 
       - name: ccache
