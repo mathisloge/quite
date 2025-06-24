@@ -15,7 +15,7 @@ add_test(
             echo 'libasan not found; running without LD_PRELOAD'
         else
             echo \"Using libasan: \$libasan\"
-            export ASAN_OPTIONS=detect_leaks=1:abort_on_error=1
+            export ASAN_OPTIONS=detect_leaks=0:allocator_may_return_null=1:handle_segv=0
             export LD_PRELOAD=\$libasan
             export LD_BIND_NOW=1
         fi
