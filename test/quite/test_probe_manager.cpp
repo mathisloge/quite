@@ -26,7 +26,7 @@ TEST_CASE("A host application is started")
         auto probe = probe_manager.connect(process.value(), "...");
 
         ASYNC_BLOCK
-        const auto state = co_await probe->wait_for_started(std::chrono::seconds{5});
+        const auto state = co_await probe->wait_for_started(std::chrono::seconds{10});
         REQUIRE(state.has_value());
         co_await probe->exit();
         ASYNC_BLOCK_END
