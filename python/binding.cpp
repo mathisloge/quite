@@ -3,6 +3,7 @@
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
 #include <quite/client/property.hpp>
+#include <quite/setup_logger.hpp>
 #include <quite/test/expect.hpp>
 #include <quite/test/object_query_builder.hpp>
 #include <quite/test/probe.hpp>
@@ -14,8 +15,18 @@
 
 namespace py = pybind11;
 
+class QuiteInitializer
+{
+  public:
+    QuiteInitializer()
+    {
+        quite::setup_logger();
+    }
+};
+
 PYBIND11_MODULE(_quite, m)
 {
+    [[maybe_unused]] static QuiteInitializer initializer;
     using namespace quite::test;
     m.doc() = "quite - a ui testing framework. See https://github.com/mathisloge/ng-quite";
 
