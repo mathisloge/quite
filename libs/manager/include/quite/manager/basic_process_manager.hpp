@@ -28,7 +28,7 @@ class QUITE_MANAGER_EXPORT BasicProcessManager
      * @param name the id of the application (which was used to launch or attach a application)
      * @return Result<ProcessHandle> An instance of an application or a not found error otherwise
      */
-    virtual AsyncResult<ProcessHandle> application(const ProcessId &name) = 0;
+    virtual AsyncResult<ProcessHandle> application(ProcessId name) = 0;
 
     /**
      * @brief Launches the application but does not preloads any probe. Can be used to start arbitrary installed
@@ -41,9 +41,9 @@ class QUITE_MANAGER_EXPORT BasicProcessManager
      * @return ProcessHandle
      */
     virtual AsyncResult<ProcessHandle> launch_application(ProcessId id,
-                                                          const std::string &path_to_application,
-                                                          const std::vector<std::string> &args,
-                                                          const Environment &environment) = 0;
+                                                          std::string path_to_application,
+                                                          std::vector<std::string> args,
+                                                          Environment environment) = 0;
 
     /**
      * @brief Tries to find the given executable in the PATH equivalent environment entry.
