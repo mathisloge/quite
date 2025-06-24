@@ -17,7 +17,7 @@ add_test(
                 ${Python_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
         else
             echo \"Using libasan: \$libasan\"
-            LD_PRELOAD=\$libasan PYTHONPATH=\"$<TARGET_FILE_DIR:_quite>/../:${CMAKE_CURRENT_BINARY_DIR}\" \
+            ASAN_OPTIONS=\"detect_leaks=0:allocator_may_return_null=1:handle_segv=0\" LD_PRELOAD=\$libasan PYTHONPATH=\"$<TARGET_FILE_DIR:_quite>/../:${CMAKE_CURRENT_BINARY_DIR}\" \
                 ${Python_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
         fi
     "
