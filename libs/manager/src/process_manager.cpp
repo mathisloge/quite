@@ -80,6 +80,7 @@ ProcessManager::Environment ProcessManager::current_environment()
     for (auto &&kv : c)
     {
         env.emplace(kv.key().string(), kv.value().string());
+        fmt::println("TEST {}, {}", kv.key().string(), kv.value().string());
     }
     return env;
 }
