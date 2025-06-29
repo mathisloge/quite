@@ -77,14 +77,13 @@ quite::core::MouseAction mouse_action_from_request(const quite::proto::MouseActi
 } // namespace
 namespace quite::proto
 {
-exec::task<void> MouseActionRpcHandler::operator()(MouseActionRPC &rpc, const MouseActionRPC::Request &request)
+exec::task<void> MouseActionRpcHandler::operator()(MouseActionRPC &rpc, const MouseActionRPC::Request &request) const
 {
     LOG_TRACE_L1(rpc_mouse_action_logger(), "START RequestMouseAction={}", request.object_id());
 
     const auto action = mouse_action_from_request(request);
 
-    auto &mouse_injector = entt::locator<core::IMouseInjector>::value();
-    const auto invoke_result = co_await mouse_injector.single_action(request.object_id(), action);
+    const auto invoke_result = co_await mouse_injector->single_action(request.object_id(), action);
     if (not invoke_result.has_value())
     {
         co_await rpc.finish_with_error(result2grpc_status(invoke_result.error()));
@@ -95,9 +94,12 @@ exec::task<void> MouseActionRpcHandler::operator()(MouseActionRPC &rpc, const Mo
 }
 
 agrpc::detail::RPCHandlerSender<MouseActionRPC, MouseActionRpcHandler> make_rpc_mouse_injection(
-    agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service)
+    agrpc::GrpcContext &grpc_context,
+    quite::proto::ProbeService::AsyncService &service,
+    ServiceHandle<core::IMouseInjector> mouse_injector)
 {
-    return agrpc::register_sender_rpc_handler<MouseActionRPC>(grpc_context, service, MouseActionRpcHandler{});
+    return agrpc::register_sender_rpc_handler<MouseActionRPC>(
+        grpc_context, service, MouseActionRpcHandler{std::move(mouse_injector)});
 }
 
 } // namespace quite::proto

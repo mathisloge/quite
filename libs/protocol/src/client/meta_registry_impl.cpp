@@ -34,10 +34,8 @@ AsyncResult<meta::Type> MetaRegistryImpl::lookup_type(meta::TypeId type_id)
     }
     if (not response.has_type())
     {
-        co_return std::unexpected(Error{
-            .code = ErrorCode::failed_precondition,
-            .message = fmt::format("Got no meta type for type '{}'", type_id),
-        });
+        co_return make_error_result(ErrorCode::failed_precondition,
+                                    fmt::format("Got no meta type for type '{}'", type_id));
     }
 
     auto &&meta_type = response.type();

@@ -3,12 +3,12 @@
 #include <asioexec/use_sender.hpp>
 #include <exec/repeat_effect_until.hpp>
 #include <exec/when_any.hpp>
+#include <quite/client/property.hpp>
+#include <quite/client/quite.hpp>
 #include <quite/logger.hpp>
 #include <quite/meta_any_formatter.hpp>
-#include <quite/property.hpp>
-#include <quite/quite.hpp>
 #include "quite/asio_context.hpp"
-#include "quite/remote_object.hpp"
+#include "quite/client/remote_object.hpp"
 #include "quite/test/remote_object.hpp"
 #include "throw_unexpected.hpp"
 
@@ -40,9 +40,9 @@ Property::Value convert_any(const entt::meta_any &value)
 
     if (type.is_pointer_like())
     {
-        if (type.info() == entt::type_id<RemoteObjectPtr>())
+        if (type.info() == entt::type_id<client::RemoteObjectPtr>())
         {
-            return RemoteObject{value.cast<RemoteObjectPtr>()};
+            return RemoteObject{value.cast<client::RemoteObjectPtr>()};
         }
     }
 
@@ -57,7 +57,7 @@ Property::Value convert_any(const entt::meta_any &value)
     return {};
 }
 
-Property::Property(std::shared_ptr<quite::Property> property)
+Property::Property(std::shared_ptr<client::Property> property)
     : property_{std::move(property)}
 {}
 
@@ -85,7 +85,8 @@ Property::Value Property::wait_for_value(Property::Value target_value, std::chro
     boost::asio::steady_timer timeout_timer{get_executor(), timeout};
 
     stdexec::sender auto fetch_value_snd =
-        stdexec::schedule(asio_context().get_scheduler()) | stdexec::let_value([this]() { return property_->read(); }) |
+        stdexec::schedule(client::asio_context().get_scheduler()) |
+        stdexec::let_value([this]() { return property_->read(); }) |
         stdexec::then([&return_value, &target_value](auto &&possible_value) -> bool {
             if (not possible_value.has_value())
             {

@@ -14,11 +14,11 @@ class RemoteProcessManager : public BasicProcessManager
      */
     AsyncResult<Environment> current_remote_environment();
 
-    AsyncResult<ProcessHandle> application(const ProcessId &name) override;
+    AsyncResult<ProcessHandle> application(ProcessId name) override;
     AsyncResult<ProcessHandle> launch_application(ProcessId id,
-                                                  const std::string &path_to_application,
-                                                  const std::vector<std::string> &args,
-                                                  const Environment &environment) override;
+                                                  std::string path_to_application,
+                                                  std::vector<std::string> args,
+                                                  Environment environment) override;
     AsyncResult<std::filesystem::path> find_executable(std::filesystem::path exe_name,
                                                        Environment environment) override;
 

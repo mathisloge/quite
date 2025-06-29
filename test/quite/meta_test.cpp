@@ -1,13 +1,13 @@
 #include <catch2/catch_test_macros.hpp>
 #include <quite/asio_context.hpp>
+#include <quite/client/probe.hpp>
+#include <quite/client/probe_manager.hpp>
+#include <quite/client/property.hpp>
+#include <quite/client/quite.hpp>
+#include <quite/client/utils/dump_properties.hpp>
 #include <quite/logger.hpp>
 #include <quite/manager/process_manager.hpp>
-#include <quite/probe.hpp>
-#include <quite/probe_manager.hpp>
-#include <quite/property.hpp>
-#include <quite/quite.hpp>
 #include <quite/setup_logger.hpp>
-#include <quite/utils/dump_properties.hpp>
 #include <tester_app.hpp>
 #include "async_test_helper.hpp"
 
@@ -28,7 +28,7 @@ TEST_CASE("Test the qt build in meta types")
     const auto void_type = co_await app->meta_registry().lookup_type(kVoidId);
     if (not void_type.has_value())
     {
-        LOG_ERROR(test(), "Could not aquire type. Failed with {}", void_type.error().message);
+        LOG_ERROR(test(), "Could not acquire type. Failed with {}", void_type.error().message);
     }
 
     REQUIRE(void_type.has_value());

@@ -25,16 +25,27 @@ jobs:
       matrix:
         os: [ubuntu-24.04]
     runs-on: ${{ matrix.os }}
-    name: Buid & Test
+    name: Build & Test
     needs: format-source-code
     steps:
       - uses: actions/checkout@v4
 
       - uses: lukka/get-cmake@latest
 
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: ninja-build doxygen libunwind-dev libgrpc++-dev protobuf-compiler-grpc weston ccache
+          version: 1.0
+
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.os }}
+          create-symlink: true
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
-        with: 
+        with:
           cache: true
 
       - uses: actions/setup-python@v5
@@ -43,21 +54,16 @@ jobs:
           cache: 'pip' # caching pip dependencies
       - run: pip install -r requirements-dev.txt
 
-
-      - name: Install required system packages
-        shell: bash
+      - name: Start Weston
         run: |
-          if [ "${RUNNER_OS}" == "Linux" ]; then
-            sudo apt update
-            sudo apt -y install \
-              ninja-build doxygen libgrpc++-dev protobuf-compiler-grpc
-          elif [ "${RUNNER_OS}" == "macOS" ]; then
-            brew install \
-              ninja
-          elif [ "${RUNNER_OS}" == "Windows" ]; then
-            choco install \
-              ninja
-          fi
-  
-      - name: Run workflow
+          weston --no-config --socket=wl-test-env --backend=headless --idle-time=0 > weston.log 2>&1 &
+          # Wait for the Wayland socket to become available (timeout after 10s)
+          for i in {1..100}; do
+            if [ -e /run/user/$(id -u)/wayland-0 ] || [ -e /tmp/wayland-wl-test-env ]; then
+              break
+            fi
+            sleep 0.1
+          done
+
+      - name: Run CMake workflow
         run: cmake --workflow ci

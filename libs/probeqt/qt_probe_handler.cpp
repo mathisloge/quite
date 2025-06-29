@@ -38,7 +38,6 @@ AsyncResult<QImage> take_snapshot_of_qobject(QObject *object)
 
 QtProbeHandler::QtProbeHandler(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
-    , method_invoker_{object_tracker}
 {}
 
 AsyncResult<entt::meta_any> QtProbeHandler::object_instance(ObjectId object_id)
@@ -46,7 +45,7 @@ AsyncResult<entt::meta_any> QtProbeHandler::object_instance(ObjectId object_id)
     auto find_result = object_tracker_.get_object_by_id(object_id);
     if (find_result.has_value())
     {
-        co_return entt::forward_as_meta(find_result.value());
+        co_return entt::meta_any{std::in_place_type<QObject *>, find_result.value()};
     }
     co_return std::unexpected{std::move(find_result.error())};
 }
@@ -125,7 +124,7 @@ AsyncResult<std::vector<ObjectReference>> QtProbeHandler::fetch_windows()
     co_return windows;
 }
 
-AsyncResult<entt::meta_any> QtProbeHandler::invoke_method(const entt::meta_any &object,
+AsyncResult<entt::meta_any> QtProbeHandler::invoke_method(entt::meta_any object,
                                                           std::string qualified_method_signature,
                                                           std::vector<entt::meta_any> params)
 {

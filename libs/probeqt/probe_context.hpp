@@ -2,8 +2,10 @@
 #include <private/qhooks_p.h>
 #include <quite/disable_copy_move.hpp>
 #include <quite/proto/probe/server.hpp>
+#include "injector/mouse_injector.hpp"
 #include "object_tracker.hpp"
-#include "probe_instances.hpp"
+#include "qt_meta_registry.hpp"
+#include "qt_probe_handler.hpp"
 
 namespace quite::probe
 {
@@ -24,7 +26,10 @@ class ProbeContext final
 
   private:
     quite::probe::ObjectTracker object_tracker_;
-    ProbeInstances instances_{object_tracker_};
+    ServiceHandle<proto::IProbeHandler> probe_handler_{std::make_shared<QtProbeHandler>(object_tracker_)};
+    ServiceHandle<core::IMouseInjector> mouse_injector_{std::make_shared<MouseInjector>(object_tracker_)};
+    ServiceHandle<meta::MetaRegistry> meta_registry_{std::make_shared<QtMetaRegistry>()};
+    ServiceHandle<ValueRegistry> value_registry_{std::in_place};
     quite::proto::Server server_;
 
     QHooks::AddQObjectCallback next_add_qobject_hook_{nullptr};

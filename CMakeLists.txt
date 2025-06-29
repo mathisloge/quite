@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.28)
 project(quite VERSION 0.0.1 LANGUAGES CXX)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(
+    APPEND
+    CMAKE_MODULE_PATH
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/sanitizers"
+)
 
 include(CTest)
 include(GenerateExportHeader)
@@ -13,25 +18,34 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 
 option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
 option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
 option(QUITE_INSTALL "Decides if the libraries should be installed" ON)
 option(QUITE_EXAMPLES "Decides if the examples should be build" ON)
-add_feature_info(Studio QUITE_BUILD_STUDIO "The studio provides a way to interactivly explore the objects in the app.")
+add_feature_info(
+    Studio
+    QUITE_BUILD_STUDIO
+    "The studio provides a way to interactively explore the objects in the app."
+)
 add_feature_info(Testing BUILD_TESTING "Build all tests.")
-add_feature_info(SharedLibraries BUILD_SHARED_LIBS "Build all libraries as shared ones.")
+add_feature_info(
+    SharedLibraries
+    BUILD_SHARED_LIBS
+    "Build all libraries as shared ones."
+)
 
 get_git_head_revision(git_branch git_sha)
 message(STATUS "git_sha: ${git_sha}")
 message(STATUS "git_branch: ${git_branch}")
 
-
+find_package(Sanitizers REQUIRED)
 ### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
 include(get_cpm)
 set(BOOST_VERSION "1.88.0")
 list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
-CPMAddPackage(
+cpmaddpackage(
   NAME Boost
   VERSION "${BOOST_VERSION}"
   URL https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}-cmake.tar.xz
@@ -40,21 +54,28 @@ CPMAddPackage(
   SYSTEM ON
   OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_PROCESS_USE_STD_FS ON" "BOOST_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
 )
-CPMAddPackage("gh:fmtlib/fmt#11.2.0")
-CPMAddPackage("gh:odygrd/quill@9.0.2")
-CPMAddPackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237")
-CPMAddPackage("gh:skypjack/entt@3.15.0")
-CPMAddPackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
-CPMAddPackage(URI "gh:mathisloge/stdexec#246e116f8efa9e3234cd3ce84991959538170ba8" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON")
-CPMAddPackage("gh:Tradias/asio-grpc@3.4.3")
-CPMAddPackage("gh:nlohmann/json@3.12.0")
-CPMAddPackage("gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5")
+cpmaddpackage("gh:fmtlib/fmt#11.2.0")
+cpmaddpackage("gh:odygrd/quill@10.0.0")
+cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237")
+cpmaddpackage("gh:skypjack/entt@3.15.0")
+cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
+cpmaddpackage(URI "gh:mathisloge/stdexec#246e116f8efa9e3234cd3ce84991959538170ba8" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
+)
+cpmaddpackage("gh:Tradias/asio-grpc@3.4.3")
+cpmaddpackage("gh:nlohmann/json@3.12.0")
+cpmaddpackage("gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5")
 set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${stb_SOURCE_DIR}>")
-CPMAddPackage("gh:pybind/pybind11#c630e22c1cb90251ac5316e508dde38545a4bdd2")
+cpmaddpackage("gh:pybind/pybind11@3.0.0rc4")
 if(BUILD_TESTING)
-    CPMAddPackage("gh:catchorg/Catch2@3.8.1")
+    cpmaddpackage("gh:catchorg/Catch2@3.8.1")
+    cpmaddpackage("gh:boost-ext/ut@2.3.1")
 endif()
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
+find_package(
+    Qt6
+    REQUIRED
+    COMPONENTS Core Gui Qml Quick Widgets
+    REQUIRED
+)
 find_package(gRPC CONFIG REQUIRED)
 if(BUILD_TESTING)
     list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/extras")
@@ -77,11 +98,17 @@ endif()
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
-
 if(QUITE_INSTALL)
     include(CMakePackageConfigHelpers)
 
-    install(TARGETS quite_protocol quite_core quite_manager quite_client quite_test probe
+    install(
+        TARGETS
+            quite_protocol
+            quite_core
+            quite_manager
+            quite_client
+            quite_test
+            probe
         EXPORT quiteTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -93,7 +120,8 @@ if(QUITE_INSTALL)
 
     set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/quite")
 
-    install(EXPORT quiteTargets
+    install(
+        EXPORT quiteTargets
         FILE quiteTargets.cmake
         NAMESPACE quite::
         DESTINATION "${config_install_dir}"
@@ -111,9 +139,10 @@ if(QUITE_INSTALL)
         COMPATIBILITY AnyNewerVersion
     )
 
-    install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/quiteConfig.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/quiteConfigVersion.cmake"
+    install(
+        FILES
+            "${CMAKE_CURRENT_BINARY_DIR}/quiteConfig.cmake"
+            "${CMAKE_CURRENT_BINARY_DIR}/quiteConfigVersion.cmake"
         DESTINATION "${config_install_dir}"
     )
 endif()

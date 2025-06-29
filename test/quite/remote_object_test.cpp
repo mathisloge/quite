@@ -1,11 +1,11 @@
 #include <catch2/catch_test_macros.hpp>
 #include <exec/task.hpp>
+#include <quite/client/probe.hpp>
+#include <quite/client/probe_manager.hpp>
+#include <quite/client/testing/verification_point.hpp>
 #include <quite/logger.hpp>
 #include <quite/manager/process_manager.hpp>
-#include <quite/probe.hpp>
-#include <quite/probe_manager.hpp>
 #include <quite/setup_logger.hpp>
-#include <quite/testing/verification_point.hpp>
 #include "async_test_helper.hpp"
 #include "quite/asio_context.hpp"
 #include "tester_app.hpp"
@@ -24,12 +24,12 @@ TEST_CASE("Remote object can be invoked")
     stdexec::sync_wait(app->wait_for_started(std::chrono::seconds{5}));
 
     const ObjectQuery btn_query{.properties = {{"objectName", entt::forward_as_meta(std::string{"helloBtn"})}}};
-    auto obj = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {
-                                             auto obj = co_await app->find_object(btn_query);
-                                             REQUIRE(obj.has_value());
-                                             co_return obj.value();
-                                         }())
-                                             .value());
+    auto obj = std::get<client::RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<client::RemoteObjectPtr> {
+                                                     auto obj = co_await app->find_object(btn_query);
+                                                     REQUIRE(obj.has_value());
+                                                     co_return obj.value();
+                                                 }())
+                                                     .value());
 
     SECTION("The property text should have the value of the button")
     {
@@ -98,14 +98,19 @@ TEST_CASE("Remote object can be invoked")
     {
         ASYNC_BLOCK
         auto invoke_result = co_await obj->invoke_method("click()");
+        if (not invoke_result.has_value())
+        {
+            fmt::println("Error: {}", invoke_result.error().message);
+        }
         REQUIRE(invoke_result.has_value());
         const ObjectQuery text_area_query{.properties = {{"objectName", std::string{"textArea"}}}};
-        auto text_area = std::get<RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<RemoteObjectPtr> {
-                                                       auto obj = co_await app->find_object(text_area_query);
-                                                       REQUIRE(obj.has_value());
-                                                       co_return obj.value();
-                                                   }())
-                                                       .value());
+        auto text_area =
+            std::get<client::RemoteObjectPtr>(stdexec::sync_wait([&]() -> exec::task<client::RemoteObjectPtr> {
+                                                  auto obj = co_await app->find_object(text_area_query);
+                                                  REQUIRE(obj.has_value());
+                                                  co_return obj.value();
+                                              }())
+                                                  .value());
 
         auto text_prop = co_await text_area->property("text");
         REQUIRE(text_prop.has_value());

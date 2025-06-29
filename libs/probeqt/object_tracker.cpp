@@ -108,10 +108,10 @@ bool operator==(const QVariant &variant, const entt::meta_any &value)
     const auto any_obj = custom_meta_type.from_void(variant.data());
     const entt::meta_any casted_value = any_obj.allow_cast(value.type());
 
-    LOG_DEBUG(object_tracker_logger(),
-              "custom_meta_type: {} cmp with casted value: {}",
-              fmt::format("{}", any_obj),
-              fmt::format("{}", casted_value));
+    LOG_TRACE_L3(object_tracker_logger(),
+                 "custom_meta_type: {} cmp with casted value: {}",
+                 fmt::format("{}", any_obj),
+                 fmt::format("{}", casted_value));
     return casted_value == value;
 }
 
