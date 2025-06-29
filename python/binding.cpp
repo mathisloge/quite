@@ -2,7 +2,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl/filesystem.h>
-#include <quite/property.hpp>
+#include <quite/client/property.hpp>
+#include <quite/setup_logger.hpp>
 #include <quite/test/expect.hpp>
 #include <quite/test/object_query_builder.hpp>
 #include <quite/test/probe.hpp>
@@ -17,7 +18,6 @@ namespace py = pybind11;
 PYBIND11_MODULE(_quite, m)
 {
     using namespace quite::test;
-
     m.doc() = "quite - a ui testing framework. See https://github.com/mathisloge/ng-quite";
 
     auto py_probe_manager = py::class_<ProbeManager>(m, "ProbeManager");

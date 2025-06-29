@@ -5,7 +5,6 @@
 #include <entt/meta/resolve.hpp>
 #include <fmt/format.h>
 #include <quite/logger.hpp>
-#include "object_tracker.hpp"
 
 DEFINE_LOGGER(method_invoker)
 
@@ -43,7 +42,7 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
     if (meta_method.parameterCount() != params.size())
     {
         return make_error_result(ErrorCode::failed_precondition,
-                                 fmt::format("Method {} expectes {} arguments but only {} were passed",
+                                 fmt::format("Method {} expects {} arguments but only {} were passed",
                                              qualified_method_signature,
                                              meta_method.parameterCount(),
                                              params.size()));
@@ -64,11 +63,21 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
     {
         const auto param_meta_type = meta_method.parameterMetaType(i);
         const auto &param_value = params[i];
-        const QMetaType any_meta_type = param_value.type().custom();
-        auto &&value = args.emplace_back(create_meta_value(param_meta_type));
-        if (QMetaType::canConvert(any_meta_type, param_meta_type))
+
+        const QMetaType *any_meta_type = param_value.type().custom();
+
+        // first try to convert with Qt. If that fails, try to convert with the custom meta system.
+        if (any_meta_type != nullptr and QMetaType::canConvert(*any_meta_type, param_meta_type))
         {
-            QMetaType::convert(any_meta_type, param_value.base().data(), param_meta_type, value.get());
+            auto &&value = args.emplace_back(create_meta_value(param_meta_type));
+            QMetaType::convert(*any_meta_type, param_value.base().data(), param_meta_type, value.get());
+        }
+        else if (auto param_meta_value =
+                     param_value.allow_cast(entt::resolve(entt::hashed_string{param_meta_type.name()}.value()));
+                 param_meta_value)
+        {
+            auto &&value = args.emplace_back(create_meta_value(param_meta_type));
+            param_meta_value.type().from_void(value.get(), false).assign(std::move(param_value));
         }
         else
         {
@@ -104,14 +113,13 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
         }
     }
     return make_error_result(ErrorCode::cancelled,
-                             fmt::format("Could not invoke or wrap return type. Call status = {}, convertable = ",
+                             fmt::format("Could not invoke or wrap return type. Call status = {}, convertible = ",
                                          call_result,
                                          static_cast<bool>(custom_meta_type)));
 }
 } // namespace
 
-MethodInvoker::MethodInvoker(const ObjectTracker &object_tracker)
-    : object_tracker_{object_tracker}
+MethodInvoker::MethodInvoker()
 {}
 
 Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object,
@@ -121,7 +129,8 @@ Result<entt::meta_any> MethodInvoker::invoke_method(const entt::meta_any &object
     const auto *object_ref = object.try_cast<QObject *>();
     if (object_ref != nullptr)
     {
-        return invoke_qmeta_method(value_registry_.context(), *object_ref, qualified_method_signature, params);
+        auto &value_registy = entt::locator<ValueRegistry>::value_or();
+        return invoke_qmeta_method(value_registy.context(), *object_ref, qualified_method_signature, params);
     }
     return make_error_result(ErrorCode::invalid_argument, "Could find a qobject for the given base type");
 }

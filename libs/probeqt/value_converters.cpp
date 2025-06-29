@@ -41,6 +41,11 @@ void register_converters(ValueRegistry &value_registry)
 
     QT_FOR_EACH_STATIC_PRIMITIVE_TYPE(REGISTER_QT_TYPES_FUNCTION);
 
+    entt::meta_factory<std::string>(meta_ctx) //
+        .type("std::string"_hs)
+        .custom<QMetaType>(QMetaType::fromType<std::string>())
+        .conv<[](auto &&str) { return QString::fromStdString(str); }>();
+
     entt::meta_factory<QString>(meta_ctx) //
         .type("QString"_hs)
         .custom<QMetaType>(QMetaType::fromType<QString>())

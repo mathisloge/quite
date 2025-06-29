@@ -20,13 +20,6 @@
             }
         },
         {
-            "name": "fetch-dependencies",
-            "hidden": true,
-            "cacheVariables": {
-                "QUITE_FETCH_DEPENDENCIES": true
-            }
-        },
-        {
             "name": "vcpkg",
             "hidden": true,
             "toolchainFile": "/home/mlogemann/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
@@ -54,12 +47,13 @@
             "displayName": "Developer",
             "inherits": [
                 "common",
-                "debug-build",
-                "fetch-dependencies"
+                "debug-build"
             ],
             "cacheVariables": {
                 "BUILD_TESTING": true,
-                "QUITE_INSTALL": false
+                "QUITE_INSTALL": false,
+                "SANITIZE_ADDRESS": true,
+                "SANITIZE_UNDEFINED": true
             }
         },
         {
@@ -83,10 +77,9 @@
             "binaryDir": "${sourceDir}/build",
             "generator": "Ninja",
             "installDir": "${sourceDir}/dist",
-            "inherits":[
+            "inherits": [
                 "common",
-                "developer",
-                "fetch-dependencies"
+                "developer"
             ],
             "cacheVariables": {
                 "BUILD_SHARED_LIBS": false,
@@ -99,15 +92,19 @@
             "name": "ci",
             "displayName": "CI configuration",
             "inherits": [
-                "common",
-                "fetch-dependencies"
+                "common"
             ],
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "BUILD_TESTING": true,
                 "CMAKE_C_COMPILER": "gcc-13",
                 "CMAKE_CXX_COMPILER": "g++-13",
+                "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
                 "QUITE_INSTALL": false
+            },
+            "environment": {
+                "WAYLAND_DISPLAY": "wl-test-env"
             }
         }
     ],
@@ -132,7 +129,14 @@
     "testPresets": [
         {
             "name": "developer",
-            "configurePreset": "developer"
+            "configurePreset": "developer",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "ignore",
+                "stopOnFailure": true
+            }
         },
         {
             "name": "developer (vcpkg)",
@@ -142,11 +146,12 @@
             "name": "ci",
             "configurePreset": "ci",
             "output": {
-                "outputOnFailure": true
+                "outputOnFailure": true,
+                "verbosity": "verbose"
             },
             "execution": {
-                "noTestsAction": "ignore",
-                "stopOnFailure": true
+                "noTestsAction": "error",
+                "stopOnFailure": false
             }
         }
     ],
@@ -160,6 +165,10 @@
                 },
                 {
                     "type": "build",
+                    "name": "ci"
+                },
+                {
+                    "type": "test",
                     "name": "ci"
                 }
             ]

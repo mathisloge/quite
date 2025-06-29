@@ -5,11 +5,9 @@
 
 namespace quite::proto
 {
-exec::task<void> GetViewsRpcHandler::operator()(GetViewsRPC &rpc, const GetViewsRPC::Request &request)
+exec::task<void> GetViewsRpcHandler::operator()(GetViewsRPC &rpc, const GetViewsRPC::Request &request) const
 {
-    auto &object_handler = entt::locator<IProbeHandler>::value();
-
-    auto windows_result = co_await object_handler.fetch_windows();
+    auto windows_result = co_await probe_handler->fetch_windows();
     if (not windows_result.has_value())
     {
         co_await rpc.finish_with_error(result2grpc_status(windows_result.error()));
@@ -27,9 +25,12 @@ exec::task<void> GetViewsRpcHandler::operator()(GetViewsRPC &rpc, const GetViews
 }
 
 agrpc::detail::RPCHandlerSender<GetViewsRPC, GetViewsRpcHandler> make_rpc_fetch_windows(
-    agrpc::GrpcContext &grpc_context, quite::proto::ProbeService::AsyncService &service)
+    agrpc::GrpcContext &grpc_context,
+    quite::proto::ProbeService::AsyncService &service,
+    ProbeHandlerHandle probe_handler)
 {
-    return agrpc::register_sender_rpc_handler<GetViewsRPC>(grpc_context, service, GetViewsRpcHandler{});
+    return agrpc::register_sender_rpc_handler<GetViewsRPC>(
+        grpc_context, service, GetViewsRpcHandler{std::move(probe_handler)});
 }
 
 } // namespace quite::proto

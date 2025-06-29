@@ -6,10 +6,11 @@
 #include <variant>
 #include "quite/quite_test_export.hpp"
 
-namespace quite
+namespace quite::client
 {
 class Property;
 }
+
 namespace quite::test
 {
 class RemoteObject;
@@ -17,7 +18,7 @@ class RemoteObject;
 class QUITE_TEST_EXPORT Property final
 {
   public:
-    explicit Property(std::shared_ptr<quite::Property> property);
+    explicit Property(std::shared_ptr<client::Property> property);
 
     using Value = std::variant<bool, std::uint64_t, std::int64_t, double, std::string, RemoteObject>;
     Property::Value fetch();
@@ -35,6 +36,6 @@ class QUITE_TEST_EXPORT Property final
     void write(Property::Value value);
 
   private:
-    std::shared_ptr<quite::Property> property_;
+    std::shared_ptr<client::Property> property_;
 };
 } // namespace quite::test

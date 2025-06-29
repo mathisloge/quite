@@ -30,6 +30,8 @@ AsyncResult<void> ProbeClientImpl::wait_for_connected(std::chrono::seconds timeo
 
     Result<void> return_result = make_error_result(ErrorCode::unknown, "not initialized");
     boost::asio::steady_timer timer{get_executor(), timeout};
+
+    stdexec::inplace_stop_source stop_source;
     co_await exec::when_any(
         agrpc::notify_on_state_change(*grpc_context_,
                                       *grpc_channel_,
@@ -55,9 +57,11 @@ AsyncResult<void> ProbeClientImpl::wait_for_connected(std::chrono::seconds timeo
                 }
                 return false;
             }) |
-            exec::repeat_effect_until(),
-        timer.async_wait(asioexec::use_sender) | stdexec::then([&return_result](auto &&...) {
+            exec::repeat_effect_until() |
+            exec::write_env(stdexec::prop{stdexec::get_stop_token, stop_source.get_token()}),
+        timer.async_wait(asioexec::use_sender) | stdexec::then([&stop_source, &return_result](auto &&...) {
             LOG_DEBUG(probe_client(), "timeout");
+            stop_source.request_stop();
             return_result = make_error_result(ErrorCode::deadline_exceeded, "Could not get connection state in time");
         }));
     co_return return_result;

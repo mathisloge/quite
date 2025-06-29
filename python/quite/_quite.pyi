@@ -22,7 +22,7 @@ class Image:
 
         1. __init__(self: quite._quite.Image) -> None
 
-        2. __init__(self: quite._quite.Image, file_path: Union[os.PathLike, str, bytes]) -> None
+        2. __init__(self: quite._quite.Image, file_path: os.PathLike | str | bytes) -> None
         """
 
     @overload
@@ -32,14 +32,14 @@ class Image:
 
         1. __init__(self: quite._quite.Image) -> None
 
-        2. __init__(self: quite._quite.Image, file_path: Union[os.PathLike, str, bytes]) -> None
+        2. __init__(self: quite._quite.Image, file_path: os.PathLike | str | bytes) -> None
         """
 
     def data(self) -> ImageView:
         """data(self: quite._quite.Image) -> quite._quite.ImageView"""
 
     def save_to(self, file_path: os.PathLike | str | bytes) -> None:
-        """save_to(self: quite._quite.Image, file_path: Union[os.PathLike, str, bytes]) -> None"""
+        """save_to(self: quite._quite.Image, file_path: os.PathLike | str | bytes) -> None"""
 
 class ImageView:
     def __init__(self, *args, **kwargs) -> None:
@@ -191,10 +191,10 @@ class Property:
         """Initialize self.  See help(type(self)) for accurate signature."""
 
     def fetch(self) -> bool | int | int | float | str | RemoteObject:
-        """fetch(self: quite._quite.Property) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
+        """fetch(self: quite._quite.Property) -> bool | int | int | float | str | quite._quite.RemoteObject"""
 
     def value(self) -> bool | int | int | float | str | RemoteObject:
-        """value(self: quite._quite.Property) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
+        """value(self: quite._quite.Property) -> bool | int | int | float | str | quite._quite.RemoteObject"""
 
     def wait_for_value(
         self,
@@ -208,7 +208,7 @@ class Property:
         ),
         timeout: datetime.timedelta,
     ) -> bool | int | int | float | str | RemoteObject:
-        """wait_for_value(self: quite._quite.Property, target_value: Union[bool, typing.SupportsInt, typing.SupportsInt, typing.SupportsFloat, str, quite._quite.RemoteObject], timeout: datetime.timedelta) -> Union[bool, int, int, float, str, quite._quite.RemoteObject]"""
+        """wait_for_value(self: quite._quite.Property, target_value: bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject, timeout: datetime.timedelta) -> bool | int | int | float | str | quite._quite.RemoteObject"""
 
 class RemoteObject:
     def __init__(self, *args, **kwargs) -> None:

@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <span>
 #include <vector>
-#include "disable_copy_move.hpp"
 #include "quite/quite_core_export.hpp"
 
 namespace quite

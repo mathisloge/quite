@@ -10,7 +10,6 @@ using namespace quite::manager;
 TEST_CASE("Test ProcessManager", "[manager]")
 {
     quite::setup_logger();
-    quite::create_asio_context();
     ProcessManager manager{quite::get_executor()};
 
     SECTION("A non probe process from environment can be launched")

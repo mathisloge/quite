@@ -1,6 +1,6 @@
 ---
-draft: false 
-date: 2025-05-08 
+draft: false
+date: 2025-05-08
 authors:
   - mathisloge
 categories:
