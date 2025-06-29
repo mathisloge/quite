@@ -1,7 +1,7 @@
 find_package(Python REQUIRED COMPONENTS Interpreter)
 add_test(
     NAME PythonTests
-    COMMAND ${Python_EXECUTABLE} -m pytest ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND ${Python_EXECUTABLE} -m pytest -s ${CMAKE_CURRENT_SOURCE_DIR}
 )
 set_tests_properties(
     PythonTests
