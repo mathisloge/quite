@@ -25,8 +25,8 @@ Probe::Probe(client::ProbeHandle handle)
 
 void Probe::wait_for_connected(std::chrono::seconds timeout)
 {
-    const auto [is_connected] = stdexec::sync_wait(handle_->wait_for_started(timeout)).value();
-    throw_unexpected(is_connected);
+    const auto [started_result] = stdexec::sync_wait(handle_->wait_for_started(timeout)).value();
+    throw_unexpected(started_result);
 }
 
 RemoteObject Probe::find_object(std::shared_ptr<ObjectQuery> query)
