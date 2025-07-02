@@ -92,7 +92,7 @@ if(QUITE_BUILD_STUDIO)
     #add_subdirectory(studio)
 endif()
 if(BUILD_TESTING)
-    add_subdirectory(test)
+    add_subdirectory(integration_test)
 endif()
 
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")

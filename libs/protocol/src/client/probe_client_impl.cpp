@@ -28,43 +28,42 @@ AsyncResult<void> ProbeClientImpl::wait_for_connected(std::chrono::seconds timeo
         co_return {};
     }
 
-    Result<void> return_result = make_error_result(ErrorCode::unknown, "not initialized");
-    boost::asio::steady_timer timer{get_executor(), timeout};
-
-    stdexec::inplace_stop_source stop_source;
-    co_await exec::when_any(
-        agrpc::notify_on_state_change(*grpc_context_,
-                                      *grpc_channel_,
-                                      state,
-                                      std::chrono::system_clock::now() + std::chrono::seconds(5),
-                                      agrpc::use_sender) |
-            stdexec::then([this, &return_result](bool state_changed) {
-                if (not state_changed)
-                {
+    const auto deadline = std::chrono::system_clock::now() + timeout;
+    bool is_connected{false};
+    while (not is_connected)
+    {
+        const auto state_change_result = co_await stdexec::starts_on(
+            exec::inline_scheduler{},
+            agrpc::notify_on_state_change(*grpc_context_, *grpc_channel_, state, deadline, agrpc::use_sender) |
+                stdexec::then([this, &state](bool state_changed) -> Result<bool> {
+                    if (not state_changed)
+                    {
+                        return make_error_result(ErrorCode::deadline_exceeded,
+                                                 "Could not get connection state in time.");
+                    }
+                    state = grpc_channel_->GetState(true);
+                    LOG_DEBUG(probe_client(), "state: {}", static_cast<int>(state));
+                    if (state == grpc_connectivity_state::GRPC_CHANNEL_READY)
+                    {
+                        return true;
+                    }
+                    if (state == grpc_connectivity_state::GRPC_CHANNEL_SHUTDOWN)
+                    {
+                        return make_error_result(ErrorCode::cancelled,
+                                                 "Channel had an unrecoverable error or was shutdown.");
+                    }
                     return false;
-                }
-                const auto state = grpc_channel_->GetState(false);
-                if (state == grpc_connectivity_state::GRPC_CHANNEL_READY)
-                {
-                    return_result = Result<void>{};
-                    return true;
-                }
-                if (state == grpc_connectivity_state::GRPC_CHANNEL_SHUTDOWN)
-                {
-                    return_result =
-                        make_error_result(ErrorCode::cancelled, "Channel had an unrecoverable error or was shutdown.");
-                    return true;
-                }
-                return false;
-            }) |
-            exec::repeat_effect_until() |
-            exec::write_env(stdexec::prop{stdexec::get_stop_token, stop_source.get_token()}),
-        timer.async_wait(asioexec::use_sender) | stdexec::then([&stop_source, &return_result](auto &&...) {
-            LOG_DEBUG(probe_client(), "timeout");
-            stop_source.request_stop();
-            return_result = make_error_result(ErrorCode::deadline_exceeded, "Could not get connection state in time");
-        }));
-    co_return return_result;
+                }));
+        if (state_change_result.has_value())
+        {
+            is_connected = state_change_result.value();
+        }
+        else
+        {
+            co_return std::unexpected{state_change_result.error()};
+        }
+    }
+    co_return {};
 }
 
 IProbeService &ProbeClientImpl::probe_service()

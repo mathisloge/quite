@@ -31,8 +31,10 @@ void AutConnector::connectPopup()
     {
         return;
     }
-    const bool address_accepted = ImGui::InputTextWithHint(
-        "Application address", "localhost:50051", &tmp_connect_popup_input_, ImGuiInputTextFlags_EnterReturnsTrue);
+    const bool address_accepted = ImGui::InputTextWithHint("Application address",
+                                                           "unix:///tmp/grpc_probe.sock",
+                                                           &tmp_connect_popup_input_,
+                                                           ImGuiInputTextFlags_EnterReturnsTrue);
 
     if (ImGui::Button("Connect##Button") or address_accepted)
     {
