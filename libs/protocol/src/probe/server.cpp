@@ -98,6 +98,9 @@ class Server::Impl
                                                          std::move(rpc_mouse_injection) | stop_token_env,
                                                          std::move(rpc_meta_find_type) | stop_token_env);
 
+        stdexec::start_detached(stdexec::starts_on(grpc_context_.get_scheduler(), stdexec::just()) |
+                                stdexec::then([&] { LOG_DEBUG(grpc_server_log(), "grpc context running!"); }));
+
         grpc_context_.work_started();
         stdexec::sync_wait(stdexec::when_all(
             exec::finally(stdexec::starts_on(exec::inline_scheduler{}, stdexec::when_all(std::move(all_snd))),
