@@ -8,11 +8,11 @@ class Process;
 class QUITE_MANAGER_EXPORT ProcessHandle
 {
   public:
-    explicit ProcessHandle(std::shared_ptr<Process> app);
+    explicit ProcessHandle(std::shared_ptr<Process> process);
     Process &instance();
     Process *operator->();
 
   private:
-    std::shared_ptr<Process> application_;
+    std::shared_ptr<Process> process_;
 };
 } // namespace quite::manager

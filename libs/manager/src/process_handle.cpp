@@ -1,17 +1,17 @@
 #include "quite/manager/process_handle.hpp"
 namespace quite::manager
 {
-ProcessHandle::ProcessHandle(std::shared_ptr<Process> app)
-    : application_{std::move(app)}
+ProcessHandle::ProcessHandle(std::shared_ptr<Process> process)
+    : process_{std::move(process)}
 {}
 
 Process &ProcessHandle::instance()
 {
-    return *application_;
+    return *process_;
 }
 
 Process *ProcessHandle::operator->()
 {
-    return application_.get();
+    return process_.get();
 }
 } // namespace quite::manager

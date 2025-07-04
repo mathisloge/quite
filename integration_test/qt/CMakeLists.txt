@@ -1,0 +1,2 @@
+add_subdirectory(test_application)
+add_subdirectory(cpp_test)
