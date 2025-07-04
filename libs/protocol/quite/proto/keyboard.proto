@@ -2,19 +2,14 @@ syntax = "proto3";
 
 package quite.proto;
 
-enum KeyboardModifierKey {
-  no_mod = 0;
-  shift = 1;
-  crtl = 2;
-  alt = 3;
-  meta = 4;
-  keypad = 5;
-}
-
 enum KeyboardKey {
   no_key = 0;
   escape = 1;
   tab = 2;
   backspace = 3;
   return = 4;
+  shift = 5;
+  crtl = 6;
+  alt = 7;
+  meta = 8;
 }

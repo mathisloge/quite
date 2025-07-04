@@ -52,7 +52,7 @@ message MouseActionRequest {
   uint64 object_id = 1;
   MouseAction mouse_action = 2;
   MouseButton mouse_button = 3;
-  optional KeyboardModifierKey modifier_key = 4;
+  optional KeyboardKey modifier_key = 4;
   // delay between press and release
   optional uint32 delay_ms = 5;
   // the (click) point relative to the object coordinates.
