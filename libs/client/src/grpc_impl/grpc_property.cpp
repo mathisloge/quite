@@ -38,6 +38,7 @@ AsyncResult<entt::meta_any> GrpcProperty::read()
 
 AsyncResult<entt::meta_any> GrpcProperty::write(entt::meta_any value)
 {
+    LOG_DEBUG(grpc_property_logger(), "set property[{}] for object={}", name_, parent_->id());
     co_return std::unexpected(Error{ErrorCode::unimplemented, "Client does not implement the write yet."});
 }
 

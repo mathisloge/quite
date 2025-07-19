@@ -25,6 +25,8 @@ class QUITE_CLIENT_EXPORT RemoteObject
 
     virtual AsyncResult<PropertyPtr> property(std::string property_name) = 0;
 
+    virtual AsyncResult<void> write_property(std::string property_name, entt::meta_any value) = 0;
+
     virtual AsyncResult<void> mouse_action() = 0;
 
     virtual AsyncResult<Image> take_snapshot() = 0;
