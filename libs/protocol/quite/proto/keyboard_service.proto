@@ -5,13 +5,19 @@ import "quite/proto/keyboard.proto";
 service KeyboardService {
   rpc PressKey(KeyRequest) returns (KeyResponse) {}
   rpc ReleaseKey(KeyRequest) returns (KeyResponse) {}
+  rpc PressAndReleaseKey(KeyRequest) returns (KeyResponse) {}
+  rpc PressAndReleaseEach(KeySequenceRequest) returns (KeyResponse) {}
 }
 
 message KeyRequest {
   KeyboardKey key = 1;
 }
 
+message KeySequenceRequest {
+  KeyboardKey key = 1;
+}
+
 message KeyResponse {
-  repeated KeyboardKey pressed_keys =
-      1;  // the list of keys which are currently in pressed state
+  // the list of keys which are currently in pressed state
+  repeated KeyboardKey pressed_keys = 1;
 }
