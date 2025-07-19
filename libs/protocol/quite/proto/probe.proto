@@ -11,6 +11,8 @@ service ProbeService {
   rpc FindObject(ObjectRequest) returns (ObjectReply) {}
   rpc GetObjectProperties(GetObjectPropertiesRequest)
       returns (GetObjectPropertiesResponse) {}
+  rpc SetObjectProperty(SetObjectPropertyRequest)
+      returns (SetObjectPropertyResponse) {}
 
   rpc MouseAction(MouseActionRequest) returns (VoidResponse) {}
   rpc CreateScreenshot(ScreenshotRequest) returns (stream ImageResponse) {};
@@ -47,6 +49,14 @@ message GetObjectPropertiesRequest {
 message GetObjectPropertiesResponse {
   map<string, Value> property_values = 1;
 }
+
+message SetObjectPropertyRequest {
+  uint64 object_id = 1;
+  string property = 2;
+  Value value = 3;
+}
+
+message SetObjectPropertyResponse {}
 
 message MouseActionRequest {
   uint64 object_id = 1;

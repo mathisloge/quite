@@ -17,6 +17,7 @@ class ProbeServiceImpl final : public IProbeService
     AsyncResult<ObjectReference> find_object(ObjectQuery serach_query) override;
     AsyncResult<std::unordered_map<std::string, entt::meta_any>> get_object_properties(
         ObjectId object_id, std::vector<std::string> properties) override;
+    AsyncResult<void> set_object_property(ObjectId object_id, std::string property, entt::meta_any value) override;
     AsyncResult<std::vector<ObjectReference>> query_top_level_views() override;
     AsyncResult<entt::meta_any> invoke_method(ObjectId id,
                                               std::string method_name,

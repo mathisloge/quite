@@ -23,7 +23,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
 option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
 option(QUITE_INSTALL "Decides if the libraries should be installed" ON)
-option(QUITE_EXAMPLES "Decides if the examples should be build" ON)
 add_feature_info(
     Studio
     QUITE_BUILD_STUDIO
@@ -85,9 +84,6 @@ endif()
 add_subdirectory(libs)
 add_subdirectory(python)
 add_subdirectory(remote-manager)
-if(QUITE_EXAMPLES)
-    add_subdirectory(examples)
-endif()
 if(QUITE_BUILD_STUDIO)
     #add_subdirectory(studio)
 endif()
