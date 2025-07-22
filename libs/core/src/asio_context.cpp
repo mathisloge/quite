@@ -9,8 +9,8 @@ execpools::asio_thread_pool &thread_pool()
     return entt::locator<execpools::asio_thread_pool>::value_or(2);
 }
 
-auto get_executor() -> decltype(thread_pool().executor())
+auto get_executor() -> decltype(thread_pool().get_executor())
 {
-    return thread_pool().executor();
+    return thread_pool().get_executor();
 }
 } // namespace quite
