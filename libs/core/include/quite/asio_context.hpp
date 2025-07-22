@@ -22,6 +22,6 @@ QUITE_CORE_EXPORT execpools::asio_thread_pool &thread_pool();
  *
  * @return The executor object from the global thread pool.
  */
-QUITE_CORE_EXPORT auto get_executor() -> decltype(thread_pool().executor());
+QUITE_CORE_EXPORT auto get_executor() -> decltype(thread_pool().get_executor());
 
 } // namespace quite

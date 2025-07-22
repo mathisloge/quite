@@ -92,7 +92,7 @@ class Server::Impl
             make_rpc_mouse_injection(grpc_context_, object_service, mouse_injector_);
         stdexec::sender auto rpc_meta_find_type = make_rpc_meta_find_type(grpc_context_, meta_service, meta_registry_);
 
-        auto stop_token_env = exec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()});
+        auto stop_token_env = stdexec::write_env(stdexec::prop{stdexec::get_stop_token, ssource_.get_token()});
         stdexec::sender auto all_snd = stdexec::when_all(std::move(rpc_snapshot) | stop_token_env,
                                                          std::move(rpc_find_object) | stop_token_env,
                                                          std::move(rpc_fetch_object_properties) | stop_token_env,
