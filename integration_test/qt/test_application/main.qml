@@ -34,6 +34,7 @@ Page {
             }
 
             TextField {
+                objectName: "inputField"
                 id: inputField
                 Layout.fillWidth: true
                 placeholderText: "Add a new task..."
@@ -42,6 +43,7 @@ Page {
 
         ListView {
             id: listView
+            objectName: "listView"
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: todoModel
