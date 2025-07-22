@@ -23,7 +23,7 @@ proto::Client &Context::backend_client()
 
 execpools::asio_thread_pool &Context::asio_context()
 {
-    return asio_context();
+    return thread_pool();
 }
 
 Context &Context::Instance()

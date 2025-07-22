@@ -13,6 +13,8 @@ target_sources(
         rpc_mouse_injection.cpp
         rpc_object_properties.hpp
         rpc_object_properties.cpp
+        rpc_set_object_property.hpp
+        rpc_set_object_property.cpp
         rpc_snapshot.hpp
         rpc_snapshot.cpp
         server.cpp

@@ -12,6 +12,7 @@
 #include "rpc_meta_find_type.hpp"
 #include "rpc_mouse_injection.hpp"
 #include "rpc_object_properties.hpp"
+#include "rpc_set_object_property.hpp"
 #include "rpc_snapshot.hpp"
 #include <grpc++/server_builder.h>
 // needs to be after health.grpc.pb.h
@@ -82,6 +83,8 @@ class Server::Impl
             make_rpc_find_object(grpc_context_, object_service, probe_handler_, value_registry_);
         stdexec::sender auto rpc_fetch_object_properties =
             make_rpc_fetch_object_properties(grpc_context_, object_service, probe_handler_, value_registry_);
+        stdexec::sender auto rpc_set_object_property =
+            make_rpc_set_object_property(grpc_context_, object_service, probe_handler_, value_registry_);
         stdexec::sender auto rpc_fetch_windows = make_rpc_fetch_windows(grpc_context_, object_service, probe_handler_);
         stdexec::sender auto rpc_invoke_method =
             make_rpc_invoke_method(grpc_context_, object_service, probe_handler_, value_registry_);
@@ -93,6 +96,7 @@ class Server::Impl
         stdexec::sender auto all_snd = stdexec::when_all(std::move(rpc_snapshot) | stop_token_env,
                                                          std::move(rpc_find_object) | stop_token_env,
                                                          std::move(rpc_fetch_object_properties) | stop_token_env,
+                                                         std::move(rpc_set_object_property) | stop_token_env,
                                                          std::move(rpc_fetch_windows) | stop_token_env,
                                                          std::move(rpc_invoke_method) | stop_token_env,
                                                          std::move(rpc_mouse_injection) | stop_token_env,

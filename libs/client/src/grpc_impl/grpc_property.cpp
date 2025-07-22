@@ -36,10 +36,10 @@ AsyncResult<entt::meta_any> GrpcProperty::read()
     co_return last_value_;
 }
 
-AsyncResult<entt::meta_any> GrpcProperty::write(entt::meta_any value)
+AsyncResult<void> GrpcProperty::write(entt::meta_any value)
 {
     LOG_DEBUG(grpc_property_logger(), "set property[{}] for object={}", name_, parent_->id());
-    co_return std::unexpected(Error{ErrorCode::unimplemented, "Client does not implement the write yet."});
+    co_return co_await parent_->write_property(name_, std::move(value));
 }
 
 } // namespace quite::client
