@@ -16,24 +16,21 @@ static suite<"integration manage todo"> _ = [] { // NOLINT
             probe.wait_for_connected(std::chrono::seconds{5});
             steps.scenario("*") = [&] {
                 steps.given("I have entered '{todoText}' into the todo input field") = [&](std::string todoText) {
-                    auto input_query = std::make_shared<quite::ObjectQuery>();
-                    input_query->properties.emplace("objectName", std::string{"inputField"});
-                    auto input_obj = probe.find_object(input_query);
+                    auto input_obj =
+                        probe.find_object(quite::make_query().with_property("objectName", std::string{"inputField"}));
                     input_obj.property("text").write(std::move(todoText));
 
                     steps.when("I click the 'Add' button") = [&]() {
-                        auto btn_query = std::make_shared<quite::ObjectQuery>();
-                        btn_query->properties.emplace("objectName", std::string{"addButton"});
+                        auto btn_query = quite::make_query().with_property("objectName", std::string{"addButton"});
                         auto btn_obj = probe.find_object(btn_query);
                         btn_obj.mouse_action();
                         steps.then("the todo list should display '{expectdTodoText}' as a new item") =
                             [&](std::string todoText) {
-                                auto list_query = std::make_shared<quite::ObjectQuery>();
-                                list_query->properties.emplace("objectName", std::string{"listView"});
+                                auto list_query =
+                                    quite::make_query().with_property("objectName", std::string{"listView"});
                                 auto list_obj = probe.find_object(list_query);
 
-                                auto delegate_query = std::make_shared<quite::ObjectQuery>();
-                                delegate_query->properties.emplace("text", todoText);
+                                auto delegate_query = quite::make_query().with_property("text", todoText);
                                 // delegate_query->container = list_query;
                                 auto delegate_index =
                                     probe.try_find_object(delegate_query, std::chrono::seconds{2}).property("index");
