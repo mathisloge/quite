@@ -30,12 +30,14 @@ static suite<"integration manage todo"> _ = [] { // NOLINT
                                     quite::make_query().with_property("objectName", std::string{"listView"});
                                 auto list_obj = probe.find_object(list_query);
 
-                                auto delegate_query = quite::make_query().with_property("text", todoText);
+                                auto delegate_query = quite::make_query()
+                                                          .with_property("text", todoText)
+                                                          .with_property("objectName", std::string{"swipeDelegate"});
                                 // delegate_query->container = list_query;
                                 auto delegate_index =
-                                    probe.try_find_object(delegate_query, std::chrono::seconds{2}).property("index");
-                                expect(std::holds_alternative<std::uint64_t>(delegate_index.value()));
-                                expect(that % 0 == std::get<std::uint64_t>(delegate_index.value()));
+                                    probe.try_find_object(delegate_query, std::chrono::seconds{2}).property("text");
+                                expect(std::holds_alternative<std::string>(delegate_index.value()));
+                                expect(that % todoText == std::get<std::string>(delegate_index.value()));
                             };
                     };
                 };
@@ -51,6 +53,9 @@ Scenario: Adding a new todo item to the list
     Given I have entered 'Buy groceries' into the todo input field
     When I click the 'Add' button
     Then the todo list should display 'Buy groceries' as a new item
+    Given I have entered 'Buy groceries 2' into the todo input field
+    When I click the 'Add' button
+    Then the todo list should display 'Buy groceries 2' as a new item
 
     )";
 };
