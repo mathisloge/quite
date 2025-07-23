@@ -37,6 +37,9 @@ from ._quite import (
 from ._quite import (
     expect as expect,
 )
+from ._quite import (
+    make_query as make_query,
+)
 
 __all__ = [
     "IExpectBuilder",
@@ -52,4 +55,5 @@ __all__ = [
     "__version__",
     "__version_git_ref__",
     "expect",
+    "make_query",
 ]

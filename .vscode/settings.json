@@ -2,6 +2,7 @@
     "C_Cpp.codeAnalysis.clangTidy.enabled": true,
     "python.analysis.extraPaths": [
         "./build/test",
-        "./python"
+        "./python",
+        "./build/test/python"
     ]
 }
