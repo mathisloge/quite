@@ -16,6 +16,7 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
         std::vector<std::string> properties) override;
 
     AsyncResult<PropertyPtr> property(std::string property_name) override;
+    AsyncResult<void> write_property(std::string property_name, entt::meta_any value) override;
     AsyncResult<entt::meta_any> fetch_property(std::string property_name);
 
     AsyncResult<void> mouse_action() override;

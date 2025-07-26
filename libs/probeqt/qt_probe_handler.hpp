@@ -18,6 +18,7 @@ class QtProbeHandler final : public proto::IProbeHandler
     AsyncResult<ImageData> take_snapshot(ObjectId object_id) override;
     AsyncResult<ObjectReference> find_object(ObjectQuery query) override;
     AsyncResult<PropertyMap> fetch_properties(ObjectId object_id, std::vector<std::string> properties) override;
+    AsyncResult<void> set_property(ObjectId object_id, std::string property, entt::meta_any value) override;
     AsyncResult<std::vector<ObjectReference>> fetch_windows() override;
     AsyncResult<entt::meta_any> invoke_method(entt::meta_any object,
                                               std::string qualified_method_signature,

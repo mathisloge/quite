@@ -5,7 +5,7 @@ import datetime
 import pytest
 from test_paths import APP_PATH
 
-from quite import ObjectQueryBuilder, ProbeManager, expect
+from quite import ProbeManager, expect, make_query
 
 
 @pytest.fixture
@@ -15,14 +15,12 @@ def probe_manager():
 
 @pytest.fixture
 def hello_btn_query():
-    query = ObjectQueryBuilder().add_property("objectName", "helloBtn")
-    return query.create()
+    return make_query().with_property("objectName", "helloBtn")
 
 
 @pytest.fixture
 def text_field_query():
-    query = ObjectQueryBuilder().add_property("objectName", "textArea")
-    return query.create()
+    return make_query().with_property("objectName", "textArea")
 
 
 def test_launch_application(probe_manager: ProbeManager):
@@ -42,17 +40,15 @@ def test_find_object(probe_manager: ProbeManager, hello_btn_query):
     app = probe_manager.launch_qt_probe_application(
         name="tester", path_to_application=APP_PATH
     )
-    invalid_object_query = ObjectQueryBuilder().add_property(
-        "objectName", "not-existing"
-    )
+    invalid_object_query = make_query().with_property("objectName", "not-existing")
     with pytest.raises(RuntimeError):
-        app.find_object(invalid_object_query.create())
+        app.find_object(invalid_object_query)
 
     btn = app.find_object(hello_btn_query)
     assert btn
 
-    text_query = ObjectQueryBuilder().add_property("text", "...")
-    text = app.find_object(text_query.create())
+    text_query = make_query().with_property("text", "...")
+    text = app.find_object(text_query)
     assert text
 
 

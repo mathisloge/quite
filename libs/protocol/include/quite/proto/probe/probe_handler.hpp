@@ -27,6 +27,7 @@ class QUITE_PROTOCOL_EXPORT IProbeHandler
     virtual AsyncResult<ImageData> take_snapshot(ObjectId object_id) = 0;
     virtual AsyncResult<ObjectReference> find_object(ObjectQuery query) = 0;
     virtual AsyncResult<PropertyMap> fetch_properties(ObjectId object_id, std::vector<std::string> properties) = 0;
+    virtual AsyncResult<void> set_property(ObjectId object_id, std::string property, entt::meta_any value) = 0;
     virtual AsyncResult<std::vector<ObjectReference>> fetch_windows() = 0;
     virtual AsyncResult<entt::meta_any> invoke_method(entt::meta_any object,
                                                       std::string qualified_method_signature,

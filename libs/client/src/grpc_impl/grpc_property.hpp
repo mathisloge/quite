@@ -17,7 +17,7 @@ class GrpcProperty final : public Property
     meta::TypeId type_id() const override;
     const Result<entt::meta_any> &value() const override;
     AsyncResult<entt::meta_any> read() override;
-    AsyncResult<entt::meta_any> write(entt::meta_any value) override;
+    AsyncResult<void> write(entt::meta_any value) override;
 
   private:
     std::shared_ptr<GrpcRemoteObject> parent_;

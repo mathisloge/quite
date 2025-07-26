@@ -13,7 +13,7 @@ Context::Context()
 
 Context::~Context()
 {
-    asio_impl::query(thread_pool().executor(), asio_impl::execution::context_t{}).stop();
+    get_executor().context().stop();
 }
 
 proto::Client &Context::backend_client()
@@ -23,7 +23,7 @@ proto::Client &Context::backend_client()
 
 execpools::asio_thread_pool &Context::asio_context()
 {
-    return asio_context();
+    return thread_pool();
 }
 
 Context &Context::Instance()

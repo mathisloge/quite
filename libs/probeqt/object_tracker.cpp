@@ -120,6 +120,27 @@ bool match_property(QObject *object, std::string_view property_name, const entt:
     const auto property_value = object->property(property_name.cbegin());
     return property_value.isValid() and property_value == value;
 }
+
+std::string get_class_name(QObject *object)
+{
+    const QMetaObject *meta_obj = try_get_qt_meta_object(object);
+    if (meta_obj == nullptr)
+    {
+        return {};
+    }
+
+    std::string_view class_name = meta_obj->className();
+    // Remove QML-generated suffixes
+    if (auto pos = class_name.find("_QMLTYPE_"); pos != std::string_view::npos)
+    {
+        class_name = class_name.substr(0, pos);
+    }
+    else if (auto pos = class_name.find("_QML_"); pos != std::string_view::npos)
+    {
+        class_name = class_name.substr(0, pos);
+    }
+    return std::string{class_name};
+}
 } // namespace
 Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &query) const
 {
@@ -133,17 +154,22 @@ Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &q
 
         while (current_query && current_parent)
         {
-            bool matched{false};
-            // Check if the current parent matches the current query
-            for (auto &&[prop_name, prop_value] : current_query->properties)
+            bool matched =
+                current_query->type_name.empty() or
+                (not current_query->type_name.empty() and get_class_name(current_parent) == current_query->type_name);
+            if (matched)
             {
-                if (not match_property(current_parent, prop_name, prop_value))
+                // Check if the current parent matches the current query
+                for (auto &&[prop_name, prop_value] : current_query->properties)
                 {
-                    current_parent = current_parent->parent();
-                    matched = false;
-                    break;
+                    if (not match_property(current_parent, prop_name, prop_value))
+                    {
+                        current_parent = current_parent->parent();
+                        matched = false;
+                        break;
+                    }
+                    matched = true;
                 }
-                matched = true;
             }
 
             if (matched)
@@ -164,19 +190,24 @@ Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &q
         {
             continue;
         }
+        const bool name_matched =
+            query.type_name.empty() or (not query.type_name.empty() and get_class_name(obj) == query.type_name);
 
         // Then, check if the properties of the current object match
         bool property_matches = true;
-        for (auto &&[prop_name, prop_value] : query.properties)
+        if (name_matched)
         {
-            if (not match_property(obj, prop_name, prop_value))
+            for (auto &&[prop_name, prop_value] : query.properties)
             {
-                property_matches = false;
-                break;
+                if (not match_property(obj, prop_name, prop_value))
+                {
+                    property_matches = false;
+                    break;
+                }
             }
         }
 
-        if (property_matches)
+        if (name_matched and property_matches)
         {
             return ObjectReference{.object_id = to_object_id(obj),
                                    .type_id = static_cast<meta::TypeId>(try_get_qt_meta_type(obj).id())};

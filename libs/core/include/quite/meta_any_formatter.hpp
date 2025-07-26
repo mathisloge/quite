@@ -39,6 +39,10 @@ struct fmt::formatter<entt::meta_any> : fmt::formatter<std::string_view>
             }
             return std::string{"unknown"};
         };
-        return fmt::format_to(ctx.out(), "any(type={}, value={})", type.info().name(), value_printer());
+        return fmt::format_to(ctx.out(),
+                              "any(type_id={}, name={} value={})",
+                              value.type().id(),
+                              value.type().info().name(),
+                              value_printer());
     }
 };

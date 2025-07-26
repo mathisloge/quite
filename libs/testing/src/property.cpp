@@ -10,12 +10,21 @@
 #include "quite/asio_context.hpp"
 #include "quite/client/remote_object.hpp"
 #include "quite/test/remote_object.hpp"
+#include "quite/value/object_id.hpp"
 #include "throw_unexpected.hpp"
 
 DEFINE_LOGGER(test_property);
 
 namespace quite::test
 {
+namespace
+{
+template <class... Ts>
+struct overloads : Ts...
+{
+    using Ts::operator()...;
+};
+
 Property::Value convert_any(const entt::meta_any &value)
 {
     LOG_INFO(test_property(), "CONVERT ANY:{}", fmt::format("{}", value));
@@ -57,6 +66,20 @@ Property::Value convert_any(const entt::meta_any &value)
     return {};
 }
 
+entt::meta_any convert_any(Property::Value value)
+{
+    return std::visit(overloads{[](bool value) { return entt::meta_any{value}; },
+                                [](std::uint64_t value) { return entt::meta_any{value}; },
+                                [](std::int64_t value) { return entt::meta_any{value}; },
+                                [](double value) { return entt::meta_any{value}; },
+                                [](std::string value) { return entt::meta_any{std::move(value)}; },
+                                [](RemoteObject value) {
+                                    return entt::meta_any{
+                                        ObjectReference{.object_id = value.underlying_object()->id()}};
+                                }},
+                      std::move(value));
+}
+} // namespace
 Property::Property(std::shared_ptr<client::Property> property)
     : property_{std::move(property)}
 {}
@@ -76,7 +99,10 @@ Property::Value Property::value() const
 }
 
 void Property::write(Property::Value value)
-{}
+{
+    const auto [write_result] = stdexec::sync_wait(property_->write(convert_any(std::move(value)))).value();
+    throw_unexpected(write_result);
+}
 
 Property::Value Property::wait_for_value(Property::Value target_value, std::chrono::milliseconds timeout)
 {
