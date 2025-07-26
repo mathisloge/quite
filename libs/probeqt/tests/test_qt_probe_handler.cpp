@@ -49,7 +49,7 @@ static suite<"qtprobe QtProbeHandler"> _ = [] {
         expect(found_obj.object_id == to_object_id(&obj));
     };
 
-    "write property back"_test = [&] {
+    "write property"_test = [&] {
         fmt::println("find_object");
         QtProbeHandler handler{tracker};
         ObjectQuery query;

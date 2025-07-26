@@ -111,6 +111,7 @@ PYBIND11_MODULE(_quite, m)
         .def("__call__", [](const quite::ObjectQueryBuilder &builder) {
             return static_cast<std::shared_ptr<quite::ObjectQuery>>(builder); // mimic implicit conversion
         });
+    py::implicitly_convertible<quite::ObjectQueryBuilder, std::shared_ptr<quite::ObjectQuery>>();
 
     m.def("make_query", &quite::make_query, "Create a new ObjectQuery");
 
