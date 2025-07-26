@@ -130,19 +130,15 @@ std::string get_class_name(QObject *object)
     }
 
     std::string_view class_name = meta_obj->className();
-    LOG_DEBUG(object_tracker_logger(), "MAIN OBJ: {}", class_name);
     // Remove QML-generated suffixes
     if (auto pos = class_name.find("_QMLTYPE_"); pos != std::string_view::npos)
     {
-        LOG_DEBUG(object_tracker_logger(), "Found _QMLTYPE_");
         class_name = class_name.substr(0, pos);
     }
     else if (auto pos = class_name.find("_QML_"); pos != std::string_view::npos)
     {
-        LOG_DEBUG(object_tracker_logger(), "Found _OBJ_");
         class_name = class_name.substr(0, pos);
     }
-    LOG_DEBUG(object_tracker_logger(), "RET OBJ: {}", class_name);
     return std::string{class_name};
 }
 } // namespace
