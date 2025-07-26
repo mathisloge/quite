@@ -16,6 +16,7 @@ void write_query(proto::ObjectSearchQuery &proto_query, const ObjectQuery &query
     {
         write_query(*proto_query.mutable_parent(), *query.container);
     }
+    proto_query.set_type_name(query.type_name);
     for (auto &&[key, value] : query.properties)
     {
         proto_query.mutable_properties()->insert({key, create_value(entt::locator<ValueRegistry>::value(), value)});
@@ -108,7 +109,7 @@ AsyncResult<std::unordered_map<std::string, entt::meta_any>> ProbeServiceImpl::g
     const auto status = co_await RPC::request(*grpc_context_, probe_service_stub_, client_context, request, response);
     if (not status.ok())
     {
-        co_return std::unexpected(grpc_status2result(status));
+        co_return std::unexpected{grpc_status2result(status)};
     }
 
     std::unordered_map<std::string, entt::meta_any> responses;
@@ -117,6 +118,26 @@ AsyncResult<std::unordered_map<std::string, entt::meta_any>> ProbeServiceImpl::g
         responses.emplace(k, convert_value(entt::locator<ValueRegistry>::value(), *value_converter_, v));
     }
     co_return responses;
+}
+
+AsyncResult<void> ProbeServiceImpl::set_object_property(ObjectId object_id, std::string property, entt::meta_any value)
+{
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncSetObjectProperty>;
+    grpc::ClientContext client_context;
+    configure_client_context(client_context);
+
+    RPC::Request request;
+    request.set_object_id(object_id);
+    request.set_property(std::move(property));
+    *request.mutable_value() = create_value(entt::locator<ValueRegistry>::value(), value);
+
+    RPC::Response response;
+    const auto status = co_await RPC::request(*grpc_context_, probe_service_stub_, client_context, request, response);
+    if (not status.ok())
+    {
+        co_return std::unexpected{grpc_status2result(status)};
+    }
+    co_return {};
 }
 
 AsyncResult<std::vector<ObjectReference>> ProbeServiceImpl::query_top_level_views()

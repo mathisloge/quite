@@ -3,11 +3,14 @@
 #include <QQuickItem>
 #include <QQuickItemGrabResult>
 #include <QQuickWindow>
+#include <quite/logger.hpp>
 #include "object_tracker.hpp"
 #include "property_collector.hpp"
 #include "qt_meta_type_accessor.hpp"
 #include "qtstdexec.h"
 #include "to_object_id.hpp"
+
+DEFINE_LOGGER(qt_probe_handler)
 
 namespace quite::probe
 {
@@ -111,6 +114,23 @@ AsyncResult<QtProbeHandler::PropertyMap> QtProbeHandler::fetch_properties(Object
                       return collect_properties(object_meta, properties);
                   }));
     co_return collected_properties;
+}
+
+AsyncResult<void> QtProbeHandler::set_property(ObjectId object_id, std::string property, entt::meta_any value)
+{
+    auto obj_result = object_tracker_.get_object_by_id(object_id);
+    if (not obj_result.has_value())
+    {
+        co_return std::unexpected{std::move(obj_result.error())};
+    }
+    const auto result = co_await (
+        stdexec::just(QPointer<QObject>{obj_result.value()}) |
+        stdexec::continues_on(qthread_as_scheduler(obj_result.value()->thread())) |
+        stdexec::then([](auto &&object) { return ObjectMeta::from_qobject(object); }) |
+        stdexec::then([property = std::move(property), value = std::move(value)](auto &&object_meta) -> Result<void> {
+            return write_property(object_meta, property, value);
+        }));
+    co_return result;
 }
 
 AsyncResult<std::vector<ObjectReference>> QtProbeHandler::fetch_windows()

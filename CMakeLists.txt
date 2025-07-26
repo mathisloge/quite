@@ -23,7 +23,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
 option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
 option(QUITE_INSTALL "Decides if the libraries should be installed" ON)
-option(QUITE_EXAMPLES "Decides if the examples should be build" ON)
 add_feature_info(
     Studio
     QUITE_BUILD_STUDIO
@@ -55,17 +54,17 @@ cpmaddpackage(
   OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_PROCESS_USE_STD_FS ON" "BOOST_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
 )
 cpmaddpackage("gh:fmtlib/fmt#11.2.0")
-cpmaddpackage("gh:odygrd/quill@10.0.0")
+cpmaddpackage("gh:odygrd/quill@10.0.1")
 cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237")
 cpmaddpackage("gh:skypjack/entt@3.15.0")
 cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
-cpmaddpackage(URI "gh:mathisloge/stdexec#246e116f8efa9e3234cd3ce84991959538170ba8" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
+cpmaddpackage(URI "gh:NVIDIA/stdexec#0d0a15c669cbd2571248536a7e70524d8b7071aa" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
 )
 cpmaddpackage("gh:Tradias/asio-grpc@3.5.0")
 cpmaddpackage("gh:nlohmann/json@3.12.0")
 cpmaddpackage("gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5")
 set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${stb_SOURCE_DIR}>")
-cpmaddpackage("gh:pybind/pybind11@3.0.0rc4")
+cpmaddpackage("gh:pybind/pybind11@3.0.0")
 if(BUILD_TESTING)
     cpmaddpackage("gh:catchorg/Catch2@3.8.1")
     cpmaddpackage("gh:boost-ext/ut@2.3.1")
@@ -85,9 +84,6 @@ endif()
 add_subdirectory(libs)
 add_subdirectory(python)
 add_subdirectory(remote-manager)
-if(QUITE_EXAMPLES)
-    add_subdirectory(examples)
-endif()
 if(QUITE_BUILD_STUDIO)
     #add_subdirectory(studio)
 endif()

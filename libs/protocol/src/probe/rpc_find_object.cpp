@@ -28,6 +28,7 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
 {
     ObjectQuery object_query;
     object_query.properties = convert_properties(*value_registry, request.query().properties());
+    object_query.type_name = request.query().has_type_name() ? request.query().type_name() : "";
     ObjectQuery *child = &object_query;
     const proto::ObjectSearchQuery *parent{&request.query()};
     while (parent->has_parent())

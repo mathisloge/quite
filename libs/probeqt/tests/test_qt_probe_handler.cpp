@@ -48,6 +48,26 @@ static suite<"qtprobe QtProbeHandler"> _ = [] {
 
         expect(found_obj.object_id == to_object_id(&obj));
     };
+
+    "write property"_test = [&] {
+        fmt::println("find_object");
+        QtProbeHandler handler{tracker};
+        ObjectQuery query;
+        query.properties = {{"objectName", std::string{"probe_obj"}}};
+
+        exec::async_scope scope;
+        auto wait_senders = scope.on_empty();
+        const std::string new_name{"testName"};
+        scope.spawn(stdexec::starts_on(exec::inline_scheduler{},
+                                       handler.set_property(to_object_id(&obj), "objectName", new_name)) |
+                    stdexec::then([&](auto &&result) {
+                        expect(result.has_value());
+                        const auto actual_name = obj.objectName().toStdString();
+                        expect(actual_name == new_name);
+                    }));
+        expect(loop.processEvents());
+        stdexec::sync_wait(wait_senders);
+    };
 #if 0
     "fetch_windows returns all top-level views"_test = [&] {
         QEventLoop loop;

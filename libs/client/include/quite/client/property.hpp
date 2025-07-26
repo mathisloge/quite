@@ -19,7 +19,7 @@ class QUITE_CLIENT_EXPORT Property
     virtual meta::TypeId type_id() const = 0;
     virtual const Result<entt::meta_any> &value() const = 0;
     virtual AsyncResult<entt::meta_any> read() = 0;
-    virtual AsyncResult<entt::meta_any> write(entt::meta_any value) = 0;
+    virtual AsyncResult<void> write(entt::meta_any value) = 0;
 };
 
 using PropertyPtr = std::shared_ptr<Property>;

@@ -4,6 +4,7 @@
 #include <ranges>
 #include <entt/meta/factory.hpp>
 #include <quite/logger.hpp>
+#include <quite/meta_any_formatter.hpp>
 #include <quite/value/generic_value_class.hpp>
 #include "qt_meta_type_accessor.hpp"
 
@@ -72,6 +73,42 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
         LOG_DEBUG(property_collector_logger(), "prop {}={} not convertible", property.name(), property.typeName());
     }
     return {property.name(), std::move(value)};
+}
+
+Result<void> write_property(const ObjectMeta &meta,
+                            const std::string &property_name,
+                            const entt::meta_any &property_value)
+{
+    const auto idx = meta.meta_object->indexOfProperty(property_name.c_str());
+    const auto prop = meta.meta_object->property(idx);
+
+    if (not prop.isValid())
+    {
+        return make_error_result(ErrorCode::failed_precondition,
+                                 fmt::format("Property {} is not valid", property_name));
+    }
+
+    if (not prop.isWritable())
+    {
+        return make_error_result(ErrorCode::failed_precondition,
+                                 fmt::format("Property {} is not writable", property_name));
+    }
+
+    auto &&variant_value = property_value.allow_cast<QVariant>();
+    if (not variant_value)
+    {
+        return make_error_result(ErrorCode::failed_precondition,
+                                 fmt::format("Could not convert {} to QVariant", property_value));
+    }
+
+    const auto written = prop.write(meta.object, variant_value.cast<QVariant>());
+
+    if (not written)
+    {
+        return make_error_result(ErrorCode::aborted,
+                                 fmt::format("Could not write {} to {}", property_value, property_name));
+    }
+    return {};
 }
 
 entt::dense_map<std::string, entt::meta_any> collect_properties(ObjectMeta object_meta,

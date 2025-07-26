@@ -25,9 +25,13 @@ template <typename T>
 void register_type(ValueRegistry &value_registry, entt::hashed_string name)
 {
     auto &meta_ctx = value_registry.context();
-    entt::meta_factory<T>(meta_ctx) //
-        .type(name.value())
-        .template custom<QMetaType>(QMetaType::fromType<T>());
+    auto &&type = entt::meta_factory<T>(meta_ctx) //
+                      .type(name.value())
+                      .template custom<QMetaType>(QMetaType::fromType<T>());
+    if constexpr (not std::is_void_v<T>)
+    {
+        type.template conv<[](auto &&value) { return QVariant::fromValue<T>(std::forward<decltype(value)>(value)); }>();
+    }
 }
 } // namespace
 #define REGISTER_QT_TYPES_FUNCTION(TypeName, TypeId, Type) register_type<Type>(value_registry, #Type);
@@ -44,12 +48,16 @@ void register_converters(ValueRegistry &value_registry)
     entt::meta_factory<std::string>(meta_ctx) //
         .type("std::string"_hs)
         .custom<QMetaType>(QMetaType::fromType<std::string>())
-        .conv<[](auto &&str) { return QString::fromStdString(str); }>();
+        .conv<[](auto &&str) { return QString::fromStdString(str); }>()
+        .conv<[](auto &&value) {
+            return QVariant::fromValue<QString>(QString::fromStdString(std::forward<decltype(value)>(value)));
+        }>();
 
     entt::meta_factory<QString>(meta_ctx) //
         .type("QString"_hs)
         .custom<QMetaType>(QMetaType::fromType<QString>())
-        .conv<&QString::toStdString>();
+        .conv<&QString::toStdString>()
+        .conv<[](auto &&value) { return QVariant::fromValue<QString>(std::forward<decltype(value)>(value)); }>();
 
     entt::meta_factory<QRect>(meta_ctx)
         .type("QRect"_hs)

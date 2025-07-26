@@ -47,6 +47,13 @@ AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string pr
     });
 }
 
+AsyncResult<void> GrpcRemoteObject::write_property(std::string property_name, entt::meta_any value)
+{
+    auto response =
+        co_await client_->probe_service().set_object_property(id(), std::move(property_name), std::move(value));
+    co_return response;
+}
+
 AsyncResult<entt::meta_any> GrpcRemoteObject::fetch_property(std::string property_name)
 {
     std::vector<std::string> gcc13_workaround{property_name}; // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115660

@@ -29,20 +29,20 @@ void Probe::wait_for_connected(std::chrono::seconds timeout)
     throw_unexpected(started_result);
 }
 
-RemoteObject Probe::find_object(std::shared_ptr<ObjectQuery> query)
+RemoteObject Probe::find_object(ObjectQuery query)
 {
-    auto [obj] = stdexec::sync_wait(handle_->find_object(*query)).value();
+    auto [obj] = stdexec::sync_wait(handle_->find_object(std::move(query))).value();
     throw_unexpected(obj);
     return RemoteObject{std::move(*obj)};
 }
 
-RemoteObject Probe::try_find_object(std::shared_ptr<ObjectQuery> query, std::chrono::milliseconds timeout)
+RemoteObject Probe::try_find_object(ObjectQuery query, std::chrono::milliseconds timeout)
 {
     Result<client::RemoteObjectPtr> found_object;
     stdexec::sender auto find_obj_snd =
         stdexec::when_all(stdexec::just(handle_), stdexec::just(std::move(query))) |
         stdexec::continues_on(client::asio_context().get_scheduler()) |
-        stdexec::let_value([](auto handle, auto query) { return handle->find_object(*query); }) |
+        stdexec::let_value([](auto handle, auto &&query) { return handle->find_object(query); }) |
         stdexec::then([&found_object](auto &&result) {
             found_object = std::forward<decltype(result)>(result);
             return found_object.has_value();
