@@ -52,7 +52,6 @@ Page {
                 id: swipeDelegate
                 required property string title
                 required property int index
-                objectName: "swipeDelegate"
 
                 width: listView.width
                 text: title

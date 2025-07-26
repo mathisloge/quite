@@ -27,8 +27,9 @@ message ExitRequest {};
 message ExitReponse {};
 
 message ObjectSearchQuery {
-  map<string, Value> properties = 1;
-  optional ObjectSearchQuery parent = 2;
+  optional ObjectSearchQuery parent = 1;
+  map<string, Value> properties = 2;
+  optional string type_name = 3;
 }
 
 message ObjectRequest {

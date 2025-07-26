@@ -3,11 +3,14 @@
 #include <QQuickItem>
 #include <QQuickItemGrabResult>
 #include <QQuickWindow>
+#include <quite/logger.hpp>
 #include "object_tracker.hpp"
 #include "property_collector.hpp"
 #include "qt_meta_type_accessor.hpp"
 #include "qtstdexec.h"
 #include "to_object_id.hpp"
+
+DEFINE_LOGGER(qt_probe_handler)
 
 namespace quite::probe
 {

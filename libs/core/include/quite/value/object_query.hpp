@@ -11,6 +11,7 @@ struct QUITE_CORE_EXPORT ObjectQuery
     using PropertyMap = std::unordered_map<std::string, entt::meta_any>;
     std::shared_ptr<ObjectQuery> container; // use a shared pointer here, makes the python code gen much easier
     PropertyMap properties;
+    std::string type_name;
 };
 
 class QUITE_CORE_EXPORT ObjectQueryBuilder
@@ -33,6 +34,8 @@ class QUITE_CORE_EXPORT ObjectQueryBuilder
     ObjectQueryBuilder &with_property(std::string key, std::string value);
 
     ObjectQueryBuilder &with_parent(std::shared_ptr<ObjectQuery> parent);
+
+    ObjectQueryBuilder &with_type(std::string type_name);
 
     // Implicit conversion to shared_ptr<ObjectQuery>
     operator std::shared_ptr<ObjectQuery>() const;

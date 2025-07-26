@@ -30,9 +30,8 @@ static suite<"integration manage todo"> _ = [] { // NOLINT
                                     quite::make_query().with_property("objectName", std::string{"listView"});
                                 auto list_obj = probe.find_object(list_query);
 
-                                auto delegate_query = quite::make_query()
-                                                          .with_property("text", todoText)
-                                                          .with_property("objectName", std::string{"swipeDelegate"});
+                                auto delegate_query =
+                                    quite::make_query().with_property("text", todoText).with_type("SwipeDelegate");
                                 // delegate_query->container = list_query;
                                 auto delegate_index =
                                     probe.try_find_object(delegate_query, std::chrono::seconds{2}).property("text");
