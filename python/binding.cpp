@@ -87,7 +87,7 @@ PYBIND11_MODULE(_quite, m)
         .def_readonly("width", &quite::ImageView::width)
         .def_readonly("height", &quite::ImageView::height);
 
-    py::class_<quite::ObjectQuery, std::shared_ptr<quite::ObjectQuery>> py_object_query(m, "ObjectQuery");
+    py::class_<quite::ObjectQuery>(m, "ObjectQuery").def(py::init<quite::ObjectQueryBuilder>());
     py::class_<quite::ObjectQueryBuilder>(m, "ObjectQueryBuilder")
         .def(py::init<>())
         .def("with_property",
@@ -107,11 +107,8 @@ PYBIND11_MODULE(_quite, m)
              py::overload_cast<std::string, std::string>(&quite::ObjectQueryBuilder::with_property),
              py::arg{"key"},
              py::arg{"value"})
-        .def("with_parent", &quite::ObjectQueryBuilder::with_parent, py::arg("parent"))
-        .def("__call__", [](const quite::ObjectQueryBuilder &builder) {
-            return static_cast<std::shared_ptr<quite::ObjectQuery>>(builder); // mimic implicit conversion
-        });
-    py::implicitly_convertible<quite::ObjectQueryBuilder, std::shared_ptr<quite::ObjectQuery>>();
+        .def("with_parent", &quite::ObjectQueryBuilder::with_parent, py::arg("parent"));
+    py::implicitly_convertible<quite::ObjectQueryBuilder, quite::ObjectQuery>();
 
     m.def("make_query", &quite::make_query, "Create a new ObjectQuery");
 

@@ -60,15 +60,16 @@ ObjectQueryBuilder &ObjectQueryBuilder::with_type(std::string type_name)
     return *this;
 }
 
-ObjectQueryBuilder::operator std::shared_ptr<ObjectQuery>() const
-{
-    return query_;
-}
-
 ObjectQueryBuilder make_query()
 {
     return ObjectQueryBuilder{};
 }
+
+ObjectQuery::ObjectQuery(const ObjectQueryBuilder &builder)
+    : container{builder.query_->container}
+    , properties{builder.query_->properties}
+    , type_name{builder.query_->type_name}
+{}
 } // namespace quite
 
 auto fmt::formatter<quite::ObjectQuery>::format(const quite::ObjectQuery &query, format_context &ctx) const
