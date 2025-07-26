@@ -6,12 +6,21 @@
 
 namespace quite
 {
+class QUITE_CORE_EXPORT ObjectQueryBuilder;
 struct QUITE_CORE_EXPORT ObjectQuery
 {
     using PropertyMap = std::unordered_map<std::string, entt::meta_any>;
     std::shared_ptr<ObjectQuery> container; // use a shared pointer here, makes the python code gen much easier
     PropertyMap properties;
     std::string type_name;
+
+    ObjectQuery() = default;
+    ObjectQuery(const ObjectQuery &other) = default;
+    ObjectQuery(ObjectQuery &&other) noexcept = default;
+    ObjectQuery &operator=(const ObjectQuery &other) = default;
+    ObjectQuery &operator=(ObjectQuery &&other) noexcept = default;
+    ObjectQuery(const ObjectQueryBuilder &builder);
+    ~ObjectQuery() = default;
 };
 
 class QUITE_CORE_EXPORT ObjectQueryBuilder
@@ -37,8 +46,8 @@ class QUITE_CORE_EXPORT ObjectQueryBuilder
 
     ObjectQueryBuilder &with_type(std::string type_name);
 
-    // Implicit conversion to shared_ptr<ObjectQuery>
-    operator std::shared_ptr<ObjectQuery>() const;
+  private:
+    friend ObjectQuery;
 };
 
 // Factory function

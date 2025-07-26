@@ -56,8 +56,8 @@ class ImageView:
     def width(self) -> int: ...
 
 class ObjectQuery:
-    def __init__(self, *args, **kwargs) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
+    def __init__(self, arg0) -> None:
+        """__init__(self: quite._quite.ObjectQuery, arg0: quite::ObjectQueryBuilder) -> None"""
 
 class ObjectQueryBuilder:
     def __init__(self) -> None:
@@ -131,9 +131,6 @@ class ObjectQueryBuilder:
 
         4. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
-
-    def __call__(self) -> ObjectQuery:
-        """__call__(self: quite._quite.ObjectQueryBuilder) -> quite._quite.ObjectQuery"""
 
 class Probe:
     def __init__(self, *args, **kwargs) -> None:
