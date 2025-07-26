@@ -12,6 +12,11 @@ using namespace quite;
 using namespace boost::ut;
 using namespace std::literals::string_view_literals;
 
+class MyCustomClass : public QObject
+{
+    Q_OBJECT
+};
+
 static suite<"qtprobe"> _ = [] { // NOLINT
     "find object by name"_test = [] {
         QEventLoop loop;
@@ -125,6 +130,24 @@ static suite<"qtprobe"> _ = [] { // NOLINT
         expect(found->object_id == to_object_id(&child));
     };
 
+    "find object by query with type name"_test = [] {
+        QEventLoop loop;
+        ObjectTracker tracker;
+
+        QObject a1;
+        MyCustomClass my_class;
+        QObject a2;
+        tracker.add_object(&a1);
+        tracker.add_object(&my_class);
+        tracker.add_object(&a2);
+        expect(loop.processEvents());
+
+        std::shared_ptr<ObjectQuery> query = make_query().with_type("MyCustomClass");
+        auto found = tracker.find_object_by_query(*query);
+        expect(found.has_value());
+        expect(found->object_id == to_object_id(&my_class));
+    };
+
     "remove object"_test = [] {
         QEventLoop loop;
         ObjectTracker tracker;
@@ -144,3 +167,4 @@ static suite<"qtprobe"> _ = [] { // NOLINT
         expect(!not_found.has_value());
     };
 };
+#include "test_object_tracker.moc"

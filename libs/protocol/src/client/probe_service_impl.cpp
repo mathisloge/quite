@@ -16,6 +16,7 @@ void write_query(proto::ObjectSearchQuery &proto_query, const ObjectQuery &query
     {
         write_query(*proto_query.mutable_parent(), *query.container);
     }
+    proto_query.set_type_name(query.type_name);
     for (auto &&[key, value] : query.properties)
     {
         proto_query.mutable_properties()->insert({key, create_value(entt::locator<ValueRegistry>::value(), value)});
