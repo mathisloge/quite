@@ -11,9 +11,9 @@ DEFINE_LOGGER(grpc_app_logger)
 
 namespace quite::client
 {
-GrpcProbe::GrpcProbe(manager::ProcessHandle process, proto::Client &client)
+GrpcProbe::GrpcProbe(manager::ProcessHandle process, proto::Client &client, std::string connection_uri)
     : BasicProbe{std::move(process)}
-    , client_{client.create_probe_client(value_converter_)}
+    , client_{client.create_probe_client(value_converter_, std::move(connection_uri))}
 {
     value_converter_->set_client(client_);
 }
