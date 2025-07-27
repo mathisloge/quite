@@ -57,4 +57,7 @@ target_link_libraries(
 add_subdirectory(src/grpc_impl)
 add_subdirectory(src/utils)
 add_subdirectory(src/testing)
-add_subdirectory(test)
+
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif()

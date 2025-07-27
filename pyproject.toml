@@ -20,11 +20,10 @@ build-dir = "./build-python"
 backport.find-python = "3.28.0"
 [tool.scikit-build.cmake.define]
 QUITE_BUILD_PROBES = "OFF"
-QUITE_BUILD_STUDIO = "OFF"
 QUITE_EXAMPLES = "OFF"
 BUILD_SHARED_LIBS = "OFF"
 BUILD_TESTING = "OFF"
-QUITE_INSTALL = "OFF"
+CMAKE_SKIP_INSTALL_RULES = "ON"
 
 
 [tool.pytest.ini_options]

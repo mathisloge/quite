@@ -67,4 +67,6 @@ target_sources(
         src/value/object_query.cpp
 )
 
-add_subdirectory(test)
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif()
