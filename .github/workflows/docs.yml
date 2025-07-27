@@ -1,8 +1,5 @@
 name: docs
 on:
-  push:
-    branches:
-      - develop
   release:
     types: [published]
 
@@ -13,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Configure Git Credentials
         run: |
           git config user.name github-actions[bot]
@@ -33,10 +32,10 @@ jobs:
           version: 1.0
       - run: pip install -r requirements-dev.txt
 
-      - name: Deploy to develop
-        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-        run: mike deploy --push develop
+      - name: Deploy on prerelease
+        if: ${{ github.event_name == 'release' && github.event.release.prerelease }}
+        run: mike deploy --push ${{ github.event.release.tag_name }} --update-aliases develop
 
-      - name: Deploy on release
-        if: github.event_name == 'release'
-        run: mike deploy --push ${{ github.event.release.tag_name }} --update-aliases latest
+      - name: Deploy on full release
+        if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
+        run: mike deploy --push ${{ github.event.release.tag_name }}
