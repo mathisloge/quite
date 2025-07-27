@@ -60,6 +60,11 @@ ObjectQueryBuilder &ObjectQueryBuilder::with_type(std::string type_name)
     return *this;
 }
 
+ObjectQueryBuilder::operator std::shared_ptr<ObjectQuery>() const
+{
+    return query_;
+}
+
 ObjectQueryBuilder make_query()
 {
     return ObjectQueryBuilder{};
