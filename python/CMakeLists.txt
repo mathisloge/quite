@@ -26,3 +26,5 @@ file(
 )
 
 install(TARGETS _quite DESTINATION quite)
+
+add_subdirectory(test)
