@@ -15,6 +15,8 @@ class IExpectBuilder:
         """screenshot(self: quite._quite.IExpectBuilder, name: str) -> bool"""
 
 class Image:
+    """Holds the data of an image in the format of RGBA. Use .data() with other libraries for more complex use cases"""
+
     @overload
     def __init__(self) -> None:
         """__init__(*args, **kwargs)
@@ -42,6 +44,8 @@ class Image:
         """save_to(self: quite._quite.Image, file_path: os.PathLike | str | bytes) -> None"""
 
 class ImageView:
+    """A non owning reference to the data of an Image."""
+
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
 
@@ -49,11 +53,16 @@ class ImageView:
         """data(self: quite._quite.ImageView) -> memoryview"""
 
     @property
-    def channels(self) -> int: ...
+    def channels(self) -> int:
+        """(self: quite._quite.ImageView) -> int"""
+
     @property
-    def height(self) -> int: ...
+    def height(self) -> int:
+        """(self: quite._quite.ImageView) -> int"""
+
     @property
-    def width(self) -> int: ...
+    def width(self) -> int:
+        """(self: quite._quite.ImageView) -> int"""
 
 class ObjectQuery:
     def __init__(self, arg0) -> None:
@@ -178,6 +187,8 @@ class ProbeManager:
         """launch_qt_probe_application(self: quite._quite.ProbeManager, name: str, path_to_application: str, args: collections.abc.Sequence[str] = []) -> quite._quite.Probe"""
 
 class Property:
+    """Represents a property which is tied to a remote objects property"""
+
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
 
@@ -202,6 +213,8 @@ class Property:
         """wait_for_value(self: quite._quite.Property, target_value: bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject, timeout: datetime.timedelta) -> bool | int | int | float | str | quite._quite.RemoteObject"""
 
 class RemoteObject:
+    """Represents an object from the test application."""
+
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
 

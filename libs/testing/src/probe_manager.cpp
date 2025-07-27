@@ -21,7 +21,7 @@ Probe ProbeManager::launch_probe_application(std::string name,
     auto [process] =
         stdexec::sync_wait(local_->launch_application({std::move(name)}, path_to_application, args)).value();
     auto probe_result = process.and_then([&](auto &&handle) -> Result<Probe> {
-        auto probe_handle = probe_->connect(std::forward<decltype(handle)>(handle), "...");
+        auto probe_handle = probe_->connect(std::forward<decltype(handle)>(handle), "unix:///tmp/grpc_probe.sock");
         return Probe{std::move(probe_handle)};
     });
     if (probe_result.has_value())
@@ -33,7 +33,7 @@ Probe ProbeManager::launch_probe_application(std::string name,
 
 quite::test::Probe ProbeManager::connect_to_probe(std::string name)
 {
-    auto probe_handle = probe_->connect(local_->noop_process(), "...");
+    auto probe_handle = probe_->connect(local_->noop_process(), "unix:///tmp/grpc_probe.sock");
     return Probe{std::move(probe_handle)};
 }
 } // namespace quite::test

@@ -23,7 +23,7 @@ TEST_CASE("A host application is started")
     ProbeManager probe_manager;
     auto [process] = stdexec::sync_wait(process_manager.launch_application({"tester"}, TESTER_APP_PATH)).value();
     {
-        auto probe = probe_manager.connect(process.value(), "...");
+        auto probe = probe_manager.connect(process.value(), "unix:///tmp/grpc_probe.sock");
 
         ASYNC_BLOCK
         const auto state = co_await probe->wait_for_started(std::chrono::seconds{10});
