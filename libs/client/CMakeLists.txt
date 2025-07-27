@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 add_library(quite_client)
 add_library(quite::client ALIAS quite_client)
 add_sanitizers(quite_client)
@@ -22,21 +26,21 @@ target_sources(
     quite_client
     PUBLIC
         FILE_SET headers
-        TYPE HEADERS
-        BASE_DIRS include
-        FILES
-            include/quite/client/testing/verification_point.hpp
-            include/quite/client/utils/dump_properties.hpp
-            include/quite/client/probe.hpp
-            include/quite/client/probe_handle.hpp
-            include/quite/client/probe_manager.hpp
-            include/quite/client/property.hpp
-            include/quite/client/quite.hpp
-            include/quite/client/remote_object.hpp
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/client/testing/verification_point.hpp
+                include/quite/client/utils/dump_properties.hpp
+                include/quite/client/probe.hpp
+                include/quite/client/probe_handle.hpp
+                include/quite/client/probe_manager.hpp
+                include/quite/client/property.hpp
+                include/quite/client/quite.hpp
+                include/quite/client/remote_object.hpp
         FILE_SET export_config
-        TYPE HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
-        FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_client_export.hpp
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_client_export.hpp
     PRIVATE
         src/quite.cpp
         src/basic_probe.hpp

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/probe.hpp"
 #include <entt/locator/locator.hpp>
 #include <probe_context.hpp>

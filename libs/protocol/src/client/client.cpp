@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/proto/client/client.hpp"
 #include "grpc_manager.hpp"
 #include "probe_client_impl.hpp"

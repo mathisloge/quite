@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include <catch2/catch_test_macros.hpp>
 #include <exec/task.hpp>
 #include <quite/client/probe.hpp>

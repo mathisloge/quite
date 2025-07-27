@@ -1,49 +1,10 @@
-# - Returns a version string from Git
-#
-# These functions force a re-configure on each git commit so that you can
-# trust the values of the variables in your build system.
-#
-#  get_git_head_revision(<refspecvar> <hashvar> [ALLOW_LOOKING_ABOVE_CMAKE_SOURCE_DIR])
-#
-# Returns the refspec and sha hash of the current head revision
-#
-#  git_describe(<var> [<additional arguments to git describe> ...])
-#
-# Returns the results of git describe on the source tree, and adjusting
-# the output so that it tests false if an error occurs.
-#
-#  git_describe_working_tree(<var> [<additional arguments to git describe> ...])
-#
-# Returns the results of git describe on the working tree (--dirty option),
-# and adjusting the output so that it tests false if an error occurs.
-#
-#  git_get_exact_tag(<var> [<additional arguments to git describe> ...])
-#
-# Returns the results of git describe --exact-match on the source tree,
-# and adjusting the output so that it tests false if there was no exact
-# matching tag.
-#
-#  git_local_changes(<var>)
-#
-# Returns either "CLEAN" or "DIRTY" with respect to uncommitted changes.
-# Uses the return code of "git diff-index --quiet HEAD --".
-# Does not regard untracked files.
-#
-# Requires CMake 2.6 or newer (uses the 'function' command)
-#
-# Original Author:
-# 2009-2020 Rylie Pavlik <rylie@ryliepavlik.com>
-# https://ryliepavlik.com/
-#
-# Copyright 2009-2013, Iowa State University.
-# Copyright 2013-2020, Rylie Pavlik
-# Copyright 2013-2020, Contributors
+# Copyright 2009 - 2013 Iowa State University.
+# Copyright 2013 - 2020 Contributors
+# Copyright 2013 - 2020 Rylie Pavlik
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
 #
 # SPDX-License-Identifier: BSL-1.0
-#
-# Distributed under the Boost Software License, Version 1.0.
-# (See accompanying file LICENSE_1_0.txt or copy at
-# http://www.boost.org/LICENSE_1_0.txt)
+# SPDX-License-Identifier: MIT
 
 if(__get_git_revision_description)
     return()

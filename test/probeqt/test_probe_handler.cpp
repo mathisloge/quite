@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include <QColor>
 #include <QCoreApplication>
 #include <QEventLoop>
@@ -7,7 +11,7 @@
 #include <quite/logger.hpp>
 #include "async_test_helper.hpp"
 #include "object_tracker.hpp"
-#include "qtstdexec.h"
+#include "qtstdexec.hpp"
 #include "value_converters.hpp"
 
 using namespace quite;

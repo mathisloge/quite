@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 add_library(quite_manager)
 add_library(quite::manager ALIAS quite_manager)
 add_sanitizers(quite_manager)
@@ -36,18 +40,18 @@ target_sources(
     quite_manager
     PUBLIC
         FILE_SET headers
-        TYPE HEADERS
-        BASE_DIRS include
-        FILES
-            include/quite/manager/basic_process_manager.hpp
-            include/quite/manager/process_manager.hpp
-            include/quite/manager/process.hpp
-            include/quite/manager/process_handle.hpp
-            include/quite/manager/server.hpp
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/manager/basic_process_manager.hpp
+                include/quite/manager/process_manager.hpp
+                include/quite/manager/process.hpp
+                include/quite/manager/process_handle.hpp
+                include/quite/manager/server.hpp
         FILE_SET export_config
-        TYPE HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
-        FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_manager_export.hpp
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_manager_export.hpp
     PRIVATE
         src/basic_process_manager.cpp
         src/process_manager.cpp
