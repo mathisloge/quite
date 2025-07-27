@@ -2,6 +2,7 @@ pre-commit
 mypy
 pytest
 poetry
+reuse
 mkdocs
 mike
 mkdocs-material

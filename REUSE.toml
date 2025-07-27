@@ -2,3 +2,53 @@ version = 1
 SPDX-PackageName = "quite"
 SPDX-PackageSupplier = "Mathis Logemann"
 SPDX-PackageDownloadLocation = "https://github.com/mathisloge/quite"
+
+[[annotations]]
+path = "docs/*"
+SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "test/*"
+SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "cmake/*"
+SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ".vscode/*"
+SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ".devcontainer/*"
+SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ".github/*"
+SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = [
+    "package-lock.json",
+    "package.json",
+    "mkdocs.yml",
+    "CMakePresets.json",
+    "CMakeLists.txt",
+    ".pre-commit-config.yaml",
+    ".clangd",
+    ".clang-tidy",
+    ".clang-format",
+    "requirements-dev.txt",
+    ".gitignore",
+    "vcpkg.json",
+    "pyproject.toml",
+    "README.md"
+]
+SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
+SPDX-License-Identifier = "MIT"
