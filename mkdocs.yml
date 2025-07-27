@@ -1,9 +1,9 @@
 site_name: quite
-site_url: https://github.com/mathisloge/quite
+site_url: https://github.com/mathisloge/quite/
 site_author: Mathis Logemann
 
 repo_name: mathisloge/quite
-repo_url: https://github.com/mathisloge/quite
+repo_url: https://github.com/mathisloge/quite/
 edit_uri: edit/main/docs/
 
 copyright: Copyright &copy; 2024 - 2025 Mathis Logemann
@@ -43,10 +43,14 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.superfences
 
-
 plugins:
   - search
   - blog
   - social
   - privacy:
       enabled: !ENV [CI, false]
+
+
+extra:
+  version:
+    provider: mike

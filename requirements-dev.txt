@@ -2,5 +2,6 @@ pre-commit
 mypy
 pytest
 mkdocs
+mike
 mkdocs-material
 mkdocs-material[imaging]
