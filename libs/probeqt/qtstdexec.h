@@ -1,4 +1,5 @@
 #pragma once
+#include <QAbstractEventDispatcher>
 #include <QMetaObject>
 #include <QObject>
 #include <QThread>
