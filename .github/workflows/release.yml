@@ -5,13 +5,13 @@ on:
       - main
       - develop
 
-permissions:
-  contents: read # for checkout
-
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
+      GH_TOKEN: ${{ secrets.RELEASE_PAT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
