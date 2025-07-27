@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/error.hpp"
 
 auto fmt::formatter<quite::ErrorCode>::format(quite::ErrorCode error_code, format_context &ctx) const

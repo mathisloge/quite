@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "rpc_set_object_property.hpp"
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <quite/logger.hpp>

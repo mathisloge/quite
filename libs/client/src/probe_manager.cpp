@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/client/probe_manager.hpp"
 #include "context.hpp"
 #include "grpc_impl/grpc_probe.hpp"

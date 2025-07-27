@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
@@ -15,13 +19,13 @@ target_sources(
     probe
     PUBLIC
         FILE_SET headers
-        TYPE HEADERS
-        BASE_DIRS include
-        FILES include/quite/probe.hpp
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES include/quite/probe.hpp
         FILE_SET export_config
-        TYPE HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
-        FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_probe_export.hpp
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_probe_export.hpp
     PRIVATE src/probe.cpp
 )
 target_link_libraries(probe PRIVATE probeqt)

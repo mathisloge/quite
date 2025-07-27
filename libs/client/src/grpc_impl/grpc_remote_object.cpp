@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "grpc_remote_object.hpp"
 #include <fmt/ranges.h>
 #include <quite/logger.hpp>

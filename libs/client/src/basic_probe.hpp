@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #pragma once
 #include <quite/manager/process_handle.hpp>
 #include "quite/client/probe.hpp"

@@ -9,7 +9,7 @@ repos:
       - id: check-added-large-files
 
   - repo: https://github.com/BlankSpruce/gersemi
-    rev: 0.19.3
+    rev: 0.21.0
     hooks:
       - id: gersemi
         name: CMake linting
@@ -19,13 +19,13 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v20.1.7
+    rev: v20.1.8
     hooks:
       - id: clang-format
         types_or: [c++, c, proto]
   # Check linting and style issues
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.12.1"
+    rev: "v0.12.5"
     hooks:
       # Run the linter.
       - id: ruff-check
@@ -39,3 +39,18 @@ repos:
     hooks:
       - id: codespell
         exclude: ^(pyproject.toml)
+
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v5.0.2
+    hooks:
+      - id: reuse-lint-file
+
+  - repo: local
+    hooks:
+      - id: reuse-annotate
+        name: reuse-annotate
+        entry: reuse annotate -l MIT --merge-copyrights --single-line -c "Mathis Logemann <mathis@quite.rocks>"
+        types_or: [c++, qml, proto, cmake, python, pyi]
+        pass_filenames: true
+        language: system
+        stages: [ manual ]

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 add_library(quite_test)
 add_library(quite::test ALIAS quite_test)
 add_sanitizers(quite_test)
@@ -14,18 +18,18 @@ target_sources(
     quite_test
     PUBLIC
         FILE_SET headers
-        TYPE HEADERS
-        BASE_DIRS include
-        FILES
-            include/quite/test/probe_manager.hpp
-            include/quite/test/probe.hpp
-            include/quite/test/exceptions.hpp
-            include/quite/test/property.hpp
-            include/quite/test/remote_object.hpp
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/test/probe_manager.hpp
+                include/quite/test/probe.hpp
+                include/quite/test/exceptions.hpp
+                include/quite/test/property.hpp
+                include/quite/test/remote_object.hpp
         FILE_SET export_config
-        TYPE HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
-        FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_test_export.hpp
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_test_export.hpp
 )
 
 target_include_directories(

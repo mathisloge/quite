@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/value/object_query.hpp"
 #include <fmt/ranges.h>
 #include "quite/meta_any_formatter.hpp"

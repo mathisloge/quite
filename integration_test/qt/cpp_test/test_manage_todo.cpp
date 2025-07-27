@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include <fstream>
 #include <boost/ut.hpp>
 #include <bdd_features.hpp>
