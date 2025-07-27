@@ -4,5 +4,6 @@
         "./build/test",
         "./python",
         "./build/test/python"
-    ]
+    ],
+    "svg.preview.background": "custom"
 }
