@@ -20,7 +20,7 @@ TEST_CASE("Remote object can be invoked")
     quite::manager::ProcessManager process_manager{get_executor()};
     quite::client::ProbeManager probe_manager;
     auto [process] = stdexec::sync_wait(process_manager.launch_application({"tester"}, TESTER_APP_PATH)).value();
-    auto app = probe_manager.connect(*process, "");
+    auto app = probe_manager.connect(*process, "unix:///tmp/grpc_probe.sock");
     stdexec::sync_wait(app->wait_for_started(std::chrono::seconds{5}));
 
     const ObjectQuery btn_query = make_query().with_property("objectName", std::string{"helloBtn"});

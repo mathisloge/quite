@@ -60,7 +60,6 @@ void ProbeContext::install_qt_hooks()
 void ProbeContext::install_application_hooks()
 {
     LOG_INFO(probe_ctx_logger(), "installing QCoreApplication signals...");
-    // QObject::connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, [this]() { request_exit(); });
 }
 
 void ProbeContext::qt_hook_add_object(QObject *q)

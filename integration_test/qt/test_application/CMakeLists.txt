@@ -11,8 +11,6 @@ qt_add_qml_module(test_application
     VERSION 1.0
     QML_FILES
         main.qml
-    #SOURCES
-
     NO_RESOURCE_TARGET_PATH
     DEPENDENCIES QtQuick
 )

@@ -39,6 +39,7 @@ namespace quite::probe
 
 ObjectTracker::ObjectTracker()
 {
+    tracked_objects_.reserve(10000);
     init_timer_.setInterval(0);
     init_timer_.setSingleShot(true);
     connect(&init_timer_, &QTimer::timeout, this, &ObjectTracker::process_new_objects);
