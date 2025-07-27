@@ -50,6 +50,6 @@ repos:
       - id: reuse-annotate
         name: reuse-annotate
         entry: reuse annotate -l MIT --merge-copyrights --single-line -c "Mathis Logemann <mathis@quite.rocks>"
-        types_or: [c++, qml, proto, cmake, python]
+        types_or: [c++, qml, proto, cmake, python, pyi]
         pass_filenames: true
         language: system
