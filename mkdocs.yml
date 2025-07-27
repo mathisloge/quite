@@ -4,11 +4,17 @@ site_author: Mathis Logemann
 
 repo_name: mathisloge/quite
 repo_url: https://github.com/mathisloge/quite
+edit_uri: edit/main/docs/
 
 copyright: Copyright &copy; 2024 - 2025 Mathis Logemann
 
 theme:
   name: material
+  logo: favicon.svg
+  favicon: favicon.svg
+  palette:
+    scheme: slate
+    primary: black
   features:
     - announce.dismiss
     - content.action.edit
@@ -28,17 +34,19 @@ theme:
 
 site_dir: ../build/public
 
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
 
 plugins:
   - search
   - blog
+  - social
   - privacy:
       enabled: !ENV [CI, false]
-  - mkdoxy:
-      projects:
-        quite:
-          src-dirs: libs
-          full-doc: True
-          doxy-cfg: # standard doxygen configuration (key: value)
-            FILE_PATTERNS: "*.cpp *.h*" # specify file patterns to filter out
-            RECURSIVE: True # recursive search in source directories

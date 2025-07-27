@@ -3,4 +3,4 @@ mypy
 pytest
 mkdocs
 mkdocs-material
-mkdoxy
+mkdocs-material[imaging]
