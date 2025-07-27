@@ -1,5 +1,9 @@
 ![Alt text](docs/logo.svg)
 
+<div align="center">
+  <img src="logo.svg" alt="Quite UI Testing Framework" style="width: 100%" />
+</div
+
 # QUITE!
 
 quite is a new UI testing framework specifically designed for applications built on the Qt framework.
