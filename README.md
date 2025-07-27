@@ -1,7 +1,5 @@
-![Alt text](docs/logo.svg)
-
 <div align="center">
-  <img src="logo.svg" alt="Quite UI Testing Framework" style="width: 100%" />
+  <img src="docs/logo.svg" alt="Quite UI Testing Framework" style="width: 100%" />
 </div
 
 # QUITE!
