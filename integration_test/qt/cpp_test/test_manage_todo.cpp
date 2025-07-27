@@ -1,4 +1,6 @@
+#include <fstream>
 #include <boost/ut.hpp>
+#include <bdd_features.hpp>
 #include <quite/test/probe.hpp>
 #include <quite/test/probe_manager.hpp>
 #include <quite/value/object_query.hpp>
@@ -27,29 +29,21 @@ static suite<"integration manage todo"> _ = [] { // NOLINT
             };
 
             steps.then("the todo list should display '{expectdTodoText}' as a new item") = [&](std::string todoText) {
-                auto list_query = quite::make_query().with_property("objectName", std::string{"listView"});
-                auto list_obj = probe.find_object(list_query);
-
                 auto delegate_query = quite::make_query().with_property("text", todoText).with_type("SwipeDelegate");
-                // delegate_query->container = list_query;
-                auto delegate_index = probe.try_find_object(delegate_query, std::chrono::seconds{2}).property("text");
-                expect(std::holds_alternative<std::string>(delegate_index.value()));
-                expect(that % todoText == std::get<std::string>(delegate_index.value()));
+                auto delegate_text = probe.try_find_object(delegate_query, std::chrono::seconds{2}).property("text");
+                expect(std::holds_alternative<std::string>(delegate_text.value()));
+                expect(that % todoText == std::get<std::string>(delegate_text.value()));
             };
         };
     };
 
-    "manage todo"_test = steps |
-                         R"(
-Feature: Managing todo items
+    for (auto &&feature : kFeatures)
+    {
+        std::ifstream feature_file_stream(std::filesystem::path{kFeatureRoot} / feature, std::ios::binary);
 
-Scenario: Adding a new todo item to the list
-    Given I have entered 'Buy groceries' into the todo input field
-    When I click the 'Add' button
-    Then the todo list should display 'Buy groceries' as a new item
-    Given I have entered 'Buy groceries 2' into the todo input field
-    When I click the 'Add' button
-    Then the todo list should display 'Buy groceries 2' as a new item
+        std::string feature_content((std::istreambuf_iterator<char>(feature_file_stream)),
+                                    (std::istreambuf_iterator<char>()));
 
-    )";
+        test(feature) = steps | feature_content;
+    }
 };

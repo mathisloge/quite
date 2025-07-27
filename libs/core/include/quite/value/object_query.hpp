@@ -46,6 +46,8 @@ class QUITE_CORE_EXPORT ObjectQueryBuilder
 
     ObjectQueryBuilder &with_type(std::string type_name);
 
+    operator std::shared_ptr<ObjectQuery>() const;
+
   private:
     friend ObjectQuery;
 };
