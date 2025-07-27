@@ -51,7 +51,7 @@
             ],
             "cacheVariables": {
                 "BUILD_TESTING": true,
-                "QUITE_INSTALL": false,
+                "CMAKE_SKIP_INSTALL_RULES": true,
                 "SANITIZE_ADDRESS": true,
                 "SANITIZE_UNDEFINED": true
             }
@@ -101,7 +101,7 @@
                 "CMAKE_CXX_COMPILER": "g++-13",
                 "CMAKE_C_COMPILER_LAUNCHER": "ccache",
                 "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
-                "QUITE_INSTALL": false
+                "CMAKE_SKIP_INSTALL_RULES": true
             },
             "environment": {
                 "WAYLAND_DISPLAY": "wl-test-env"

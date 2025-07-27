@@ -21,8 +21,6 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 
 option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
-option(QUITE_BUILD_STUDIO "Decides if the GUI should be build" OFF)
-option(QUITE_INSTALL "Decides if the libraries should be installed" ON)
 add_feature_info(
     Studio
     QUITE_BUILD_STUDIO
@@ -84,9 +82,6 @@ endif()
 add_subdirectory(libs)
 add_subdirectory(python)
 add_subdirectory(remote-manager)
-if(QUITE_BUILD_STUDIO)
-    #add_subdirectory(studio)
-endif()
 if(BUILD_TESTING)
     add_subdirectory(integration_test)
     add_subdirectory(test)
@@ -95,7 +90,7 @@ endif()
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
-if(QUITE_INSTALL)
+if(NOT CMAKE_SKIP_INSTALL_RULES)
     include(CMakePackageConfigHelpers)
 
     install(
