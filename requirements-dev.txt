@@ -1,6 +1,7 @@
 pre-commit
 mypy
 pytest
+poetry
 mkdocs
 mike
 mkdocs-material

@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.28)
-project(quite VERSION 1.0.1 LANGUAGES CXX)
+file(READ "${CMAKE_SOURCE_DIR}/package.json" PACKAGE_JSON)
+string(JSON PACKAGE_JSON_PROJECT_VERSION GET "${PACKAGE_JSON}" version)
+
+project(quite VERSION ${PACKAGE_JSON_PROJECT_VERSION} LANGUAGES CXX)
+message(STATUS "Project version: ${PROJECT_VERSION}")
+
 list(
     APPEND
     CMAKE_MODULE_PATH
