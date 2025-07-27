@@ -5,6 +5,7 @@
 /venv
 /dist
 compile_commands.json
+node_modules/
 
 #####
 #
