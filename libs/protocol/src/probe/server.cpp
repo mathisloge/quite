@@ -4,6 +4,7 @@
 #include <exec/finally.hpp>
 #include <quite/logger.hpp>
 #include <quite/proto/health.grpc.pb.h>
+#include <quite/proto/keyboard_service.grpc.pb.h>
 #include <quite/proto/meta_service.grpc.pb.h>
 #include <quite/proto/probe.grpc.pb.h>
 #include "rpc_fetch_windows.hpp"
@@ -27,6 +28,7 @@ class Server::Impl
     stdexec::inplace_stop_source ssource_;
     ServiceHandle<IProbeHandler> probe_handler_;
     ServiceHandle<core::IMouseInjector> mouse_injector_;
+    ServiceHandle<core::IKeyboardInjector> keyboard_injector_;
     ServiceHandle<meta::MetaRegistry> meta_registry_;
     ServiceHandle<ValueRegistry> value_registry_;
     grpc::ServerBuilder builder_;
@@ -38,10 +40,12 @@ class Server::Impl
     Impl(std::string server_address,
          ServiceHandle<IProbeHandler> probe_handler,
          ServiceHandle<core::IMouseInjector> mouse_injector,
+         ServiceHandle<core::IKeyboardInjector> keyboard_injector,
          ServiceHandle<meta::MetaRegistry> meta_registry,
          ServiceHandle<ValueRegistry> value_registry)
         : probe_handler_{std::move(probe_handler)}
         , mouse_injector_{std::move(mouse_injector)}
+        , keyboard_injector_{std::move(keyboard_injector)}
         , meta_registry_{std::move(meta_registry)}
         , value_registry_{std::move(value_registry)}
         , grpc_runner_{[this, server_address = std::move(server_address)]() {
@@ -69,9 +73,11 @@ class Server::Impl
 
         ProbeService::AsyncService object_service;
         MetaService::AsyncService meta_service;
+        KeyboardService::AsyncService keyboard_service;
 
         builder_.RegisterService(std::addressof(object_service));
         builder_.RegisterService(std::addressof(meta_service));
+        builder_.RegisterService(std::addressof(keyboard_service));
         agrpc::add_health_check_service(builder_);
 
         grpc_server_ = builder_.BuildAndStart();
@@ -127,10 +133,12 @@ Server::Server(std::string server_address,
                ServiceHandle<IProbeHandler> probe_handler,
                ServiceHandle<core::IMouseInjector> mouse_injector,
                ServiceHandle<meta::MetaRegistry> meta_registry,
-               ServiceHandle<ValueRegistry> value_registry)
+               ServiceHandle<ValueRegistry> value_registry,
+               ServiceHandle<core::IKeyboardInjector> keyboard_injector)
     : impl_{std::make_unique<Impl>(std::move(server_address),
                                    std::move(probe_handler),
                                    std::move(mouse_injector),
+                                   std::move(keyboard_injector),
                                    std::move(meta_registry),
                                    std::move(value_registry))}
 {}

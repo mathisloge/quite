@@ -12,7 +12,8 @@ class ValueRegistry;
 namespace quite::core
 {
 class IMouseInjector;
-}
+class IKeyboardInjector;
+} // namespace quite::core
 namespace quite::meta
 {
 class MetaRegistry;
@@ -30,7 +31,8 @@ class QUITE_PROTOCOL_EXPORT Server final
            ServiceHandle<IProbeHandler> probe_handler,
            ServiceHandle<core::IMouseInjector> mouse_injector,
            ServiceHandle<meta::MetaRegistry> meta_registry,
-           ServiceHandle<ValueRegistry> value_registry);
+           ServiceHandle<ValueRegistry> value_registry,
+           ServiceHandle<core::IKeyboardInjector> keyboard_injector = {});
     Server(Server &&server) noexcept;
     Server &operator=(Server &&server) noexcept;
     ~Server();

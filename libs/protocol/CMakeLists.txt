@@ -24,6 +24,7 @@ asio_grpc_protobuf_generate(
         "${proto_inc_dir}/common.proto"
         "${proto_inc_dir}/probe.proto"
         "${proto_inc_dir}/keyboard.proto"
+        "${proto_inc_dir}/keyboard_service.proto"
         "${proto_inc_dir}/mouse.proto"
         "${proto_inc_dir}/types.proto"
         "${proto_inc_dir}/methods.proto"

@@ -55,7 +55,7 @@ quite::core::MouseAction mouse_action_from_request(const quite::proto::MouseActi
             [modifier = request.modifier_key()]() {
                 switch (modifier)
                 {
-                case quite::proto::no_mod:
+                case quite::proto::no_key:
                     return quite::core::KeyboardModifier::none;
                 case quite::proto::shift:
                     return quite::core::KeyboardModifier::shift;
@@ -65,9 +65,7 @@ quite::core::MouseAction mouse_action_from_request(const quite::proto::MouseActi
                     return quite::core::KeyboardModifier::alt;
                 case quite::proto::meta:
                     return quite::core::KeyboardModifier::meta;
-                case quite::proto::keypad:
-                case quite::proto::KeyboardModifierKey_INT_MIN_SENTINEL_DO_NOT_USE_:
-                case quite::proto::KeyboardModifierKey_INT_MAX_SENTINEL_DO_NOT_USE_:
+                default:
                     break;
                 }
                 return quite::core::KeyboardModifier::none;
