@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
-      GH_TOKEN: ${{ secrets.RELEASE_PAT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,11 +30,9 @@ jobs:
 
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
-
+      - name: Configure Git Credentials
+        run: |
+          git config --global credential.helper store
+          echo "https://${{ secrets.RELEASE_PAT }}@github.com" > ~/.git-credentials
       - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
-          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
-          GIT_COMMITTER_NAME: ${{ github.repository_owner }}
-          GIT_COMMITTER_EMAIL: 13556116+mathisloge@users.noreply.github.com
         run: npx semantic-release
