@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
@@ -34,8 +38,8 @@ Page {
             }
 
             TextField {
-                objectName: "inputField"
                 id: inputField
+                objectName: "inputField"
                 Layout.fillWidth: true
                 placeholderText: "Add a new task..."
             }

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/manager/process_manager.hpp"
 #include <filesystem>
 #include <boost/process/environment.hpp>

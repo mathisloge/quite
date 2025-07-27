@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "qt_meta_registry.hpp"
 #include <QAssociativeIterable>
 #include <QMetaMethod>

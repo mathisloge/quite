@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #pragma once
 #include <private/qhooks_p.h>
 #include <quite/disable_copy_move.hpp>

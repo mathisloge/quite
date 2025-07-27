@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 pybind11_add_module(_quite binding.cpp)
 add_sanitizers(_quite)
 set_target_properties(

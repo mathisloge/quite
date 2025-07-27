@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include <entt/locator/locator.hpp>
 #include <execpools/asio/asio_thread_pool.hpp>
 #include <quite/asio_context.hpp>

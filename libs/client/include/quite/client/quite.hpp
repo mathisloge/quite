@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #pragma once
 #include <boost/asio/any_io_executor.hpp>
 #include <execpools/asio/asio_thread_pool.hpp>

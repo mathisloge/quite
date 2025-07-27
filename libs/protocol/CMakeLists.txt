@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 set(proto_inc_dir "${CMAKE_CURRENT_LIST_DIR}/quite/proto")
 
 add_library(quite_protocol)
@@ -51,18 +55,18 @@ target_sources(
     quite_protocol
     PUBLIC
         FILE_SET headers
-        TYPE HEADERS
-        BASE_DIRS include
-        FILES
-            include/quite/proto/probe/server.hpp
-            include/quite/proto/probe/probe_handler.hpp
-            include/quite/proto/client/probe_client.hpp
-            include/quite/proto/client/probe_service.hpp
-            include/quite/proto/client/client.hpp
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/proto/probe/server.hpp
+                include/quite/proto/probe/probe_handler.hpp
+                include/quite/proto/client/probe_client.hpp
+                include/quite/proto/client/probe_service.hpp
+                include/quite/proto/client/client.hpp
         FILE_SET export_config
-        TYPE HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
-        FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_protocol_export.hpp
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_protocol_export.hpp
     PRIVATE
         src/meta_converters.cpp
         src/meta_converters.hpp

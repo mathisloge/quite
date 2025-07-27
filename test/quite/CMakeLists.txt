@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 cmrc_add_resource_library(testrc ALIAS quite::testrc NAMESPACE testrc
     assets/actual_image.png
     assets/expected_image.png

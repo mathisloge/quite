@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 add_executable(test_probe_qt main.cpp)
 add_sanitizers(test_probe_qt)
 target_link_libraries(test_probe_qt PRIVATE quite::probeqt Boost::ut)
