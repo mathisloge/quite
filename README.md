@@ -1,3 +1,5 @@
+![Alt text](docs/logo.svg)
+
 # QUITE!
 
 quite is a new UI testing framework specifically designed for applications built on the Qt framework.
