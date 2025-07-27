@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/test/probe_manager.hpp"
 #include <quite/asio_context.hpp>
 #include <quite/client/probe_manager.hpp>

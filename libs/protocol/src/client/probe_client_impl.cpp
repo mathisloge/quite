@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "probe_client_impl.hpp"
 #include <boost/asio/steady_timer.hpp>
 #include <agrpc/notify_on_state_change.hpp>

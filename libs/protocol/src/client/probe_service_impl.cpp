@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "probe_service_impl.hpp"
 #include <quite/logger.hpp>
 #include "configure_client_context.hpp"

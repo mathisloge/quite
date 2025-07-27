@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/client/utils/dump_properties.hpp"
 #include <unordered_set>
 #include <nlohmann/json.hpp>

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "qt_probe_handler.hpp"
 #include <QPointer>
 #include <QQuickItem>
@@ -7,7 +11,7 @@
 #include "object_tracker.hpp"
 #include "property_collector.hpp"
 #include "qt_meta_type_accessor.hpp"
-#include "qtstdexec.h"
+#include "qtstdexec.hpp"
 #include "to_object_id.hpp"
 
 DEFINE_LOGGER(qt_probe_handler)

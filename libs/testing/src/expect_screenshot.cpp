@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "expect_screenshot.hpp"
 #include <quite/client/testing/verification_point.hpp>
 #include "throw_unexpected.hpp"

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "basic_probe.hpp"
 #include <boost/asio/steady_timer.hpp>
 #include <asioexec/use_sender.hpp>

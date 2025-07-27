@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 set(VCPKG_BUILD_TYPE release) # header-only
 
 vcpkg_from_github(

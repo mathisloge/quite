@@ -1,6 +1,7 @@
-# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2019 - 2023 Lars Melchior and contributors
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
 #
-# SPDX-FileCopyrightText: Copyright (c) 2019-2023 Lars Melchior and contributors
+# SPDX-License-Identifier: MIT
 
 set(CPM_DOWNLOAD_VERSION 0.41.0)
 set(CPM_HASH_SUM

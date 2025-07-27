@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 set(QUITE_USES_BOOST ON)
 add_library(quite_core)
 add_library(quite::core ALIAS quite_core)
@@ -30,32 +34,32 @@ target_sources(
     quite_core
     PUBLIC
         FILE_SET headers
-        TYPE HEADERS
-        BASE_DIRS include
-        FILES
-            include/quite/async_result.hpp
-            include/quite/error.hpp
-            include/quite/result.hpp
-            include/quite/setup_logger.hpp
-            include/quite/logger.hpp
-            include/quite/image.hpp
-            include/quite/image_utils.hpp
-            include/quite/asio_context.hpp
-            include/quite/service_handle.hpp
-            include/quite/meta_any_formatter.hpp
-            include/quite/meta/meta_registry.hpp
-            include/quite/meta/meta_types.hpp
-            include/quite/value/value_registry.hpp
-            include/quite/value/generic_value_class.hpp
-            include/quite/value/object_query.hpp
-            include/quite/injectors/mouse_injector.hpp
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES
+                include/quite/async_result.hpp
+                include/quite/error.hpp
+                include/quite/result.hpp
+                include/quite/setup_logger.hpp
+                include/quite/logger.hpp
+                include/quite/image.hpp
+                include/quite/image_utils.hpp
+                include/quite/asio_context.hpp
+                include/quite/service_handle.hpp
+                include/quite/meta_any_formatter.hpp
+                include/quite/meta/meta_registry.hpp
+                include/quite/meta/meta_types.hpp
+                include/quite/value/value_registry.hpp
+                include/quite/value/generic_value_class.hpp
+                include/quite/value/object_query.hpp
+                include/quite/injectors/mouse_injector.hpp
         FILE_SET export_config
-        TYPE HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
-        FILES
-            ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_core_export.hpp
-            ${CMAKE_CURRENT_BINARY_DIR}/quite/version.hpp
-            ${CMAKE_CURRENT_BINARY_DIR}/quite/asio_config.hpp
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES
+                ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_core_export.hpp
+                ${CMAKE_CURRENT_BINARY_DIR}/quite/version.hpp
+                ${CMAKE_CURRENT_BINARY_DIR}/quite/asio_config.hpp
     PRIVATE
         src/error.cpp
         src/meta/meta_types.cpp
