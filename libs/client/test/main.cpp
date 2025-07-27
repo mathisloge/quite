@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include <boost/ut.hpp>
 using namespace boost::ut;
 int main(int argc, const char **argv)

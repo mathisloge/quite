@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 add_executable(cpp_integration_test main.cpp)
 add_sanitizers(cpp_integration_test)
 target_link_libraries(

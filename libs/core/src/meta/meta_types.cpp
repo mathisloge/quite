@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/meta/meta_types.hpp"
 #include <utility>
 #include <fmt/ranges.h>

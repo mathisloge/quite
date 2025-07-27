@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "rpc_find_object.hpp"
 #include <agrpc/register_sender_rpc_handler.hpp>
 #include <fmt/format.h>

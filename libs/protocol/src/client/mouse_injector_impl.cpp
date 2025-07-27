@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "mouse_injector_impl.hpp"
 #include "configure_client_context.hpp"
 #include "error_helper.hpp"

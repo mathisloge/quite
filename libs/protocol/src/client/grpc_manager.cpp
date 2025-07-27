@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "grpc_manager.hpp"
 #include <agrpc/asio_grpc.hpp>
 namespace quite::proto

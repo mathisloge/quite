@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #pragma once
 #include <execpools/asio/asio_thread_pool.hpp>
 #include "quite/quite_core_export.hpp"

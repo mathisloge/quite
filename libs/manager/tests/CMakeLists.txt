@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+#
+# SPDX-License-Identifier: MIT
+
 add_executable(test_manager_runnable runnable_exe.cpp)
 add_sanitizers(test_manager_runnable)
 target_link_libraries(test_manager_runnable PUBLIC CLI11::CLI11)

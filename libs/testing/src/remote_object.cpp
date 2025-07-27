@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+//
+// SPDX-License-Identifier: MIT
+
 #include "quite/test/remote_object.hpp"
 #include <quite/client/remote_object.hpp>
 #include "quite/test/property.hpp"
