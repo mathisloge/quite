@@ -1,0 +1,628 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacequite" kind="namespace" language="C++">
+    <compoundname>quite</compoundname>
+    <innerclass refid="classquite_1_1Context" prot="public">quite::Context</innerclass>
+    <innerclass refid="structquite_1_1Error" prot="public">quite::Error</innerclass>
+    <innerclass refid="structquite_1_1GenericClass" prot="public">quite::GenericClass</innerclass>
+    <innerclass refid="structquite_1_1GrpcServer" prot="public">quite::GrpcServer</innerclass>
+    <innerclass refid="classquite_1_1Image" prot="public">quite::Image</innerclass>
+    <innerclass refid="structquite_1_1ImageCompareResult" prot="public">quite::ImageCompareResult</innerclass>
+    <innerclass refid="structquite_1_1ImageView" prot="public">quite::ImageView</innerclass>
+    <innerclass refid="structquite_1_1ObjectMeta" prot="public">quite::ObjectMeta</innerclass>
+    <innerclass refid="structquite_1_1ObjectQuery" prot="public">quite::ObjectQuery</innerclass>
+    <innerclass refid="classquite_1_1ObjectQueryBuilder" prot="public">quite::ObjectQueryBuilder</innerclass>
+    <innerclass refid="structquite_1_1ObjectReference" prot="public">quite::ObjectReference</innerclass>
+    <innerclass refid="structquite_1_1PixelCompareOptions" prot="public">quite::PixelCompareOptions</innerclass>
+    <innerclass refid="classquite_1_1QObjectOperationState" prot="public">quite::QObjectOperationState</innerclass>
+    <innerclass refid="classquite_1_1QObjectSender" prot="public">quite::QObjectSender</innerclass>
+    <innerclass refid="classquite_1_1QThreadOperationState" prot="public">quite::QThreadOperationState</innerclass>
+    <innerclass refid="classquite_1_1QThreadScheduler" prot="public">quite::QThreadScheduler</innerclass>
+    <innerclass refid="classquite_1_1ServiceHandle" prot="public">quite::ServiceHandle</innerclass>
+    <innerclass refid="classquite_1_1ValueRegistry" prot="public">quite::ValueRegistry</innerclass>
+    <innerclass refid="structquite_1_1Vector2" prot="public">quite::Vector2</innerclass>
+    <innernamespace refid="namespacequite_1_1client">quite::client</innernamespace>
+    <innernamespace refid="namespacequite_1_1core">quite::core</innernamespace>
+    <innernamespace refid="namespacequite_1_1manager">quite::manager</innernamespace>
+    <innernamespace refid="namespacequite_1_1meta">quite::meta</innernamespace>
+    <innernamespace refid="namespacequite_1_1probe">quite::probe</innernamespace>
+    <innernamespace refid="namespacequite_1_1proto">quite::proto</innernamespace>
+    <innernamespace refid="namespacequite_1_1test">quite::test</innernamespace>
+    <innernamespace refid="namespacequite_1_1testing">quite::testing</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorCode</name>
+        <qualifiedname>quite::ErrorCode</qualifiedname>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266aad921d60486366258809553a3db49a4a" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+<para>Just as the zero enum. Shouldn&apos;t be emitted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266a38881e0a24039dc2621e1d6f86cb71f7" prot="public">
+          <name>cancelled</name>
+          <briefdescription>
+<para>The operation was cancelled. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266ae55d43eabeefe5a8271b4a3c898bd18f" prot="public">
+          <name>invalid_argument</name>
+          <briefdescription>
+<para>malformed file name) </para>
+          </briefdescription>
+          <detaileddescription>
+<para>indicates arguments that are problematic regardless of the state of the system (e.g., a </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266a3cef844c7982c2acb28d67b35e5bacc7" prot="public">
+          <name>deadline_exceeded</name>
+          <briefdescription>
+<para>Deadline expired before operation could complete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266a7500611bf7030bc99d25c354e7b64714" prot="public">
+          <name>not_found</name>
+          <briefdescription>
+<para>Some requested entity (e.g., file or directory) was not found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266ad3941b1d10787a697a0c93f75da9dbfd" prot="public">
+          <name>failed_precondition</name>
+          <briefdescription>
+<para>execution </para>
+          </briefdescription>
+          <detaileddescription>
+<para>Operation was rejected because the system is not in a state required for the operation&apos;s </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266adfb7069bfc6e0064a6c667626eca07b4" prot="public">
+          <name>aborted</name>
+          <briefdescription>
+<para>The operation was aborted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266a4316423dfe3ade85c292aa38185f9817" prot="public">
+          <name>unimplemented</name>
+          <briefdescription>
+<para>Operation is not implemented or not supported/enabled in this service. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="error_8hpp_1a2784155dbea1328c405f8b1f62dac266a7060e0481896e00b3f7d20f1e8e2749a" prot="public">
+          <name>unavailable</name>
+          <briefdescription>
+<para>The called operation endpoint might not be ready yet. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/error.hpp" line="9" column="1" bodyfile="libs/core/include/quite/error.hpp" bodystart="10" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="async__result_8hpp_1ab08c4b994ef5159de856f2b07a6adbeb" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>exec::task&lt; Result&lt; T &gt; &gt;</type>
+        <definition>using quite::AsyncResult = typedef exec::task&lt;Result&lt;T&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>AsyncResult</name>
+        <qualifiedname>quite::AsyncResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/async_result.hpp" line="8" column="1" bodyfile="libs/core/include/quite/async_result.hpp" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="image_8hpp_1a85cdc6189ce8de364e3f1a117453fa4d" prot="public" static="no">
+        <type>std::span&lt; std::byte &gt;</type>
+        <definition>using quite::PixelData = typedef std::span&lt;std::byte&gt;</definition>
+        <argsstring></argsstring>
+        <name>PixelData</name>
+        <qualifiedname>quite::PixelData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="10" column="1" bodyfile="libs/core/include/quite/image.hpp" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="result_8hpp_1adfd183142e4ee31dbad2e46bedeb83cf" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::expected&lt; T, <ref refid="structquite_1_1Error" kindref="compound">Error</ref> &gt;</type>
+        <definition>using quite::Result = typedef std::expected&lt;T, Error&gt;</definition>
+        <argsstring></argsstring>
+        <name>Result</name>
+        <qualifiedname>quite::Result</qualifiedname>
+        <briefdescription>
+<para>Alias for a result type that holds either a value of type T or an <ref refid="structquite_1_1Error" kindref="compound">Error</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is a convenience alias for std::expected&lt;T, Error&gt;, used to represent the result of an operation that may fail with a <ref refid="structquite_1_1Error" kindref="compound">quite::Error</ref>.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the expected value on success. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/result.hpp" line="17" column="1" bodyfile="libs/core/include/quite/result.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="object__id_8hpp_1af84709995adc90b206fb655801783df9" prot="public" static="no">
+        <type>std::uint64_t</type>
+        <definition>using quite::ObjectId = typedef std::uint64_t</definition>
+        <argsstring></argsstring>
+        <name>ObjectId</name>
+        <qualifiedname>quite::ObjectId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_id.hpp" line="7" column="1" bodyfile="libs/core/include/quite/value/object_id.hpp" bodystart="7" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="object__query_8hpp_1a30c7e2b535af1879f8e69747dfe7e281" prot="public" static="no" mutable="no">
+        <type>class QUITE_CORE_EXPORT</type>
+        <definition>class QUITE_CORE_EXPORT quite::ObjectQueryBuilder</definition>
+        <argsstring></argsstring>
+        <name>ObjectQueryBuilder</name>
+        <qualifiedname>quite::ObjectQueryBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="9" column="24" bodyfile="libs/core/include/quite/value/object_query.hpp" bodystart="9" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="dump__properties_8cpp_1aab1a8e4a53fdcdc1c00d47a107ab903b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::to_json</definition>
+        <argsstring>(json &amp;j, const GenericClass &amp;v)</argsstring>
+        <name>to_json</name>
+        <qualifiedname>quite::to_json</qualifiedname>
+        <param>
+          <type>json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquite_1_1GenericClass" kindref="compound">GenericClass</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/utils/dump_properties.cpp" line="31" column="6" bodyfile="libs/client/src/utils/dump_properties.cpp" bodystart="31" bodyend="34" declfile="libs/client/src/utils/dump_properties.cpp" declline="10" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="asio__context_8hpp_1a6c6549cf3188fa94776b896dd8d5cc88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CORE_EXPORT execpools::asio_thread_pool &amp;</type>
+        <definition>execpools::asio_thread_pool &amp; quite::thread_pool</definition>
+        <argsstring>()</argsstring>
+        <name>thread_pool</name>
+        <qualifiedname>quite::thread_pool</qualifiedname>
+        <briefdescription>
+<para>Returns a reference to the global ASIO thread pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This thread pool is managed as a singleton and is used for all asynchronous operations that require an ASIO execution context within the quite framework.</para>
+<para><simplesect kind="return"><para>Reference to the global execpools::asio_thread_pool instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/asio_context.cpp" line="7" column="29" bodyfile="libs/core/src/asio_context.cpp" bodystart="7" bodyend="10" declfile="libs/core/include/quite/asio_context.hpp" declline="16" declcolumn="47"/>
+      </memberdef>
+      <memberdef kind="function" id="asio__context_8hpp_1af63196609f03b5e0669737f761579dfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CORE_EXPORT auto</type>
+        <definition>auto quite::get_executor</definition>
+        <argsstring>() -&gt; decltype(thread_pool().get_executor())</argsstring>
+        <name>get_executor</name>
+        <qualifiedname>quite::get_executor</qualifiedname>
+        <briefdescription>
+<para>Returns the executor associated with the global ASIO thread pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This executor can be used to schedule tasks on the global thread pool.</para>
+<para><simplesect kind="return"><para>The executor object from the global thread pool. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/asio_context.cpp" line="12" column="6" bodyfile="libs/core/src/asio_context.cpp" bodystart="12" bodyend="15" declfile="libs/core/include/quite/asio_context.hpp" declline="25" declcolumn="24"/>
+      </memberdef>
+      <memberdef kind="function" id="image__utils_8hpp_1a721a71ad50e13b11bf529580bc970274" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CORE_EXPORT Result&lt; <ref refid="structquite_1_1ImageCompareResult" kindref="compound">ImageCompareResult</ref> &gt;</type>
+        <definition>Result&lt; ImageCompareResult &gt; quite::pixel_match</definition>
+        <argsstring>(const ImageView &amp;expected_img, const ImageView &amp;actual_img, const PixelCompareOptions &amp;options={})</argsstring>
+        <name>pixel_match</name>
+        <qualifiedname>quite::pixel_match</qualifiedname>
+        <param>
+          <type>const <ref refid="structquite_1_1ImageView" kindref="compound">ImageView</ref> &amp;</type>
+          <declname>expected_img</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquite_1_1ImageView" kindref="compound">ImageView</ref> &amp;</type>
+          <declname>actual_img</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structquite_1_1PixelCompareOptions" kindref="compound">PixelCompareOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/image_utils.cpp" line="193" column="8" bodyfile="libs/core/src/image_utils.cpp" bodystart="193" bodyend="273" declfile="libs/core/include/quite/image_utils.hpp" declline="28" declcolumn="26"/>
+      </memberdef>
+      <memberdef kind="function" id="logger_8hpp_1a293e7b2eb38646e3a6a340a6bfc0ea0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CORE_EXPORT quill::Logger *</type>
+        <definition>quill::Logger * quite::create_logger</definition>
+        <argsstring>(std::string_view logger_name)</argsstring>
+        <name>create_logger</name>
+        <qualifiedname>quite::create_logger</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>logger_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/logger.cpp" line="10" column="15" bodyfile="libs/core/src/logger.cpp" bodystart="10" bodyend="30" declfile="libs/core/include/quite/logger.hpp" declline="8" declcolumn="33"/>
+      </memberdef>
+      <memberdef kind="function" id="result_8hpp_1aaf9479aa08dc4d3b0e5c3b28427001ac" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename MessageT</type>
+          </param>
+        </templateparamlist>
+        <type>constexpr auto</type>
+        <definition>constexpr auto quite::make_error_result</definition>
+        <argsstring>(const ErrorCode code, MessageT &amp;&amp;message)</argsstring>
+        <name>make_error_result</name>
+        <qualifiedname>quite::make_error_result</qualifiedname>
+        <param>
+          <type>const ErrorCode</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>MessageT &amp;&amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Helper function to create an error result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Constructs a std::unexpected containing a <ref refid="structquite_1_1Error" kindref="compound">quite::Error</ref> with the given code and message.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>MessageT</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the error message (deduced). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error code. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error message. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::unexpected&lt;Error&gt; containing the error. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/result.hpp" line="30" column="16" bodyfile="libs/core/include/quite/result.hpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="setup__logger_8hpp_1abdacec0b3a89cb8ca7863caead07690d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CORE_EXPORT void</type>
+        <definition>void quite::setup_logger</definition>
+        <argsstring>(bool log_to_file=false)</argsstring>
+        <name>setup_logger</name>
+        <qualifiedname>quite::setup_logger</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>log_to_file</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/logger.cpp" line="32" column="6" bodyfile="libs/core/src/logger.cpp" bodystart="32" bodyend="55" declfile="libs/core/include/quite/setup_logger.hpp" declline="5" declcolumn="24"/>
+      </memberdef>
+      <memberdef kind="function" id="object__query_8hpp_1a18d4243c8158bfd3a199605c2c4b461d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CORE_EXPORT <ref refid="classquite_1_1ObjectQueryBuilder" kindref="compound">ObjectQueryBuilder</ref></type>
+        <definition>ObjectQueryBuilder quite::make_query</definition>
+        <argsstring>()</argsstring>
+        <name>make_query</name>
+        <qualifiedname>quite::make_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/value/object_query.cpp" line="68" column="20" bodyfile="libs/core/src/value/object_query.cpp" bodystart="68" bodyend="71" declfile="libs/core/include/quite/value/object_query.hpp" declline="56" declcolumn="38"/>
+      </memberdef>
+      <memberdef kind="function" id="probe_2include_2quite_2probe_8hpp_1a3b66ce4f38af23df58124d50b080ae47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PROBE_EXPORT void</type>
+        <definition>PROBE_EXPORT void quite::setup_hooks</definition>
+        <argsstring>(GrpcServer server_config=GrpcServer{.server_address=&quot;unix:///tmp/grpc_probe.sock&quot;})</argsstring>
+        <name>setup_hooks</name>
+        <qualifiedname>quite::setup_hooks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probe/include/quite/probe.hpp" line="13" column="19" declfile="libs/probe/include/quite/probe.hpp" declline="13" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="probe_2src_2probe_8cpp_1a7f0621e7ee003c5e96405dac501051a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::setup_hooks</definition>
+        <argsstring>(GrpcServer server_config)</argsstring>
+        <name>setup_hooks</name>
+        <qualifiedname>quite::setup_hooks</qualifiedname>
+        <param>
+          <type><ref refid="structquite_1_1GrpcServer" kindref="compound">GrpcServer</ref></type>
+          <declname>server_config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probe/src/probe.cpp" line="9" column="6" bodyfile="libs/probe/src/probe.cpp" bodystart="9" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="property__collector_8cpp_1affdca0aedd2b58395c18d722afb234db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, entt::meta_any &gt;</type>
+        <definition>std::pair&lt; std::string, entt::meta_any &gt; quite::read_property</definition>
+        <argsstring>(const QVariant property_value, const QMetaProperty &amp;property)</argsstring>
+        <name>read_property</name>
+        <qualifiedname>quite::read_property</qualifiedname>
+        <param>
+          <type>const QVariant</type>
+          <declname>property_value</declname>
+        </param>
+        <param>
+          <type>const QMetaProperty &amp;</type>
+          <declname>property</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/property_collector.cpp" line="19" column="11" bodyfile="libs/probeqt/property_collector.cpp" bodystart="19" bodyend="76" declfile="libs/probeqt/property_collector.hpp" declline="17" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="property__collector_8cpp_1a6993926791647d623f7534766b38f466" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; quite::write_property</definition>
+        <argsstring>(const ObjectMeta &amp;meta, const std::string &amp;property_name, const entt::meta_any &amp;property_value)</argsstring>
+        <name>write_property</name>
+        <qualifiedname>quite::write_property</qualifiedname>
+        <param>
+          <type>const <ref refid="structquite_1_1ObjectMeta" kindref="compound">ObjectMeta</ref> &amp;</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>property_name</declname>
+        </param>
+        <param>
+          <type>const entt::meta_any &amp;</type>
+          <declname>property_value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/property_collector.cpp" line="78" column="8" bodyfile="libs/probeqt/property_collector.cpp" bodystart="78" bodyend="112" declfile="libs/probeqt/property_collector.hpp" declline="19" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="property__collector_8cpp_1a60cce5d7978e0dae515c3b7859d509ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>entt::dense_map&lt; std::string, entt::meta_any &gt;</type>
+        <definition>entt::dense_map&lt; std::string, entt::meta_any &gt; quite::collect_properties</definition>
+        <argsstring>(ObjectMeta object_meta, std::span&lt; const std::string &gt; property_names)</argsstring>
+        <name>collect_properties</name>
+        <qualifiedname>quite::collect_properties</qualifiedname>
+        <param>
+          <type><ref refid="structquite_1_1ObjectMeta" kindref="compound">ObjectMeta</ref></type>
+          <declname>object_meta</declname>
+        </param>
+        <param>
+          <type>std::span&lt; const std::string &gt;</type>
+          <declname>property_names</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/property_collector.cpp" line="114" column="17" bodyfile="libs/probeqt/property_collector.cpp" bodystart="114" bodyend="140" declfile="libs/probeqt/property_collector.hpp" declline="22" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="qtstdexec_8h_1a41530485e94124d77ad4ddda34f796b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classquite_1_1QThreadScheduler" kindref="compound">QThreadScheduler</ref></type>
+        <definition>QThreadScheduler quite::qthread_as_scheduler</definition>
+        <argsstring>(QThread *thread)</argsstring>
+        <name>qthread_as_scheduler</name>
+        <qualifiedname>quite::qthread_as_scheduler</qualifiedname>
+        <param>
+          <type>QThread *</type>
+          <declname>thread</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="86" column="25" bodyfile="libs/probeqt/qtstdexec.h" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="qtstdexec_8h_1a4c53fb6124880cd2970d67ebf4124336" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classquite_1_1QThreadScheduler" kindref="compound">QThreadScheduler</ref></type>
+        <definition>QThreadScheduler quite::qthread_as_scheduler</definition>
+        <argsstring>(QThread &amp;thread)</argsstring>
+        <name>qthread_as_scheduler</name>
+        <qualifiedname>quite::qthread_as_scheduler</qualifiedname>
+        <param>
+          <type>QThread &amp;</type>
+          <declname>thread</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="91" column="25" bodyfile="libs/probeqt/qtstdexec.h" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="qtstdexec_8h_1a8eec36734dcfb47115641c098062705f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class QObj</type>
+          </param>
+          <param>
+            <type>class Ret</type>
+          </param>
+          <param>
+            <type>class...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classquite_1_1QObjectSender" kindref="compound">QObjectSender</ref>&lt; QObj, Ret, Args... &gt;</type>
+        <definition>QObjectSender&lt; QObj, Ret, Args... &gt; quite::qobject_as_sender</definition>
+        <argsstring>(QObj *obj, Ret(QObj::*ptr)(Args...))</argsstring>
+        <name>qobject_as_sender</name>
+        <qualifiedname>quite::qobject_as_sender</qualifiedname>
+        <param>
+          <type>QObj *</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Ret(QObj::*)(Args...)</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="242" column="22" bodyfile="libs/probeqt/qtstdexec.h" bodystart="242" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="qtstdexec_8h_1a98c90efa4ada6b3c41b12d188ddaa1e6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class QObj</type>
+          </param>
+          <param>
+            <type>class Ret</type>
+          </param>
+          <param>
+            <type>class...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto quite::qobject_as_tuple_sender</definition>
+        <argsstring>(QObj *obj, Ret(QObj::*ptr)(Args...))</argsstring>
+        <name>qobject_as_tuple_sender</name>
+        <qualifiedname>quite::qobject_as_tuple_sender</qualifiedname>
+        <param>
+          <type>QObj *</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Ret(QObj::*)(Args...)</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="248" column="13" bodyfile="libs/probeqt/qtstdexec.h" bodystart="248" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/include/quite/client/probe.hpp" line="8" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1Error" kind="struct" language="C++" prot="public">
+    <compoundname>quite::Error</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1Error_1aee5c1cd03729faf94d0a5cf90402d23b" prot="public" static="no" mutable="no">
+        <type>ErrorCode</type>
+        <definition>ErrorCode quite::Error::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>quite::Error::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/error.hpp" line="26" column="15" bodyfile="libs/core/include/quite/error.hpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1Error_1a2987330a5794c5d9fca14785e1060c31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string quite::Error::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>quite::Error::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/error.hpp" line="27" column="17" bodyfile="libs/core/include/quite/error.hpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/error.hpp" line="24" column="1" bodyfile="libs/core/include/quite/error.hpp" bodystart="25" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structquite_1_1Error_1aee5c1cd03729faf94d0a5cf90402d23b" prot="public" virt="non-virtual"><scope>quite::Error</scope><name>code</name></member>
+      <member refid="structquite_1_1Error_1a2987330a5794c5d9fca14785e1060c31" prot="public" virt="non-virtual"><scope>quite::Error</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

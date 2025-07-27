@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_e84ba8046b88057ef61cdc53860835dc" kind="dir">
+    <compoundname>libs/protocol/include/quite/proto</compoundname>
+    <innerdir refid="dir_cf009ea199fe2cc3ab30b0598ff08e34">libs/protocol/include/quite/proto/client</innerdir>
+    <innerdir refid="dir_b0223a4951d67b698dfb269e1d467abc">libs/protocol/include/quite/proto/probe</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/protocol/include/quite/proto/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="grpc__manager_8hpp" kind="file" language="C++">
+    <compoundname>grpc_manager.hpp</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">agrpc/grpc_context.hpp</includes>
+    <includes refid="disable__copy__move_8hpp" local="no">quite/disable_copy_move.hpp</includes>
+    <includedby refid="client_8cpp" local="yes">libs/protocol/src/client/client.cpp</includedby>
+    <includedby refid="grpc__manager_8cpp" local="yes">libs/protocol/src/client/grpc_manager.cpp</includedby>
+    <includedby refid="probe__client__impl_8hpp" local="yes">libs/protocol/src/client/probe_client_impl.hpp</includedby>
+    <incdepgraph>
+      <node id="5">
+        <label>quite/disable_copy_move.hpp</label>
+        <link refid="disable__copy__move_8hpp_source"/>
+      </node>
+      <node id="1">
+        <label>libs/protocol/src/client/grpc_manager.hpp</label>
+        <link refid="grpc__manager_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>agrpc/grpc_context.hpp</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>libs/protocol/src/client/grpc_manager.hpp</label>
+        <link refid="grpc__manager_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>libs/protocol/src/client/probe_client_impl.hpp</label>
+        <link refid="probe__client__impl_8hpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classquite_1_1proto_1_1GrpcManager" prot="public">quite::proto::GrpcManager</innerclass>
+    <innernamespace refid="namespacequite">quite</innernamespace>
+    <innernamespace refid="namespacequite_1_1proto">quite::proto</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;agrpc/grpc_context.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;quite/disable_copy_move.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">quite::proto</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="9" refid="classquite_1_1proto_1_1GrpcManager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classquite_1_1proto_1_1GrpcManager" kindref="compound">GrpcManager</ref><sp/>final</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>QUITE_DISABLE_COPY_MOVE(<ref refid="classquite_1_1proto_1_1GrpcManager" kindref="compound">GrpcManager</ref>);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classquite_1_1proto_1_1GrpcManager" kindref="compound">GrpcManager</ref>();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classquite_1_1proto_1_1GrpcManager" kindref="compound">~GrpcManager</ref>();</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;agrpc::GrpcContext&gt;<sp/>context();</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;agrpc::GrpcContext&gt;<sp/>grpc_context_;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>std::jthread<sp/>grpc_thread_;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>quite::proto</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="libs/protocol/src/client/grpc_manager.hpp"/>
+  </compounddef>
+</doxygen>

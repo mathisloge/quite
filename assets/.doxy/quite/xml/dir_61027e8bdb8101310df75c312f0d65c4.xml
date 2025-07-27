@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_61027e8bdb8101310df75c312f0d65c4" kind="dir">
+    <compoundname>libs/client/src/grpc_impl</compoundname>
+    <innerfile refid="grpc__probe_8cpp">grpc_probe.cpp</innerfile>
+    <innerfile refid="grpc__probe_8hpp">grpc_probe.hpp</innerfile>
+    <innerfile refid="grpc__property_8cpp">grpc_property.cpp</innerfile>
+    <innerfile refid="grpc__property_8hpp">grpc_property.hpp</innerfile>
+    <innerfile refid="grpc__remote__object_8cpp">grpc_remote_object.cpp</innerfile>
+    <innerfile refid="grpc__remote__object_8hpp">grpc_remote_object.hpp</innerfile>
+    <innerfile refid="grpc__value_8cpp">grpc_value.cpp</innerfile>
+    <innerfile refid="grpc__value_8hpp">grpc_value.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/src/grpc_impl/"/>
+  </compounddef>
+</doxygen>

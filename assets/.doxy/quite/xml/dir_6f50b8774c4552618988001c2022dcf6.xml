@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_6f50b8774c4552618988001c2022dcf6" kind="dir">
+    <compoundname>libs/core/include/quite</compoundname>
+    <innerdir refid="dir_3608ef6849ab2123a7cae9eea604e8ae">libs/core/include/quite/injectors</innerdir>
+    <innerdir refid="dir_18a9029093157c789cf17586512ae04d">libs/core/include/quite/meta</innerdir>
+    <innerdir refid="dir_649c775d6fa8febbabfb9f60e7970e98">libs/core/include/quite/value</innerdir>
+    <innerfile refid="asio__context_8hpp">asio_context.hpp</innerfile>
+    <innerfile refid="async__result_8hpp">async_result.hpp</innerfile>
+    <innerfile refid="disable__copy__move_8hpp">disable_copy_move.hpp</innerfile>
+    <innerfile refid="error_8hpp">error.hpp</innerfile>
+    <innerfile refid="geometry_8hpp">geometry.hpp</innerfile>
+    <innerfile refid="image_8hpp">image.hpp</innerfile>
+    <innerfile refid="image__utils_8hpp">image_utils.hpp</innerfile>
+    <innerfile refid="logger_8hpp">logger.hpp</innerfile>
+    <innerfile refid="meta__any__formatter_8hpp">meta_any_formatter.hpp</innerfile>
+    <innerfile refid="result_8hpp">result.hpp</innerfile>
+    <innerfile refid="service__handle_8hpp">service_handle.hpp</innerfile>
+    <innerfile refid="setup__logger_8hpp">setup_logger.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="probe__client_8cpp" kind="file" language="C++">
+    <compoundname>probe_client.cpp</compoundname>
+    <includes refid="probe__client_8hpp" local="yes">quite/proto/client/probe_client.hpp</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>quite/async_result.hpp</label>
+        <link refid="async__result_8hpp_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>quite/disable_copy_move.hpp</label>
+        <link refid="disable__copy__move_8hpp_source"/>
+      </node>
+      <node id="10">
+        <label>error.hpp</label>
+        <link refid="error_8hpp_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>quite/geometry.hpp</label>
+        <link refid="geometry_8hpp_source"/>
+      </node>
+      <node id="25">
+        <label>quite/image.hpp</label>
+        <link refid="image_8hpp_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>keys.hpp</label>
+        <link refid="keys_8hpp_source"/>
+      </node>
+      <node id="4">
+        <label>quite/injectors/mouse_injector.hpp</label>
+        <link refid="core_2include_2quite_2injectors_2mouse__injector_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>quite/meta/meta_registry.hpp</label>
+        <link refid="meta__registry_8hpp_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>quite/meta/meta_type_id.hpp</label>
+        <link refid="meta__type__id_8hpp_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>meta_types.hpp</label>
+        <link refid="meta__types_8hpp_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>result.hpp</label>
+        <link refid="result_8hpp_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>quite/value/object_id.hpp</label>
+        <link refid="object__id_8hpp_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>quite/value/object_query.hpp</label>
+        <link refid="object__query_8hpp_source"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>quite/proto/client/probe_client.hpp</label>
+        <link refid="probe__client_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>probe_service.hpp</label>
+        <link refid="probe__service_8hpp_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>libs/protocol/src/client/probe_client.cpp</label>
+        <link refid="probe__client_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="29">
+        <label>entt/meta/meta.hpp</label>
+      </node>
+      <node id="7">
+        <label>exec/task.hpp</label>
+      </node>
+      <node id="9">
+        <label>expected</label>
+      </node>
+      <node id="26">
+        <label>filesystem</label>
+      </node>
+      <node id="12">
+        <label>fmt/core.h</label>
+      </node>
+      <node id="20">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>quite/quite_core_export.hpp</label>
+      </node>
+      <node id="30">
+        <label>quite/quite_protocol_export.hpp</label>
+      </node>
+      <node id="27">
+        <label>span</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>unordered_map</label>
+      </node>
+      <node id="22">
+        <label>variant</label>
+      </node>
+      <node id="23">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacequite">quite</innernamespace>
+    <innernamespace refid="namespacequite_1_1proto">quite::proto</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;quite/proto/client/probe_client.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">quite::proto</highlight></codeline>
+<codeline lineno="3"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="4"><highlight class="normal">ProbeClient::ProbeClient()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">ProbeClient::~ProbeClient()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>quite::proto</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="libs/protocol/src/client/probe_client.cpp"/>
+  </compounddef>
+</doxygen>

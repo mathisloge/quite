@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1client_1_1ProbeManager_1_1Impl" kind="struct" language="C++" prot="public">
+    <compoundname>quite::client::ProbeManager::Impl</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/src/probe_manager.cpp" line="7" column="1" bodyfile="libs/client/src/probe_manager.cpp" bodystart="8" bodyend="8"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_c1613d43beada98aaa8aaa25db1fb827" kind="dir">
+    <compoundname>libs/probeqt/tests</compoundname>
+    <innerfile refid="probeqt_2tests_2main_8cpp">main.cpp</innerfile>
+    <innerfile refid="test__method__invoker_8cpp">test_method_invoker.cpp</innerfile>
+    <innerfile refid="test__object__tracker_8cpp">test_object_tracker.cpp</innerfile>
+    <innerfile refid="test__probe__context_8cpp">test_probe_context.cpp</innerfile>
+    <innerfile refid="test__property__collector_8cpp">test_property_collector.cpp</innerfile>
+    <innerfile refid="test__qt__probe__handler_8cpp">test_qt_probe_handler.cpp</innerfile>
+    <innerfile refid="test__value__containers_8cpp">test_value_containers.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/probeqt/tests/"/>
+  </compounddef>
+</doxygen>

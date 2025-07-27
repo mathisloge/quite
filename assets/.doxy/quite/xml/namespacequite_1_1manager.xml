@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacequite_1_1manager" kind="namespace" language="C++">
+    <compoundname>quite::manager</compoundname>
+    <innerclass refid="classquite_1_1manager_1_1BasicProcessManager" prot="public">quite::manager::BasicProcessManager</innerclass>
+    <innerclass refid="classquite_1_1manager_1_1NoopProcess" prot="public">quite::manager::NoopProcess</innerclass>
+    <innerclass refid="classquite_1_1manager_1_1Process" prot="public">quite::manager::Process</innerclass>
+    <innerclass refid="classquite_1_1manager_1_1ProcessHandle" prot="public">quite::manager::ProcessHandle</innerclass>
+    <innerclass refid="structquite_1_1manager_1_1ProcessId" prot="public">quite::manager::ProcessId</innerclass>
+    <innerclass refid="classquite_1_1manager_1_1ProcessImpl" prot="public">quite::manager::ProcessImpl</innerclass>
+    <innerclass refid="classquite_1_1manager_1_1ProcessManager" prot="public">quite::manager::ProcessManager</innerclass>
+    <innerclass refid="classquite_1_1manager_1_1ProcessManagerClient" prot="public">quite::manager::ProcessManagerClient</innerclass>
+    <innerclass refid="classquite_1_1manager_1_1RemoteProcessManager" prot="public">quite::manager::RemoteProcessManager</innerclass>
+    <innerclass refid="classquite_1_1manager_1_1Server" prot="public">quite::manager::Server</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/manager/include/quite/manager/basic_process_manager.hpp" line="10" column="1"/>
+  </compounddef>
+</doxygen>

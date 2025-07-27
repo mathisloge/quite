@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_91fe3d89382dfb9ec1070f72fd853fa0" kind="dir">
+    <compoundname>libs/probeqt/injector</compoundname>
+    <innerfile refid="clipboard__injector_8hpp">clipboard_injector.hpp</innerfile>
+    <innerfile refid="keyboard__injector_8hpp">keyboard_injector.hpp</innerfile>
+    <innerfile refid="mouse__injector_8cpp">mouse_injector.cpp</innerfile>
+    <innerfile refid="probeqt_2injector_2mouse__injector_8hpp">mouse_injector.hpp</innerfile>
+    <innerfile refid="touch__injector_8hpp">touch_injector.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/probeqt/injector/"/>
+  </compounddef>
+</doxygen>

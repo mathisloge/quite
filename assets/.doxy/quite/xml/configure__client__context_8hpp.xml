@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="configure__client__context_8hpp" kind="file" language="C++">
+    <compoundname>configure_client_context.hpp</compoundname>
+    <includes local="no">agrpc/client_rpc.hpp</includes>
+    <includedby refid="configure__client__context_8cpp" local="yes">libs/protocol/src/client/configure_client_context.cpp</includedby>
+    <includedby refid="meta__registry__impl_8cpp" local="yes">libs/protocol/src/client/meta_registry_impl.cpp</includedby>
+    <includedby refid="mouse__injector__impl_8cpp" local="yes">libs/protocol/src/client/mouse_injector_impl.cpp</includedby>
+    <includedby refid="probe__service__impl_8cpp" local="yes">libs/protocol/src/client/probe_service_impl.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>libs/protocol/src/client/configure_client_context.hpp</label>
+        <link refid="configure__client__context_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>agrpc/client_rpc.hpp</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacequite">quite</innernamespace>
+    <innernamespace refid="namespacequite_1_1proto">quite::proto</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;agrpc/client_rpc.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">quite::proto</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>configure_client_context(grpc::ClientContext<sp/>&amp;client_context);</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="libs/protocol/src/client/configure_client_context.hpp"/>
+  </compounddef>
+</doxygen>

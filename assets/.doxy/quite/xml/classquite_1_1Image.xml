@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1Image" kind="class" language="C++" prot="public">
+    <compoundname>quite::Image</compoundname>
+    <innerclass refid="classquite_1_1Image_1_1Impl" prot="public">quite::Image::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1Image_1ae82ba1173db1756a95994cefd7eeab81" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classquite_1_1Image_1_1Impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; quite::Image::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>quite::Image::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="35" column="21" bodyfile="libs/core/include/quite/image.hpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1Image_1a55123fc47f4e28837c1c0cb76c8215d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::Image::Image</definition>
+        <argsstring>()</argsstring>
+        <name>Image</name>
+        <qualifiedname>quite::Image::Image</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="21" column="5" bodyfile="libs/core/src/image.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1a5c02f3935c55a1c6a6a3d87aab5dacc2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::Image::Image</definition>
+        <argsstring>(std::vector&lt; std::byte &gt; image_data, std::uint32_t width, std::uint32_t height, int channels)</argsstring>
+        <name>Image</name>
+        <qualifiedname>quite::Image::Image</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::byte &gt;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>channels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="22" column="14" bodyfile="libs/core/src/image.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1acce83d163f1ed5b6e3017fa2646084f1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::Image::Image</definition>
+        <argsstring>(const std::filesystem::path &amp;filename)</argsstring>
+        <name>Image</name>
+        <qualifiedname>quite::Image::Image</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="23" column="14" bodyfile="libs/core/src/image.cpp" bodystart="38" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1a7b4d19e87a53c93e55899ebcd1e51f0d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>quite::Image::Image</definition>
+        <argsstring>(Image &amp;&amp;) noexcept</argsstring>
+        <name>Image</name>
+        <qualifiedname>quite::Image::Image</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1Image" kindref="compound">Image</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="24" column="5" bodyfile="libs/core/src/image.cpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1ad38fcadc1dc39213ac9aa7f2ef550bba" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classquite_1_1Image" kindref="compound">Image</ref> &amp;</type>
+        <definition>Image &amp; quite::Image::operator=</definition>
+        <argsstring>(Image &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>quite::Image::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1Image" kindref="compound">Image</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="25" column="11" bodyfile="libs/core/src/image.cpp" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1ab43ba3d606b22dad11f7c78dabb1504c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::Image::Image</definition>
+        <argsstring>(const Image &amp;)</argsstring>
+        <name>Image</name>
+        <qualifiedname>quite::Image::Image</qualifiedname>
+        <param>
+          <type>const <ref refid="classquite_1_1Image" kindref="compound">Image</ref> &amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="26" column="5" bodyfile="libs/core/src/image.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1ae4f597e0b291eaa0d7e41be81909a602" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classquite_1_1Image" kindref="compound">Image</ref> &amp;</type>
+        <definition>Image &amp; quite::Image::operator=</definition>
+        <argsstring>(const Image &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>quite::Image::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classquite_1_1Image" kindref="compound">Image</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="27" column="11" bodyfile="libs/core/src/image.cpp" bodystart="72" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1a83abb82547f63ec99013717d82dea0eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>quite::Image::~Image</definition>
+        <argsstring>()</argsstring>
+        <name>~Image</name>
+        <qualifiedname>quite::Image::~Image</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1a2c8a38ddc3fde73730b27cf1ccccfc26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::Image::save_to</definition>
+        <argsstring>(const std::filesystem::path &amp;destination) const</argsstring>
+        <name>save_to</name>
+        <qualifiedname>quite::Image::save_to</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>destination</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="30" column="10" bodyfile="libs/core/src/image.cpp" bodystart="87" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1a9fdf9f5814cc30c64d51206b75a839c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structquite_1_1ImageView" kindref="compound">ImageView</ref></type>
+        <definition>ImageView quite::Image::data</definition>
+        <argsstring>() const</argsstring>
+        <name>data</name>
+        <qualifiedname>quite::Image::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="31" column="15" bodyfile="libs/core/src/image.cpp" bodystart="97" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/image.hpp" line="18" column="1" bodyfile="libs/core/include/quite/image.hpp" bodystart="19" bodyend="36"/>
+    <listofallmembers>
+      <member refid="classquite_1_1Image_1a9fdf9f5814cc30c64d51206b75a839c0" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>data</name></member>
+      <member refid="classquite_1_1Image_1a55123fc47f4e28837c1c0cb76c8215d5" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>Image</name></member>
+      <member refid="classquite_1_1Image_1a5c02f3935c55a1c6a6a3d87aab5dacc2" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>Image</name></member>
+      <member refid="classquite_1_1Image_1acce83d163f1ed5b6e3017fa2646084f1" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>Image</name></member>
+      <member refid="classquite_1_1Image_1a7b4d19e87a53c93e55899ebcd1e51f0d" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>Image</name></member>
+      <member refid="classquite_1_1Image_1ab43ba3d606b22dad11f7c78dabb1504c" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>Image</name></member>
+      <member refid="classquite_1_1Image_1ae82ba1173db1756a95994cefd7eeab81" prot="private" virt="non-virtual"><scope>quite::Image</scope><name>impl_</name></member>
+      <member refid="classquite_1_1Image_1ad38fcadc1dc39213ac9aa7f2ef550bba" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>operator=</name></member>
+      <member refid="classquite_1_1Image_1ae4f597e0b291eaa0d7e41be81909a602" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>operator=</name></member>
+      <member refid="classquite_1_1Image_1a2c8a38ddc3fde73730b27cf1ccccfc26" prot="public" virt="non-virtual"><scope>quite::Image</scope><name>save_to</name></member>
+      <member refid="classquite_1_1Image_1a83abb82547f63ec99013717d82dea0eb" prot="public" virt="virtual"><scope>quite::Image</scope><name>~Image</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

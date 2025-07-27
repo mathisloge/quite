@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceentt" kind="namespace" language="C++">
+    <compoundname>entt</compoundname>
+    <innerclass refid="structentt_1_1meta__associative__container__traits_3_01QHash_3_01Args_8_8_8_01_4_01_4" prot="public">entt::meta_associative_container_traits&lt; QHash&lt; Args... &gt; &gt;</innerclass>
+    <innerclass refid="structentt_1_1meta__associative__container__traits_3_01QMap_3_01Args_8_8_8_01_4_01_4" prot="public">entt::meta_associative_container_traits&lt; QMap&lt; Args... &gt; &gt;</innerclass>
+    <innerclass refid="structentt_1_1meta__sequence__container__traits_3_01QList_3_01Args_8_8_8_01_4_01_4" prot="public">entt::meta_sequence_container_traits&lt; QList&lt; Args... &gt; &gt;</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="dump__properties_8cpp_1a639dd067f82b07aedbdaed36756404ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void entt::to_json</definition>
+        <argsstring>(json &amp;j, const entt::meta_any &amp;v)</argsstring>
+        <name>to_json</name>
+        <qualifiedname>entt::to_json</qualifiedname>
+        <param>
+          <type>json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <param>
+          <type>const entt::meta_any &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/utils/dump_properties.cpp" line="15" column="6" bodyfile="libs/client/src/utils/dump_properties.cpp" bodystart="15" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/src/utils/dump_properties.cpp" line="13" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1GenericClass" kind="struct" language="C++" prot="public">
+    <compoundname>quite::GenericClass</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structquite_1_1GenericClass_1a4a3498dcde059cec2d8812f381a914e9" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, entt::meta_any &gt;</type>
+        <definition>using quite::GenericClass::PropertyMap =  std::unordered_map&lt;std::string, entt::meta_any&gt;</definition>
+        <argsstring></argsstring>
+        <name>PropertyMap</name>
+        <qualifiedname>quite::GenericClass::PropertyMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/generic_value_class.hpp" line="11" column="5" bodyfile="libs/core/include/quite/value/generic_value_class.hpp" bodystart="11" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1GenericClass_1a1c1f508e7257393686496c51be9bdbfd" prot="public" static="no" mutable="no">
+        <type>PropertyMap</type>
+        <definition>PropertyMap quite::GenericClass::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>quite::GenericClass::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/generic_value_class.hpp" line="12" column="17" bodyfile="libs/core/include/quite/value/generic_value_class.hpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/value/generic_value_class.hpp" line="9" column="1" bodyfile="libs/core/include/quite/value/generic_value_class.hpp" bodystart="10" bodyend="13"/>
+    <listofallmembers>
+      <member refid="structquite_1_1GenericClass_1a1c1f508e7257393686496c51be9bdbfd" prot="public" virt="non-virtual"><scope>quite::GenericClass</scope><name>properties</name></member>
+      <member refid="structquite_1_1GenericClass_1a4a3498dcde059cec2d8812f381a914e9" prot="public" virt="non-virtual"><scope>quite::GenericClass</scope><name>PropertyMap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1test_1_1ProbeManager" kind="class" language="C++" prot="public">
+    <compoundname>quite::test::ProbeManager</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1test_1_1ProbeManager_1a6b09d7fd80854ca04bbfc69bd940624f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classquite_1_1manager_1_1ProcessManager" kindref="compound">manager::ProcessManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;manager::ProcessManager&gt; quite::test::ProbeManager::local_</definition>
+        <argsstring></argsstring>
+        <name>local_</name>
+        <qualifiedname>quite::test::ProbeManager::local_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="36" column="21" bodyfile="libs/testing/include/quite/test/probe_manager.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1test_1_1ProbeManager_1a348016184862918c5142b9f59a2fbbb8" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classquite_1_1client_1_1ProbeManager" kindref="compound">client::ProbeManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;client::ProbeManager&gt; quite::test::ProbeManager::probe_</definition>
+        <argsstring></argsstring>
+        <name>probe_</name>
+        <qualifiedname>quite::test::ProbeManager::probe_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="37" column="21" bodyfile="libs/testing/include/quite/test/probe_manager.hpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1test_1_1ProbeManager_1a226a8d3f45dbfb5b1d245fd975f8539d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::test::ProbeManager::QUITE_DISABLE_COPY</definition>
+        <argsstring>(ProbeManager)</argsstring>
+        <name>QUITE_DISABLE_COPY</name>
+        <qualifiedname>quite::test::ProbeManager::QUITE_DISABLE_COPY</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1test_1_1ProbeManager" kindref="compound">ProbeManager</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1test_1_1ProbeManager_1ac2f1213f73b69806ab30533a0bacf001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::test::ProbeManager::ProbeManager</definition>
+        <argsstring>()</argsstring>
+        <name>ProbeManager</name>
+        <qualifiedname>quite::test::ProbeManager::ProbeManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="26" column="5" bodyfile="libs/testing/src/probe_manager.cpp" bodystart="10" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1test_1_1ProbeManager_1a8577c1192597112417ae8278442133a1" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>quite::test::ProbeManager::ProbeManager</definition>
+        <argsstring>(ProbeManager &amp;&amp;) noexcept=default</argsstring>
+        <name>ProbeManager</name>
+        <qualifiedname>quite::test::ProbeManager::ProbeManager</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1test_1_1ProbeManager" kindref="compound">ProbeManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="27" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1test_1_1ProbeManager_1a14f3a30040b127cb4f35c311811e8a0a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classquite_1_1test_1_1ProbeManager" kindref="compound">ProbeManager</ref> &amp;</type>
+        <definition>ProbeManager &amp; quite::test::ProbeManager::operator=</definition>
+        <argsstring>(ProbeManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>quite::test::ProbeManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1test_1_1ProbeManager" kindref="compound">ProbeManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="28" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1test_1_1ProbeManager_1aee083b7e999d1728070690edbb9aba35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::test::ProbeManager::~ProbeManager</definition>
+        <argsstring>()</argsstring>
+        <name>~ProbeManager</name>
+        <qualifiedname>quite::test::ProbeManager::~ProbeManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="29" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1test_1_1ProbeManager_1a76eb0890db2aba227b172007c95187b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classquite_1_1test_1_1Probe" kindref="compound">quite::test::Probe</ref></type>
+        <definition>Probe quite::test::ProbeManager::launch_probe_application</definition>
+        <argsstring>(std::string name, const std::string &amp;path_to_application, const std::vector&lt; std::string &gt; &amp;args={})</argsstring>
+        <name>launch_probe_application</name>
+        <qualifiedname>quite::test::ProbeManager::launch_probe_application</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path_to_application</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>args</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="30" column="24" bodyfile="libs/testing/src/probe_manager.cpp" bodystart="17" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1test_1_1ProbeManager_1a830ea5891c35ef0643d2aaeefc03ec32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classquite_1_1test_1_1Probe" kindref="compound">quite::test::Probe</ref></type>
+        <definition>quite::test::Probe quite::test::ProbeManager::connect_to_probe</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>connect_to_probe</name>
+        <qualifiedname>quite::test::ProbeManager::connect_to_probe</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/probe_manager.hpp" line="33" column="24" bodyfile="libs/testing/src/probe_manager.cpp" bodystart="34" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/testing/include/quite/test/probe_manager.hpp" line="21" column="1" bodyfile="libs/testing/include/quite/test/probe_manager.hpp" bodystart="22" bodyend="38"/>
+    <listofallmembers>
+      <member refid="classquite_1_1test_1_1ProbeManager_1a830ea5891c35ef0643d2aaeefc03ec32" prot="public" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>connect_to_probe</name></member>
+      <member refid="classquite_1_1test_1_1ProbeManager_1a76eb0890db2aba227b172007c95187b0" prot="public" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>launch_probe_application</name></member>
+      <member refid="classquite_1_1test_1_1ProbeManager_1a6b09d7fd80854ca04bbfc69bd940624f" prot="private" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>local_</name></member>
+      <member refid="classquite_1_1test_1_1ProbeManager_1a14f3a30040b127cb4f35c311811e8a0a" prot="public" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>operator=</name></member>
+      <member refid="classquite_1_1test_1_1ProbeManager_1a348016184862918c5142b9f59a2fbbb8" prot="private" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>probe_</name></member>
+      <member refid="classquite_1_1test_1_1ProbeManager_1ac2f1213f73b69806ab30533a0bacf001" prot="public" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>ProbeManager</name></member>
+      <member refid="classquite_1_1test_1_1ProbeManager_1a8577c1192597112417ae8278442133a1" prot="public" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>ProbeManager</name></member>
+      <member refid="classquite_1_1test_1_1ProbeManager_1a226a8d3f45dbfb5b1d245fd975f8539d" prot="public" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>QUITE_DISABLE_COPY</name></member>
+      <member refid="classquite_1_1test_1_1ProbeManager_1aee083b7e999d1728070690edbb9aba35" prot="public" virt="non-virtual"><scope>quite::test::ProbeManager</scope><name>~ProbeManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1ObjectQuery" kind="struct" language="C++" prot="public">
+    <compoundname>quite::ObjectQuery</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structquite_1_1ObjectQuery_1a22e1b594ffddb0dcdd7df4dcf92e1a0f" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, entt::meta_any &gt;</type>
+        <definition>using quite::ObjectQuery::PropertyMap =  std::unordered_map&lt;std::string, entt::meta_any&gt;</definition>
+        <argsstring></argsstring>
+        <name>PropertyMap</name>
+        <qualifiedname>quite::ObjectQuery::PropertyMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="12" column="5" bodyfile="libs/core/include/quite/value/object_query.hpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1ObjectQuery_1aa355a11997e53e295586121e321f481f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ObjectQuery&gt; quite::ObjectQuery::container</definition>
+        <argsstring></argsstring>
+        <name>container</name>
+        <qualifiedname>quite::ObjectQuery::container</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="13" column="21" bodyfile="libs/core/include/quite/value/object_query.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1ObjectQuery_1afc9701f0d29324286202c9e346fcde0e" prot="public" static="no" mutable="no">
+        <type>PropertyMap</type>
+        <definition>PropertyMap quite::ObjectQuery::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>quite::ObjectQuery::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="14" column="17" bodyfile="libs/core/include/quite/value/object_query.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1ObjectQuery_1a356bd8c384d8208f4a51ec24f53704bd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string quite::ObjectQuery::type_name</definition>
+        <argsstring></argsstring>
+        <name>type_name</name>
+        <qualifiedname>quite::ObjectQuery::type_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="15" column="17" bodyfile="libs/core/include/quite/value/object_query.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquite_1_1ObjectQuery_1a383221f0f2715fdc47063a30089863ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::ObjectQuery::ObjectQuery</definition>
+        <argsstring>()=default</argsstring>
+        <name>ObjectQuery</name>
+        <qualifiedname>quite::ObjectQuery::ObjectQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="17" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structquite_1_1ObjectQuery_1adaa3fd6cfae90ad187e50277f5271cb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::ObjectQuery::ObjectQuery</definition>
+        <argsstring>(const ObjectQuery &amp;other)=default</argsstring>
+        <name>ObjectQuery</name>
+        <qualifiedname>quite::ObjectQuery::ObjectQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="18" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structquite_1_1ObjectQuery_1ae3f6a105c5c095b63ed9fcc07959c78c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>quite::ObjectQuery::ObjectQuery</definition>
+        <argsstring>(ObjectQuery &amp;&amp;other) noexcept=default</argsstring>
+        <name>ObjectQuery</name>
+        <qualifiedname>quite::ObjectQuery::ObjectQuery</qualifiedname>
+        <param>
+          <type><ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="19" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structquite_1_1ObjectQuery_1a5217f753eabaa2b638c1f37079f77202" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref> &amp;</type>
+        <definition>ObjectQuery &amp; quite::ObjectQuery::operator=</definition>
+        <argsstring>(const ObjectQuery &amp;other)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>quite::ObjectQuery::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="20" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structquite_1_1ObjectQuery_1a83b974c41c77a8ee113da3371e8702c7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref> &amp;</type>
+        <definition>ObjectQuery &amp; quite::ObjectQuery::operator=</definition>
+        <argsstring>(ObjectQuery &amp;&amp;other) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>quite::ObjectQuery::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="21" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structquite_1_1ObjectQuery_1acb98305a5969319596e334f46655fa42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::ObjectQuery::ObjectQuery</definition>
+        <argsstring>(const ObjectQueryBuilder &amp;builder)</argsstring>
+        <name>ObjectQuery</name>
+        <qualifiedname>quite::ObjectQuery::ObjectQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="classquite_1_1ObjectQueryBuilder" kindref="compound">ObjectQueryBuilder</ref> &amp;</type>
+          <declname>builder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="22" column="5" bodyfile="libs/core/src/value/object_query.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="structquite_1_1ObjectQuery_1aac6e3756453a64075243a35e1a01d6c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::ObjectQuery::~ObjectQuery</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ObjectQuery</name>
+        <qualifiedname>quite::ObjectQuery::~ObjectQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/value/object_query.hpp" line="23" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/value/object_query.hpp" line="10" column="1" bodyfile="libs/core/include/quite/value/object_query.hpp" bodystart="11" bodyend="24"/>
+    <listofallmembers>
+      <member refid="structquite_1_1ObjectQuery_1aa355a11997e53e295586121e321f481f" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>container</name></member>
+      <member refid="structquite_1_1ObjectQuery_1a383221f0f2715fdc47063a30089863ee" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>ObjectQuery</name></member>
+      <member refid="structquite_1_1ObjectQuery_1adaa3fd6cfae90ad187e50277f5271cb3" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>ObjectQuery</name></member>
+      <member refid="structquite_1_1ObjectQuery_1ae3f6a105c5c095b63ed9fcc07959c78c" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>ObjectQuery</name></member>
+      <member refid="structquite_1_1ObjectQuery_1acb98305a5969319596e334f46655fa42" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>ObjectQuery</name></member>
+      <member refid="structquite_1_1ObjectQuery_1a5217f753eabaa2b638c1f37079f77202" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>operator=</name></member>
+      <member refid="structquite_1_1ObjectQuery_1a83b974c41c77a8ee113da3371e8702c7" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>operator=</name></member>
+      <member refid="structquite_1_1ObjectQuery_1afc9701f0d29324286202c9e346fcde0e" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>properties</name></member>
+      <member refid="structquite_1_1ObjectQuery_1a22e1b594ffddb0dcdd7df4dcf92e1a0f" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>PropertyMap</name></member>
+      <member refid="structquite_1_1ObjectQuery_1a356bd8c384d8208f4a51ec24f53704bd" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>type_name</name></member>
+      <member refid="structquite_1_1ObjectQuery_1aac6e3756453a64075243a35e1a01d6c2" prot="public" virt="non-virtual"><scope>quite::ObjectQuery</scope><name>~ObjectQuery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

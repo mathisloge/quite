@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1client_1_1ProbeHandle" kind="class" language="C++" prot="public">
+    <compoundname>quite::client::ProbeHandle</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1client_1_1ProbeHandle_1a63bbc68c1a5051da6d9f7aa856efade2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classquite_1_1client_1_1Probe" kindref="compound">Probe</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Probe&gt; quite::client::ProbeHandle::probe_</definition>
+        <argsstring></argsstring>
+        <name>probe_</name>
+        <qualifiedname>quite::client::ProbeHandle::probe_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/probe_handle.hpp" line="14" column="21" bodyfile="libs/client/include/quite/client/probe_handle.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1client_1_1ProbeHandle_1a7de1ff9e731e8a27a61ff040ceeeb78a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::client::ProbeHandle::ProbeHandle</definition>
+        <argsstring>(std::shared_ptr&lt; Probe &gt; probe)</argsstring>
+        <name>ProbeHandle</name>
+        <qualifiedname>quite::client::ProbeHandle::ProbeHandle</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classquite_1_1client_1_1Probe" kindref="compound">Probe</ref> &gt;</type>
+          <declname>probe</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/probe_handle.hpp" line="10" column="14" bodyfile="libs/client/src/probe_handle.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1ProbeHandle_1a85cb2a12770ef4f156925a8e2ff7d091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classquite_1_1client_1_1Probe" kindref="compound">Probe</ref> *</type>
+        <definition>Probe * quite::client::ProbeHandle::operator-&gt;</definition>
+        <argsstring>()</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>quite::client::ProbeHandle::operator-&gt;</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/probe_handle.hpp" line="11" column="11" bodyfile="libs/client/src/probe_handle.cpp" bodystart="9" bodyend="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/include/quite/client/probe_handle.hpp" line="7" column="1" bodyfile="libs/client/include/quite/client/probe_handle.hpp" bodystart="8" bodyend="15"/>
+    <listofallmembers>
+      <member refid="classquite_1_1client_1_1ProbeHandle_1a85cb2a12770ef4f156925a8e2ff7d091" prot="public" virt="non-virtual"><scope>quite::client::ProbeHandle</scope><name>operator-&gt;</name></member>
+      <member refid="classquite_1_1client_1_1ProbeHandle_1a63bbc68c1a5051da6d9f7aa856efade2" prot="private" virt="non-virtual"><scope>quite::client::ProbeHandle</scope><name>probe_</name></member>
+      <member refid="classquite_1_1client_1_1ProbeHandle_1a7de1ff9e731e8a27a61ff040ceeeb78a" prot="public" virt="non-virtual"><scope>quite::client::ProbeHandle</scope><name>ProbeHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

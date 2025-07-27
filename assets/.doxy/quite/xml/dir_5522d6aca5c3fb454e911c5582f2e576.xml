@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_5522d6aca5c3fb454e911c5582f2e576" kind="dir">
+    <compoundname>libs/protocol/src/client</compoundname>
+    <innerfile refid="client_8cpp">client.cpp</innerfile>
+    <innerfile refid="configure__client__context_8cpp">configure_client_context.cpp</innerfile>
+    <innerfile refid="configure__client__context_8hpp">configure_client_context.hpp</innerfile>
+    <innerfile refid="grpc__manager_8cpp">grpc_manager.cpp</innerfile>
+    <innerfile refid="grpc__manager_8hpp">grpc_manager.hpp</innerfile>
+    <innerfile refid="meta__registry__impl_8cpp">meta_registry_impl.cpp</innerfile>
+    <innerfile refid="meta__registry__impl_8hpp">meta_registry_impl.hpp</innerfile>
+    <innerfile refid="mouse__injector__impl_8cpp">mouse_injector_impl.cpp</innerfile>
+    <innerfile refid="mouse__injector__impl_8hpp">mouse_injector_impl.hpp</innerfile>
+    <innerfile refid="probe__client_8cpp">probe_client.cpp</innerfile>
+    <innerfile refid="probe__client__impl_8cpp">probe_client_impl.cpp</innerfile>
+    <innerfile refid="probe__client__impl_8hpp">probe_client_impl.hpp</innerfile>
+    <innerfile refid="probe__service__impl_8cpp">probe_service_impl.cpp</innerfile>
+    <innerfile refid="probe__service__impl_8hpp">probe_service_impl.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/protocol/src/client/"/>
+  </compounddef>
+</doxygen>

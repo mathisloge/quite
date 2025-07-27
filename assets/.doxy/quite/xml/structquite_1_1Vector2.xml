@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1Vector2" kind="struct" language="C++" prot="public">
+    <compoundname>quite::Vector2</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1Vector2_1aa12615da0f2d829c3404e6476c8666d0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quite::Vector2::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>quite::Vector2::x</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/geometry.hpp" line="7" column="12" bodyfile="libs/core/include/quite/geometry.hpp" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1Vector2_1a522a1eaeb2f399f55451fd28883a688c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double quite::Vector2::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>quite::Vector2::y</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/geometry.hpp" line="8" column="12" bodyfile="libs/core/include/quite/geometry.hpp" bodystart="8" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/geometry.hpp" line="5" column="1" bodyfile="libs/core/include/quite/geometry.hpp" bodystart="6" bodyend="9"/>
+    <listofallmembers>
+      <member refid="structquite_1_1Vector2_1aa12615da0f2d829c3404e6476c8666d0" prot="public" virt="non-virtual"><scope>quite::Vector2</scope><name>x</name></member>
+      <member refid="structquite_1_1Vector2_1a522a1eaeb2f399f55451fd28883a688c" prot="public" virt="non-virtual"><scope>quite::Vector2</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

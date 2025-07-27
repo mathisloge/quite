@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1client_1_1GrpcProbe" kind="class" language="C++" prot="public">
+    <compoundname>quite::client::GrpcProbe</compoundname>
+    <basecompoundref refid="classquite_1_1client_1_1BasicProbe" prot="public" virt="non-virtual">quite::client::BasicProbe</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1client_1_1GrpcProbe_1a8d768ee5dd1bf6d6d46505b810a9b7cf" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classquite_1_1client_1_1GrpcValueConverter" kindref="compound">GrpcValueConverter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;GrpcValueConverter&gt; quite::client::GrpcProbe::value_converter_</definition>
+        <argsstring></argsstring>
+        <name>value_converter_</name>
+        <qualifiedname>quite::client::GrpcProbe::value_converter_</qualifiedname>
+        <initializer>{std::make_shared&lt;<ref refid="classquite_1_1client_1_1GrpcValueConverter" kindref="compound">GrpcValueConverter</ref>&gt;()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_probe.hpp" line="20" column="21" bodyfile="libs/client/src/grpc_impl/grpc_probe.hpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1client_1_1GrpcProbe_1ab8b54a5d358196a78737b2e065ce8600" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classquite_1_1proto_1_1ProbeClient" kindref="compound">proto::ProbeClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;proto::ProbeClient&gt; quite::client::GrpcProbe::client_</definition>
+        <argsstring></argsstring>
+        <name>client_</name>
+        <qualifiedname>quite::client::GrpcProbe::client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_probe.hpp" line="21" column="21" bodyfile="libs/client/src/grpc_impl/grpc_probe.hpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcProbe_1ae6ed4368dfac2c93b8bccab965cd5218" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::client::GrpcProbe::GrpcProbe</definition>
+        <argsstring>(manager::ProcessHandle process, proto::Client &amp;client, std::string connection_uri)</argsstring>
+        <name>GrpcProbe</name>
+        <qualifiedname>quite::client::GrpcProbe::GrpcProbe</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1manager_1_1ProcessHandle" kindref="compound">manager::ProcessHandle</ref></type>
+          <declname>process</declname>
+        </param>
+        <param>
+          <type><ref refid="classquite_1_1proto_1_1Client" kindref="compound">proto::Client</ref> &amp;</type>
+          <declname>client</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>connection_uri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_probe.hpp" line="13" column="14" bodyfile="libs/client/src/grpc_impl/grpc_probe.cpp" bodystart="14" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcProbe_1ac6ce0573d5428a8f711f34b8ee04acda" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; std::shared_ptr&lt; <ref refid="classquite_1_1client_1_1RemoteObject" kindref="compound">RemoteObject</ref> &gt; &gt;</type>
+        <definition>AsyncResult&lt; std::shared_ptr&lt; RemoteObject &gt; &gt; quite::client::GrpcProbe::find_object</definition>
+        <argsstring>(ObjectQuery query) override</argsstring>
+        <name>find_object</name>
+        <qualifiedname>quite::client::GrpcProbe::find_object</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1Probe_1a22b017b01744903fbc4b7f2bb75aa352">find_object</reimplements>
+        <param>
+          <type><ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref></type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_probe.hpp" line="14" column="17" bodyfile="libs/client/src/grpc_impl/grpc_probe.cpp" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcProbe_1a97683ea7db02d32c41ecb71551530c62" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; std::vector&lt; std::shared_ptr&lt; <ref refid="classquite_1_1client_1_1RemoteObject" kindref="compound">RemoteObject</ref> &gt; &gt; &gt;</type>
+        <definition>AsyncResult&lt; std::vector&lt; std::shared_ptr&lt; RemoteObject &gt; &gt; &gt; quite::client::GrpcProbe::get_views</definition>
+        <argsstring>() override</argsstring>
+        <name>get_views</name>
+        <qualifiedname>quite::client::GrpcProbe::get_views</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1Probe_1a0b96356325e8c08914f9f553f75e55f0">get_views</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_probe.hpp" line="15" column="17" bodyfile="libs/client/src/grpc_impl/grpc_probe.cpp" bodystart="35" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcProbe_1adc9efd05ea8775419ddd5a34f03fb5a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classquite_1_1meta_1_1MetaRegistry" kindref="compound">meta::MetaRegistry</ref> &amp;</type>
+        <definition>meta::MetaRegistry &amp; quite::client::GrpcProbe::meta_registry</definition>
+        <argsstring>() override</argsstring>
+        <name>meta_registry</name>
+        <qualifiedname>quite::client::GrpcProbe::meta_registry</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1Probe_1ae3115ecb987c1d02aec6105fd5fdf4c7">meta_registry</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_probe.hpp" line="16" column="24" bodyfile="libs/client/src/grpc_impl/grpc_probe.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcProbe_1a18fdb74a4e9f25b08e8cebf2c6ef076b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>AsyncResult&lt; void &gt; quite::client::GrpcProbe::wait_for_started</definition>
+        <argsstring>(std::chrono::seconds timeout) override</argsstring>
+        <name>wait_for_started</name>
+        <qualifiedname>quite::client::GrpcProbe::wait_for_started</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1Probe_1a1210e675cbdaab6bdf1b25393138a541">wait_for_started</reimplements>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_probe.hpp" line="17" column="17" bodyfile="libs/client/src/grpc_impl/grpc_probe.cpp" bodystart="21" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>quite::client::BasicProbe</label>
+        <link refid="classquite_1_1client_1_1BasicProbe"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>quite::client::GrpcProbe</label>
+        <link refid="classquite_1_1client_1_1GrpcProbe"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>quite::client::Probe</label>
+        <link refid="classquite_1_1client_1_1Probe"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::client::BasicProbe</label>
+        <link refid="classquite_1_1client_1_1BasicProbe"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>quite::client::GrpcProbe</label>
+        <link refid="classquite_1_1client_1_1GrpcProbe"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>quite::client::Probe</label>
+        <link refid="classquite_1_1client_1_1Probe"/>
+      </node>
+    </collaborationgraph>
+    <location file="libs/client/src/grpc_impl/grpc_probe.hpp" line="10" column="1" bodyfile="libs/client/src/grpc_impl/grpc_probe.hpp" bodystart="11" bodyend="22"/>
+    <listofallmembers>
+      <member refid="classquite_1_1client_1_1BasicProbe_1af1f4fdd2126ee4b6bd8899093fd5a2b6" prot="public" virt="non-virtual"><scope>quite::client::GrpcProbe</scope><name>BasicProbe</name></member>
+      <member refid="classquite_1_1client_1_1GrpcProbe_1ab8b54a5d358196a78737b2e065ce8600" prot="private" virt="non-virtual"><scope>quite::client::GrpcProbe</scope><name>client_</name></member>
+      <member refid="classquite_1_1client_1_1BasicProbe_1a9be026d081b703d849857eb38d2fb3c4" prot="public" virt="virtual"><scope>quite::client::GrpcProbe</scope><name>exit</name></member>
+      <member refid="classquite_1_1client_1_1GrpcProbe_1ac6ce0573d5428a8f711f34b8ee04acda" prot="public" virt="virtual"><scope>quite::client::GrpcProbe</scope><name>find_object</name></member>
+      <member refid="classquite_1_1client_1_1GrpcProbe_1a97683ea7db02d32c41ecb71551530c62" prot="public" virt="virtual"><scope>quite::client::GrpcProbe</scope><name>get_views</name></member>
+      <member refid="classquite_1_1client_1_1GrpcProbe_1ae6ed4368dfac2c93b8bccab965cd5218" prot="public" virt="non-virtual"><scope>quite::client::GrpcProbe</scope><name>GrpcProbe</name></member>
+      <member refid="classquite_1_1client_1_1GrpcProbe_1adc9efd05ea8775419ddd5a34f03fb5a4" prot="public" virt="virtual"><scope>quite::client::GrpcProbe</scope><name>meta_registry</name></member>
+      <member refid="classquite_1_1client_1_1Probe_1a62e538ab8fa9f86f6d0029595f2788cb" prot="public" virt="non-virtual"><scope>quite::client::GrpcProbe</scope><name>Probe</name></member>
+      <member refid="classquite_1_1client_1_1BasicProbe_1a6f1c0f0e85bb44ea0f05d7b824a52a08" prot="public" virt="non-virtual"><scope>quite::client::GrpcProbe</scope><name>process</name></member>
+      <member refid="classquite_1_1client_1_1Probe_1ad3b41e28397b3113729fac2e76f43ba5" prot="public" virt="non-virtual"><scope>quite::client::GrpcProbe</scope><name>QUITE_DISABLE_COPY_MOVE</name></member>
+      <member refid="classquite_1_1client_1_1GrpcProbe_1a8d768ee5dd1bf6d6d46505b810a9b7cf" prot="private" virt="non-virtual"><scope>quite::client::GrpcProbe</scope><name>value_converter_</name></member>
+      <member refid="classquite_1_1client_1_1GrpcProbe_1a18fdb74a4e9f25b08e8cebf2c6ef076b" prot="public" virt="virtual"><scope>quite::client::GrpcProbe</scope><name>wait_for_started</name></member>
+      <member refid="classquite_1_1client_1_1Probe_1a3777b08916eab93e7ffdeb1f473d0563" prot="public" virt="virtual"><scope>quite::client::GrpcProbe</scope><name>~Probe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

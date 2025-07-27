@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1meta_1_1MapType" kind="struct" language="C++" prot="public">
+    <compoundname>quite::meta::MapType</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1meta_1_1MapType_1a2d70c20432ba12a2d5b0ddd2c85079a1" prot="public" static="no" mutable="no">
+        <type>TypeId</type>
+        <definition>TypeId quite::meta::MapType::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>quite::meta::MapType::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_types.hpp" line="39" column="12" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1meta_1_1MapType_1a6e21710c9f61042708b790ad59f1410e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string quite::meta::MapType::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>quite::meta::MapType::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_types.hpp" line="40" column="17" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1meta_1_1MapType_1a77f283e9445b220460e5bcb9a6cae3ce" prot="public" static="no" mutable="no">
+        <type>TypeId</type>
+        <definition>TypeId quite::meta::MapType::key_type</definition>
+        <argsstring></argsstring>
+        <name>key_type</name>
+        <qualifiedname>quite::meta::MapType::key_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_types.hpp" line="41" column="12" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1meta_1_1MapType_1a6d899fa0b502e7f2d2418829c13e8358" prot="public" static="no" mutable="no">
+        <type>TypeId</type>
+        <definition>TypeId quite::meta::MapType::value_type</definition>
+        <argsstring></argsstring>
+        <name>value_type</name>
+        <qualifiedname>quite::meta::MapType::value_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_types.hpp" line="42" column="12" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/meta/meta_types.hpp" line="37" column="1" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="38" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structquite_1_1meta_1_1MapType_1a2d70c20432ba12a2d5b0ddd2c85079a1" prot="public" virt="non-virtual"><scope>quite::meta::MapType</scope><name>id</name></member>
+      <member refid="structquite_1_1meta_1_1MapType_1a77f283e9445b220460e5bcb9a6cae3ce" prot="public" virt="non-virtual"><scope>quite::meta::MapType</scope><name>key_type</name></member>
+      <member refid="structquite_1_1meta_1_1MapType_1a6e21710c9f61042708b790ad59f1410e" prot="public" virt="non-virtual"><scope>quite::meta::MapType</scope><name>name</name></member>
+      <member refid="structquite_1_1meta_1_1MapType_1a6d899fa0b502e7f2d2418829c13e8358" prot="public" virt="non-virtual"><scope>quite::meta::MapType</scope><name>value_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

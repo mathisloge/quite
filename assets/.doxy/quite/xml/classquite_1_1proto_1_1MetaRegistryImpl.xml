@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1proto_1_1MetaRegistryImpl" kind="class" language="C++" prot="public">
+    <compoundname>quite::proto::MetaRegistryImpl</compoundname>
+    <basecompoundref refid="classquite_1_1meta_1_1MetaRegistry" prot="public" virt="non-virtual">quite::meta::MetaRegistry</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1proto_1_1MetaRegistryImpl_1a1dab85d68de8a22ed0d322c2d4d310d3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; agrpc::GrpcContext &gt;</type>
+        <definition>std::shared_ptr&lt;agrpc::GrpcContext&gt; quite::proto::MetaRegistryImpl::grpc_context_</definition>
+        <argsstring></argsstring>
+        <name>grpc_context_</name>
+        <qualifiedname>quite::proto::MetaRegistryImpl::grpc_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/meta_registry_impl.hpp" line="15" column="21" bodyfile="libs/protocol/src/client/meta_registry_impl.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1proto_1_1MetaRegistryImpl_1abd0faa6ebf5148c88ac4570c74f2ed86" prot="private" static="no" mutable="no">
+        <type>MetaService::Stub &amp;</type>
+        <definition>MetaService::Stub&amp; quite::proto::MetaRegistryImpl::meta_service_stub_</definition>
+        <argsstring></argsstring>
+        <name>meta_service_stub_</name>
+        <qualifiedname>quite::proto::MetaRegistryImpl::meta_service_stub_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/meta_registry_impl.hpp" line="16" column="23" bodyfile="libs/protocol/src/client/meta_registry_impl.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1proto_1_1MetaRegistryImpl_1a9b2299c93283fa0833870252c23b8ce6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::proto::MetaRegistryImpl::MetaRegistryImpl</definition>
+        <argsstring>(std::shared_ptr&lt; agrpc::GrpcContext &gt; grpc_context, MetaService::Stub &amp;meta_service_stub)</argsstring>
+        <name>MetaRegistryImpl</name>
+        <qualifiedname>quite::proto::MetaRegistryImpl::MetaRegistryImpl</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; agrpc::GrpcContext &gt;</type>
+          <declname>grpc_context</declname>
+        </param>
+        <param>
+          <type>MetaService::Stub &amp;</type>
+          <declname>meta_service_stub</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/meta_registry_impl.hpp" line="11" column="14" bodyfile="libs/protocol/src/client/meta_registry_impl.cpp" bodystart="12" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1MetaRegistryImpl_1a958f73d461cb76b0ed0b8d11fbaad053" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; meta::Type &gt;</type>
+        <definition>AsyncResult&lt; meta::Type &gt; quite::proto::MetaRegistryImpl::lookup_type</definition>
+        <argsstring>(meta::TypeId type_id) override</argsstring>
+        <name>lookup_type</name>
+        <qualifiedname>quite::proto::MetaRegistryImpl::lookup_type</qualifiedname>
+        <reimplements refid="classquite_1_1meta_1_1MetaRegistry_1a1abbf6ddc0b7ba357e726b4015dd7f2f">lookup_type</reimplements>
+        <param>
+          <type>meta::TypeId</type>
+          <declname>type_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/meta_registry_impl.hpp" line="12" column="17" bodyfile="libs/protocol/src/client/meta_registry_impl.cpp" bodystart="18" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>quite::meta::MetaRegistry</label>
+        <link refid="classquite_1_1meta_1_1MetaRegistry"/>
+      </node>
+      <node id="1">
+        <label>quite::proto::MetaRegistryImpl</label>
+        <link refid="classquite_1_1proto_1_1MetaRegistryImpl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::meta::MetaRegistry</label>
+        <link refid="classquite_1_1meta_1_1MetaRegistry"/>
+      </node>
+      <node id="1">
+        <label>quite::proto::MetaRegistryImpl</label>
+        <link refid="classquite_1_1proto_1_1MetaRegistryImpl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="libs/protocol/src/client/meta_registry_impl.hpp" line="8" column="1" bodyfile="libs/protocol/src/client/meta_registry_impl.hpp" bodystart="9" bodyend="17"/>
+    <listofallmembers>
+      <member refid="classquite_1_1proto_1_1MetaRegistryImpl_1a1dab85d68de8a22ed0d322c2d4d310d3" prot="private" virt="non-virtual"><scope>quite::proto::MetaRegistryImpl</scope><name>grpc_context_</name></member>
+      <member refid="classquite_1_1proto_1_1MetaRegistryImpl_1a958f73d461cb76b0ed0b8d11fbaad053" prot="public" virt="virtual"><scope>quite::proto::MetaRegistryImpl</scope><name>lookup_type</name></member>
+      <member refid="classquite_1_1proto_1_1MetaRegistryImpl_1abd0faa6ebf5148c88ac4570c74f2ed86" prot="private" virt="non-virtual"><scope>quite::proto::MetaRegistryImpl</scope><name>meta_service_stub_</name></member>
+      <member refid="classquite_1_1proto_1_1MetaRegistryImpl_1a9b2299c93283fa0833870252c23b8ce6" prot="public" virt="non-virtual"><scope>quite::proto::MetaRegistryImpl</scope><name>MetaRegistryImpl</name></member>
+      <member refid="classquite_1_1meta_1_1MetaRegistry_1ac96d2d43ee52ab4e37fca54fbcda3fbe" prot="public" virt="virtual"><scope>quite::proto::MetaRegistryImpl</scope><name>~MetaRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

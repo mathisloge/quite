@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1Context" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>quite::Context</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1Context_1a77f71d57e032b66f0cd73589926e436f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classquite_1_1proto_1_1Client" kindref="compound">proto::Client</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;proto::Client&gt; quite::Context::client_</definition>
+        <argsstring></argsstring>
+        <name>client_</name>
+        <qualifiedname>quite::Context::client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/context.hpp" line="22" column="21" bodyfile="libs/client/src/context.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1Context_1a3bb995dfe0d2b49fbf6b818f1a93bed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::Context::~Context</definition>
+        <argsstring>()</argsstring>
+        <name>~Context</name>
+        <qualifiedname>quite::Context::~Context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/context.hpp" line="11" column="5" bodyfile="libs/client/src/context.cpp" bodystart="14" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Context_1af51f11212ad26ce20d0939ae022afe62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>execpools::asio_thread_pool &amp;</type>
+        <definition>execpools::asio_thread_pool &amp; quite::Context::asio_context</definition>
+        <argsstring>()</argsstring>
+        <name>asio_context</name>
+        <qualifiedname>quite::Context::asio_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/context.hpp" line="12" column="33" bodyfile="libs/client/src/context.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Context_1ae25e4cb5cc37baa91997125bb0cd2e7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classquite_1_1proto_1_1Client" kindref="compound">proto::Client</ref> &amp;</type>
+        <definition>proto::Client &amp; quite::Context::backend_client</definition>
+        <argsstring>()</argsstring>
+        <name>backend_client</name>
+        <qualifiedname>quite::Context::backend_client</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/context.hpp" line="13" column="19" bodyfile="libs/client/src/context.cpp" bodystart="19" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classquite_1_1Context_1ac58542ad8f9367ff4593d9eabe8216fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classquite_1_1Context" kindref="compound">Context</ref> &amp;</type>
+        <definition>Context &amp; quite::Context::Instance</definition>
+        <argsstring>()</argsstring>
+        <name>Instance</name>
+        <qualifiedname>quite::Context::Instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/context.hpp" line="16" column="20" bodyfile="libs/client/src/context.cpp" bodystart="29" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classquite_1_1Context_1a68bcf043496c00b15a31c64c409a8387" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::Context::Context</definition>
+        <argsstring>()</argsstring>
+        <name>Context</name>
+        <qualifiedname>quite::Context::Context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/context.hpp" line="19" column="5" bodyfile="libs/client/src/context.cpp" bodystart="8" bodyend="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/src/context.hpp" line="8" column="1" bodyfile="libs/client/src/context.hpp" bodystart="9" bodyend="23"/>
+    <listofallmembers>
+      <member refid="classquite_1_1Context_1af51f11212ad26ce20d0939ae022afe62" prot="public" virt="non-virtual"><scope>quite::Context</scope><name>asio_context</name></member>
+      <member refid="classquite_1_1Context_1ae25e4cb5cc37baa91997125bb0cd2e7c" prot="public" virt="non-virtual"><scope>quite::Context</scope><name>backend_client</name></member>
+      <member refid="classquite_1_1Context_1a77f71d57e032b66f0cd73589926e436f" prot="private" virt="non-virtual"><scope>quite::Context</scope><name>client_</name></member>
+      <member refid="classquite_1_1Context_1a68bcf043496c00b15a31c64c409a8387" prot="private" virt="non-virtual"><scope>quite::Context</scope><name>Context</name></member>
+      <member refid="classquite_1_1Context_1ac58542ad8f9367ff4593d9eabe8216fd" prot="public" virt="non-virtual"><scope>quite::Context</scope><name>Instance</name></member>
+      <member refid="classquite_1_1Context_1a3bb995dfe0d2b49fbf6b818f1a93bed4" prot="public" virt="non-virtual"><scope>quite::Context</scope><name>~Context</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

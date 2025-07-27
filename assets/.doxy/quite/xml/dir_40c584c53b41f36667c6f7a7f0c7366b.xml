@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_40c584c53b41f36667c6f7a7f0c7366b" kind="dir">
+    <compoundname>libs/client/include/quite/client/utils</compoundname>
+    <innerfile refid="dump__properties_8hpp">dump_properties.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/include/quite/client/utils/"/>
+  </compounddef>
+</doxygen>

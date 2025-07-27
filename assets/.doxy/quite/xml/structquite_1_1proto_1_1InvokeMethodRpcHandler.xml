@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1proto_1_1InvokeMethodRpcHandler" kind="struct" language="C++" prot="public">
+    <compoundname>quite::proto::InvokeMethodRpcHandler</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1proto_1_1InvokeMethodRpcHandler_1a8ff1a3fa6cb4bbf8452e0a50961b70e5" prot="public" static="no" mutable="no">
+        <type><ref refid="classquite_1_1ServiceHandle" kindref="compound">ProbeHandlerHandle</ref></type>
+        <definition>ProbeHandlerHandle quite::proto::InvokeMethodRpcHandler::probe_handler</definition>
+        <argsstring></argsstring>
+        <name>probe_handler</name>
+        <qualifiedname>quite::proto::InvokeMethodRpcHandler::probe_handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/probe/rpc_invoke_method.hpp" line="15" column="24" bodyfile="libs/protocol/src/probe/rpc_invoke_method.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1proto_1_1InvokeMethodRpcHandler_1aa3aa42baeae6036890b4e2d67b412946" prot="public" static="no" mutable="no">
+        <type><ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref>&lt; <ref refid="classquite_1_1ValueRegistry" kindref="compound">ValueRegistry</ref> &gt;</type>
+        <definition>ServiceHandle&lt;ValueRegistry&gt; quite::proto::InvokeMethodRpcHandler::value_registry</definition>
+        <argsstring></argsstring>
+        <name>value_registry</name>
+        <qualifiedname>quite::proto::InvokeMethodRpcHandler::value_registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/probe/rpc_invoke_method.hpp" line="16" column="19" bodyfile="libs/protocol/src/probe/rpc_invoke_method.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquite_1_1proto_1_1InvokeMethodRpcHandler_1ae2e0bda4b1d6639c986d917f205c3d41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>exec::task&lt; void &gt;</type>
+        <definition>exec::task&lt; void &gt; quite::proto::InvokeMethodRpcHandler::operator()</definition>
+        <argsstring>(InvokeMethodRPC &amp;, const InvokeMethodRPC::Request &amp;) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>quite::proto::InvokeMethodRpcHandler::operator()</qualifiedname>
+        <param>
+          <type>InvokeMethodRPC &amp;</type>
+          <defname>rpc</defname>
+        </param>
+        <param>
+          <type>const InvokeMethodRPC::Request &amp;</type>
+          <defname>request</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/probe/rpc_invoke_method.hpp" line="17" column="16" bodyfile="libs/protocol/src/probe/rpc_invoke_method.cpp" bodystart="13" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::ServiceHandle&lt; IProbeHandler &gt;</label>
+        <link refid="classquite_1_1ServiceHandle"/>
+      </node>
+      <node id="3">
+        <label>quite::ServiceHandle&lt; quite::ValueRegistry &gt;</label>
+        <link refid="classquite_1_1ServiceHandle"/>
+      </node>
+      <node id="1">
+        <label>quite::proto::InvokeMethodRpcHandler</label>
+        <link refid="structquite_1_1proto_1_1InvokeMethodRpcHandler"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>probe_handler</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>value_registry</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="libs/protocol/src/probe/rpc_invoke_method.hpp" line="13" column="1" bodyfile="libs/protocol/src/probe/rpc_invoke_method.hpp" bodystart="14" bodyend="18"/>
+    <listofallmembers>
+      <member refid="structquite_1_1proto_1_1InvokeMethodRpcHandler_1ae2e0bda4b1d6639c986d917f205c3d41" prot="public" virt="non-virtual"><scope>quite::proto::InvokeMethodRpcHandler</scope><name>operator()</name></member>
+      <member refid="structquite_1_1proto_1_1InvokeMethodRpcHandler_1a8ff1a3fa6cb4bbf8452e0a50961b70e5" prot="public" virt="non-virtual"><scope>quite::proto::InvokeMethodRpcHandler</scope><name>probe_handler</name></member>
+      <member refid="structquite_1_1proto_1_1InvokeMethodRpcHandler_1aa3aa42baeae6036890b4e2d67b412946" prot="public" virt="non-virtual"><scope>quite::proto::InvokeMethodRpcHandler</scope><name>value_registry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

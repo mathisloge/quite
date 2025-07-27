@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_acad3136c8ed89325e9252603ad8366c" kind="dir">
+    <compoundname>libs/manager/src</compoundname>
+    <innerfile refid="basic__process__manager_8cpp">basic_process_manager.cpp</innerfile>
+    <innerfile refid="noop__process_8cpp">noop_process.cpp</innerfile>
+    <innerfile refid="noop__process_8hpp">noop_process.hpp</innerfile>
+    <innerfile refid="process__handle_8cpp">process_handle.cpp</innerfile>
+    <innerfile refid="process__impl_8cpp">process_impl.cpp</innerfile>
+    <innerfile refid="process__impl_8hpp">process_impl.hpp</innerfile>
+    <innerfile refid="process__manager_8cpp">process_manager.cpp</innerfile>
+    <innerfile refid="process__manager__client_8cpp">process_manager_client.cpp</innerfile>
+    <innerfile refid="process__manager__client_8hpp">process_manager_client.hpp</innerfile>
+    <innerfile refid="remote__process__manager_8cpp">remote_process_manager.cpp</innerfile>
+    <innerfile refid="remote__process__manager_8hpp">remote_process_manager.hpp</innerfile>
+    <innerfile refid="manager_2src_2server_8cpp">server.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/manager/src/"/>
+  </compounddef>
+</doxygen>

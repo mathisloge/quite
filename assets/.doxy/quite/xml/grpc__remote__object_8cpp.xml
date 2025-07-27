@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="grpc__remote__object_8cpp" kind="file" language="C++">
+    <compoundname>grpc_remote_object.cpp</compoundname>
+    <includes refid="grpc__remote__object_8hpp" local="yes">grpc_remote_object.hpp</includes>
+    <includes local="no">fmt/ranges.h</includes>
+    <includes refid="logger_8hpp" local="no">quite/logger.hpp</includes>
+    <includes refid="grpc__property_8hpp" local="yes">grpc_property.hpp</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>property.hpp</label>
+        <link refid="client_2include_2quite_2client_2property_8hpp_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>quite/client/remote_object.hpp</label>
+        <link refid="client_2include_2quite_2client_2remote__object_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>grpc_property.hpp</label>
+        <link refid="grpc__property_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>libs/client/src/grpc_impl/grpc_remote_object.cpp</label>
+        <link refid="grpc__remote__object_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>grpc_remote_object.hpp</label>
+        <link refid="grpc__remote__object_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>quite/async_result.hpp</label>
+        <link refid="async__result_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>quite/disable_copy_move.hpp</label>
+        <link refid="disable__copy__move_8hpp_source"/>
+      </node>
+      <node id="9">
+        <label>error.hpp</label>
+        <link refid="error_8hpp_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>quite/geometry.hpp</label>
+        <link refid="geometry_8hpp_source"/>
+      </node>
+      <node id="18">
+        <label>quite/image.hpp</label>
+        <link refid="image_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>keys.hpp</label>
+        <link refid="keys_8hpp_source"/>
+      </node>
+      <node id="24">
+        <label>quite/injectors/mouse_injector.hpp</label>
+        <link refid="core_2include_2quite_2injectors_2mouse__injector_8hpp_source"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>quite/logger.hpp</label>
+        <link refid="logger_8hpp_source"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>quite/meta/meta_registry.hpp</label>
+        <link refid="meta__registry_8hpp_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>quite/meta/meta_type_id.hpp</label>
+        <link refid="meta__type__id_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>meta_types.hpp</label>
+        <link refid="meta__types_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>result.hpp</label>
+        <link refid="result_8hpp_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>quite/value/object_id.hpp</label>
+        <link refid="object__id_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>quite/value/object_query.hpp</label>
+        <link refid="object__query_8hpp_source"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>quite/proto/client/probe_client.hpp</label>
+        <link refid="probe__client_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>probe_service.hpp</label>
+        <link refid="probe__service_8hpp_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>entt/meta/meta.hpp</label>
+      </node>
+      <node id="5">
+        <label>exec/task.hpp</label>
+      </node>
+      <node id="8">
+        <label>expected</label>
+      </node>
+      <node id="19">
+        <label>filesystem</label>
+      </node>
+      <node id="11">
+        <label>fmt/core.h</label>
+      </node>
+      <node id="35">
+        <label>fmt/ranges.h</label>
+      </node>
+      <node id="29">
+        <label>memory</label>
+      </node>
+      <node id="37">
+        <label>quill/LogMacros.h</label>
+      </node>
+      <node id="38">
+        <label>quill/Logger.h</label>
+      </node>
+      <node id="17">
+        <label>quite/quite_client_export.hpp</label>
+      </node>
+      <node id="12">
+        <label>quite/quite_core_export.hpp</label>
+      </node>
+      <node id="34">
+        <label>quite/quite_protocol_export.hpp</label>
+      </node>
+      <node id="20">
+        <label>span</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="30">
+        <label>unordered_map</label>
+      </node>
+      <node id="31">
+        <label>variant</label>
+      </node>
+      <node id="21">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacequite">quite</innernamespace>
+    <innernamespace refid="namespacequite_1_1client">quite::client</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="grpc__remote__object_8cpp_1a61766c1aaa554927632cb88eaed7bc70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DEFINE_LOGGER</definition>
+        <argsstring>(grpc_remote_object_logger)</argsstring>
+        <name>DEFINE_LOGGER</name>
+        <param>
+          <type>grpc_remote_object_logger</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.cpp" line="6" column="1" declfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" declline="6" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;grpc_remote_object.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fmt/ranges.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;quite/logger.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;grpc_property.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">DEFINE_LOGGER(grpc_remote_object_logger);</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">quite::client</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">GrpcRemoteObject::GrpcRemoteObject(ObjectReference<sp/>reference,<sp/>std::shared_ptr&lt;proto::ProbeClient&gt;<sp/>client)</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>RemoteObject{reference.object_id}</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>,<sp/>client_{std::move(client)}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>,<sp/>type_id_{reference.type_id}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">meta::TypeId<sp/>GrpcRemoteObject::type_id()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="16"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type_id_;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">AsyncResult&lt;std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;Property&gt;&gt;&gt;<sp/>GrpcRemoteObject::fetch_properties(</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>properties)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">RetVal<sp/>=<sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;Property&gt;&gt;;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_DEBUG(grpc_remote_object_logger(),</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;get<sp/>properties[{}]<sp/>for<sp/>object={}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fmt::format(</highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">,<sp/>fmt::join(properties,<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">)),</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">());</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>client_-&gt;probe_service().get_object_properties(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">(),<sp/>std::move(properties));</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal"><sp/>result.transform([</highlight><highlight class="keyword">this</highlight><highlight class="normal">](</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;&amp;properties)<sp/>-&gt;<sp/>RetVal<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RetVal<sp/>values;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;&amp;[key,<sp/>value]<sp/>:<sp/>properties)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>values.emplace(key,<sp/>std::make_shared&lt;GrpcProperty&gt;(shared_from_this(),<sp/>key,<sp/>value));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>values;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">AsyncResult&lt;std::shared_ptr&lt;Property&gt;&gt;<sp/>GrpcRemoteObject::property(std::string<sp/>property_name)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_DEBUG(grpc_remote_object_logger(),<sp/></highlight><highlight class="stringliteral">&quot;get<sp/>property[{}]<sp/>for<sp/>object={}&quot;</highlight><highlight class="normal">,<sp/>property_name,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">());</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>fetch_property(property_name);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal"><sp/>response.and_then([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>&amp;property_name](</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;&amp;value)<sp/>-&gt;<sp/>Result&lt;std::shared_ptr&lt;Property&gt;&gt;<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;GrpcProperty&gt;(</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shared_from_this(),<sp/>std::move(property_name),<sp/>std::forward&lt;</highlight><highlight class="keyword">decltype</highlight><highlight class="normal">(value)&gt;(value));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">AsyncResult&lt;void&gt;<sp/>GrpcRemoteObject::write_property(std::string<sp/>property_name,<sp/>entt::meta_any<sp/>value)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>client_-&gt;probe_service().set_object_property(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">(),<sp/>std::move(property_name),<sp/>std::move(value));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal"><sp/>response;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">AsyncResult&lt;entt::meta_any&gt;<sp/>GrpcRemoteObject::fetch_property(std::string<sp/>property_name)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>gcc13_workaround{property_name};<sp/></highlight><highlight class="comment">//<sp/>https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115660</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>client_-&gt;probe_service().get_object_properties(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">(),<sp/>std::move(gcc13_workaround));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal"><sp/>response.and_then([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>&amp;property_name](</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;&amp;properties)<sp/>-&gt;<sp/>Result&lt;entt::meta_any&gt;<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>properties.find(property_name);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>properties.end())</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>make_error_result(ErrorCode::not_found,<sp/></highlight><highlight class="stringliteral">&quot;Server<sp/>did<sp/>not<sp/>return<sp/>the<sp/>expected<sp/>property.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">AsyncResult&lt;void&gt;<sp/>GrpcRemoteObject::mouse_action()</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_DEBUG(grpc_remote_object_logger(),<sp/></highlight><highlight class="stringliteral">&quot;mouse_action<sp/>for<sp/>object={}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>client_-&gt;mouse_injector().single_action(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">(),<sp/>core::MouseAction{.button<sp/>=<sp/>core::MouseButton::left,<sp/>.trigger<sp/>=<sp/>core::MouseTrigger::click});</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">AsyncResult&lt;Image&gt;<sp/>GrpcRemoteObject::take_snapshot()</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>client_-&gt;probe_service().take_snapshot(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">AsyncResult&lt;void&gt;<sp/>GrpcRemoteObject::invoke_method(std::string<sp/>method_name)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_DEBUG(grpc_remote_object_logger(),<sp/></highlight><highlight class="stringliteral">&quot;invoke<sp/>method:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>method_name);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>client_-&gt;probe_service().invoke_method(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">(),<sp/>std::move(method_name),<sp/>{});</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(response.has_value())</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(*response)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LOG_DEBUG(grpc_remote_object_logger(),<sp/></highlight><highlight class="stringliteral">&quot;Has<sp/>return<sp/>value:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>response-&gt;type().info().name());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal"><sp/>std::unexpected{std::move(response.error())};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>quite::client</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="libs/client/src/grpc_impl/grpc_remote_object.cpp"/>
+  </compounddef>
+</doxygen>

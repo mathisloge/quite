@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_62c749a433f68b441b7c0425b5469d66" kind="dir">
+    <compoundname>libs/protocol/src</compoundname>
+    <innerdir refid="dir_5522d6aca5c3fb454e911c5582f2e576">libs/protocol/src/client</innerdir>
+    <innerdir refid="dir_8a7b54f280cdd6b46c67f9938f379d86">libs/protocol/src/probe</innerdir>
+    <innerfile refid="error__helper_8cpp">error_helper.cpp</innerfile>
+    <innerfile refid="error__helper_8hpp">error_helper.hpp</innerfile>
+    <innerfile refid="meta__converters_8cpp">meta_converters.cpp</innerfile>
+    <innerfile refid="meta__converters_8hpp">meta_converters.hpp</innerfile>
+    <innerfile refid="value_8cpp">value.cpp</innerfile>
+    <innerfile refid="value_8hpp">value.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/protocol/src/"/>
+  </compounddef>
+</doxygen>

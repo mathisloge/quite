@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1proto_1_1GetMetaObjectRpcHandler" kind="struct" language="C++" prot="public">
+    <compoundname>quite::proto::GetMetaObjectRpcHandler</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1proto_1_1GetMetaObjectRpcHandler_1a0a16a6aea33ca948b7e3f0e5ef36b691" prot="public" static="no" mutable="no">
+        <type><ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref>&lt; <ref refid="classquite_1_1meta_1_1MetaRegistry" kindref="compound">meta::MetaRegistry</ref> &gt;</type>
+        <definition>ServiceHandle&lt;meta::MetaRegistry&gt; quite::proto::GetMetaObjectRpcHandler::meta_registry</definition>
+        <argsstring></argsstring>
+        <name>meta_registry</name>
+        <qualifiedname>quite::proto::GetMetaObjectRpcHandler::meta_registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/probe/rpc_meta_find_type.hpp" line="15" column="19" bodyfile="libs/protocol/src/probe/rpc_meta_find_type.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquite_1_1proto_1_1GetMetaObjectRpcHandler_1a7fefac5818272a13a425857208ada24a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>exec::task&lt; void &gt;</type>
+        <definition>exec::task&lt; void &gt; quite::proto::GetMetaObjectRpcHandler::operator()</definition>
+        <argsstring>(FindTypeRPC &amp;rpc, const FindTypeRPC::Request &amp;request)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>quite::proto::GetMetaObjectRpcHandler::operator()</qualifiedname>
+        <param>
+          <type>FindTypeRPC &amp;</type>
+          <declname>rpc</declname>
+        </param>
+        <param>
+          <type>const FindTypeRPC::Request &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/probe/rpc_meta_find_type.hpp" line="16" column="16" bodyfile="libs/protocol/src/probe/rpc_meta_find_type.cpp" bodystart="14" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::ServiceHandle&lt; quite::meta::MetaRegistry &gt;</label>
+        <link refid="classquite_1_1ServiceHandle"/>
+      </node>
+      <node id="1">
+        <label>quite::proto::GetMetaObjectRpcHandler</label>
+        <link refid="structquite_1_1proto_1_1GetMetaObjectRpcHandler"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>meta_registry</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="libs/protocol/src/probe/rpc_meta_find_type.hpp" line="13" column="1" bodyfile="libs/protocol/src/probe/rpc_meta_find_type.hpp" bodystart="14" bodyend="17"/>
+    <listofallmembers>
+      <member refid="structquite_1_1proto_1_1GetMetaObjectRpcHandler_1a0a16a6aea33ca948b7e3f0e5ef36b691" prot="public" virt="non-virtual"><scope>quite::proto::GetMetaObjectRpcHandler</scope><name>meta_registry</name></member>
+      <member refid="structquite_1_1proto_1_1GetMetaObjectRpcHandler_1a7fefac5818272a13a425857208ada24a" prot="public" virt="non-virtual"><scope>quite::proto::GetMetaObjectRpcHandler</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

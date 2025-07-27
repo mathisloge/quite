@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_649c775d6fa8febbabfb9f60e7970e98" kind="dir">
+    <compoundname>libs/core/include/quite/value</compoundname>
+    <innerfile refid="generic__value__class_8hpp">generic_value_class.hpp</innerfile>
+    <innerfile refid="object__id_8hpp">object_id.hpp</innerfile>
+    <innerfile refid="object__query_8hpp">object_query.hpp</innerfile>
+    <innerfile refid="value__registry_8hpp">value_registry.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/value/"/>
+  </compounddef>
+</doxygen>

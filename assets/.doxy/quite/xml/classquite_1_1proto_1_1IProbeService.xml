@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1proto_1_1IProbeService" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>quite::proto::IProbeService</compoundname>
+    <derivedcompoundref refid="classquite_1_1proto_1_1ProbeServiceImpl" prot="public" virt="non-virtual">quite::proto::ProbeServiceImpl</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1proto_1_1IProbeService_1a00d58e6056651737c590e2c6b3c05060" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual quite::proto::IProbeService::~IProbeService</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IProbeService</name>
+        <qualifiedname>quite::proto::IProbeService::~IProbeService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/probe_service.hpp" line="12" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1IProbeService_1a7f8e44e4e9759f530985836aeb78e633" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; <ref refid="classquite_1_1Image" kindref="compound">Image</ref> &gt;</type>
+        <definition>virtual AsyncResult&lt; Image &gt; quite::proto::IProbeService::take_snapshot</definition>
+        <argsstring>(ObjectId id)=0</argsstring>
+        <name>take_snapshot</name>
+        <qualifiedname>quite::proto::IProbeService::take_snapshot</qualifiedname>
+        <reimplementedby refid="classquite_1_1proto_1_1ProbeServiceImpl_1aba0c59004af4c227d7a11539f931bdb1">take_snapshot</reimplementedby>
+        <param>
+          <type>ObjectId</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/probe_service.hpp" line="13" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1IProbeService_1a30f33cbbe3a2eeb1d26fff47c1e5ac0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; <ref refid="structquite_1_1ObjectReference" kindref="compound">ObjectReference</ref> &gt;</type>
+        <definition>virtual AsyncResult&lt; ObjectReference &gt; quite::proto::IProbeService::find_object</definition>
+        <argsstring>(ObjectQuery serach_query)=0</argsstring>
+        <name>find_object</name>
+        <qualifiedname>quite::proto::IProbeService::find_object</qualifiedname>
+        <reimplementedby refid="classquite_1_1proto_1_1ProbeServiceImpl_1a96ae40966236162318b3872d4fb3d717">find_object</reimplementedby>
+        <param>
+          <type><ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref></type>
+          <declname>serach_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/probe_service.hpp" line="14" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1IProbeService_1a8fa3da61984699d8cf16924fc29145a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; std::unordered_map&lt; std::string, entt::meta_any &gt; &gt;</type>
+        <definition>virtual AsyncResult&lt; std::unordered_map&lt; std::string, entt::meta_any &gt; &gt; quite::proto::IProbeService::get_object_properties</definition>
+        <argsstring>(ObjectId object_id, std::vector&lt; std::string &gt; properties)=0</argsstring>
+        <name>get_object_properties</name>
+        <qualifiedname>quite::proto::IProbeService::get_object_properties</qualifiedname>
+        <reimplementedby refid="classquite_1_1proto_1_1ProbeServiceImpl_1a3ff5b998023e6554136735dfd49ddd49">get_object_properties</reimplementedby>
+        <param>
+          <type>ObjectId</type>
+          <declname>object_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/probe_service.hpp" line="15" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1IProbeService_1a9ecfc2c0d9bc0b77ca25a5f45d58d956" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>virtual AsyncResult&lt; void &gt; quite::proto::IProbeService::set_object_property</definition>
+        <argsstring>(ObjectId object_id, std::string property, entt::meta_any value)=0</argsstring>
+        <name>set_object_property</name>
+        <qualifiedname>quite::proto::IProbeService::set_object_property</qualifiedname>
+        <reimplementedby refid="classquite_1_1proto_1_1ProbeServiceImpl_1af5e4d226f5f6041bb93621ba7026ee60">set_object_property</reimplementedby>
+        <param>
+          <type>ObjectId</type>
+          <declname>object_id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>property</declname>
+        </param>
+        <param>
+          <type>entt::meta_any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/probe_service.hpp" line="17" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1IProbeService_1a3d45959f553d326708041039c24818f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; std::vector&lt; <ref refid="structquite_1_1ObjectReference" kindref="compound">ObjectReference</ref> &gt; &gt;</type>
+        <definition>virtual AsyncResult&lt; std::vector&lt; ObjectReference &gt; &gt; quite::proto::IProbeService::query_top_level_views</definition>
+        <argsstring>()=0</argsstring>
+        <name>query_top_level_views</name>
+        <qualifiedname>quite::proto::IProbeService::query_top_level_views</qualifiedname>
+        <reimplementedby refid="classquite_1_1proto_1_1ProbeServiceImpl_1ab4d0615b7e62732e65f68e0f34763585">query_top_level_views</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/probe_service.hpp" line="18" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1IProbeService_1ab63391d32d4df97607a09487873d2b91" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; entt::meta_any &gt;</type>
+        <definition>virtual AsyncResult&lt; entt::meta_any &gt; quite::proto::IProbeService::invoke_method</definition>
+        <argsstring>(ObjectId id, std::string method_name, std::vector&lt; entt::meta_any &gt; parameters)=0</argsstring>
+        <name>invoke_method</name>
+        <qualifiedname>quite::proto::IProbeService::invoke_method</qualifiedname>
+        <reimplementedby refid="classquite_1_1proto_1_1ProbeServiceImpl_1a98aa3623735e9ca67f0c68f06c76e13b">invoke_method</reimplementedby>
+        <param>
+          <type>ObjectId</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>method_name</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; entt::meta_any &gt;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/probe_service.hpp" line="19" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>quite::proto::IProbeService</label>
+        <link refid="classquite_1_1proto_1_1IProbeService"/>
+      </node>
+      <node id="2">
+        <label>quite::proto::ProbeServiceImpl</label>
+        <link refid="classquite_1_1proto_1_1ProbeServiceImpl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="libs/protocol/include/quite/proto/client/probe_service.hpp" line="9" column="1" bodyfile="libs/protocol/include/quite/proto/client/probe_service.hpp" bodystart="10" bodyend="22"/>
+    <listofallmembers>
+      <member refid="classquite_1_1proto_1_1IProbeService_1a30f33cbbe3a2eeb1d26fff47c1e5ac0e" prot="public" virt="pure-virtual"><scope>quite::proto::IProbeService</scope><name>find_object</name></member>
+      <member refid="classquite_1_1proto_1_1IProbeService_1a8fa3da61984699d8cf16924fc29145a6" prot="public" virt="pure-virtual"><scope>quite::proto::IProbeService</scope><name>get_object_properties</name></member>
+      <member refid="classquite_1_1proto_1_1IProbeService_1ab63391d32d4df97607a09487873d2b91" prot="public" virt="pure-virtual"><scope>quite::proto::IProbeService</scope><name>invoke_method</name></member>
+      <member refid="classquite_1_1proto_1_1IProbeService_1a3d45959f553d326708041039c24818f8" prot="public" virt="pure-virtual"><scope>quite::proto::IProbeService</scope><name>query_top_level_views</name></member>
+      <member refid="classquite_1_1proto_1_1IProbeService_1a9ecfc2c0d9bc0b77ca25a5f45d58d956" prot="public" virt="pure-virtual"><scope>quite::proto::IProbeService</scope><name>set_object_property</name></member>
+      <member refid="classquite_1_1proto_1_1IProbeService_1a7f8e44e4e9759f530985836aeb78e633" prot="public" virt="pure-virtual"><scope>quite::proto::IProbeService</scope><name>take_snapshot</name></member>
+      <member refid="classquite_1_1proto_1_1IProbeService_1a00d58e6056651737c590e2c6b3c05060" prot="public" virt="virtual"><scope>quite::proto::IProbeService</scope><name>~IProbeService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

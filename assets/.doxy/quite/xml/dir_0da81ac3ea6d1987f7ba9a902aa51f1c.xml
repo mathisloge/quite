@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_0da81ac3ea6d1987f7ba9a902aa51f1c" kind="dir">
+    <compoundname>libs/manager/tests</compoundname>
+    <innerfile refid="runnable__exe_8cpp">runnable_exe.cpp</innerfile>
+    <innerfile refid="runnable__path_8in_8hpp">runnable_path.in.hpp</innerfile>
+    <innerfile refid="test__process__manager_8cpp">test_process_manager.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/manager/tests/"/>
+  </compounddef>
+</doxygen>

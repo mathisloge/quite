@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1probe_1_1QtProbeHandler" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>quite::probe::QtProbeHandler</compoundname>
+    <basecompoundref refid="classquite_1_1proto_1_1IProbeHandler" prot="public" virt="non-virtual">quite::proto::IProbeHandler</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1probe_1_1QtProbeHandler_1a1c2ccf020de31a7d81ca73c5007fe068" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classquite_1_1probe_1_1ObjectTracker" kindref="compound">ObjectTracker</ref> &amp;</type>
+        <definition>const ObjectTracker&amp; quite::probe::QtProbeHandler::object_tracker_</definition>
+        <argsstring></argsstring>
+        <name>object_tracker_</name>
+        <qualifiedname>quite::probe::QtProbeHandler::object_tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="28" column="25" bodyfile="libs/probeqt/qt_probe_handler.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1QtProbeHandler_1a2bc5555b75b7074aac1c64147d2a0e9d" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1probe_1_1MethodInvoker" kindref="compound">MethodInvoker</ref></type>
+        <definition>MethodInvoker quite::probe::QtProbeHandler::method_invoker_</definition>
+        <argsstring></argsstring>
+        <name>method_invoker_</name>
+        <qualifiedname>quite::probe::QtProbeHandler::method_invoker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="29" column="19" bodyfile="libs/probeqt/qt_probe_handler.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1probe_1_1QtProbeHandler_1a8825ad848f95ce726a60e7a3da606eb0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::probe::QtProbeHandler::QtProbeHandler</definition>
+        <argsstring>(const ObjectTracker &amp;object_tracker)</argsstring>
+        <name>QtProbeHandler</name>
+        <qualifiedname>quite::probe::QtProbeHandler::QtProbeHandler</qualifiedname>
+        <param>
+          <type>const <ref refid="classquite_1_1probe_1_1ObjectTracker" kindref="compound">ObjectTracker</ref> &amp;</type>
+          <declname>object_tracker</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="15" column="14" bodyfile="libs/probeqt/qt_probe_handler.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1QtProbeHandler_1acf9802eafcd7db604d0b15b67e377f4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; entt::meta_any &gt;</type>
+        <definition>AsyncResult&lt; entt::meta_any &gt; quite::probe::QtProbeHandler::object_instance</definition>
+        <argsstring>(ObjectId object_id) override</argsstring>
+        <name>object_instance</name>
+        <qualifiedname>quite::probe::QtProbeHandler::object_instance</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1IProbeHandler_1a3a32f7b999daad20229af7f41215b42c">object_instance</reimplements>
+        <param>
+          <type>ObjectId</type>
+          <declname>object_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="17" column="17" bodyfile="libs/probeqt/qt_probe_handler.cpp" bodystart="46" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1QtProbeHandler_1a19f065e0acdf8c01f808fd5e550951be" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; <ref refid="structquite_1_1proto_1_1IProbeHandler_1_1ImageData" kindref="compound">ImageData</ref> &gt;</type>
+        <definition>AsyncResult&lt; QtProbeHandler::ImageData &gt; quite::probe::QtProbeHandler::take_snapshot</definition>
+        <argsstring>(ObjectId object_id) override</argsstring>
+        <name>take_snapshot</name>
+        <qualifiedname>quite::probe::QtProbeHandler::take_snapshot</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1IProbeHandler_1ab5615b754a8fc41a1ed6e261590a196a">take_snapshot</reimplements>
+        <param>
+          <type>ObjectId</type>
+          <declname>object_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="18" column="17" bodyfile="libs/probeqt/qt_probe_handler.cpp" bodystart="56" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1QtProbeHandler_1a1982c7dcd9d0909f41b2d581d3933bb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; <ref refid="structquite_1_1ObjectReference" kindref="compound">ObjectReference</ref> &gt;</type>
+        <definition>AsyncResult&lt; ObjectReference &gt; quite::probe::QtProbeHandler::find_object</definition>
+        <argsstring>(ObjectQuery query) override</argsstring>
+        <name>find_object</name>
+        <qualifiedname>quite::probe::QtProbeHandler::find_object</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1IProbeHandler_1a7447a996a71a03dc2f1c7b1a3914ec89">find_object</reimplements>
+        <param>
+          <type><ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref></type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="19" column="17" bodyfile="libs/probeqt/qt_probe_handler.cpp" bodystart="80" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1QtProbeHandler_1aa36d59ab2cd3d5df50ef7b273cbfe9a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; PropertyMap &gt;</type>
+        <definition>AsyncResult&lt; QtProbeHandler::PropertyMap &gt; quite::probe::QtProbeHandler::fetch_properties</definition>
+        <argsstring>(ObjectId object_id, std::vector&lt; std::string &gt; properties) override</argsstring>
+        <name>fetch_properties</name>
+        <qualifiedname>quite::probe::QtProbeHandler::fetch_properties</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1IProbeHandler_1abfa129906823b3ee621850d62367520e">fetch_properties</reimplements>
+        <param>
+          <type>ObjectId</type>
+          <declname>object_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="20" column="17" bodyfile="libs/probeqt/qt_probe_handler.cpp" bodystart="97" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1QtProbeHandler_1a38f2b72d467dfeb67d9a1885b59f4880" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>AsyncResult&lt; void &gt; quite::probe::QtProbeHandler::set_property</definition>
+        <argsstring>(ObjectId object_id, std::string property, entt::meta_any value) override</argsstring>
+        <name>set_property</name>
+        <qualifiedname>quite::probe::QtProbeHandler::set_property</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1IProbeHandler_1ac1605b12117f0fb1a740c745a8db2880">set_property</reimplements>
+        <param>
+          <type>ObjectId</type>
+          <declname>object_id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>property</declname>
+        </param>
+        <param>
+          <type>entt::meta_any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="21" column="17" bodyfile="libs/probeqt/qt_probe_handler.cpp" bodystart="119" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1QtProbeHandler_1a553566b0c2ddb9ab2d8adc6840383373" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; std::vector&lt; <ref refid="structquite_1_1ObjectReference" kindref="compound">ObjectReference</ref> &gt; &gt;</type>
+        <definition>AsyncResult&lt; std::vector&lt; ObjectReference &gt; &gt; quite::probe::QtProbeHandler::fetch_windows</definition>
+        <argsstring>() override</argsstring>
+        <name>fetch_windows</name>
+        <qualifiedname>quite::probe::QtProbeHandler::fetch_windows</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1IProbeHandler_1ad280df9feb30a2a60d5db870a05f702b">fetch_windows</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="22" column="17" bodyfile="libs/probeqt/qt_probe_handler.cpp" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1QtProbeHandler_1a66fe5ece5329d32a1212b3975764a306" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; entt::meta_any &gt;</type>
+        <definition>AsyncResult&lt; entt::meta_any &gt; quite::probe::QtProbeHandler::invoke_method</definition>
+        <argsstring>(entt::meta_any object, std::string qualified_method_signature, std::vector&lt; entt::meta_any &gt; params) override</argsstring>
+        <name>invoke_method</name>
+        <qualifiedname>quite::probe::QtProbeHandler::invoke_method</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1IProbeHandler_1ac79acb8f1aa971eec0f46fcd77305151">invoke_method</reimplements>
+        <param>
+          <type>entt::meta_any</type>
+          <declname>object</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>qualified_method_signature</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; entt::meta_any &gt;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qt_probe_handler.hpp" line="23" column="17" bodyfile="libs/probeqt/qt_probe_handler.cpp" bodystart="147" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>quite::probe::QtProbeHandler</label>
+        <link refid="classquite_1_1probe_1_1QtProbeHandler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>quite::proto::IProbeHandler</label>
+        <link refid="classquite_1_1proto_1_1IProbeHandler"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>quite::probe::QtProbeHandler</label>
+        <link refid="classquite_1_1probe_1_1QtProbeHandler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>quite::proto::IProbeHandler</label>
+        <link refid="classquite_1_1proto_1_1IProbeHandler"/>
+      </node>
+    </collaborationgraph>
+    <location file="libs/probeqt/qt_probe_handler.hpp" line="12" column="1" bodyfile="libs/probeqt/qt_probe_handler.hpp" bodystart="13" bodyend="30"/>
+    <listofallmembers>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1aa36d59ab2cd3d5df50ef7b273cbfe9a5" prot="public" virt="virtual"><scope>quite::probe::QtProbeHandler</scope><name>fetch_properties</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1a553566b0c2ddb9ab2d8adc6840383373" prot="public" virt="virtual"><scope>quite::probe::QtProbeHandler</scope><name>fetch_windows</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1a1982c7dcd9d0909f41b2d581d3933bb0" prot="public" virt="virtual"><scope>quite::probe::QtProbeHandler</scope><name>find_object</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1a66fe5ece5329d32a1212b3975764a306" prot="public" virt="virtual"><scope>quite::probe::QtProbeHandler</scope><name>invoke_method</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1a2bc5555b75b7074aac1c64147d2a0e9d" prot="private" virt="non-virtual"><scope>quite::probe::QtProbeHandler</scope><name>method_invoker_</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1acf9802eafcd7db604d0b15b67e377f4c" prot="public" virt="virtual"><scope>quite::probe::QtProbeHandler</scope><name>object_instance</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1a1c2ccf020de31a7d81ca73c5007fe068" prot="private" virt="non-virtual"><scope>quite::probe::QtProbeHandler</scope><name>object_tracker_</name></member>
+      <member refid="classquite_1_1proto_1_1IProbeHandler_1ab8bd89dd09f8247b9b2798a5aa9a04c3" prot="public" virt="non-virtual"><scope>quite::probe::QtProbeHandler</scope><name>PropertyMap</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1a8825ad848f95ce726a60e7a3da606eb0" prot="public" virt="non-virtual"><scope>quite::probe::QtProbeHandler</scope><name>QtProbeHandler</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1a38f2b72d467dfeb67d9a1885b59f4880" prot="public" virt="virtual"><scope>quite::probe::QtProbeHandler</scope><name>set_property</name></member>
+      <member refid="classquite_1_1probe_1_1QtProbeHandler_1a19f065e0acdf8c01f808fd5e550951be" prot="public" virt="virtual"><scope>quite::probe::QtProbeHandler</scope><name>take_snapshot</name></member>
+      <member refid="classquite_1_1proto_1_1IProbeHandler_1a97a79ef936bfc9ae10c0a1e74ff26e0c" prot="public" virt="virtual"><scope>quite::probe::QtProbeHandler</scope><name>~IProbeHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

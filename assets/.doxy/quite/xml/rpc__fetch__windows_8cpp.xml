@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="rpc__fetch__windows_8cpp" kind="file" language="C++">
+    <compoundname>rpc_fetch_windows.cpp</compoundname>
+    <includes refid="rpc__fetch__windows_8hpp" local="yes">rpc_fetch_windows.hpp</includes>
+    <includes local="no">agrpc/register_sender_rpc_handler.hpp</includes>
+    <includes refid="error__helper_8hpp" local="yes">error_helper.hpp</includes>
+    <includes refid="probe__handler_8hpp" local="yes">quite/proto/probe/probe_handler.hpp</includes>
+    <incdepgraph>
+      <node id="14">
+        <label>quite/async_result.hpp</label>
+        <link refid="async__result_8hpp_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>error.hpp</label>
+        <link refid="error_8hpp_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>quite/meta/meta_type_id.hpp</label>
+        <link refid="meta__type__id_8hpp_source"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>result.hpp</label>
+        <link refid="result_8hpp_source"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>quite/service_handle.hpp</label>
+        <link refid="service__handle_8hpp_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>quite/value/object_id.hpp</label>
+        <link refid="object__id_8hpp_source"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>quite/proto/probe/probe_handler.hpp</label>
+        <link refid="probe__handler_8hpp_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>error_helper.hpp</label>
+        <link refid="error__helper_8hpp_source"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>probe_handler_handle.hpp</label>
+        <link refid="probe__handler__handle_8hpp_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>libs/protocol/src/probe/rpc_fetch_windows.cpp</label>
+        <link refid="rpc__fetch__windows_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rpc_fetch_windows.hpp</label>
+        <link refid="rpc__fetch__windows_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>agrpc/detail/register_sender_rpc_handler.hpp</label>
+      </node>
+      <node id="4">
+        <label>agrpc/grpc_context.hpp</label>
+      </node>
+      <node id="25">
+        <label>agrpc/register_sender_rpc_handler.hpp</label>
+      </node>
+      <node id="5">
+        <label>agrpc/server_rpc.hpp</label>
+      </node>
+      <node id="22">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>entt/container/dense_map.hpp</label>
+      </node>
+      <node id="13">
+        <label>entt/meta/meta.hpp</label>
+      </node>
+      <node id="6">
+        <label>exec/task.hpp</label>
+      </node>
+      <node id="16">
+        <label>expected</label>
+      </node>
+      <node id="19">
+        <label>fmt/core.h</label>
+      </node>
+      <node id="27">
+        <label>grpcpp/support/status.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>quite/proto/probe.grpc.pb.h</label>
+      </node>
+      <node id="20">
+        <label>quite/quite_core_export.hpp</label>
+      </node>
+      <node id="24">
+        <label>quite/quite_protocol_export.hpp</label>
+      </node>
+      <node id="18">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacequite">quite</innernamespace>
+    <innernamespace refid="namespacequite_1_1proto">quite::proto</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;rpc_fetch_windows.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;agrpc/register_sender_rpc_handler.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;error_helper.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;quite/proto/probe/probe_handler.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">quite::proto</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">exec::task&lt;void&gt;<sp/>GetViewsRpcHandler::operator()(GetViewsRPC<sp/>&amp;rpc,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GetViewsRPC::Request<sp/>&amp;request)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="9"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>windows_result<sp/>=<sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>probe_handler-&gt;fetch_windows();</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(not<sp/>windows_result.has_value())</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>rpc.finish_with_error(result2grpc_status(windows_result.error()));</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>GetViewsRPC::Response<sp/>response;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;&amp;obj<sp/>:<sp/>windows_result.value())</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;&amp;proto_obj<sp/>=<sp/>response.add_object();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>proto_obj-&gt;set_type_id(obj.type_id);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>proto_obj-&gt;set_object_id(obj.type_id);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">co_await</highlight><highlight class="normal"><sp/>rpc.finish(response,<sp/>grpc::Status::OK);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">agrpc::detail::RPCHandlerSender&lt;GetViewsRPC,<sp/>GetViewsRpcHandler&gt;<sp/>make_rpc_fetch_windows(</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>agrpc::GrpcContext<sp/>&amp;grpc_context,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>quite::proto::ProbeService::AsyncService<sp/>&amp;service,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ProbeHandlerHandle<sp/>probe_handler)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>agrpc::register_sender_rpc_handler&lt;GetViewsRPC&gt;(</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>grpc_context,<sp/>service,<sp/>GetViewsRpcHandler{std::move(probe_handler)});</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>quite::proto</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="libs/protocol/src/probe/rpc_fetch_windows.cpp"/>
+  </compounddef>
+</doxygen>

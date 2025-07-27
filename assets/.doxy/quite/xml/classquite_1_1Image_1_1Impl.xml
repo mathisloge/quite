@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1Image_1_1Impl" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>quite::Image::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classquite_1_1Image_1_1Impl_1abe848d38ec4232951c867d7aab0d9d9f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::byte &gt;</type>
+        <definition>std::vector&lt;std::byte&gt; quite::Image::Impl::image_data_</definition>
+        <argsstring></argsstring>
+        <name>image_data_</name>
+        <qualifiedname>quite::Image::Impl::image_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/image.cpp" line="24" column="17" bodyfile="libs/core/src/image.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1Image_1_1Impl_1aa835b0ba07d4b60d824fd765fa69e628" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t quite::Image::Impl::width_</definition>
+        <argsstring></argsstring>
+        <name>width_</name>
+        <qualifiedname>quite::Image::Impl::width_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/image.cpp" line="25" column="19" bodyfile="libs/core/src/image.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1Image_1_1Impl_1ab0bd4b981210cc43c7919d248bb1e120" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t quite::Image::Impl::height_</definition>
+        <argsstring></argsstring>
+        <name>height_</name>
+        <qualifiedname>quite::Image::Impl::height_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/image.cpp" line="26" column="19" bodyfile="libs/core/src/image.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1Image_1_1Impl_1ae0da2bc4d1d5923435393f2d4ec9a506" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int quite::Image::Impl::channels_</definition>
+        <argsstring></argsstring>
+        <name>channels_</name>
+        <qualifiedname>quite::Image::Impl::channels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/image.cpp" line="27" column="9" bodyfile="libs/core/src/image.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1Image_1_1Impl_1a82d8dd9defa34232bc367b6523f5aa08" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>quite::Image::Impl::Impl</definition>
+        <argsstring>(std::vector&lt; std::byte &gt; image_data, std::uint32_t width, std::uint32_t height, int channels)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>quite::Image::Impl::Impl</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::byte &gt;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>height</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>channels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/image.cpp" line="14" column="14" bodyfile="libs/core/src/image.cpp" bodystart="14" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1Image_1_1Impl_1a750464b8c4f95cee79c4baf2336d8c21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::Image::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>quite::Image::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/src/image.cpp" line="21" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/src/image.cpp" line="11" column="1" bodyfile="libs/core/src/image.cpp" bodystart="12" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classquite_1_1Image_1_1Impl_1ae0da2bc4d1d5923435393f2d4ec9a506" prot="public" virt="non-virtual"><scope>quite::Image::Impl</scope><name>channels_</name></member>
+      <member refid="classquite_1_1Image_1_1Impl_1ab0bd4b981210cc43c7919d248bb1e120" prot="public" virt="non-virtual"><scope>quite::Image::Impl</scope><name>height_</name></member>
+      <member refid="classquite_1_1Image_1_1Impl_1abe848d38ec4232951c867d7aab0d9d9f" prot="public" virt="non-virtual"><scope>quite::Image::Impl</scope><name>image_data_</name></member>
+      <member refid="classquite_1_1Image_1_1Impl_1a82d8dd9defa34232bc367b6523f5aa08" prot="public" virt="non-virtual"><scope>quite::Image::Impl</scope><name>Impl</name></member>
+      <member refid="classquite_1_1Image_1_1Impl_1aa835b0ba07d4b60d824fd765fa69e628" prot="public" virt="non-virtual"><scope>quite::Image::Impl</scope><name>width_</name></member>
+      <member refid="classquite_1_1Image_1_1Impl_1a750464b8c4f95cee79c4baf2336d8c21" prot="public" virt="non-virtual"><scope>quite::Image::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

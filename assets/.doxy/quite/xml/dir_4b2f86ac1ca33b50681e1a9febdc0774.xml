@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_4b2f86ac1ca33b50681e1a9febdc0774" kind="dir">
+    <compoundname>libs/client/include/quite</compoundname>
+    <innerdir refid="dir_7d6276c65eb2c4014d2f0c2cacdec3f0">libs/client/include/quite/client</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/include/quite/"/>
+  </compounddef>
+</doxygen>

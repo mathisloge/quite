@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1PixelCompareOptions" kind="struct" language="C++" prot="public">
+    <compoundname>quite::PixelCompareOptions</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1PixelCompareOptions_1a0290cc37e3761f8a6fff16becb160e6e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float quite::PixelCompareOptions::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>quite::PixelCompareOptions::threshold</qualifiedname>
+        <initializer>{0.1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image_utils.hpp" line="11" column="11" bodyfile="libs/core/include/quite/image_utils.hpp" bodystart="11" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1PixelCompareOptions_1ab5814752e282a3f2d6212d85e6034772" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool quite::PixelCompareOptions::skip_anti_aliasing</definition>
+        <argsstring></argsstring>
+        <name>skip_anti_aliasing</name>
+        <qualifiedname>quite::PixelCompareOptions::skip_anti_aliasing</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image_utils.hpp" line="12" column="10" bodyfile="libs/core/include/quite/image_utils.hpp" bodystart="12" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1PixelCompareOptions_1acc2750dd8daa8ad78c55b9f4661251fa" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float quite::PixelCompareOptions::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>quite::PixelCompareOptions::alpha</qualifiedname>
+        <initializer>{0.1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image_utils.hpp" line="13" column="11" bodyfile="libs/core/include/quite/image_utils.hpp" bodystart="13" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1PixelCompareOptions_1a142c054447161920fbf80bb1aef209a3" prot="public" static="no" mutable="no">
+        <type>std::array&lt; uint8_t, 3 &gt;</type>
+        <definition>std::array&lt;uint8_t, 3&gt; quite::PixelCompareOptions::anti_aliased_color</definition>
+        <argsstring></argsstring>
+        <name>anti_aliased_color</name>
+        <qualifiedname>quite::PixelCompareOptions::anti_aliased_color</qualifiedname>
+        <initializer>{255, 255, 0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image_utils.hpp" line="14" column="16" bodyfile="libs/core/include/quite/image_utils.hpp" bodystart="14" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1PixelCompareOptions_1aab033380e44b1df07b2db2f5bd0146c5" prot="public" static="no" mutable="no">
+        <type>std::array&lt; uint8_t, 3 &gt;</type>
+        <definition>std::array&lt;uint8_t, 3&gt; quite::PixelCompareOptions::diff_color</definition>
+        <argsstring></argsstring>
+        <name>diff_color</name>
+        <qualifiedname>quite::PixelCompareOptions::diff_color</qualifiedname>
+        <initializer>{255, 0, 0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image_utils.hpp" line="15" column="16" bodyfile="libs/core/include/quite/image_utils.hpp" bodystart="15" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1PixelCompareOptions_1a1b9466cf6400317a5cf5251d046cc2be" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::array&lt; uint8_t, 3 &gt; &gt;</type>
+        <definition>std::optional&lt;std::array&lt;uint8_t, 3&gt; &gt; quite::PixelCompareOptions::diff_color_alt</definition>
+        <argsstring></argsstring>
+        <name>diff_color_alt</name>
+        <qualifiedname>quite::PixelCompareOptions::diff_color_alt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image_utils.hpp" line="17" column="9" bodyfile="libs/core/include/quite/image_utils.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1PixelCompareOptions_1a9d5ac6bc7d3c68207f7a705122a8b48b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool quite::PixelCompareOptions::diff_mask</definition>
+        <argsstring></argsstring>
+        <name>diff_mask</name>
+        <qualifiedname>quite::PixelCompareOptions::diff_mask</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image_utils.hpp" line="19" column="10" bodyfile="libs/core/include/quite/image_utils.hpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/image_utils.hpp" line="9" column="1" bodyfile="libs/core/include/quite/image_utils.hpp" bodystart="10" bodyend="20"/>
+    <listofallmembers>
+      <member refid="structquite_1_1PixelCompareOptions_1acc2750dd8daa8ad78c55b9f4661251fa" prot="public" virt="non-virtual"><scope>quite::PixelCompareOptions</scope><name>alpha</name></member>
+      <member refid="structquite_1_1PixelCompareOptions_1a142c054447161920fbf80bb1aef209a3" prot="public" virt="non-virtual"><scope>quite::PixelCompareOptions</scope><name>anti_aliased_color</name></member>
+      <member refid="structquite_1_1PixelCompareOptions_1aab033380e44b1df07b2db2f5bd0146c5" prot="public" virt="non-virtual"><scope>quite::PixelCompareOptions</scope><name>diff_color</name></member>
+      <member refid="structquite_1_1PixelCompareOptions_1a1b9466cf6400317a5cf5251d046cc2be" prot="public" virt="non-virtual"><scope>quite::PixelCompareOptions</scope><name>diff_color_alt</name></member>
+      <member refid="structquite_1_1PixelCompareOptions_1a9d5ac6bc7d3c68207f7a705122a8b48b" prot="public" virt="non-virtual"><scope>quite::PixelCompareOptions</scope><name>diff_mask</name></member>
+      <member refid="structquite_1_1PixelCompareOptions_1ab5814752e282a3f2d6212d85e6034772" prot="public" virt="non-virtual"><scope>quite::PixelCompareOptions</scope><name>skip_anti_aliasing</name></member>
+      <member refid="structquite_1_1PixelCompareOptions_1a0290cc37e3761f8a6fff16becb160e6e" prot="public" virt="non-virtual"><scope>quite::PixelCompareOptions</scope><name>threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

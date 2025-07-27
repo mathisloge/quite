@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1meta_1_1EnumType" kind="struct" language="C++" prot="public">
+    <compoundname>quite::meta::EnumType</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structquite_1_1meta_1_1EnumType_1a08a236e11318d9f97d76b86f499f657d" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using quite::meta::EnumType::ValueName =  std::string</definition>
+        <argsstring></argsstring>
+        <name>ValueName</name>
+        <qualifiedname>quite::meta::EnumType::ValueName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_types.hpp" line="54" column="5" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1meta_1_1EnumType_1a2d89a6ad6bbd8d37536f87f6a0a609d4" prot="public" static="no" mutable="no">
+        <type>TypeId</type>
+        <definition>TypeId quite::meta::EnumType::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>quite::meta::EnumType::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_types.hpp" line="56" column="12" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1meta_1_1EnumType_1a155b345615fecb55006c3cbbdc84e63f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string quite::meta::EnumType::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>quite::meta::EnumType::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_types.hpp" line="57" column="17" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1meta_1_1EnumType_1a5bf215858568a4640d4cb5bbf2f0314e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; ValueName, std::int64_t &gt;</type>
+        <definition>std::unordered_map&lt;ValueName, std::int64_t&gt; quite::meta::EnumType::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>quite::meta::EnumType::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_types.hpp" line="58" column="24" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/meta/meta_types.hpp" line="52" column="1" bodyfile="libs/core/include/quite/meta/meta_types.hpp" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structquite_1_1meta_1_1EnumType_1a2d89a6ad6bbd8d37536f87f6a0a609d4" prot="public" virt="non-virtual"><scope>quite::meta::EnumType</scope><name>id</name></member>
+      <member refid="structquite_1_1meta_1_1EnumType_1a155b345615fecb55006c3cbbdc84e63f" prot="public" virt="non-virtual"><scope>quite::meta::EnumType</scope><name>name</name></member>
+      <member refid="structquite_1_1meta_1_1EnumType_1a08a236e11318d9f97d76b86f499f657d" prot="public" virt="non-virtual"><scope>quite::meta::EnumType</scope><name>ValueName</name></member>
+      <member refid="structquite_1_1meta_1_1EnumType_1a5bf215858568a4640d4cb5bbf2f0314e" prot="public" virt="non-virtual"><scope>quite::meta::EnumType</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

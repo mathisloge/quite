@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_22ab9f3959c1273824a5221c73ee839d" kind="dir">
+    <compoundname>libs/probeqt</compoundname>
+    <innerdir refid="dir_91fe3d89382dfb9ec1070f72fd853fa0">libs/probeqt/injector</innerdir>
+    <innerdir refid="dir_c1613d43beada98aaa8aaa25db1fb827">libs/probeqt/tests</innerdir>
+    <innerfile refid="meta__adapter_8cpp">meta_adapter.cpp</innerfile>
+    <innerfile refid="meta__adapter_8hpp">meta_adapter.hpp</innerfile>
+    <innerfile refid="meta__qt__containers_8hpp">meta_qt_containers.hpp</innerfile>
+    <innerfile refid="method__invoker_8cpp">method_invoker.cpp</innerfile>
+    <innerfile refid="method__invoker_8hpp">method_invoker.hpp</innerfile>
+    <innerfile refid="object__tracker_8cpp">object_tracker.cpp</innerfile>
+    <innerfile refid="object__tracker_8hpp">object_tracker.hpp</innerfile>
+    <innerfile refid="probe__context_8cpp">probe_context.cpp</innerfile>
+    <innerfile refid="probe__context_8hpp">probe_context.hpp</innerfile>
+    <innerfile refid="property__collector_8cpp">property_collector.cpp</innerfile>
+    <innerfile refid="property__collector_8hpp">property_collector.hpp</innerfile>
+    <innerfile refid="qt__meta__registry_8cpp">qt_meta_registry.cpp</innerfile>
+    <innerfile refid="qt__meta__registry_8hpp">qt_meta_registry.hpp</innerfile>
+    <innerfile refid="qt__meta__type__accessor_8cpp">qt_meta_type_accessor.cpp</innerfile>
+    <innerfile refid="qt__meta__type__accessor_8hpp">qt_meta_type_accessor.hpp</innerfile>
+    <innerfile refid="qt__probe__handler_8cpp">qt_probe_handler.cpp</innerfile>
+    <innerfile refid="qt__probe__handler_8hpp">qt_probe_handler.hpp</innerfile>
+    <innerfile refid="qtstdexec_8h">qtstdexec.h</innerfile>
+    <innerfile refid="to__object__id_8hpp">to_object_id.hpp</innerfile>
+    <innerfile refid="value__converters_8cpp">value_converters.cpp</innerfile>
+    <innerfile refid="value__converters_8hpp">value_converters.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/probeqt/"/>
+  </compounddef>
+</doxygen>

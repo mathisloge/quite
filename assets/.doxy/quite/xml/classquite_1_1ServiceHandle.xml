@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1ServiceHandle" kind="class" language="C++" prot="public">
+    <compoundname>quite::ServiceHandle</compoundname>
+    <includes refid="service__handle_8hpp" local="no">service_handle.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classquite_1_1ServiceHandle_1adeecd9b83d87463380a9d7c5c1f27ea1" prot="public" static="no">
+        <type>T</type>
+        <definition>using quite::ServiceHandle&lt; T &gt;::Type =  T</definition>
+        <argsstring></argsstring>
+        <name>Type</name>
+        <qualifiedname>quite::ServiceHandle::Type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/service_handle.hpp" line="19" column="5" bodyfile="libs/core/include/quite/service_handle.hpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1ServiceHandle_1ae8c9aa4227eff599b83e0e1de959df18" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; T &gt;</type>
+        <definition>std::shared_ptr&lt;T&gt; quite::ServiceHandle&lt; T &gt;::service_</definition>
+        <argsstring></argsstring>
+        <name>service_</name>
+        <qualifiedname>quite::ServiceHandle::service_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/service_handle.hpp" line="72" column="21" bodyfile="libs/core/include/quite/service_handle.hpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1ServiceHandle_1a619fbf959e1933b5c8a75a09f8216e18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::ServiceHandle&lt; T &gt;::ServiceHandle</definition>
+        <argsstring>()=default</argsstring>
+        <name>ServiceHandle</name>
+        <qualifiedname>quite::ServiceHandle::ServiceHandle</qualifiedname>
+        <briefdescription>
+<para>Constructs an empty <ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/service_handle.hpp" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1ServiceHandle_1a93fe541402fc4c2b0507fbb112e6ecd7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>quite::ServiceHandle&lt; T &gt;::ServiceHandle</definition>
+        <argsstring>(std::shared_ptr&lt; T &gt; service)</argsstring>
+        <name>ServiceHandle</name>
+        <qualifiedname>quite::ServiceHandle::ServiceHandle</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; T &gt;</type>
+          <declname>service</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref> from a shared_ptr to a service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The shared_ptr managing the service instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/service_handle.hpp" line="30" column="14" bodyfile="libs/core/include/quite/service_handle.hpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1ServiceHandle_1a3e2121813d160d7a8f3c7647a29b5f06" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>quite::ServiceHandle&lt; T &gt;::ServiceHandle</definition>
+        <argsstring>(std::in_place_t, Args &amp;&amp;...args)</argsstring>
+        <name>ServiceHandle</name>
+        <qualifiedname>quite::ServiceHandle::ServiceHandle</qualifiedname>
+        <param>
+          <type>std::in_place_t</type>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref> with a new service instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Types of arguments to pass to the service constructor. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Arguments to construct the service instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/service_handle.hpp" line="40" column="14" bodyfile="libs/core/include/quite/service_handle.hpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1ServiceHandle_1aeb8a33d3b973e9e1a3c2b07e12979c09" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * quite::ServiceHandle&lt; T &gt;::operator-&gt;</definition>
+        <argsstring>() const</argsstring>
+        <name>operator-&gt;</name>
+        <qualifiedname>quite::ServiceHandle::operator-&gt;</qualifiedname>
+        <briefdescription>
+<para>Provides pointer-like access to the underlying service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the service instance, or nullptr if empty. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/service_handle.hpp" line="48" column="7" bodyfile="libs/core/include/quite/service_handle.hpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1ServiceHandle_1aa4c1e1605f00b1e905a436ee55870481" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; quite::ServiceHandle&lt; T &gt;::operator*</definition>
+        <argsstring>() const</argsstring>
+        <name>operator*</name>
+        <qualifiedname>quite::ServiceHandle::operator*</qualifiedname>
+        <briefdescription>
+<para>Dereferences the handle to access the service instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to the service instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/service_handle.hpp" line="57" column="7" bodyfile="libs/core/include/quite/service_handle.hpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1ServiceHandle_1a84c3a4b3af0f4d827a4c119de146c5e2" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>quite::ServiceHandle&lt; T &gt;::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>quite::ServiceHandle::operator bool</qualifiedname>
+        <briefdescription>
+<para>Checks if the handle refers to a valid service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the handle is non-empty, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/service_handle.hpp" line="66" column="14" bodyfile="libs/core/include/quite/service_handle.hpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A lightweight handle for accessing shared service instances. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref> provides pointer-like semantics for accessing services managed via std::shared_ptr. It is intended to be used as a safe, convenient wrapper for dependency injection or service locator patterns.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The service type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="libs/core/include/quite/service_handle.hpp" line="16" column="1" bodyfile="libs/core/include/quite/service_handle.hpp" bodystart="17" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classquite_1_1ServiceHandle_1a84c3a4b3af0f4d827a4c119de146c5e2" prot="public" virt="non-virtual"><scope>quite::ServiceHandle</scope><name>operator bool</name></member>
+      <member refid="classquite_1_1ServiceHandle_1aa4c1e1605f00b1e905a436ee55870481" prot="public" virt="non-virtual"><scope>quite::ServiceHandle</scope><name>operator*</name></member>
+      <member refid="classquite_1_1ServiceHandle_1aeb8a33d3b973e9e1a3c2b07e12979c09" prot="public" virt="non-virtual"><scope>quite::ServiceHandle</scope><name>operator-&gt;</name></member>
+      <member refid="classquite_1_1ServiceHandle_1ae8c9aa4227eff599b83e0e1de959df18" prot="private" virt="non-virtual"><scope>quite::ServiceHandle</scope><name>service_</name></member>
+      <member refid="classquite_1_1ServiceHandle_1a619fbf959e1933b5c8a75a09f8216e18" prot="public" virt="non-virtual"><scope>quite::ServiceHandle</scope><name>ServiceHandle</name></member>
+      <member refid="classquite_1_1ServiceHandle_1a93fe541402fc4c2b0507fbb112e6ecd7" prot="public" virt="non-virtual"><scope>quite::ServiceHandle</scope><name>ServiceHandle</name></member>
+      <member refid="classquite_1_1ServiceHandle_1a3e2121813d160d7a8f3c7647a29b5f06" prot="public" virt="non-virtual"><scope>quite::ServiceHandle</scope><name>ServiceHandle</name></member>
+      <member refid="classquite_1_1ServiceHandle_1adeecd9b83d87463380a9d7c5c1f27ea1" prot="public" virt="non-virtual"><scope>quite::ServiceHandle</scope><name>Type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

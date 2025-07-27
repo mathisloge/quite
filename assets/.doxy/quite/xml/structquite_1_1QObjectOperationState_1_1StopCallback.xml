@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1QObjectOperationState_1_1StopCallback" kind="struct" language="C++" prot="private">
+    <compoundname>quite::QObjectOperationState::StopCallback</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1QObjectOperationState_1_1StopCallback_1a66a4bacc898989ebde0e88d3fbd7092b" prot="public" static="no" mutable="no">
+        <type><ref refid="classquite_1_1QObjectOperationState" kindref="compound">QObjectOperationState</ref> *</type>
+        <definition>QObjectOperationState* quite::QObjectOperationState&lt; Recv, QObj, Ret, Args &gt;::StopCallback::self</definition>
+        <argsstring></argsstring>
+        <name>self</name>
+        <qualifiedname>quite::QObjectOperationState::StopCallback::self</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="190" column="31" bodyfile="libs/probeqt/qtstdexec.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquite_1_1QObjectOperationState_1_1StopCallback_1a1f71a6e563a67765aae18fd41bb0fe73" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::QObjectOperationState&lt; Recv, QObj, Ret, Args &gt;::StopCallback::operator()</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>quite::QObjectOperationState::StopCallback::operator()</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="192" column="14" bodyfile="libs/probeqt/qtstdexec.h" bodystart="192" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::QObjectOperationState&lt; Recv, QObj, Ret, Args &gt;</label>
+        <link refid="classquite_1_1QObjectOperationState"/>
+      </node>
+      <node id="1">
+        <label>quite::QObjectOperationState&lt; Recv, QObj, Ret, Args &gt;::StopCallback</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>self</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="libs/probeqt/qtstdexec.h" line="188" column="5" bodyfile="libs/probeqt/qtstdexec.h" bodystart="189" bodyend="204"/>
+    <listofallmembers>
+      <member refid="structquite_1_1QObjectOperationState_1_1StopCallback_1a1f71a6e563a67765aae18fd41bb0fe73" prot="public" virt="non-virtual"><scope>quite::QObjectOperationState::StopCallback</scope><name>operator()</name></member>
+      <member refid="structquite_1_1QObjectOperationState_1_1StopCallback_1a66a4bacc898989ebde0e88d3fbd7092b" prot="public" virt="non-virtual"><scope>quite::QObjectOperationState::StopCallback</scope><name>self</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

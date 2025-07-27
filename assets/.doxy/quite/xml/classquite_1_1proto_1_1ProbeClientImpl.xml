@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1proto_1_1ProbeClientImpl" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>quite::proto::ProbeClientImpl</compoundname>
+    <basecompoundref refid="classquite_1_1proto_1_1ProbeClient" prot="public" virt="non-virtual">quite::proto::ProbeClient</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1proto_1_1ProbeClientImpl_1ab03a51402676e6f894bd14f5566767a0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; agrpc::GrpcContext &gt;</type>
+        <definition>std::shared_ptr&lt;agrpc::GrpcContext&gt; quite::proto::ProbeClientImpl::grpc_context_</definition>
+        <argsstring></argsstring>
+        <name>grpc_context_</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::grpc_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="26" column="21" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1proto_1_1ProbeClientImpl_1a96004676fdf65d8b4009e0d0e2411f32" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; grpc::Channel &gt;</type>
+        <definition>std::shared_ptr&lt;grpc::Channel&gt; quite::proto::ProbeClientImpl::grpc_channel_</definition>
+        <argsstring></argsstring>
+        <name>grpc_channel_</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::grpc_channel_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="27" column="21" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1proto_1_1ProbeClientImpl_1a54f771d94993661278e3ff99967e6d64" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classquite_1_1proto_1_1IValueConverter" kindref="compound">IValueConverter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IValueConverter&gt; quite::proto::ProbeClientImpl::value_converter_</definition>
+        <argsstring></argsstring>
+        <name>value_converter_</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::value_converter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="28" column="21" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1proto_1_1ProbeClientImpl_1a118ba93fd7624ec9b2512c77d730ef76" prot="private" static="no" mutable="no">
+        <type>ProbeService::Stub</type>
+        <definition>ProbeService::Stub quite::proto::ProbeClientImpl::probe_service_stub_</definition>
+        <argsstring></argsstring>
+        <name>probe_service_stub_</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::probe_service_stub_</qualifiedname>
+        <initializer>{grpc_channel_}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="29" column="24" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1proto_1_1ProbeClientImpl_1a28214a15ac62e3c4bd4abcd02525012b" prot="private" static="no" mutable="no">
+        <type>MetaService::Stub</type>
+        <definition>MetaService::Stub quite::proto::ProbeClientImpl::meta_service_stub_</definition>
+        <argsstring></argsstring>
+        <name>meta_service_stub_</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::meta_service_stub_</qualifiedname>
+        <initializer>{grpc_channel_}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="30" column="23" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1proto_1_1ProbeClientImpl_1a66a409e524efd6fe0d1af98290767a66" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1proto_1_1ProbeServiceImpl" kindref="compound">ProbeServiceImpl</ref></type>
+        <definition>ProbeServiceImpl quite::proto::ProbeClientImpl::probe_service_</definition>
+        <argsstring></argsstring>
+        <name>probe_service_</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::probe_service_</qualifiedname>
+        <initializer>{grpc_context_, probe_service_stub_, value_converter_}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="31" column="22" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1proto_1_1ProbeClientImpl_1ab308277633b93917fb0666bf5b9e0502" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1proto_1_1MetaRegistryImpl" kindref="compound">MetaRegistryImpl</ref></type>
+        <definition>MetaRegistryImpl quite::proto::ProbeClientImpl::meta_registry_</definition>
+        <argsstring></argsstring>
+        <name>meta_registry_</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::meta_registry_</qualifiedname>
+        <initializer>{grpc_context_, meta_service_stub_}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="32" column="22" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1proto_1_1ProbeClientImpl_1a8dfd0baf2ac8851d1d5182d72613c6b7" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1proto_1_1MouseInjectorImpl" kindref="compound">MouseInjectorImpl</ref></type>
+        <definition>MouseInjectorImpl quite::proto::ProbeClientImpl::mouse_injector_</definition>
+        <argsstring></argsstring>
+        <name>mouse_injector_</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::mouse_injector_</qualifiedname>
+        <initializer>{grpc_context_, probe_service_stub_}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="33" column="23" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1proto_1_1ProbeClientImpl_1a8d92027d2de362870cbc119f9103e0ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::proto::ProbeClientImpl::ProbeClientImpl</definition>
+        <argsstring>(GrpcManager &amp;grpc_manager, std::string connection_url, std::shared_ptr&lt; IValueConverter &gt; value_converter)</argsstring>
+        <name>ProbeClientImpl</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::ProbeClientImpl</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1proto_1_1GrpcManager" kindref="compound">GrpcManager</ref> &amp;</type>
+          <declname>grpc_manager</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>connection_url</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classquite_1_1proto_1_1IValueConverter" kindref="compound">IValueConverter</ref> &gt;</type>
+          <declname>value_converter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="17" column="5" bodyfile="libs/protocol/src/client/probe_client_impl.cpp" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1ProbeClientImpl_1ad4a11b94511e58bf9b3bdef4087aa955" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>AsyncResult&lt; void &gt; quite::proto::ProbeClientImpl::wait_for_connected</definition>
+        <argsstring>(std::chrono::seconds timeout) override</argsstring>
+        <name>wait_for_connected</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::wait_for_connected</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1ProbeClient_1ae80f4ffa80e9e8f4729bbe11cdd1fd53">wait_for_connected</reimplements>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="20" column="17" bodyfile="libs/protocol/src/client/probe_client_impl.cpp" bodystart="23" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1ProbeClientImpl_1a8ceb5b87d78a54cd16503777a2914c64" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classquite_1_1proto_1_1IProbeService" kindref="compound">IProbeService</ref> &amp;</type>
+        <definition>IProbeService &amp; quite::proto::ProbeClientImpl::probe_service</definition>
+        <argsstring>() override</argsstring>
+        <name>probe_service</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::probe_service</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1ProbeClient_1a35d365548edbd408c2b41926f15c4320">probe_service</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="21" column="19" bodyfile="libs/protocol/src/client/probe_client_impl.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1ProbeClientImpl_1aa95a371b6be20061463ce590943b6e04" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classquite_1_1core_1_1IMouseInjector" kindref="compound">core::IMouseInjector</ref> &amp;</type>
+        <definition>core::IMouseInjector &amp; quite::proto::ProbeClientImpl::mouse_injector</definition>
+        <argsstring>() override</argsstring>
+        <name>mouse_injector</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::mouse_injector</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1ProbeClient_1ac7394e67c7e893554e3f58a8acb8dd03">mouse_injector</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="22" column="26" bodyfile="libs/protocol/src/client/probe_client_impl.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1ProbeClientImpl_1acc0528985af9b1d5b0b9f41bd9138a25" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classquite_1_1meta_1_1MetaRegistry" kindref="compound">meta::MetaRegistry</ref> &amp;</type>
+        <definition>meta::MetaRegistry &amp; quite::proto::ProbeClientImpl::meta_registry</definition>
+        <argsstring>() override</argsstring>
+        <name>meta_registry</name>
+        <qualifiedname>quite::proto::ProbeClientImpl::meta_registry</qualifiedname>
+        <reimplements refid="classquite_1_1proto_1_1ProbeClient_1acc95bdd7127c302d5b9f570a8dbe93ca">meta_registry</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/client/probe_client_impl.hpp" line="23" column="24" bodyfile="libs/protocol/src/client/probe_client_impl.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>quite::proto::ProbeClient</label>
+        <link refid="classquite_1_1proto_1_1ProbeClient"/>
+      </node>
+      <node id="1">
+        <label>quite::proto::ProbeClientImpl</label>
+        <link refid="classquite_1_1proto_1_1ProbeClientImpl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::proto::ProbeClient</label>
+        <link refid="classquite_1_1proto_1_1ProbeClient"/>
+      </node>
+      <node id="1">
+        <label>quite::proto::ProbeClientImpl</label>
+        <link refid="classquite_1_1proto_1_1ProbeClientImpl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="libs/protocol/src/client/probe_client_impl.hpp" line="14" column="1" bodyfile="libs/protocol/src/client/probe_client_impl.hpp" bodystart="15" bodyend="34"/>
+    <listofallmembers>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1a96004676fdf65d8b4009e0d0e2411f32" prot="private" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>grpc_channel_</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1ab03a51402676e6f894bd14f5566767a0" prot="private" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>grpc_context_</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1acc0528985af9b1d5b0b9f41bd9138a25" prot="public" virt="virtual"><scope>quite::proto::ProbeClientImpl</scope><name>meta_registry</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1ab308277633b93917fb0666bf5b9e0502" prot="private" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>meta_registry_</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1a28214a15ac62e3c4bd4abcd02525012b" prot="private" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>meta_service_stub_</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1aa95a371b6be20061463ce590943b6e04" prot="public" virt="virtual"><scope>quite::proto::ProbeClientImpl</scope><name>mouse_injector</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1a8dfd0baf2ac8851d1d5182d72613c6b7" prot="private" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>mouse_injector_</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1a8ceb5b87d78a54cd16503777a2914c64" prot="public" virt="virtual"><scope>quite::proto::ProbeClientImpl</scope><name>probe_service</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1a66a409e524efd6fe0d1af98290767a66" prot="private" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>probe_service_</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1a118ba93fd7624ec9b2512c77d730ef76" prot="private" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>probe_service_stub_</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClient_1a90de241d639c252edbbf14bcf0e96271" prot="public" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>ProbeClient</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1a8d92027d2de362870cbc119f9103e0ed" prot="public" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>ProbeClientImpl</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClient_1ae5a8caa75e85c8e2ccd88e5893f25666" prot="public" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>QUITE_DISABLE_COPY_MOVE</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1a54f771d94993661278e3ff99967e6d64" prot="private" virt="non-virtual"><scope>quite::proto::ProbeClientImpl</scope><name>value_converter_</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClientImpl_1ad4a11b94511e58bf9b3bdef4087aa955" prot="public" virt="virtual"><scope>quite::proto::ProbeClientImpl</scope><name>wait_for_connected</name></member>
+      <member refid="classquite_1_1proto_1_1ProbeClient_1ada2f70357700925ef78512f9d4bb21ed" prot="public" virt="virtual"><scope>quite::proto::ProbeClientImpl</scope><name>~ProbeClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

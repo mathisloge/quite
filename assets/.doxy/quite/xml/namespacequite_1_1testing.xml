@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacequite_1_1testing" kind="namespace" language="C++">
+    <compoundname>quite::testing</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="verification__point_8hpp_1afd759c8e12337f530a68c37629474c7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CLIENT_EXPORT bool</type>
+        <definition>bool quite::testing::has_verification_point</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>has_verification_point</name>
+        <qualifiedname>quite::testing::has_verification_point</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/testing/verification_point.cpp" line="13" column="6" bodyfile="libs/client/src/testing/verification_point.cpp" bodystart="13" bodyend="17" declfile="libs/client/include/quite/client/testing/verification_point.hpp" declline="9" declcolumn="27"/>
+      </memberdef>
+      <memberdef kind="function" id="verification__point_8hpp_1aa994a66c8f8e5a67c83da724d7b97702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CLIENT_EXPORT AsyncResult&lt; void &gt;</type>
+        <definition>AsyncResult&lt; void &gt; quite::testing::create_verification_point</definition>
+        <argsstring>(client::RemoteObjectPtr object, const std::string &amp;name)</argsstring>
+        <name>create_verification_point</name>
+        <qualifiedname>quite::testing::create_verification_point</qualifiedname>
+        <param>
+          <type>client::RemoteObjectPtr</type>
+          <declname>object</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/testing/verification_point.cpp" line="19" column="13" bodyfile="libs/client/src/testing/verification_point.cpp" bodystart="19" bodyend="37" declfile="libs/client/include/quite/client/testing/verification_point.hpp" declline="10" declcolumn="33"/>
+      </memberdef>
+      <memberdef kind="function" id="verification__point_8hpp_1a54be56ae6503072dc3039a0cb250fbe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CLIENT_EXPORT AsyncResult&lt; bool &gt;</type>
+        <definition>AsyncResult&lt; bool &gt; quite::testing::verify_verification_point</definition>
+        <argsstring>(client::RemoteObjectPtr object, const std::string &amp;name)</argsstring>
+        <name>verify_verification_point</name>
+        <qualifiedname>quite::testing::verify_verification_point</qualifiedname>
+        <param>
+          <type>client::RemoteObjectPtr</type>
+          <declname>object</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>TODO: maybe flatten both json objects and then iterating over them with the cmp op. It would then be quite easy to tell exactly which properties do not match.</para>
+<para>TODO: maybe flatten both json objects and then iterating over them with the cmp op. It would then be quite easy to tell exactly which properties do not match.</para>
+        </inbodydescription>
+        <location file="libs/client/src/testing/verification_point.cpp" line="39" column="13" bodyfile="libs/client/src/testing/verification_point.cpp" bodystart="39" bodyend="91" declfile="libs/client/include/quite/client/testing/verification_point.hpp" declline="12" declcolumn="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/include/quite/client/testing/verification_point.hpp" line="6" column="1"/>
+  </compounddef>
+</doxygen>

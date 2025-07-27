@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="version_8hpp_8in" kind="file" language="C++">
+    <compoundname>version.hpp.in</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#pragma<sp/>once</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;string_view&gt;</highlight></codeline>
+<codeline><highlight class="normal">namespace<sp/>quite</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal">inline<sp/>constexpr<sp/>unsigned<sp/>int<sp/>kVersionMajor<sp/>=<sp/>@PROJECT_VERSION_MAJOR@;</highlight></codeline>
+<codeline><highlight class="normal">inline<sp/>constexpr<sp/>unsigned<sp/>int<sp/>kVersionMinor<sp/>=<sp/>@PROJECT_VERSION_MINOR@;</highlight></codeline>
+<codeline><highlight class="normal">inline<sp/>constexpr<sp/>unsigned<sp/>int<sp/>kVersionPatch<sp/>=<sp/>@PROJECT_VERSION_PATCH@;</highlight></codeline>
+<codeline><highlight class="normal">inline<sp/>constexpr<sp/>std::string_view<sp/>kVersion<sp/>=<sp/>&quot;@PROJECT_VERSION@&quot;;</highlight></codeline>
+<codeline><highlight class="normal">inline<sp/>constexpr<sp/>std::string_view<sp/>kGitRef<sp/>=<sp/>&quot;@git_sha@&quot;;</highlight></codeline>
+<codeline><highlight class="normal">inline<sp/>constexpr<sp/>std::string_view<sp/>kGitBranch<sp/>=<sp/>&quot;@git_branch@&quot;;</highlight></codeline>
+<codeline></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">inline<sp/>constexpr<sp/>std::string_view<sp/>kRuntimeDir<sp/>=<sp/>&quot;@CMAKE_RUNTIME_OUTPUT_DIRECTORY@&quot;;</highlight></codeline>
+<codeline><highlight class="normal">}<sp/>//<sp/>namespace<sp/>protodoc</highlight></codeline>
+    </programlisting>
+    <location file="libs/core/version.hpp.in"/>
+  </compounddef>
+</doxygen>

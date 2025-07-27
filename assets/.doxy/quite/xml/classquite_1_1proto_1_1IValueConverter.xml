@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1proto_1_1IValueConverter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>quite::proto::IValueConverter</compoundname>
+    <derivedcompoundref refid="classquite_1_1client_1_1GrpcValueConverter" prot="public" virt="non-virtual">quite::client::GrpcValueConverter</derivedcompoundref>
+    <derivedcompoundref refid="classquite_1_1proto_1_1ProbeValueConverter" prot="public" virt="non-virtual">quite::proto::ProbeValueConverter</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1proto_1_1IValueConverter_1a543a076b9ce319cb71518c5c39981c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual quite::proto::IValueConverter::~IValueConverter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IValueConverter</name>
+        <qualifiedname>quite::proto::IValueConverter::~IValueConverter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/value_converter.hpp" line="10" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1proto_1_1IValueConverter_1a6cade2469f347299058e3f83ba8f1a00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>entt::meta_any</type>
+        <definition>virtual entt::meta_any quite::proto::IValueConverter::from</definition>
+        <argsstring>(ObjectReference ref) const =0</argsstring>
+        <name>from</name>
+        <qualifiedname>quite::proto::IValueConverter::from</qualifiedname>
+        <reimplementedby refid="classquite_1_1client_1_1GrpcValueConverter_1a0f1e35fd823dadf30e5b5e72d64fa834">from</reimplementedby>
+        <reimplementedby refid="classquite_1_1proto_1_1ProbeValueConverter_1a3c4b078fd9ad6fa8e9064f38bcb3206c">from</reimplementedby>
+        <param>
+          <type><ref refid="structquite_1_1ObjectReference" kindref="compound">ObjectReference</ref></type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/include/quite/proto/client/value_converter.hpp" line="11" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>quite::client::GrpcValueConverter</label>
+        <link refid="classquite_1_1client_1_1GrpcValueConverter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>quite::proto::IValueConverter</label>
+        <link refid="classquite_1_1proto_1_1IValueConverter"/>
+      </node>
+      <node id="3">
+        <label>quite::proto::ProbeValueConverter</label>
+        <link refid="classquite_1_1proto_1_1ProbeValueConverter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="libs/protocol/include/quite/proto/client/value_converter.hpp" line="7" column="1" bodyfile="libs/protocol/include/quite/proto/client/value_converter.hpp" bodystart="8" bodyend="12"/>
+    <listofallmembers>
+      <member refid="classquite_1_1proto_1_1IValueConverter_1a6cade2469f347299058e3f83ba8f1a00" prot="public" virt="pure-virtual"><scope>quite::proto::IValueConverter</scope><name>from</name></member>
+      <member refid="classquite_1_1proto_1_1IValueConverter_1a543a076b9ce319cb71518c5c39981c95" prot="public" virt="virtual"><scope>quite::proto::IValueConverter</scope><name>~IValueConverter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

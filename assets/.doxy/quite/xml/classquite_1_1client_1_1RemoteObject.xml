@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1client_1_1RemoteObject" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>quite::client::RemoteObject</compoundname>
+    <derivedcompoundref refid="classquite_1_1client_1_1GrpcRemoteObject" prot="public" virt="non-virtual">quite::client::GrpcRemoteObject</derivedcompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1client_1_1RemoteObject_1a82ee0a6bacc1009bf96a57679a1e2bd6" prot="private" static="no" mutable="no">
+        <type>const ObjectId</type>
+        <definition>const ObjectId quite::client::RemoteObject::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>quite::client::RemoteObject::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="37" column="20" bodyfile="libs/client/include/quite/client/remote_object.hpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1a2ff1bae2591a7339dd15b5e38ce8665a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::client::RemoteObject::RemoteObject</definition>
+        <argsstring>(ObjectId id)</argsstring>
+        <name>RemoteObject</name>
+        <qualifiedname>quite::client::RemoteObject::RemoteObject</qualifiedname>
+        <param>
+          <type>ObjectId</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="16" column="14" bodyfile="libs/client/src/remote_object.cpp" bodystart="4" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1aa817019d363dabe80076c119174cde83" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>quite::client::RemoteObject::~RemoteObject</definition>
+        <argsstring>()</argsstring>
+        <name>~RemoteObject</name>
+        <qualifiedname>quite::client::RemoteObject::~RemoteObject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="17" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1a127c3f7dfe759284e73c9da500bbf002" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>ObjectId</type>
+        <definition>ObjectId quite::client::RemoteObject::id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>id</name>
+        <qualifiedname>quite::client::RemoteObject::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="19" column="14" bodyfile="libs/client/src/remote_object.cpp" bodystart="10" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1a0c51a9e23d44588f058170d70a07915b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>meta::TypeId</type>
+        <definition>virtual meta::TypeId quite::client::RemoteObject::type_id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>type_id</name>
+        <qualifiedname>quite::client::RemoteObject::type_id</qualifiedname>
+        <reimplementedby refid="classquite_1_1client_1_1GrpcRemoteObject_1a9c8c13f8396575565853d71bb93a137b">type_id</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="21" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1ad71d0050261f10db3f25a177f5562838" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; std::unordered_map&lt; std::string, PropertyPtr &gt; &gt;</type>
+        <definition>virtual AsyncResult&lt; std::unordered_map&lt; std::string, PropertyPtr &gt; &gt; quite::client::RemoteObject::fetch_properties</definition>
+        <argsstring>(std::vector&lt; std::string &gt; properties)=0</argsstring>
+        <name>fetch_properties</name>
+        <qualifiedname>quite::client::RemoteObject::fetch_properties</qualifiedname>
+        <reimplementedby refid="classquite_1_1client_1_1GrpcRemoteObject_1adac838d03d53ac978fa5c93e69dc0b9b">fetch_properties</reimplementedby>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="23" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1affb037ab156a8b071a2c0b59bdac5897" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; PropertyPtr &gt;</type>
+        <definition>virtual AsyncResult&lt; PropertyPtr &gt; quite::client::RemoteObject::property</definition>
+        <argsstring>(std::string property_name)=0</argsstring>
+        <name>property</name>
+        <qualifiedname>quite::client::RemoteObject::property</qualifiedname>
+        <reimplementedby refid="classquite_1_1client_1_1GrpcRemoteObject_1a65a1ba69aa8a8fb11b98419e6424eb3d">property</reimplementedby>
+        <param>
+          <type>std::string</type>
+          <declname>property_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="26" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1ad4a5593d2b27ef92e0c7eab39da037a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>virtual AsyncResult&lt; void &gt; quite::client::RemoteObject::write_property</definition>
+        <argsstring>(std::string property_name, entt::meta_any value)=0</argsstring>
+        <name>write_property</name>
+        <qualifiedname>quite::client::RemoteObject::write_property</qualifiedname>
+        <reimplementedby refid="classquite_1_1client_1_1GrpcRemoteObject_1a95d7c6e4abcad20afd3d14ba0ca1a55e">write_property</reimplementedby>
+        <param>
+          <type>std::string</type>
+          <declname>property_name</declname>
+        </param>
+        <param>
+          <type>entt::meta_any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="28" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1add572809de5f0eb04f407d4da26f8143" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>virtual AsyncResult&lt; void &gt; quite::client::RemoteObject::mouse_action</definition>
+        <argsstring>()=0</argsstring>
+        <name>mouse_action</name>
+        <qualifiedname>quite::client::RemoteObject::mouse_action</qualifiedname>
+        <reimplementedby refid="classquite_1_1client_1_1GrpcRemoteObject_1a075a6a34577059e5f07e1d3d9062216b">mouse_action</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="30" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1a11c98ea3f6d7f4799b41a67c28dacc88" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; <ref refid="classquite_1_1Image" kindref="compound">Image</ref> &gt;</type>
+        <definition>virtual AsyncResult&lt; Image &gt; quite::client::RemoteObject::take_snapshot</definition>
+        <argsstring>()=0</argsstring>
+        <name>take_snapshot</name>
+        <qualifiedname>quite::client::RemoteObject::take_snapshot</qualifiedname>
+        <reimplementedby refid="classquite_1_1client_1_1GrpcRemoteObject_1aa7993fd3755ac37083900f84f5c4dd44">take_snapshot</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="32" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1RemoteObject_1a488d88ea05435ba01d4c4efe8d4e02e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>virtual AsyncResult&lt; void &gt; quite::client::RemoteObject::invoke_method</definition>
+        <argsstring>(std::string method_name)=0</argsstring>
+        <name>invoke_method</name>
+        <qualifiedname>quite::client::RemoteObject::invoke_method</qualifiedname>
+        <reimplementedby refid="classquite_1_1client_1_1GrpcRemoteObject_1a48ffe3d8a6246e17d099be1a08c2cd3d">invoke_method</reimplementedby>
+        <param>
+          <type>std::string</type>
+          <declname>method_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="34" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>quite::client::GrpcRemoteObject</label>
+        <link refid="classquite_1_1client_1_1GrpcRemoteObject"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>quite::client::RemoteObject</label>
+        <link refid="classquite_1_1client_1_1RemoteObject"/>
+      </node>
+    </inheritancegraph>
+    <location file="libs/client/include/quite/client/remote_object.hpp" line="13" column="1" bodyfile="libs/client/include/quite/client/remote_object.hpp" bodystart="14" bodyend="38"/>
+    <listofallmembers>
+      <member refid="classquite_1_1client_1_1RemoteObject_1ad71d0050261f10db3f25a177f5562838" prot="public" virt="pure-virtual"><scope>quite::client::RemoteObject</scope><name>fetch_properties</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1a127c3f7dfe759284e73c9da500bbf002" prot="public" virt="non-virtual"><scope>quite::client::RemoteObject</scope><name>id</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1a82ee0a6bacc1009bf96a57679a1e2bd6" prot="private" virt="non-virtual"><scope>quite::client::RemoteObject</scope><name>id_</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1a488d88ea05435ba01d4c4efe8d4e02e5" prot="public" virt="pure-virtual"><scope>quite::client::RemoteObject</scope><name>invoke_method</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1add572809de5f0eb04f407d4da26f8143" prot="public" virt="pure-virtual"><scope>quite::client::RemoteObject</scope><name>mouse_action</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1affb037ab156a8b071a2c0b59bdac5897" prot="public" virt="pure-virtual"><scope>quite::client::RemoteObject</scope><name>property</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1a2ff1bae2591a7339dd15b5e38ce8665a" prot="public" virt="non-virtual"><scope>quite::client::RemoteObject</scope><name>RemoteObject</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1a11c98ea3f6d7f4799b41a67c28dacc88" prot="public" virt="pure-virtual"><scope>quite::client::RemoteObject</scope><name>take_snapshot</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1a0c51a9e23d44588f058170d70a07915b" prot="public" virt="pure-virtual"><scope>quite::client::RemoteObject</scope><name>type_id</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1ad4a5593d2b27ef92e0c7eab39da037a1" prot="public" virt="pure-virtual"><scope>quite::client::RemoteObject</scope><name>write_property</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1aa817019d363dabe80076c119174cde83" prot="public" virt="virtual"><scope>quite::client::RemoteObject</scope><name>~RemoteObject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

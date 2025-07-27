@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacequite_1_1client" kind="namespace" language="C++">
+    <compoundname>quite::client</compoundname>
+    <innerclass refid="classquite_1_1client_1_1BasicProbe" prot="public">quite::client::BasicProbe</innerclass>
+    <innerclass refid="classquite_1_1client_1_1GrpcProbe" prot="public">quite::client::GrpcProbe</innerclass>
+    <innerclass refid="classquite_1_1client_1_1GrpcProperty" prot="public">quite::client::GrpcProperty</innerclass>
+    <innerclass refid="classquite_1_1client_1_1GrpcRemoteObject" prot="public">quite::client::GrpcRemoteObject</innerclass>
+    <innerclass refid="classquite_1_1client_1_1GrpcValueConverter" prot="public">quite::client::GrpcValueConverter</innerclass>
+    <innerclass refid="classquite_1_1client_1_1Probe" prot="public">quite::client::Probe</innerclass>
+    <innerclass refid="classquite_1_1client_1_1ProbeHandle" prot="public">quite::client::ProbeHandle</innerclass>
+    <innerclass refid="classquite_1_1client_1_1ProbeManager" prot="public">quite::client::ProbeManager</innerclass>
+    <innerclass refid="classquite_1_1client_1_1Property" prot="public">quite::client::Property</innerclass>
+    <innerclass refid="classquite_1_1client_1_1RemoteObject" prot="public">quite::client::RemoteObject</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="client_2include_2quite_2client_2property_8hpp_1a8fe110b78230a5ee93874a0560a17bf2" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classquite_1_1client_1_1Property" kindref="compound">Property</ref> &gt;</type>
+        <definition>using quite::client::PropertyPtr = typedef std::shared_ptr&lt;Property&gt;</definition>
+        <argsstring></argsstring>
+        <name>PropertyPtr</name>
+        <qualifiedname>quite::client::PropertyPtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/property.hpp" line="25" column="1" bodyfile="libs/client/include/quite/client/property.hpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="client_2include_2quite_2client_2remote__object_8hpp_1a300e77351dc62139a99ded648d4c6611" prot="public" static="no">
+        <type>std::uint64_t</type>
+        <definition>using quite::client::ObjectId = typedef std::uint64_t</definition>
+        <argsstring></argsstring>
+        <name>ObjectId</name>
+        <qualifiedname>quite::client::ObjectId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="11" column="1" bodyfile="libs/client/include/quite/client/remote_object.hpp" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="client_2include_2quite_2client_2remote__object_8hpp_1a18a7eb4721078c043eaab3f56dbe5e05" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classquite_1_1client_1_1RemoteObject" kindref="compound">RemoteObject</ref> &gt;</type>
+        <definition>using quite::client::RemoteObjectPtr = typedef std::shared_ptr&lt;RemoteObject&gt;</definition>
+        <argsstring></argsstring>
+        <name>RemoteObjectPtr</name>
+        <qualifiedname>quite::client::RemoteObjectPtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/include/quite/client/remote_object.hpp" line="39" column="1" bodyfile="libs/client/include/quite/client/remote_object.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="quite_8hpp_1a5c0bb430b9fdc52821fb846ae2f81db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QUITE_CLIENT_EXPORT execpools::asio_thread_pool &amp;</type>
+        <definition>execpools::asio_thread_pool &amp; quite::client::asio_context</definition>
+        <argsstring>()</argsstring>
+        <name>asio_context</name>
+        <qualifiedname>quite::client::asio_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/quite.cpp" line="6" column="29" bodyfile="libs/client/src/quite.cpp" bodystart="6" bodyend="9" declfile="libs/client/include/quite/client/quite.hpp" declline="8" declcolumn="49"/>
+      </memberdef>
+      <memberdef kind="function" id="dump__properties_8hpp_1a7673cb34740eca94ea221d19d15c8a5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AsyncResult&lt; nlohmann::json &gt; QUITE_CLIENT_EXPORT</type>
+        <definition>AsyncResult&lt; nlohmann::json &gt; quite::client::dump_properties</definition>
+        <argsstring>(RemoteObjectPtr remote_object, std::vector&lt; std::string &gt; properties)</argsstring>
+        <name>dump_properties</name>
+        <qualifiedname>quite::client::dump_properties</qualifiedname>
+        <param>
+          <type>RemoteObjectPtr</type>
+          <declname>remote_object</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/utils/dump_properties.cpp" line="86" column="13" bodyfile="libs/client/src/utils/dump_properties.cpp" bodystart="86" bodyend="90" declfile="libs/client/include/quite/client/utils/dump_properties.hpp" declline="7" declcolumn="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/include/quite/client/probe.hpp" line="8" column="1"/>
+  </compounddef>
+</doxygen>

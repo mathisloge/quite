@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="disable__copy__move_8hpp" kind="file" language="C++">
+    <compoundname>disable_copy_move.hpp</compoundname>
+    <includedby refid="client_2include_2quite_2client_2probe_8hpp" local="no">libs/client/include/quite/client/probe.hpp</includedby>
+    <includedby refid="client_2include_2quite_2client_2probe__manager_8hpp" local="no">libs/client/include/quite/client/probe_manager.hpp</includedby>
+    <includedby refid="client_2include_2quite_2client_2property_8hpp" local="no">libs/client/include/quite/client/property.hpp</includedby>
+    <includedby refid="grpc__property_8hpp" local="no">libs/client/src/grpc_impl/grpc_property.hpp</includedby>
+    <includedby refid="process__manager_8hpp" local="no">libs/manager/include/quite/manager/process_manager.hpp</includedby>
+    <includedby refid="manager_2include_2quite_2manager_2server_8hpp" local="no">libs/manager/include/quite/manager/server.hpp</includedby>
+    <includedby refid="process__manager__client_8hpp" local="no">libs/manager/src/process_manager_client.hpp</includedby>
+    <includedby refid="probe__context_8hpp" local="no">libs/probeqt/probe_context.hpp</includedby>
+    <includedby refid="client_8hpp" local="no">libs/protocol/include/quite/proto/client/client.hpp</includedby>
+    <includedby refid="probe__client_8hpp" local="no">libs/protocol/include/quite/proto/client/probe_client.hpp</includedby>
+    <includedby refid="protocol_2include_2quite_2proto_2probe_2server_8hpp" local="no">libs/protocol/include/quite/proto/probe/server.hpp</includedby>
+    <includedby refid="grpc__manager_8hpp" local="no">libs/protocol/src/client/grpc_manager.hpp</includedby>
+    <includedby refid="testing_2include_2quite_2test_2probe_8hpp" local="no">libs/testing/include/quite/test/probe.hpp</includedby>
+    <includedby refid="testing_2include_2quite_2test_2probe__manager_8hpp" local="no">libs/testing/include/quite/test/probe_manager.hpp</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>libs/client/include/quite/client/probe.hpp</label>
+        <link refid="client_2include_2quite_2client_2probe_8hpp_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>libs/client/include/quite/client/probe_manager.hpp</label>
+        <link refid="client_2include_2quite_2client_2probe__manager_8hpp_source"/>
+      </node>
+      <node id="6">
+        <label>libs/client/include/quite/client/property.hpp</label>
+        <link refid="client_2include_2quite_2client_2property_8hpp_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>libs/client/include/quite/client/remote_object.hpp</label>
+        <link refid="client_2include_2quite_2client_2remote__object_8hpp_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>libs/client/include/quite/client/testing/verification_point.hpp</label>
+        <link refid="verification__point_8hpp_source"/>
+      </node>
+      <node id="9">
+        <label>libs/client/include/quite/client/utils/dump_properties.hpp</label>
+        <link refid="dump__properties_8hpp_source"/>
+      </node>
+      <node id="3">
+        <label>libs/client/src/basic_probe.hpp</label>
+        <link refid="basic__probe_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>libs/client/src/context.hpp</label>
+        <link refid="context_8hpp_source"/>
+      </node>
+      <node id="4">
+        <label>libs/client/src/grpc_impl/grpc_probe.hpp</label>
+        <link refid="grpc__probe_8hpp_source"/>
+      </node>
+      <node id="11">
+        <label>libs/client/src/grpc_impl/grpc_property.hpp</label>
+        <link refid="grpc__property_8hpp_source"/>
+      </node>
+      <node id="10">
+        <label>libs/client/src/grpc_impl/grpc_remote_object.hpp</label>
+        <link refid="grpc__remote__object_8hpp_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>libs/client/src/grpc_impl/grpc_value.hpp</label>
+        <link refid="grpc__value_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>libs/core/include/quite/disable_copy_move.hpp</label>
+        <link refid="disable__copy__move_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>libs/manager/include/quite/manager/process_manager.hpp</label>
+        <link refid="process__manager_8hpp_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>libs/manager/include/quite/manager/server.hpp</label>
+        <link refid="manager_2include_2quite_2manager_2server_8hpp_source"/>
+      </node>
+      <node id="14">
+        <label>libs/manager/src/process_manager_client.hpp</label>
+        <link refid="process__manager__client_8hpp_source"/>
+      </node>
+      <node id="15">
+        <label>libs/probeqt/probe_context.hpp</label>
+        <link refid="probe__context_8hpp_source"/>
+      </node>
+      <node id="16">
+        <label>libs/protocol/include/quite/proto/client/client.hpp</label>
+        <link refid="client_8hpp_source"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>libs/protocol/include/quite/proto/client/probe_client.hpp</label>
+        <link refid="probe__client_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>libs/protocol/include/quite/proto/probe/server.hpp</label>
+        <link refid="protocol_2include_2quite_2proto_2probe_2server_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>libs/protocol/src/client/grpc_manager.hpp</label>
+        <link refid="grpc__manager_8hpp_source"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>libs/protocol/src/client/probe_client_impl.hpp</label>
+        <link refid="probe__client__impl_8hpp_source"/>
+      </node>
+      <node id="23">
+        <label>libs/testing/include/quite/test/probe.hpp</label>
+        <link refid="testing_2include_2quite_2test_2probe_8hpp_source"/>
+      </node>
+      <node id="24">
+        <label>libs/testing/include/quite/test/probe_manager.hpp</label>
+        <link refid="testing_2include_2quite_2test_2probe__manager_8hpp_source"/>
+      </node>
+    </invincdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="disable__copy__move_8hpp_1a16639072da658237de4e03c8ba8629ce" prot="public" static="no">
+        <name>QUITE_DISABLE_COPY</name>
+        <param><defname>ClassName</defname></param>
+        <initializer>    ClassName(const ClassName &amp;) = delete;                                                                             \
+    ClassName &amp;operator=(const ClassName &amp;) = delete;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/disable_copy_move.hpp" line="3" column="9" bodyfile="libs/core/include/quite/disable_copy_move.hpp" bodystart="3" bodyend="5"/>
+      </memberdef>
+      <memberdef kind="define" id="disable__copy__move_8hpp_1af820317f63504629e3731e940bcb710a" prot="public" static="no">
+        <name>QUITE_DISABLE_COPY_MOVE</name>
+        <param><defname>ClassName</defname></param>
+        <initializer>    QUITE_DISABLE_COPY(ClassName)                                                                                      \
+    ClassName(ClassName &amp;&amp;) = delete;                                                                                  \
+    ClassName &amp;operator=(ClassName &amp;&amp;) = delete;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/disable_copy_move.hpp" line="7" column="9" bodyfile="libs/core/include/quite/disable_copy_move.hpp" bodystart="7" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="define" id="disable__copy__move_8hpp_1aa10f89040cca8f583e1ac412c556fce4" prot="public" static="no">
+        <name>QUITE_DEFAULT_MOVE</name>
+        <param><defname>ClassName</defname></param>
+        <initializer>    ClassName(ClassName &amp;&amp;) noexcept = default;                                                                        \
+    ClassName &amp;operator=(ClassName &amp;&amp;) noexcept = default;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/disable_copy_move.hpp" line="12" column="9" bodyfile="libs/core/include/quite/disable_copy_move.hpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QUITE_DISABLE_COPY(ClassName)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="4"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>ClassName(const<sp/>ClassName<sp/>&amp;)<sp/>=<sp/>delete;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="5"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>ClassName<sp/>&amp;operator=(const<sp/>ClassName<sp/>&amp;)<sp/>=<sp/>delete;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QUITE_DISABLE_COPY_MOVE(ClassName)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="8"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>QUITE_DISABLE_COPY(ClassName)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="9"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>ClassName(ClassName<sp/>&amp;&amp;)<sp/>=<sp/>delete;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="10"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>ClassName<sp/>&amp;operator=(ClassName<sp/>&amp;&amp;)<sp/>=<sp/>delete;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>QUITE_DEFAULT_MOVE(ClassName)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="13"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>ClassName(ClassName<sp/>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="14"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>ClassName<sp/>&amp;operator=(ClassName<sp/>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+    </programlisting>
+    <location file="libs/core/include/quite/disable_copy_move.hpp"/>
+  </compounddef>
+</doxygen>

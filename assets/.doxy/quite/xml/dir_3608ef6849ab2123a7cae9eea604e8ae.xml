@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_3608ef6849ab2123a7cae9eea604e8ae" kind="dir">
+    <compoundname>libs/core/include/quite/injectors</compoundname>
+    <innerfile refid="keys_8hpp">keys.hpp</innerfile>
+    <innerfile refid="core_2include_2quite_2injectors_2mouse__injector_8hpp">mouse_injector.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/injectors/"/>
+  </compounddef>
+</doxygen>

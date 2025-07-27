@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="dir_7d6276c65eb2c4014d2f0c2cacdec3f0" kind="dir">
+    <compoundname>libs/client/include/quite/client</compoundname>
+    <innerdir refid="dir_c6e9347de3fb4db939a0e8cd4d8d8ee5">libs/client/include/quite/client/testing</innerdir>
+    <innerdir refid="dir_40c584c53b41f36667c6f7a7f0c7366b">libs/client/include/quite/client/utils</innerdir>
+    <innerfile refid="client_2include_2quite_2client_2probe_8hpp">probe.hpp</innerfile>
+    <innerfile refid="probe__handle_8hpp">probe_handle.hpp</innerfile>
+    <innerfile refid="client_2include_2quite_2client_2probe__manager_8hpp">probe_manager.hpp</innerfile>
+    <innerfile refid="client_2include_2quite_2client_2property_8hpp">property.hpp</innerfile>
+    <innerfile refid="quite_8hpp">quite.hpp</innerfile>
+    <innerfile refid="client_2include_2quite_2client_2remote__object_8hpp">remote_object.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/client/include/quite/client/"/>
+  </compounddef>
+</doxygen>

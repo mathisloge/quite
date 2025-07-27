@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1manager_1_1ProcessImpl" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>quite::manager::ProcessImpl</compoundname>
+    <basecompoundref refid="classquite_1_1manager_1_1Process" prot="public" virt="non-virtual">quite::manager::Process</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1manager_1_1ProcessImpl_1a09e8d10751ee690b1aaca0a39ac172f2" prot="private" static="no" mutable="no">
+        <type>boost::process::v2::process</type>
+        <definition>boost::process::v2::process quite::manager::ProcessImpl::process_</definition>
+        <argsstring></argsstring>
+        <name>process_</name>
+        <qualifiedname>quite::manager::ProcessImpl::process_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/src/process_impl.hpp" line="18" column="33" bodyfile="libs/manager/src/process_impl.hpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessImpl_1a9dd2739f7b8ceaf6aa81526b86f2b9fe" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::manager::ProcessImpl::ProcessImpl</definition>
+        <argsstring>(boost::process::v2::process &amp;&amp;process)</argsstring>
+        <name>ProcessImpl</name>
+        <qualifiedname>quite::manager::ProcessImpl::ProcessImpl</qualifiedname>
+        <param>
+          <type>boost::process::v2::process &amp;&amp;</type>
+          <declname>process</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/src/process_impl.hpp" line="10" column="14" bodyfile="libs/manager/src/process_impl.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessImpl_1a6b28a1811c1e8e3a86bfa7122624008e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool quite::manager::ProcessImpl::is_running</definition>
+        <argsstring>() override</argsstring>
+        <name>is_running</name>
+        <qualifiedname>quite::manager::ProcessImpl::is_running</qualifiedname>
+        <reimplements refid="classquite_1_1manager_1_1Process_1a5da5bb10d20d7a17140d065710059c1f">is_running</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/src/process_impl.hpp" line="11" column="10" bodyfile="libs/manager/src/process_impl.cpp" bodystart="11" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessImpl_1a3eb54c7a2e9fd58f5715346957a3f188" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>int</type>
+        <definition>int quite::manager::ProcessImpl::exit_code</definition>
+        <argsstring>() override</argsstring>
+        <name>exit_code</name>
+        <qualifiedname>quite::manager::ProcessImpl::exit_code</qualifiedname>
+        <reimplements refid="classquite_1_1manager_1_1Process_1a9429d4eb3c8a7724c4f967edc64629ae">exit_code</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/src/process_impl.hpp" line="12" column="9" bodyfile="libs/manager/src/process_impl.cpp" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessImpl_1a5008402208a61fec02a86d7e0d93736d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; int &gt;</type>
+        <definition>AsyncResult&lt; int &gt; quite::manager::ProcessImpl::async_wait_exit</definition>
+        <argsstring>() override</argsstring>
+        <name>async_wait_exit</name>
+        <qualifiedname>quite::manager::ProcessImpl::async_wait_exit</qualifiedname>
+        <reimplements refid="classquite_1_1manager_1_1Process_1a662dc20be304b466b467989584fc09fe">async_wait_exit</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/src/process_impl.hpp" line="13" column="17" bodyfile="libs/manager/src/process_impl.cpp" bodystart="22" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessImpl_1aba11297b127ab57ab9961e1d0105c44a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; quite::manager::ProcessImpl::request_exit</definition>
+        <argsstring>() override</argsstring>
+        <name>request_exit</name>
+        <qualifiedname>quite::manager::ProcessImpl::request_exit</qualifiedname>
+        <reimplements refid="classquite_1_1manager_1_1Process_1aa1b9f12297580034a91484466b1a6920">request_exit</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/src/process_impl.hpp" line="14" column="12" bodyfile="libs/manager/src/process_impl.cpp" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessImpl_1a41022accad531e76af26e895ab59d29b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; quite::manager::ProcessImpl::terminate</definition>
+        <argsstring>() override</argsstring>
+        <name>terminate</name>
+        <qualifiedname>quite::manager::ProcessImpl::terminate</qualifiedname>
+        <reimplements refid="classquite_1_1manager_1_1Process_1a601d8fdf253a735b42397e8d82e3a044">terminate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/src/process_impl.hpp" line="15" column="12" bodyfile="libs/manager/src/process_impl.cpp" bodystart="35" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>quite::manager::Process</label>
+        <link refid="classquite_1_1manager_1_1Process"/>
+      </node>
+      <node id="1">
+        <label>quite::manager::ProcessImpl</label>
+        <link refid="classquite_1_1manager_1_1ProcessImpl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::manager::Process</label>
+        <link refid="classquite_1_1manager_1_1Process"/>
+      </node>
+      <node id="1">
+        <label>quite::manager::ProcessImpl</label>
+        <link refid="classquite_1_1manager_1_1ProcessImpl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="libs/manager/src/process_impl.hpp" line="7" column="1" bodyfile="libs/manager/src/process_impl.hpp" bodystart="8" bodyend="19"/>
+    <listofallmembers>
+      <member refid="classquite_1_1manager_1_1ProcessImpl_1a5008402208a61fec02a86d7e0d93736d" prot="public" virt="virtual"><scope>quite::manager::ProcessImpl</scope><name>async_wait_exit</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessImpl_1a3eb54c7a2e9fd58f5715346957a3f188" prot="public" virt="virtual"><scope>quite::manager::ProcessImpl</scope><name>exit_code</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessImpl_1a6b28a1811c1e8e3a86bfa7122624008e" prot="public" virt="virtual"><scope>quite::manager::ProcessImpl</scope><name>is_running</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessImpl_1a09e8d10751ee690b1aaca0a39ac172f2" prot="private" virt="non-virtual"><scope>quite::manager::ProcessImpl</scope><name>process_</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessImpl_1a9dd2739f7b8ceaf6aa81526b86f2b9fe" prot="public" virt="non-virtual"><scope>quite::manager::ProcessImpl</scope><name>ProcessImpl</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessImpl_1aba11297b127ab57ab9961e1d0105c44a" prot="public" virt="virtual"><scope>quite::manager::ProcessImpl</scope><name>request_exit</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessImpl_1a41022accad531e76af26e895ab59d29b" prot="public" virt="virtual"><scope>quite::manager::ProcessImpl</scope><name>terminate</name></member>
+      <member refid="classquite_1_1manager_1_1Process_1a0fed3aa5e7e413198225a86dc3c3b9ba" prot="public" virt="virtual"><scope>quite::manager::ProcessImpl</scope><name>~Process</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

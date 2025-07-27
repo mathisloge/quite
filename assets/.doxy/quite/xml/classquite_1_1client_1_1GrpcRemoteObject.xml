@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1client_1_1GrpcRemoteObject" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>quite::client::GrpcRemoteObject</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; GrpcRemoteObject &gt;</basecompoundref>
+    <basecompoundref refid="classquite_1_1client_1_1RemoteObject" prot="public" virt="non-virtual">quite::client::RemoteObject</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1client_1_1GrpcRemoteObject_1a50a6b3c48fb18986136f3e38387226cd" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classquite_1_1proto_1_1ProbeClient" kindref="compound">proto::ProbeClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;proto::ProbeClient&gt; quite::client::GrpcRemoteObject::client_</definition>
+        <argsstring></argsstring>
+        <name>client_</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="29" column="21" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1client_1_1GrpcRemoteObject_1aca00d65941b6273c40e13f856a7329e2" prot="private" static="no" mutable="no">
+        <type>meta::TypeId</type>
+        <definition>meta::TypeId quite::client::GrpcRemoteObject::type_id_</definition>
+        <argsstring></argsstring>
+        <name>type_id_</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::type_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="30" column="18" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.hpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1ae0229d554a14ee4d8cbd1817858cf40f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::client::GrpcRemoteObject::GrpcRemoteObject</definition>
+        <argsstring>(ObjectReference reference, std::shared_ptr&lt; proto::ProbeClient &gt; client)</argsstring>
+        <name>GrpcRemoteObject</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::GrpcRemoteObject</qualifiedname>
+        <param>
+          <type><ref refid="structquite_1_1ObjectReference" kindref="compound">ObjectReference</ref></type>
+          <declname>reference</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classquite_1_1proto_1_1ProbeClient" kindref="compound">proto::ProbeClient</ref> &gt;</type>
+          <declname>client</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="11" column="14" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="9" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1a9c8c13f8396575565853d71bb93a137b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>meta::TypeId</type>
+        <definition>meta::TypeId quite::client::GrpcRemoteObject::type_id</definition>
+        <argsstring>() const override</argsstring>
+        <name>type_id</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::type_id</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1RemoteObject_1a0c51a9e23d44588f058170d70a07915b">type_id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="13" column="18" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="15" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1adac838d03d53ac978fa5c93e69dc0b9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; std::unordered_map&lt; std::string, PropertyPtr &gt; &gt;</type>
+        <definition>AsyncResult&lt; std::unordered_map&lt; std::string, std::shared_ptr&lt; Property &gt; &gt; &gt; quite::client::GrpcRemoteObject::fetch_properties</definition>
+        <argsstring>(std::vector&lt; std::string &gt; properties) override</argsstring>
+        <name>fetch_properties</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::fetch_properties</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1RemoteObject_1ad71d0050261f10db3f25a177f5562838">fetch_properties</reimplements>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="15" column="17" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="20" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1a65a1ba69aa8a8fb11b98419e6424eb3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; PropertyPtr &gt;</type>
+        <definition>AsyncResult&lt; std::shared_ptr&lt; Property &gt; &gt; quite::client::GrpcRemoteObject::property</definition>
+        <argsstring>(std::string property_name) override</argsstring>
+        <name>property</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::property</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1RemoteObject_1affb037ab156a8b071a2c0b59bdac5897">property</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>property_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="18" column="17" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1a95d7c6e4abcad20afd3d14ba0ca1a55e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>AsyncResult&lt; void &gt; quite::client::GrpcRemoteObject::write_property</definition>
+        <argsstring>(std::string property_name, entt::meta_any value) override</argsstring>
+        <name>write_property</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::write_property</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1RemoteObject_1ad4a5593d2b27ef92e0c7eab39da037a1">write_property</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>property_name</declname>
+        </param>
+        <param>
+          <type>entt::meta_any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="19" column="17" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1ae6ba6944dc33447b5d9eb0397b300612" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AsyncResult&lt; entt::meta_any &gt;</type>
+        <definition>AsyncResult&lt; entt::meta_any &gt; quite::client::GrpcRemoteObject::fetch_property</definition>
+        <argsstring>(std::string property_name)</argsstring>
+        <name>fetch_property</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::fetch_property</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>property_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="20" column="17" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="57" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1a075a6a34577059e5f07e1d3d9062216b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>AsyncResult&lt; void &gt; quite::client::GrpcRemoteObject::mouse_action</definition>
+        <argsstring>() override</argsstring>
+        <name>mouse_action</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::mouse_action</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1RemoteObject_1add572809de5f0eb04f407d4da26f8143">mouse_action</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="22" column="17" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1aa7993fd3755ac37083900f84f5c4dd44" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; <ref refid="classquite_1_1Image" kindref="compound">Image</ref> &gt;</type>
+        <definition>AsyncResult&lt; Image &gt; quite::client::GrpcRemoteObject::take_snapshot</definition>
+        <argsstring>() override</argsstring>
+        <name>take_snapshot</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::take_snapshot</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1RemoteObject_1a11c98ea3f6d7f4799b41a67c28dacc88">take_snapshot</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="24" column="17" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1client_1_1GrpcRemoteObject_1a48ffe3d8a6246e17d099be1a08c2cd3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; void &gt;</type>
+        <definition>AsyncResult&lt; void &gt; quite::client::GrpcRemoteObject::invoke_method</definition>
+        <argsstring>(std::string method_name) override</argsstring>
+        <name>invoke_method</name>
+        <qualifiedname>quite::client::GrpcRemoteObject::invoke_method</qualifiedname>
+        <reimplements refid="classquite_1_1client_1_1RemoteObject_1a488d88ea05435ba01d4c4efe8d4e02e5">invoke_method</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>method_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="26" column="17" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.cpp" bodystart="83" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>quite::client::GrpcRemoteObject</label>
+        <link refid="classquite_1_1client_1_1GrpcRemoteObject"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>quite::client::RemoteObject</label>
+        <link refid="classquite_1_1client_1_1RemoteObject"/>
+      </node>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; GrpcRemoteObject &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>quite::client::GrpcRemoteObject</label>
+        <link refid="classquite_1_1client_1_1GrpcRemoteObject"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>quite::client::RemoteObject</label>
+        <link refid="classquite_1_1client_1_1RemoteObject"/>
+      </node>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; GrpcRemoteObject &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="libs/client/src/grpc_impl/grpc_remote_object.hpp" line="8" column="1" bodyfile="libs/client/src/grpc_impl/grpc_remote_object.hpp" bodystart="9" bodyend="31"/>
+    <listofallmembers>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1a50a6b3c48fb18986136f3e38387226cd" prot="private" virt="non-virtual"><scope>quite::client::GrpcRemoteObject</scope><name>client_</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1adac838d03d53ac978fa5c93e69dc0b9b" prot="public" virt="virtual"><scope>quite::client::GrpcRemoteObject</scope><name>fetch_properties</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1ae6ba6944dc33447b5d9eb0397b300612" prot="public" virt="non-virtual"><scope>quite::client::GrpcRemoteObject</scope><name>fetch_property</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1ae0229d554a14ee4d8cbd1817858cf40f" prot="public" virt="non-virtual"><scope>quite::client::GrpcRemoteObject</scope><name>GrpcRemoteObject</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1a127c3f7dfe759284e73c9da500bbf002" prot="public" virt="non-virtual"><scope>quite::client::GrpcRemoteObject</scope><name>id</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1a48ffe3d8a6246e17d099be1a08c2cd3d" prot="public" virt="virtual"><scope>quite::client::GrpcRemoteObject</scope><name>invoke_method</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1a075a6a34577059e5f07e1d3d9062216b" prot="public" virt="virtual"><scope>quite::client::GrpcRemoteObject</scope><name>mouse_action</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1a65a1ba69aa8a8fb11b98419e6424eb3d" prot="public" virt="virtual"><scope>quite::client::GrpcRemoteObject</scope><name>property</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1a2ff1bae2591a7339dd15b5e38ce8665a" prot="public" virt="non-virtual"><scope>quite::client::GrpcRemoteObject</scope><name>RemoteObject</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1aa7993fd3755ac37083900f84f5c4dd44" prot="public" virt="virtual"><scope>quite::client::GrpcRemoteObject</scope><name>take_snapshot</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1a9c8c13f8396575565853d71bb93a137b" prot="public" virt="virtual"><scope>quite::client::GrpcRemoteObject</scope><name>type_id</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1aca00d65941b6273c40e13f856a7329e2" prot="private" virt="non-virtual"><scope>quite::client::GrpcRemoteObject</scope><name>type_id_</name></member>
+      <member refid="classquite_1_1client_1_1GrpcRemoteObject_1a95d7c6e4abcad20afd3d14ba0ca1a55e" prot="public" virt="virtual"><scope>quite::client::GrpcRemoteObject</scope><name>write_property</name></member>
+      <member refid="classquite_1_1client_1_1RemoteObject_1aa817019d363dabe80076c119174cde83" prot="public" virt="virtual"><scope>quite::client::GrpcRemoteObject</scope><name>~RemoteObject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

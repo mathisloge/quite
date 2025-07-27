@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1QObjectSender_1_1DefaultEnv" kind="struct" language="C++" prot="private">
+    <compoundname>quite::QObjectSender::DefaultEnv</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1QObjectSender_1_1DefaultEnv_1a1444daf43b3bd7ae3a4fcbba012abe89" prot="public" static="no" mutable="no">
+        <type>QThread *</type>
+        <definition>QThread* quite::QObjectSender&lt; QObj, Ret, Args &gt;::DefaultEnv::thread</definition>
+        <argsstring></argsstring>
+        <name>thread</name>
+        <qualifiedname>quite::QObjectSender::DefaultEnv::thread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="128" column="17" bodyfile="libs/probeqt/qtstdexec.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquite_1_1QObjectSender_1_1DefaultEnv_1a75ad45101c2456320e1dad5d145abde0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename CPO</type>
+          </param>
+        </templateparamlist>
+        <type>auto</type>
+        <definition>auto quite::QObjectSender&lt; QObj, Ret, Args &gt;::DefaultEnv::query</definition>
+        <argsstring>(stdexec::get_completion_scheduler_t&lt; CPO &gt;) const noexcept</argsstring>
+        <name>query</name>
+        <qualifiedname>quite::QObjectSender::DefaultEnv::query</qualifiedname>
+        <param>
+          <type>stdexec::get_completion_scheduler_t&lt; CPO &gt;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="130" column="14" bodyfile="libs/probeqt/qtstdexec.h" bodystart="130" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/probeqt/qtstdexec.h" line="126" column="5" bodyfile="libs/probeqt/qtstdexec.h" bodystart="127" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structquite_1_1QObjectSender_1_1DefaultEnv_1a75ad45101c2456320e1dad5d145abde0" prot="public" virt="non-virtual"><scope>quite::QObjectSender::DefaultEnv</scope><name>query</name></member>
+      <member refid="structquite_1_1QObjectSender_1_1DefaultEnv_1a1444daf43b3bd7ae3a4fcbba012abe89" prot="public" virt="non-virtual"><scope>quite::QObjectSender::DefaultEnv</scope><name>thread</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

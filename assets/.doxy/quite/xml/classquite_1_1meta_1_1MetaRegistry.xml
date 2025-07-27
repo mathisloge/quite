@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1meta_1_1MetaRegistry" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>quite::meta::MetaRegistry</compoundname>
+    <derivedcompoundref refid="classquite_1_1probe_1_1QtMetaRegistry" prot="public" virt="non-virtual">quite::probe::QtMetaRegistry</derivedcompoundref>
+    <derivedcompoundref refid="classquite_1_1proto_1_1MetaRegistryImpl" prot="public" virt="non-virtual">quite::proto::MetaRegistryImpl</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1meta_1_1MetaRegistry_1ac96d2d43ee52ab4e37fca54fbcda3fbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual quite::meta::MetaRegistry::~MetaRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MetaRegistry</name>
+        <qualifiedname>quite::meta::MetaRegistry::~MetaRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_registry.hpp" line="10" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1meta_1_1MetaRegistry_1a1abbf6ddc0b7ba357e726b4015dd7f2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; meta::Type &gt;</type>
+        <definition>virtual AsyncResult&lt; meta::Type &gt; quite::meta::MetaRegistry::lookup_type</definition>
+        <argsstring>(meta::TypeId type_id)=0</argsstring>
+        <name>lookup_type</name>
+        <qualifiedname>quite::meta::MetaRegistry::lookup_type</qualifiedname>
+        <reimplementedby refid="classquite_1_1probe_1_1QtMetaRegistry_1a208d0f7555efb0b4f6da4f67ca9405b5">lookup_type</reimplementedby>
+        <reimplementedby refid="classquite_1_1proto_1_1MetaRegistryImpl_1a958f73d461cb76b0ed0b8d11fbaad053">lookup_type</reimplementedby>
+        <param>
+          <type>meta::TypeId</type>
+          <declname>type_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/meta/meta_registry.hpp" line="11" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>quite::meta::MetaRegistry</label>
+        <link refid="classquite_1_1meta_1_1MetaRegistry"/>
+      </node>
+      <node id="2">
+        <label>quite::probe::QtMetaRegistry</label>
+        <link refid="classquite_1_1probe_1_1QtMetaRegistry"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>quite::proto::MetaRegistryImpl</label>
+        <link refid="classquite_1_1proto_1_1MetaRegistryImpl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="libs/core/include/quite/meta/meta_registry.hpp" line="7" column="1" bodyfile="libs/core/include/quite/meta/meta_registry.hpp" bodystart="8" bodyend="12"/>
+    <listofallmembers>
+      <member refid="classquite_1_1meta_1_1MetaRegistry_1a1abbf6ddc0b7ba357e726b4015dd7f2f" prot="public" virt="pure-virtual"><scope>quite::meta::MetaRegistry</scope><name>lookup_type</name></member>
+      <member refid="classquite_1_1meta_1_1MetaRegistry_1ac96d2d43ee52ab4e37fca54fbcda3fbe" prot="public" virt="virtual"><scope>quite::meta::MetaRegistry</scope><name>~MetaRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

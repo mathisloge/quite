@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1QThreadScheduler" kind="class" language="C++" prot="public">
+    <compoundname>quite::QThreadScheduler</compoundname>
+    <innerclass refid="structquite_1_1QThreadScheduler_1_1DefaultEnv" prot="public">quite::QThreadScheduler::DefaultEnv</innerclass>
+    <innerclass refid="classquite_1_1QThreadScheduler_1_1QThreadSender" prot="public">quite::QThreadScheduler::QThreadSender</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1QThreadScheduler_1aef1b07ba463f112f549745f8994b8980" prot="private" static="no" mutable="no">
+        <type>QThread *</type>
+        <definition>QThread* quite::QThreadScheduler::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>quite::QThreadScheduler::thread_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="83" column="13" bodyfile="libs/probeqt/qtstdexec.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1QThreadScheduler_1a8c2b99b64ef20a875a40f7fe56e37cf8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>quite::QThreadScheduler::QThreadScheduler</definition>
+        <argsstring>(QThread *thread)</argsstring>
+        <name>QThreadScheduler</name>
+        <qualifiedname>quite::QThreadScheduler::QThreadScheduler</qualifiedname>
+        <param>
+          <type>QThread *</type>
+          <declname>thread</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="20" column="14" bodyfile="libs/probeqt/qtstdexec.h" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1QThreadScheduler_1a7c8296a141b5d7f978c0fa855c07de48" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>QThread *</type>
+        <definition>QThread * quite::QThreadScheduler::thread</definition>
+        <argsstring>()</argsstring>
+        <name>thread</name>
+        <qualifiedname>quite::QThreadScheduler::thread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="24" column="13" bodyfile="libs/probeqt/qtstdexec.h" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1QThreadScheduler_1af35a5d42e2b321f286c0f9c7aeb690c3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structquite_1_1QThreadScheduler_1_1DefaultEnv" kindref="compound">DefaultEnv</ref></type>
+        <definition>DefaultEnv quite::QThreadScheduler::query</definition>
+        <argsstring>(stdexec::get_env_t) noexcept</argsstring>
+        <name>query</name>
+        <qualifiedname>quite::QThreadScheduler::query</qualifiedname>
+        <param>
+          <type>stdexec::get_env_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="39" column="16" bodyfile="libs/probeqt/qtstdexec.h" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1QThreadScheduler_1a4a0097f90f18a226a4ddf4b0cb67cad8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto quite::QThreadScheduler::schedule</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>schedule</name>
+        <qualifiedname>quite::QThreadScheduler::schedule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="44" column="10" bodyfile="libs/probeqt/qtstdexec.h" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1QThreadScheduler_1a9506b1606d675db840eed3156392768d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool quite::QThreadScheduler::operator==</definition>
+        <argsstring>(const QThreadScheduler &amp;b) const noexcept=default</argsstring>
+        <name>operator==</name>
+        <qualifiedname>quite::QThreadScheduler::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="classquite_1_1QThreadScheduler" kindref="compound">QThreadScheduler</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/qtstdexec.h" line="80" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/probeqt/qtstdexec.h" line="17" column="1" bodyfile="libs/probeqt/qtstdexec.h" bodystart="18" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classquite_1_1QThreadScheduler_1a9506b1606d675db840eed3156392768d" prot="public" virt="non-virtual"><scope>quite::QThreadScheduler</scope><name>operator==</name></member>
+      <member refid="classquite_1_1QThreadScheduler_1a8c2b99b64ef20a875a40f7fe56e37cf8" prot="public" virt="non-virtual"><scope>quite::QThreadScheduler</scope><name>QThreadScheduler</name></member>
+      <member refid="classquite_1_1QThreadScheduler_1af35a5d42e2b321f286c0f9c7aeb690c3" prot="public" virt="non-virtual"><scope>quite::QThreadScheduler</scope><name>query</name></member>
+      <member refid="classquite_1_1QThreadScheduler_1a4a0097f90f18a226a4ddf4b0cb67cad8" prot="public" virt="non-virtual"><scope>quite::QThreadScheduler</scope><name>schedule</name></member>
+      <member refid="classquite_1_1QThreadScheduler_1a7c8296a141b5d7f978c0fa855c07de48" prot="public" virt="non-virtual"><scope>quite::QThreadScheduler</scope><name>thread</name></member>
+      <member refid="classquite_1_1QThreadScheduler_1aef1b07ba463f112f549745f8994b8980" prot="private" virt="non-virtual"><scope>quite::QThreadScheduler</scope><name>thread_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

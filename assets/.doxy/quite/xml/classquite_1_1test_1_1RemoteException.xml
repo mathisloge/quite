@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1test_1_1RemoteException" kind="class" language="C++" prot="public">
+    <compoundname>quite::test::RemoteException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1test_1_1RemoteException_1a9ce867f6abe84151413e6be0f21533c8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::test::RemoteException::RemoteException</definition>
+        <argsstring>(const Error &amp;error)</argsstring>
+        <name>RemoteException</name>
+        <qualifiedname>quite::test::RemoteException::RemoteException</qualifiedname>
+        <param>
+          <type>const <ref refid="structquite_1_1Error" kindref="compound">Error</ref> &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/testing/include/quite/test/exceptions.hpp" line="11" column="14" bodyfile="libs/testing/src/exceptions.cpp" bodystart="4" bodyend="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>quite::test::RemoteException</label>
+        <link refid="classquite_1_1test_1_1RemoteException"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>quite::test::RemoteException</label>
+        <link refid="classquite_1_1test_1_1RemoteException"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="libs/testing/include/quite/test/exceptions.hpp" line="8" column="1" bodyfile="libs/testing/include/quite/test/exceptions.hpp" bodystart="9" bodyend="12"/>
+    <listofallmembers>
+      <member refid="classquite_1_1test_1_1RemoteException_1a9ce867f6abe84151413e6be0f21533c8" prot="public" virt="non-virtual"><scope>quite::test::RemoteException</scope><name>RemoteException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

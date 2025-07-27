@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1probe_1_1MetaAdapter" kind="class" language="C++" prot="public">
+    <compoundname>quite::probe::MetaAdapter</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1probe_1_1MetaAdapter_1a747d7bebc76e967efe86e3ee5d9a1ad8" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1probe_1_1QtMetaRegistry" kindref="compound">QtMetaRegistry</ref></type>
+        <definition>QtMetaRegistry quite::probe::MetaAdapter::type_registry_</definition>
+        <argsstring></argsstring>
+        <name>type_registry_</name>
+        <qualifiedname>quite::probe::MetaAdapter::type_registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/meta_adapter.hpp" line="15" column="20" bodyfile="libs/probeqt/meta_adapter.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1probe_1_1MetaAdapter_1a249925395ab2182a394c8e6e497010ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>AsyncResult&lt; meta::Type &gt;</type>
+        <definition>AsyncResult&lt; meta::Type &gt; quite::probe::MetaAdapter::find_type_by_id</definition>
+        <argsstring>(meta::TypeId type_id)</argsstring>
+        <name>find_type_by_id</name>
+        <qualifiedname>quite::probe::MetaAdapter::find_type_by_id</qualifiedname>
+        <param>
+          <type>meta::TypeId</type>
+          <declname>type_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/meta_adapter.hpp" line="12" column="17" bodyfile="libs/probeqt/meta_adapter.cpp" bodystart="6" bodyend="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/probeqt/meta_adapter.hpp" line="9" column="1" bodyfile="libs/probeqt/meta_adapter.hpp" bodystart="10" bodyend="16"/>
+    <listofallmembers>
+      <member refid="classquite_1_1probe_1_1MetaAdapter_1a249925395ab2182a394c8e6e497010ec" prot="public" virt="non-virtual"><scope>quite::probe::MetaAdapter</scope><name>find_type_by_id</name></member>
+      <member refid="classquite_1_1probe_1_1MetaAdapter_1a747d7bebc76e967efe86e3ee5d9a1ad8" prot="private" virt="non-virtual"><scope>quite::probe::MetaAdapter</scope><name>type_registry_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

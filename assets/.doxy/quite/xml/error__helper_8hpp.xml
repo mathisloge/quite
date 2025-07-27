@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="error__helper_8hpp" kind="file" language="C++">
+    <compoundname>error_helper.hpp</compoundname>
+    <includes local="no">grpcpp/support/status.h</includes>
+    <includes refid="error_8hpp" local="no">quite/error.hpp</includes>
+    <includedby refid="meta__registry__impl_8cpp" local="yes">libs/protocol/src/client/meta_registry_impl.cpp</includedby>
+    <includedby refid="mouse__injector__impl_8cpp" local="yes">libs/protocol/src/client/mouse_injector_impl.cpp</includedby>
+    <includedby refid="probe__service__impl_8cpp" local="yes">libs/protocol/src/client/probe_service_impl.cpp</includedby>
+    <includedby refid="error__helper_8cpp" local="yes">libs/protocol/src/error_helper.cpp</includedby>
+    <includedby refid="rpc__fetch__windows_8cpp" local="yes">libs/protocol/src/probe/rpc_fetch_windows.cpp</includedby>
+    <includedby refid="rpc__find__object_8cpp" local="yes">libs/protocol/src/probe/rpc_find_object.cpp</includedby>
+    <includedby refid="rpc__invoke__method_8cpp" local="yes">libs/protocol/src/probe/rpc_invoke_method.cpp</includedby>
+    <includedby refid="rpc__meta__find__type_8cpp" local="yes">libs/protocol/src/probe/rpc_meta_find_type.cpp</includedby>
+    <includedby refid="rpc__mouse__injection_8cpp" local="yes">libs/protocol/src/probe/rpc_mouse_injection.cpp</includedby>
+    <includedby refid="rpc__object__properties_8cpp" local="yes">libs/protocol/src/probe/rpc_object_properties.cpp</includedby>
+    <includedby refid="rpc__set__object__property_8cpp" local="yes">libs/protocol/src/probe/rpc_set_object_property.cpp</includedby>
+    <includedby refid="rpc__snapshot_8cpp" local="yes">libs/protocol/src/probe/rpc_snapshot.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>quite/error.hpp</label>
+        <link refid="error_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>libs/protocol/src/error_helper.hpp</label>
+        <link refid="error__helper_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>fmt/core.h</label>
+      </node>
+      <node id="2">
+        <label>grpcpp/support/status.h</label>
+      </node>
+      <node id="6">
+        <label>quite/quite_core_export.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacequite">quite</innernamespace>
+    <innernamespace refid="namespacequite_1_1proto">quite::proto</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;grpcpp/support/status.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;quite/error.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">quite::proto</highlight></codeline>
+<codeline lineno="6"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal">grpc::Status<sp/>result2grpc_status(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Error<sp/>&amp;error);</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">Error<sp/>grpc_status2result(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>grpc::Status<sp/>&amp;error);</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>quite::proto</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="libs/protocol/src/error_helper.hpp"/>
+  </compounddef>
+</doxygen>

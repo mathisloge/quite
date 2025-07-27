@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1probe_1_1ProbeContext" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>quite::probe::ProbeContext</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1a6e9a81a007423ad98b6abc07f14a2038" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1probe_1_1ObjectTracker" kindref="compound">quite::probe::ObjectTracker</ref></type>
+        <definition>quite::probe::ObjectTracker quite::probe::ProbeContext::object_tracker_</definition>
+        <argsstring></argsstring>
+        <name>object_tracker_</name>
+        <qualifiedname>quite::probe::ProbeContext::object_tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="28" column="33" bodyfile="libs/probeqt/probe_context.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1af76bd1c791e03a7cb7ec173516f312d6" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref>&lt; <ref refid="classquite_1_1proto_1_1IProbeHandler" kindref="compound">proto::IProbeHandler</ref> &gt;</type>
+        <definition>ServiceHandle&lt;proto::IProbeHandler&gt; quite::probe::ProbeContext::probe_handler_</definition>
+        <argsstring></argsstring>
+        <name>probe_handler_</name>
+        <qualifiedname>quite::probe::ProbeContext::probe_handler_</qualifiedname>
+        <initializer>{std::make_shared&lt;<ref refid="classquite_1_1probe_1_1QtProbeHandler" kindref="compound">QtProbeHandler</ref>&gt;(object_tracker_)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="29" column="19" bodyfile="libs/probeqt/probe_context.hpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1a8b34917ad470f795da7b90a401b6b11b" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref>&lt; <ref refid="classquite_1_1core_1_1IMouseInjector" kindref="compound">core::IMouseInjector</ref> &gt;</type>
+        <definition>ServiceHandle&lt;core::IMouseInjector&gt; quite::probe::ProbeContext::mouse_injector_</definition>
+        <argsstring></argsstring>
+        <name>mouse_injector_</name>
+        <qualifiedname>quite::probe::ProbeContext::mouse_injector_</qualifiedname>
+        <initializer>{std::make_shared&lt;<ref refid="classquite_1_1probe_1_1MouseInjector" kindref="compound">MouseInjector</ref>&gt;(object_tracker_)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="30" column="19" bodyfile="libs/probeqt/probe_context.hpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1ac62653d15a16e2944560f0355bf92e7d" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref>&lt; <ref refid="classquite_1_1meta_1_1MetaRegistry" kindref="compound">meta::MetaRegistry</ref> &gt;</type>
+        <definition>ServiceHandle&lt;meta::MetaRegistry&gt; quite::probe::ProbeContext::meta_registry_</definition>
+        <argsstring></argsstring>
+        <name>meta_registry_</name>
+        <qualifiedname>quite::probe::ProbeContext::meta_registry_</qualifiedname>
+        <initializer>{std::make_shared&lt;<ref refid="classquite_1_1probe_1_1QtMetaRegistry" kindref="compound">QtMetaRegistry</ref>&gt;()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="31" column="19" bodyfile="libs/probeqt/probe_context.hpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1ab5d0eaf011a57c9464e3db15f17ee69a" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1ServiceHandle" kindref="compound">ServiceHandle</ref>&lt; <ref refid="classquite_1_1ValueRegistry" kindref="compound">ValueRegistry</ref> &gt;</type>
+        <definition>ServiceHandle&lt;ValueRegistry&gt; quite::probe::ProbeContext::value_registry_</definition>
+        <argsstring></argsstring>
+        <name>value_registry_</name>
+        <qualifiedname>quite::probe::ProbeContext::value_registry_</qualifiedname>
+        <initializer>{std::in_place}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="32" column="19" bodyfile="libs/probeqt/probe_context.hpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1ac6baf4937bdabb8206036c88889ca641" prot="private" static="no" mutable="no">
+        <type><ref refid="classquite_1_1proto_1_1Server" kindref="compound">quite::proto::Server</ref></type>
+        <definition>quite::proto::Server quite::probe::ProbeContext::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>quite::probe::ProbeContext::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="33" column="26" bodyfile="libs/probeqt/probe_context.hpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1a04d4d7d1a699ac2971ad695333adb917" prot="private" static="no" mutable="no">
+        <type>QHooks::AddQObjectCallback</type>
+        <definition>QHooks::AddQObjectCallback quite::probe::ProbeContext::next_add_qobject_hook_</definition>
+        <argsstring></argsstring>
+        <name>next_add_qobject_hook_</name>
+        <qualifiedname>quite::probe::ProbeContext::next_add_qobject_hook_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="35" column="32" bodyfile="libs/probeqt/probe_context.hpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1ab6360cfcc5850bb8d5f2f321512c7257" prot="private" static="no" mutable="no">
+        <type>QHooks::RemoveQObjectCallback</type>
+        <definition>QHooks::RemoveQObjectCallback quite::probe::ProbeContext::next_remove_qobject_hook_</definition>
+        <argsstring></argsstring>
+        <name>next_remove_qobject_hook_</name>
+        <qualifiedname>quite::probe::ProbeContext::next_remove_qobject_hook_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="36" column="35" bodyfile="libs/probeqt/probe_context.hpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="classquite_1_1probe_1_1ProbeContext_1ab1638cd5b36c177837efe90600dae764" prot="private" static="no" mutable="no">
+        <type>QHooks::StartupCallback</type>
+        <definition>QHooks::StartupCallback quite::probe::ProbeContext::next_startup_hook_</definition>
+        <argsstring></argsstring>
+        <name>next_startup_hook_</name>
+        <qualifiedname>quite::probe::ProbeContext::next_startup_hook_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="37" column="29" bodyfile="libs/probeqt/probe_context.hpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1probe_1_1ProbeContext_1aa413ed9c15e8d482ef1ada207c4e2854" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::probe::ProbeContext::QUITE_DISABLE_COPY_MOVE</definition>
+        <argsstring>(ProbeContext)</argsstring>
+        <name>QUITE_DISABLE_COPY_MOVE</name>
+        <qualifiedname>quite::probe::ProbeContext::QUITE_DISABLE_COPY_MOVE</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1probe_1_1ProbeContext" kindref="compound">ProbeContext</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="15" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1ProbeContext_1abccd8cb15c0e60a0413883f834c0c591" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::probe::ProbeContext::ProbeContext</definition>
+        <argsstring>(std::string server_address)</argsstring>
+        <name>ProbeContext</name>
+        <qualifiedname>quite::probe::ProbeContext::ProbeContext</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>server_address</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="16" column="14" bodyfile="libs/probeqt/probe_context.cpp" bodystart="20" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1ProbeContext_1a943e0554f5bcb5c45e52d0dd0393113c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::probe::ProbeContext::~ProbeContext</definition>
+        <argsstring>()</argsstring>
+        <name>~ProbeContext</name>
+        <qualifiedname>quite::probe::ProbeContext::~ProbeContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="17" column="5" bodyfile="libs/probeqt/probe_context.cpp" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1ProbeContext_1ac04dbd52042b777c74559ab8487009ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::probe::ProbeContext::qt_hook_add_object</definition>
+        <argsstring>(QObject *q)</argsstring>
+        <name>qt_hook_add_object</name>
+        <qualifiedname>quite::probe::ProbeContext::qt_hook_add_object</qualifiedname>
+        <param>
+          <type>QObject *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="19" column="10" bodyfile="libs/probeqt/probe_context.cpp" bodystart="65" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1ProbeContext_1aa3b8b6af8fe323e3b2689b5864f4489f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::probe::ProbeContext::qt_hook_remove_object</definition>
+        <argsstring>(QObject *q)</argsstring>
+        <name>qt_hook_remove_object</name>
+        <qualifiedname>quite::probe::ProbeContext::qt_hook_remove_object</qualifiedname>
+        <param>
+          <type>QObject *</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="20" column="10" bodyfile="libs/probeqt/probe_context.cpp" bodystart="74" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1ProbeContext_1ace2eb25e8f4d74339d5653ce497e3fd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::probe::ProbeContext::qt_hook_startup</definition>
+        <argsstring>()</argsstring>
+        <name>qt_hook_startup</name>
+        <qualifiedname>quite::probe::ProbeContext::qt_hook_startup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="21" column="10" bodyfile="libs/probeqt/probe_context.cpp" bodystart="83" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classquite_1_1probe_1_1ProbeContext_1a98a4d676754923841360a7b11364a6e2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::probe::ProbeContext::install_qt_hooks</definition>
+        <argsstring>()</argsstring>
+        <name>install_qt_hooks</name>
+        <qualifiedname>quite::probe::ProbeContext::install_qt_hooks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="24" column="10" bodyfile="libs/probeqt/probe_context.cpp" bodystart="34" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1probe_1_1ProbeContext_1aa056c763e93a2e2afed027862dfae009" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void quite::probe::ProbeContext::install_application_hooks</definition>
+        <argsstring>()</argsstring>
+        <name>install_application_hooks</name>
+        <qualifiedname>quite::probe::ProbeContext::install_application_hooks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/probeqt/probe_context.hpp" line="25" column="10" bodyfile="libs/probeqt/probe_context.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/probeqt/probe_context.hpp" line="12" column="1" bodyfile="libs/probeqt/probe_context.hpp" bodystart="13" bodyend="38"/>
+    <listofallmembers>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1aa056c763e93a2e2afed027862dfae009" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>install_application_hooks</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1a98a4d676754923841360a7b11364a6e2" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>install_qt_hooks</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1ac62653d15a16e2944560f0355bf92e7d" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>meta_registry_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1a8b34917ad470f795da7b90a401b6b11b" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>mouse_injector_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1a04d4d7d1a699ac2971ad695333adb917" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>next_add_qobject_hook_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1ab6360cfcc5850bb8d5f2f321512c7257" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>next_remove_qobject_hook_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1ab1638cd5b36c177837efe90600dae764" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>next_startup_hook_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1a6e9a81a007423ad98b6abc07f14a2038" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>object_tracker_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1af76bd1c791e03a7cb7ec173516f312d6" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>probe_handler_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1abccd8cb15c0e60a0413883f834c0c591" prot="public" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>ProbeContext</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1ac04dbd52042b777c74559ab8487009ff" prot="public" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>qt_hook_add_object</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1aa3b8b6af8fe323e3b2689b5864f4489f" prot="public" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>qt_hook_remove_object</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1ace2eb25e8f4d74339d5653ce497e3fd4" prot="public" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>qt_hook_startup</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1aa413ed9c15e8d482ef1ada207c4e2854" prot="public" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>QUITE_DISABLE_COPY_MOVE</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1ac6baf4937bdabb8206036c88889ca641" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>server_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1ab5d0eaf011a57c9464e3db15f17ee69a" prot="private" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>value_registry_</name></member>
+      <member refid="classquite_1_1probe_1_1ProbeContext_1a943e0554f5bcb5c45e52d0dd0393113c" prot="public" virt="non-virtual"><scope>quite::probe::ProbeContext</scope><name>~ProbeContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

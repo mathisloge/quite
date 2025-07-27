@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="qt__probe__handler_8hpp" kind="file" language="C++">
+    <compoundname>qt_probe_handler.hpp</compoundname>
+    <includes local="no">QObject</includes>
+    <includes refid="async__result_8hpp" local="no">quite/async_result.hpp</includes>
+    <includes refid="probe__handler_8hpp" local="no">quite/proto/probe/probe_handler.hpp</includes>
+    <includes refid="method__invoker_8hpp" local="yes">method_invoker.hpp</includes>
+    <includedby refid="probe__context_8hpp" local="yes">libs/probeqt/probe_context.hpp</includedby>
+    <includedby refid="qt__probe__handler_8cpp" local="yes">libs/probeqt/qt_probe_handler.cpp</includedby>
+    <includedby refid="test__qt__probe__handler_8cpp" local="yes">libs/probeqt/tests/test_qt_probe_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>quite/async_result.hpp</label>
+        <link refid="async__result_8hpp_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>error.hpp</label>
+        <link refid="error_8hpp_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>quite/meta/meta_type_id.hpp</label>
+        <link refid="meta__type__id_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>result.hpp</label>
+        <link refid="result_8hpp_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>quite/value/object_id.hpp</label>
+        <link refid="object__id_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>quite/value/value_registry.hpp</label>
+        <link refid="value__registry_8hpp_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>method_invoker.hpp</label>
+        <link refid="method__invoker_8hpp_source"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>libs/probeqt/qt_probe_handler.hpp</label>
+        <link refid="qt__probe__handler_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>quite/proto/probe/probe_handler.hpp</label>
+        <link refid="probe__handler_8hpp_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>QObject</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>entt/container/dense_map.hpp</label>
+      </node>
+      <node id="21">
+        <label>entt/core/hashed_string.hpp</label>
+      </node>
+      <node id="22">
+        <label>entt/locator/locator.hpp</label>
+      </node>
+      <node id="23">
+        <label>entt/meta/context.hpp</label>
+      </node>
+      <node id="13">
+        <label>entt/meta/meta.hpp</label>
+      </node>
+      <node id="4">
+        <label>exec/task.hpp</label>
+      </node>
+      <node id="6">
+        <label>expected</label>
+      </node>
+      <node id="9">
+        <label>fmt/core.h</label>
+      </node>
+      <node id="10">
+        <label>quite/quite_core_export.hpp</label>
+      </node>
+      <node id="17">
+        <label>quite/quite_protocol_export.hpp</label>
+      </node>
+      <node id="19">
+        <label>span</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>libs/probeqt/probe_context.hpp</label>
+        <link refid="probe__context_8hpp_source"/>
+      </node>
+      <node id="1">
+        <label>libs/probeqt/qt_probe_handler.hpp</label>
+        <link refid="qt__probe__handler_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classquite_1_1probe_1_1QtProbeHandler" prot="public">quite::probe::QtProbeHandler</innerclass>
+    <innernamespace refid="namespacequite">quite</innernamespace>
+    <innernamespace refid="namespacequite_1_1probe">quite::probe</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;QObject&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;quite/async_result.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;quite/proto/probe/probe_handler.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;method_invoker.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">quite::probe</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">AsyncResult&lt;QImage&gt;<sp/>take_snapshot_of_qobject(QObject<sp/>*</highlight><highlight class="keywordtype">object</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ObjectTracker;</highlight></codeline>
+<codeline lineno="12" refid="classquite_1_1probe_1_1QtProbeHandler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classquite_1_1probe_1_1QtProbeHandler" kindref="compound">QtProbeHandler</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classquite_1_1proto_1_1IProbeHandler" kindref="compound">proto::IProbeHandler</ref></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classquite_1_1probe_1_1QtProbeHandler" kindref="compound">QtProbeHandler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classquite_1_1probe_1_1ObjectTracker" kindref="compound">ObjectTracker</ref><sp/>&amp;object_tracker);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>AsyncResult&lt;entt::meta_any&gt;<sp/>object_instance(ObjectId<sp/>object_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>AsyncResult&lt;ImageData&gt;<sp/>take_snapshot(ObjectId<sp/>object_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>AsyncResult&lt;ObjectReference&gt;<sp/>find_object(<ref refid="structquite_1_1ObjectQuery" kindref="compound">ObjectQuery</ref><sp/>query)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>AsyncResult&lt;PropertyMap&gt;<sp/>fetch_properties(ObjectId<sp/>object_id,<sp/>std::vector&lt;std::string&gt;<sp/>properties)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>AsyncResult&lt;void&gt;<sp/>set_property(ObjectId<sp/>object_id,<sp/>std::string<sp/>property,<sp/>entt::meta_any<sp/>value)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>AsyncResult&lt;std::vector&lt;ObjectReference&gt;&gt;<sp/>fetch_windows()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>AsyncResult&lt;entt::meta_any&gt;<sp/>invoke_method(entt::meta_any<sp/></highlight><highlight class="keywordtype">object</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>qualified_method_signature,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;entt::meta_any&gt;<sp/>params)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classquite_1_1probe_1_1ObjectTracker" kindref="compound">ObjectTracker</ref><sp/>&amp;object_tracker_;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classquite_1_1probe_1_1MethodInvoker" kindref="compound">MethodInvoker</ref><sp/>method_invoker_;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>quite::probe</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="libs/probeqt/qt_probe_handler.hpp"/>
+  </compounddef>
+</doxygen>

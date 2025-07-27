@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1ImageView" kind="struct" language="C++" prot="public">
+    <compoundname>quite::ImageView</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1ImageView_1a84f1640c4ad72c75da9507e1db69f269" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t quite::ImageView::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>quite::ImageView::width</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="13" column="19" bodyfile="libs/core/include/quite/image.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1ImageView_1a03710cbadc50c62aee131dfa3a912d70" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t quite::ImageView::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>quite::ImageView::height</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="14" column="19" bodyfile="libs/core/include/quite/image.hpp" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1ImageView_1ac8d5ced5ec8251f6b1ce9a4e1ff16de4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int quite::ImageView::channels</definition>
+        <argsstring></argsstring>
+        <name>channels</name>
+        <qualifiedname>quite::ImageView::channels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="15" column="9" bodyfile="libs/core/include/quite/image.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structquite_1_1ImageView_1ab8a651fb3ecb317d45f0dd6ab40ccb95" prot="public" static="no" mutable="no">
+        <type>PixelData</type>
+        <definition>PixelData quite::ImageView::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>quite::ImageView::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/core/include/quite/image.hpp" line="16" column="15" bodyfile="libs/core/include/quite/image.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="libs/core/include/quite/image.hpp" line="11" column="1" bodyfile="libs/core/include/quite/image.hpp" bodystart="12" bodyend="17"/>
+    <listofallmembers>
+      <member refid="structquite_1_1ImageView_1ac8d5ced5ec8251f6b1ce9a4e1ff16de4" prot="public" virt="non-virtual"><scope>quite::ImageView</scope><name>channels</name></member>
+      <member refid="structquite_1_1ImageView_1ab8a651fb3ecb317d45f0dd6ab40ccb95" prot="public" virt="non-virtual"><scope>quite::ImageView</scope><name>data</name></member>
+      <member refid="structquite_1_1ImageView_1a03710cbadc50c62aee131dfa3a912d70" prot="public" virt="non-virtual"><scope>quite::ImageView</scope><name>height</name></member>
+      <member refid="structquite_1_1ImageView_1a84f1640c4ad72c75da9507e1db69f269" prot="public" virt="non-virtual"><scope>quite::ImageView</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

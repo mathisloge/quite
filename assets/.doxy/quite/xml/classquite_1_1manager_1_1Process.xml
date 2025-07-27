@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1manager_1_1Process" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>quite::manager::Process</compoundname>
+    <derivedcompoundref refid="classquite_1_1manager_1_1NoopProcess" prot="public" virt="non-virtual">quite::manager::NoopProcess</derivedcompoundref>
+    <derivedcompoundref refid="classquite_1_1manager_1_1ProcessImpl" prot="public" virt="non-virtual">quite::manager::ProcessImpl</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1manager_1_1Process_1a0fed3aa5e7e413198225a86dc3c3b9ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual quite::manager::Process::~Process</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Process</name>
+        <qualifiedname>quite::manager::Process::~Process</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process.hpp" line="9" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1Process_1a5da5bb10d20d7a17140d065710059c1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool quite::manager::Process::is_running</definition>
+        <argsstring>()=0</argsstring>
+        <name>is_running</name>
+        <qualifiedname>quite::manager::Process::is_running</qualifiedname>
+        <reimplementedby refid="classquite_1_1manager_1_1NoopProcess_1ad8bba5eedd99accff74bfc5ce75d897a">is_running</reimplementedby>
+        <reimplementedby refid="classquite_1_1manager_1_1ProcessImpl_1a6b28a1811c1e8e3a86bfa7122624008e">is_running</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process.hpp" line="10" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1Process_1a9429d4eb3c8a7724c4f967edc64629ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int quite::manager::Process::exit_code</definition>
+        <argsstring>()=0</argsstring>
+        <name>exit_code</name>
+        <qualifiedname>quite::manager::Process::exit_code</qualifiedname>
+        <reimplementedby refid="classquite_1_1manager_1_1NoopProcess_1af85641e5c1766dca2d9d667e4a6d9f5f">exit_code</reimplementedby>
+        <reimplementedby refid="classquite_1_1manager_1_1ProcessImpl_1a3eb54c7a2e9fd58f5715346957a3f188">exit_code</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process.hpp" line="11" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1Process_1a662dc20be304b466b467989584fc09fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>AsyncResult&lt; int &gt;</type>
+        <definition>virtual AsyncResult&lt; int &gt; quite::manager::Process::async_wait_exit</definition>
+        <argsstring>()=0</argsstring>
+        <name>async_wait_exit</name>
+        <qualifiedname>quite::manager::Process::async_wait_exit</qualifiedname>
+        <reimplementedby refid="classquite_1_1manager_1_1NoopProcess_1a799c17778ea28839efc85ea30e570414">async_wait_exit</reimplementedby>
+        <reimplementedby refid="classquite_1_1manager_1_1ProcessImpl_1a5008402208a61fec02a86d7e0d93736d">async_wait_exit</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process.hpp" line="12" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1Process_1aa1b9f12297580034a91484466b1a6920" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; quite::manager::Process::request_exit</definition>
+        <argsstring>()=0</argsstring>
+        <name>request_exit</name>
+        <qualifiedname>quite::manager::Process::request_exit</qualifiedname>
+        <reimplementedby refid="classquite_1_1manager_1_1NoopProcess_1ac73487ef94a875e4af65aaa25b51afa1">request_exit</reimplementedby>
+        <reimplementedby refid="classquite_1_1manager_1_1ProcessImpl_1aba11297b127ab57ab9961e1d0105c44a">request_exit</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process.hpp" line="13" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1Process_1a601d8fdf253a735b42397e8d82e3a044" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; quite::manager::Process::terminate</definition>
+        <argsstring>()=0</argsstring>
+        <name>terminate</name>
+        <qualifiedname>quite::manager::Process::terminate</qualifiedname>
+        <reimplementedby refid="classquite_1_1manager_1_1NoopProcess_1a036f4052c1be4c68d589cfa167e16536">terminate</reimplementedby>
+        <reimplementedby refid="classquite_1_1manager_1_1ProcessImpl_1a41022accad531e76af26e895ab59d29b">terminate</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process.hpp" line="14" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>quite::manager::NoopProcess</label>
+        <link refid="classquite_1_1manager_1_1NoopProcess"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>quite::manager::Process</label>
+        <link refid="classquite_1_1manager_1_1Process"/>
+      </node>
+      <node id="3">
+        <label>quite::manager::ProcessImpl</label>
+        <link refid="classquite_1_1manager_1_1ProcessImpl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="libs/manager/include/quite/manager/process.hpp" line="6" column="1" bodyfile="libs/manager/include/quite/manager/process.hpp" bodystart="7" bodyend="15"/>
+    <listofallmembers>
+      <member refid="classquite_1_1manager_1_1Process_1a662dc20be304b466b467989584fc09fe" prot="public" virt="pure-virtual"><scope>quite::manager::Process</scope><name>async_wait_exit</name></member>
+      <member refid="classquite_1_1manager_1_1Process_1a9429d4eb3c8a7724c4f967edc64629ae" prot="public" virt="pure-virtual"><scope>quite::manager::Process</scope><name>exit_code</name></member>
+      <member refid="classquite_1_1manager_1_1Process_1a5da5bb10d20d7a17140d065710059c1f" prot="public" virt="pure-virtual"><scope>quite::manager::Process</scope><name>is_running</name></member>
+      <member refid="classquite_1_1manager_1_1Process_1aa1b9f12297580034a91484466b1a6920" prot="public" virt="pure-virtual"><scope>quite::manager::Process</scope><name>request_exit</name></member>
+      <member refid="classquite_1_1manager_1_1Process_1a601d8fdf253a735b42397e8d82e3a044" prot="public" virt="pure-virtual"><scope>quite::manager::Process</scope><name>terminate</name></member>
+      <member refid="classquite_1_1manager_1_1Process_1a0fed3aa5e7e413198225a86dc3c3b9ba" prot="public" virt="virtual"><scope>quite::manager::Process</scope><name>~Process</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

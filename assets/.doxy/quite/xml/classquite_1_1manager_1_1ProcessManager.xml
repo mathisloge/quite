@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classquite_1_1manager_1_1ProcessManager" kind="class" language="C++" prot="public">
+    <compoundname>quite::manager::ProcessManager</compoundname>
+    <basecompoundref refid="classquite_1_1manager_1_1BasicProcessManager" prot="public" virt="non-virtual">quite::manager::BasicProcessManager</basecompoundref>
+    <innerclass refid="structquite_1_1manager_1_1ProcessManager_1_1Impl" prot="public">quite::manager::ProcessManager::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classquite_1_1manager_1_1ProcessManager_1aa7552b1a1c66288748e299f9028ea012" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structquite_1_1manager_1_1ProcessManager_1_1Impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; quite::manager::ProcessManager::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>quite::manager::ProcessManager::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="63" column="21" bodyfile="libs/manager/include/quite/manager/process_manager.hpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessManager_1a77d79b613243eea63634bb7399f3adfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::manager::ProcessManager::QUITE_DISABLE_COPY</definition>
+        <argsstring>(ProcessManager)</argsstring>
+        <name>QUITE_DISABLE_COPY</name>
+        <qualifiedname>quite::manager::ProcessManager::QUITE_DISABLE_COPY</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1manager_1_1ProcessManager" kindref="compound">ProcessManager</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="16" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessManager_1a49b32f13e308884ec70d408e21509f2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::manager::ProcessManager::QUITE_DEFAULT_MOVE</definition>
+        <argsstring>(ProcessManager)</argsstring>
+        <name>QUITE_DEFAULT_MOVE</name>
+        <qualifiedname>quite::manager::ProcessManager::QUITE_DEFAULT_MOVE</qualifiedname>
+        <param>
+          <type><ref refid="classquite_1_1manager_1_1ProcessManager" kindref="compound">ProcessManager</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="17" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessManager_1a570846cf7f304a8f6b64a074bc6e4373" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::manager::ProcessManager::ProcessManager</definition>
+        <argsstring>(asio_impl::thread_pool::executor_type executor)</argsstring>
+        <name>ProcessManager</name>
+        <qualifiedname>quite::manager::ProcessManager::ProcessManager</qualifiedname>
+        <param>
+          <type>asio_impl::thread_pool::executor_type</type>
+          <declname>executor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="18" column="14" bodyfile="libs/manager/src/process_manager.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessManager_1aafec7304daee4fa9e5a950e8d5de008b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>quite::manager::ProcessManager::~ProcessManager</definition>
+        <argsstring>() override</argsstring>
+        <name>~ProcessManager</name>
+        <qualifiedname>quite::manager::ProcessManager::~ProcessManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="19" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessManager_1a1a8e6d14d13e5d2616fd24bbd1b95981" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; <ref refid="classquite_1_1manager_1_1ProcessHandle" kindref="compound">ProcessHandle</ref> &gt;</type>
+        <definition>AsyncResult&lt; ProcessHandle &gt; quite::manager::ProcessManager::application</definition>
+        <argsstring>(ProcessId id) override</argsstring>
+        <name>application</name>
+        <qualifiedname>quite::manager::ProcessManager::application</qualifiedname>
+        <reimplements refid="classquite_1_1manager_1_1BasicProcessManager_1a5503fd2338d41ed72ea26196d5ebf532">application</reimplements>
+        <param>
+          <type><ref refid="structquite_1_1manager_1_1ProcessId" kindref="compound">ProcessId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Tries to lookup the application with the given id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the id of the application (which was used to launch or attach a application) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;ProcessHandle&gt; An instance of an application or a not found error otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="27" column="17" bodyfile="libs/manager/src/process_manager.cpp" bodystart="27" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessManager_1a709e45164cc1d1c661845c03367c317f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; <ref refid="classquite_1_1manager_1_1ProcessHandle" kindref="compound">ProcessHandle</ref> &gt;</type>
+        <definition>AsyncResult&lt; ProcessHandle &gt; quite::manager::ProcessManager::launch_application</definition>
+        <argsstring>(ProcessId id, std::string path_to_application, std::vector&lt; std::string &gt; args={}, Environment environment=current_environment()) override</argsstring>
+        <name>launch_application</name>
+        <qualifiedname>quite::manager::ProcessManager::launch_application</qualifiedname>
+        <reimplements refid="classquite_1_1manager_1_1BasicProcessManager_1a6665acd39b9f4466527c997f59911b54">launch_application</reimplements>
+        <param>
+          <type><ref refid="structquite_1_1manager_1_1ProcessId" kindref="compound">ProcessId</ref></type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>path_to_application</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>args</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>Environment</type>
+          <declname>environment</declname>
+          <defval><ref refid="classquite_1_1manager_1_1ProcessManager_1a4a6dbd52852b61cc109b9aa801395d5c" kindref="member">current_environment</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Launches the application but does not preloads any probe. Can be used to start arbitrary installed programs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a user defined id (name) to retrieve a handle later on </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path_to_application</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>environment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classquite_1_1manager_1_1ProcessHandle" kindref="compound">ProcessHandle</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="39" column="17" bodyfile="libs/manager/src/process_manager.cpp" bodystart="38" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessManager_1aeb853133f656eafe3cbda00ae4a4aa51" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>AsyncResult&lt; std::filesystem::path &gt;</type>
+        <definition>AsyncResult&lt; std::filesystem::path &gt; quite::manager::ProcessManager::find_executable</definition>
+        <argsstring>(std::filesystem::path exe_name, Environment environment=current_environment()) override</argsstring>
+        <name>find_executable</name>
+        <qualifiedname>quite::manager::ProcessManager::find_executable</qualifiedname>
+        <reimplements refid="classquite_1_1manager_1_1BasicProcessManager_1a9170a5ef27c9a35886323bc75a680ffb">find_executable</reimplements>
+        <param>
+          <type>std::filesystem::path</type>
+          <declname>exe_name</declname>
+        </param>
+        <param>
+          <type>Environment</type>
+          <declname>environment</declname>
+          <defval><ref refid="classquite_1_1manager_1_1ProcessManager_1a4a6dbd52852b61cc109b9aa801395d5c" kindref="member">current_environment</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Tries to find the given executable in the PATH equivalent environment entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exe_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the application name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>environment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the environment to search in </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;std::filesystem::path&gt; either an error or the absolute path to the executable </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="58" column="17" bodyfile="libs/manager/src/process_manager.cpp" bodystart="90" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classquite_1_1manager_1_1ProcessManager_1a4a6dbd52852b61cc109b9aa801395d5c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Environment</type>
+        <definition>ProcessManager::Environment quite::manager::ProcessManager::current_environment</definition>
+        <argsstring>()</argsstring>
+        <name>current_environment</name>
+        <qualifiedname>quite::manager::ProcessManager::current_environment</qualifiedname>
+        <briefdescription>
+<para>Returns the current environment of the running process where the <ref refid="classquite_1_1manager_1_1ProcessManager" kindref="compound">ProcessManager</ref> lives. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Environment </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/manager/include/quite/manager/process_manager.hpp" line="49" column="24" bodyfile="libs/manager/src/process_manager.cpp" bodystart="79" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>quite::manager::BasicProcessManager</label>
+        <link refid="classquite_1_1manager_1_1BasicProcessManager"/>
+      </node>
+      <node id="1">
+        <label>quite::manager::ProcessManager</label>
+        <link refid="classquite_1_1manager_1_1ProcessManager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::manager::BasicProcessManager</label>
+        <link refid="classquite_1_1manager_1_1BasicProcessManager"/>
+      </node>
+      <node id="1">
+        <label>quite::manager::ProcessManager</label>
+        <link refid="classquite_1_1manager_1_1ProcessManager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="libs/manager/include/quite/manager/process_manager.hpp" line="13" column="1" bodyfile="libs/manager/include/quite/manager/process_manager.hpp" bodystart="14" bodyend="64"/>
+    <listofallmembers>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1a1a8e6d14d13e5d2616fd24bbd1b95981" prot="public" virt="virtual"><scope>quite::manager::ProcessManager</scope><name>application</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1a4a6dbd52852b61cc109b9aa801395d5c" prot="public" virt="non-virtual"><scope>quite::manager::ProcessManager</scope><name>current_environment</name></member>
+      <member refid="classquite_1_1manager_1_1BasicProcessManager_1af8343684b246fd397945105594eac13c" prot="public" virt="non-virtual"><scope>quite::manager::ProcessManager</scope><name>Environment</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1aeb853133f656eafe3cbda00ae4a4aa51" prot="public" virt="virtual"><scope>quite::manager::ProcessManager</scope><name>find_executable</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1aa7552b1a1c66288748e299f9028ea012" prot="private" virt="non-virtual"><scope>quite::manager::ProcessManager</scope><name>impl_</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1a709e45164cc1d1c661845c03367c317f" prot="public" virt="virtual"><scope>quite::manager::ProcessManager</scope><name>launch_application</name></member>
+      <member refid="classquite_1_1manager_1_1BasicProcessManager_1a355c1d87711cc37271dc2f3acfa89f35" prot="public" virt="non-virtual"><scope>quite::manager::ProcessManager</scope><name>noop_process</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1a570846cf7f304a8f6b64a074bc6e4373" prot="public" virt="non-virtual"><scope>quite::manager::ProcessManager</scope><name>ProcessManager</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1a49b32f13e308884ec70d408e21509f2e" prot="public" virt="non-virtual"><scope>quite::manager::ProcessManager</scope><name>QUITE_DEFAULT_MOVE</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1a77d79b613243eea63634bb7399f3adfc" prot="public" virt="non-virtual"><scope>quite::manager::ProcessManager</scope><name>QUITE_DISABLE_COPY</name></member>
+      <member refid="classquite_1_1manager_1_1BasicProcessManager_1a45b16ed8a7d6f3503f2cb84ec0300c52" prot="public" virt="virtual"><scope>quite::manager::ProcessManager</scope><name>~BasicProcessManager</name></member>
+      <member refid="classquite_1_1manager_1_1ProcessManager_1aafec7304daee4fa9e5a950e8d5de008b" prot="public" virt="non-virtual"><scope>quite::manager::ProcessManager</scope><name>~ProcessManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

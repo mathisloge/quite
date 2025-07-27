@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structquite_1_1proto_1_1SnapshotRpcHandler" kind="struct" language="C++" prot="public">
+    <compoundname>quite::proto::SnapshotRpcHandler</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structquite_1_1proto_1_1SnapshotRpcHandler_1acf8fd13d5085a481125052c9980c1e29" prot="public" static="no" mutable="no">
+        <type><ref refid="classquite_1_1ServiceHandle" kindref="compound">ProbeHandlerHandle</ref></type>
+        <definition>ProbeHandlerHandle quite::proto::SnapshotRpcHandler::probe_handler</definition>
+        <argsstring></argsstring>
+        <name>probe_handler</name>
+        <qualifiedname>quite::proto::SnapshotRpcHandler::probe_handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/probe/rpc_snapshot.hpp" line="13" column="24" bodyfile="libs/protocol/src/probe/rpc_snapshot.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structquite_1_1proto_1_1SnapshotRpcHandler_1af530ce71f991b957fb143864c064b3a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>exec::task&lt; void &gt;</type>
+        <definition>exec::task&lt; void &gt; quite::proto::SnapshotRpcHandler::operator()</definition>
+        <argsstring>(RpcSnapshot &amp;rpc, const RpcSnapshot::Request &amp;request) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>quite::proto::SnapshotRpcHandler::operator()</qualifiedname>
+        <param>
+          <type>RpcSnapshot &amp;</type>
+          <declname>rpc</declname>
+        </param>
+        <param>
+          <type>const RpcSnapshot::Request &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="libs/protocol/src/probe/rpc_snapshot.hpp" line="14" column="16" bodyfile="libs/protocol/src/probe/rpc_snapshot.cpp" bodystart="11" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>quite::ServiceHandle&lt; IProbeHandler &gt;</label>
+        <link refid="classquite_1_1ServiceHandle"/>
+      </node>
+      <node id="1">
+        <label>quite::proto::SnapshotRpcHandler</label>
+        <link refid="structquite_1_1proto_1_1SnapshotRpcHandler"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>probe_handler</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="libs/protocol/src/probe/rpc_snapshot.hpp" line="11" column="1" bodyfile="libs/protocol/src/probe/rpc_snapshot.hpp" bodystart="12" bodyend="15"/>
+    <listofallmembers>
+      <member refid="structquite_1_1proto_1_1SnapshotRpcHandler_1af530ce71f991b957fb143864c064b3a5" prot="public" virt="non-virtual"><scope>quite::proto::SnapshotRpcHandler</scope><name>operator()</name></member>
+      <member refid="structquite_1_1proto_1_1SnapshotRpcHandler_1acf8fd13d5085a481125052c9980c1e29" prot="public" virt="non-virtual"><scope>quite::proto::SnapshotRpcHandler</scope><name>probe_handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
