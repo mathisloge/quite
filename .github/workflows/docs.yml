@@ -1,8 +1,5 @@
 name: docs
 on:
-  push:
-    branches:
-      - develop
   release:
     types: [published]
 
