@@ -36,4 +36,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
           GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+          GIT_COMMITTER_NAME: ${{ github.repository_owner }}
+          GIT_COMMITTER_EMAIL: 13556116+mathisloge@users.noreply.github.com
         run: npx semantic-release
