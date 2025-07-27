@@ -1,6 +1,3 @@
-# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
-#
-# SPDX-License-Identifier: MIT
 Feature: Managing todo items
 
   Scenario: Adding a new todo item to the list
