@@ -1,3 +1,3 @@
 # Home
 
-For full documentation visit [github.com/mathisloge/ng-quite](https://github.com/mathisloge/ng-quite).
+For full documentation visit [github.com/mathisloge/quite](https://github.com/mathisloge/quite).

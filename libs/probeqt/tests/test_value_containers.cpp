@@ -97,7 +97,7 @@ static suite<"qtprobe value converters"> _ = [] { // NOLINT
 
         auto meta = entt::resolve("QUrl"_hs);
         expect(static_cast<bool>(meta));
-        QUrl url("https://github.com/mathisloge/ng-quite");
+        QUrl url("https://github.com/mathisloge/quite");
         auto any = entt::forward_as_meta(url);
         expect(any.type() == meta);
         expect(any.cast<QUrl>() == url);
