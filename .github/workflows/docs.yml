@@ -39,4 +39,4 @@ jobs:
 
       - name: Deploy on full release
         if: ${{ github.event_name == 'release' && !github.event.release.prerelease }}
-        run: mike deploy --push ${{ github.event.release.tag_name }} --update-aliases latest
+        run: mike deploy --push ${{ github.event.release.tag_name }}
