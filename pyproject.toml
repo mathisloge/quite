@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "quite"
-version = "0.0.1"
+version = "1.0.1"
 description="quite - the (q)t (ui) (te)sting framework"
 readme = "README.md"
 authors = [
