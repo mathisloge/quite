@@ -15,11 +15,11 @@ set_target_properties(
 )
 generate_export_header(quite_core EXPORT_FILE_NAME quite/quite_core_export.hpp)
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/version.hpp.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/version.in.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/quite/version.hpp"
 )
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/asio_config.hpp.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/asio_config.in.hpp"
     "${CMAKE_CURRENT_BINARY_DIR}/quite/asio_config.hpp"
 )
 
