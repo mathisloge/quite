@@ -4,32 +4,32 @@ SPDX-PackageSupplier = "Mathis Logemann"
 SPDX-PackageDownloadLocation = "https://github.com/mathisloge/quite"
 
 [[annotations]]
-path = "docs/*"
+path = "docs/**"
 SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = "test/*"
+path = "test/**"
 SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = "cmake/*"
+path = "cmake/**"
 SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = ".vscode/*"
+path = ".vscode/**"
 SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = ".devcontainer/*"
+path = ".devcontainer/**"
 SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
-path = ".github/*"
+path = ".github/**"
 SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
 SPDX-License-Identifier = "MIT"
 
