@@ -1,4 +1,4 @@
-# The MIT License (MIT)
+# SPDX-License-Identifier: MIT
 #
 # Copyright (c)
 #   2013 Matthew Arsenault
