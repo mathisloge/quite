@@ -5,7 +5,7 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "quite"
 version = "1.0.1"
-description="quite - the (q)t (ui) (te)sting framework"
+description="quite - the ui testing framework"
 readme = "README.md"
 authors = [
   { name = "Mathis Logemann", email = "mathisloge@tuta.io" },
