@@ -2,8 +2,10 @@ name: docs
 on:
   push:
     branches:
-      - main
       - develop
+  release:
+    types: [published]
+
 permissions:
   contents: write
 jobs:
@@ -30,4 +32,11 @@ jobs:
           packages: doxygen
           version: 1.0
       - run: pip install -r requirements-dev.txt
-      - run: mkdocs gh-deploy --force
+
+      - name: Deploy to develop
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        run: mike deploy --push develop
+
+      - name: Deploy on release
+        if: github.event_name == 'release'
+        run: mike deploy --push ${{ github.event.release.tag_name }} --update-aliases latest
