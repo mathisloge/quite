@@ -16,7 +16,7 @@ class QUITE_PROTOCOL_EXPORT Client final
     explicit Client(entt::locator<ValueRegistry>::node_type value_registry);
     ~Client();
     std::shared_ptr<ProbeClient> create_probe_client(std::shared_ptr<IValueConverter> value_converter,
-                                                     std::string connection_url = "unix:///tmp/grpc_probe.sock");
+                                                     std::string connection_url);
 
   private:
     class Impl;

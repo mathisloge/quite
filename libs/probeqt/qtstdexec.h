@@ -1,10 +1,7 @@
 #pragma once
-
-#include <QAbstractEventDispatcher>
 #include <QMetaObject>
 #include <QObject>
 #include <QThread>
-#include <exception>
 #include <tuple>
 #include <type_traits>
 #include <stdexec/concepts.hpp>
@@ -20,15 +17,15 @@ class QThreadScheduler
 {
   public:
     explicit QThreadScheduler(QThread *thread)
-        : m_thread(thread)
+        : thread_(thread)
     {}
 
     QThread *thread()
     {
-        return m_thread;
+        return thread_;
     }
 
-    struct default_env
+    struct DefaultEnv
     {
         QThread *thread;
         template <typename CPO>
@@ -38,14 +35,14 @@ class QThreadScheduler
         }
     };
 
-    default_env query(stdexec::get_env_t) noexcept
+    DefaultEnv query(stdexec::get_env_t) noexcept
     {
-        return {m_thread};
+        return {thread_};
     }
 
     auto schedule() const noexcept
     {
-        return QThreadSender{m_thread};
+        return QThreadSender{thread_};
     }
 
     class QThreadSender
@@ -56,17 +53,17 @@ class QThreadScheduler
             stdexec::completion_signatures<stdexec::set_value_t(), stdexec::set_error_t(std::exception_ptr)>;
 
         explicit QThreadSender(QThread *thread)
-            : m_thread(thread)
+            : thread_(thread)
         {}
 
         QThread *thread()
         {
-            return m_thread;
+            return thread_;
         }
 
-        default_env query(stdexec::get_env_t) const noexcept
+        DefaultEnv query(stdexec::get_env_t) const noexcept
         {
-            return {m_thread};
+            return {thread_};
         }
 
         template <class Recv>
@@ -76,20 +73,13 @@ class QThreadScheduler
         }
 
       private:
-        QThread *m_thread;
+        QThread *thread_;
     };
 
-    friend bool operator==(const QThreadScheduler &a, const QThreadScheduler &b) noexcept
-    {
-        return a.m_thread == b.m_thread;
-    }
-    friend bool operator!=(const QThreadScheduler &a, const QThreadScheduler &b) noexcept
-    {
-        return a.m_thread != b.m_thread;
-    }
+    bool operator==(const QThreadScheduler &b) const noexcept = default;
 
   private:
-    QThread *m_thread = nullptr;
+    QThread *thread_ = nullptr;
 };
 
 inline QThreadScheduler qthread_as_scheduler(QThread *thread)
@@ -107,20 +97,23 @@ class QThreadOperationState
 {
   public:
     using operation_state_concept = stdexec::operation_state_t;
+    Q_DISABLE_COPY_MOVE(QThreadOperationState);
     QThreadOperationState(Recv &&receiver, QThread *thread)
-        : m_receiver(std::move(receiver))
-        , m_thread(thread)
+        : receiver_{std::move(receiver)}
+        , thread_{thread}
     {}
+
+    ~QThreadOperationState() = default;
+
     void start() noexcept
     {
         QMetaObject::invokeMethod(
-            m_thread->eventDispatcher(), [this]() { stdexec::set_value(std::move(m_receiver)); }, Qt::QueuedConnection);
+            thread_->eventDispatcher(), [this]() { stdexec::set_value(std::move(receiver_)); }, Qt::QueuedConnection);
     }
 
   private:
-    Q_DISABLE_COPY_MOVE(QThreadOperationState)
-    Recv m_receiver;
-    QThread *m_thread;
+    Recv receiver_;
+    QThread *thread_;
 };
 
 template <class Recv, class QObj, class Ret, class... Args>
@@ -129,18 +122,19 @@ class QObjectOperationState;
 template <class QObj, class Ret, class... Args>
 class QObjectSender
 {
-    struct default_env
+    struct DefaultEnv
     {
         QThread *thread;
         template <typename CPO>
-        auto query(stdexec::get_completion_scheduler_t<CPO>) const noexcept
+        auto query(stdexec::get_completion_scheduler_t<CPO> /*cpo*/) const noexcept
         {
             return QThreadScheduler{thread};
         }
     };
-    default_env query(stdexec::get_env_t) noexcept
+
+    DefaultEnv query([[maybe_unused]] stdexec::get_env_t env) noexcept
     {
-        return {m_obj->thread()};
+        return {obj_->thread()};
     }
 
   public:
@@ -149,28 +143,31 @@ class QObjectSender
                                                                  stdexec::set_error_t(std::exception_ptr),
                                                                  stdexec::set_stopped_t()>;
 
-    using m_ptr_type = Ret (QObj::*)(Args...);
-    QObjectSender(QObj *obj, m_ptr_type ptr)
-        : m_obj(obj)
-        , m_ptr(ptr)
+    using MemberPointer = Ret (QObj::*)(Args...);
+    QObjectSender(QObj *obj, MemberPointer ptr)
+        : obj_(obj)
+        , ptr_(ptr)
     {}
+
     QObj *object()
     {
-        return m_obj;
+        return obj_;
     }
-    m_ptr_type member_ptr()
+
+    MemberPointer member_ptr()
     {
-        return m_ptr;
+        return ptr_;
     }
+
     template <class Recv>
     QObjectOperationState<Recv, QObj, Ret, Args...> connect(Recv &&receiver)
     {
-        return QObjectOperationState<Recv, QObj, Ret, Args...>(std::forward<Recv>(receiver), m_obj, m_ptr);
+        return QObjectOperationState<Recv, QObj, Ret, Args...>(std::forward<Recv>(receiver), obj_, ptr_);
     }
 
   private:
-    QObj *m_obj;
-    m_ptr_type m_ptr;
+    QObj *obj_;
+    MemberPointer ptr_;
 };
 
 template <class Recv, class QObj, class Ret, class... Args>
@@ -181,25 +178,25 @@ class QObjectOperationState
     using m_ptr_type = Ret (QObj::*)(Args...);
 
     QObjectOperationState(Recv &&receiver, QObj *obj, m_ptr_type ptr)
-        : m_receiver(std::move(receiver))
-        , m_obj(obj)
-        , m_ptr(ptr)
+        : receiver_(std::move(receiver))
+        , obj_(obj)
+        , ptr_(ptr)
     {}
 
   private:
-    struct stop_callback_t
+    struct StopCallback
     {
         QObjectOperationState *self;
 
         void operator()() const noexcept
         {
-            self->m_stop_callback.reset();
-            QObject::disconnect(self->m_connection);
-            if (!self->m_completed.test_and_set(std::memory_order_acq_rel))
+            self->stop_callback_.reset();
+            QObject::disconnect(self->connection_);
+            if (not self->completed_.test_and_set(std::memory_order_acq_rel))
             {
                 QMetaObject::invokeMethod(
-                    self->m_obj->thread()->eventDispatcher(),
-                    [this]() { stdexec::set_stopped(std::move(self->m_receiver)); },
+                    self->obj_->thread()->eventDispatcher(),
+                    [this]() { stdexec::set_stopped(std::move(self->receiver_)); },
                     Qt::QueuedConnection);
             }
         }
@@ -207,38 +204,37 @@ class QObjectOperationState
 
   private:
     using stop_token_type = stdexec::stop_token_of_t<stdexec::env_of_t<Recv>>;
-    using stop_callback_type = typename stop_token_type::template callback_type<stop_callback_t>;
+    using stop_callback_type = typename stop_token_type::template callback_type<StopCallback>;
 
   public:
     void start() noexcept
     {
-        m_stop_callback.emplace(stdexec::get_stop_token(stdexec::get_env(m_receiver)), stop_callback_t{this});
-        m_connection = QObject::connect(
-            m_obj,
-            m_ptr,
-            m_obj,
+        stop_callback_.emplace(stdexec::get_stop_token(stdexec::get_env(receiver_)), StopCallback{this});
+        connection_ = QObject::connect(
+            obj_,
+            ptr_,
+            obj_,
             [this](Args... args) {
-                QObject::disconnect(m_connection);
-                m_stop_callback.reset();
-                if (!m_completed.test_and_set(std::memory_order_acq_rel))
+                QObject::disconnect(connection_);
+                stop_callback_.reset();
+                if (!completed_.test_and_set(std::memory_order_acq_rel))
                 {
                     QMetaObject::invokeMethod(
-                        m_obj,
-                        [this, &args...] { stdexec::set_value(std::move(m_receiver), std::forward<Args>(args)...); },
+                        obj_,
+                        [this, &args...] { stdexec::set_value(std::move(receiver_), std::forward<Args>(args)...); },
                         Qt::QueuedConnection);
                 }
             },
             Qt::SingleShotConnection);
     }
-    ~QObjectOperationState() = default;
 
   private:
-    Recv m_receiver;
-    QObj *m_obj;
-    m_ptr_type m_ptr;
-    QMetaObject::Connection m_connection;
-    std::atomic_flag m_completed{false};
-    std::optional<stop_callback_type> m_stop_callback;
+    Recv receiver_;
+    QObj *obj_;
+    m_ptr_type ptr_;
+    QMetaObject::Connection connection_;
+    std::atomic_flag completed_{false};
+    std::optional<stop_callback_type> stop_callback_;
 };
 
 template <class QObj, class Ret, class... Args>
@@ -251,7 +247,7 @@ template <class QObj, class Ret, class... Args>
 inline auto qobject_as_tuple_sender(QObj *obj, Ret (QObj::*ptr)(Args...))
 {
     return QObjectSender<QObj, Ret, Args...>(obj, ptr) |
-           stdexec::then([](Args... args) { return std::tuple<std::remove_reference_t<Args>...>(std::move(args)...); });
+           stdexec::then([](Args... args) { return std::tuple<std::remove_cvref_t<Args>...>(std::move(args)...); });
 }
 
 } // namespace quite

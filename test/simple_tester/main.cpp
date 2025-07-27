@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-    quite::setup_hooks();
+    quite::setup_hooks(quite::GrpcServer{.server_address = "unix:///tmp/grpc_probe.sock"});
     QGuiApplication app(argc, argv);
 
     QQuickView view;

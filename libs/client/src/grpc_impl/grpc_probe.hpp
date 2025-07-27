@@ -10,7 +10,7 @@ namespace quite::client
 class GrpcProbe : public BasicProbe
 {
   public:
-    explicit GrpcProbe(manager::ProcessHandle process, proto::Client &client);
+    explicit GrpcProbe(manager::ProcessHandle process, proto::Client &client, std::string connection_uri);
     AsyncResult<std::shared_ptr<RemoteObject>> find_object(ObjectQuery query) override;
     AsyncResult<std::vector<std::shared_ptr<RemoteObject>>> get_views() override;
     meta::MetaRegistry &meta_registry() override;
