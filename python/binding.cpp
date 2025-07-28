@@ -112,7 +112,8 @@ PYBIND11_MODULE(_quite, m)
              py::overload_cast<std::string, std::string>(&quite::ObjectQueryBuilder::with_property),
              py::arg{"key"},
              py::arg{"value"})
-        .def("with_parent", &quite::ObjectQueryBuilder::with_parent, py::arg("parent"));
+        .def("with_parent", &quite::ObjectQueryBuilder::with_parent, py::arg("parent"))
+        .def("with_type", &quite::ObjectQueryBuilder::with_type, py::arg("type_name"));
     py::implicitly_convertible<quite::ObjectQueryBuilder, quite::ObjectQuery>();
 
     m.def("make_query", &quite::make_query, "Create a new ObjectQuery");
