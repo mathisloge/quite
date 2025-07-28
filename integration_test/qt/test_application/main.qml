@@ -26,7 +26,7 @@ Page {
 
             Button {
                 objectName: "addButton"
-                text: "+"
+                text: "+" + listView.count
                 onClicked: {
                     if (inputField.text.trim() !== "") {
                         todoModel.append({

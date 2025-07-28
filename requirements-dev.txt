@@ -1,6 +1,7 @@
 pre-commit
 mypy
 pytest
+pytest-bdd
 poetry
 reuse
 mkdocs
