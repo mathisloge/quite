@@ -72,7 +72,8 @@ PYBIND11_MODULE(_quite, m)
     py_property //
         .def("fetch", &Property::fetch)
         .def("value", &Property::value)
-        .def("wait_for_value", &Property::wait_for_value, py::arg{"target_value"}, py::arg{"timeout"});
+        .def("wait_for_value", &Property::wait_for_value, py::arg{"target_value"}, py::arg{"timeout"})
+        .def("write", &Property::write, py::arg{"value"});
 
     py_image.doc() =
         "Holds the data of an image in the format of RGBA. Use .data() with other libraries for more complex use cases";
