@@ -55,7 +55,9 @@ QMetaType try_get_qt_meta_type(const QMetaObject *meta_object)
     auto meta_type = meta_object->metaType();
     if (not meta_type.isValid())
     {
-        LOG_DEBUG(qt_meta_type_accessor(), "Not a valid meta type, trying with the superclass");
+        LOG_DEBUG(qt_meta_type_accessor(),
+                  "Not a valid meta type for {}, trying with the superclass",
+                  meta_object->className());
         meta_type = try_get_qt_meta_type(meta_object->superClass());
     }
     return meta_type;
