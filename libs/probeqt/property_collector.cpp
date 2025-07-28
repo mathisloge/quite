@@ -29,7 +29,8 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
     if (auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()}.value());
         custom_meta_type)
     {
-        LOG_DEBUG(property_collector_logger(), "got known type {}", custom_meta_type.info().name());
+        LOG_DEBUG(
+            property_collector_logger(), "got known type {} for {}", custom_meta_type.info().name(), property.name());
         // create a copy of the underlying variant object and transfer the ownership.
         value = custom_meta_type.from_void(property_value.metaType().create(property_value.data()), true);
     }
