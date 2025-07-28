@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 #include <fstream>
-#include <print>
 #include <boost/ut.hpp>
 #include <bdd_features.hpp>
 #include <quite/test/probe.hpp>
@@ -11,18 +10,9 @@
 #include <quite/value/object_query.hpp>
 #include <test_application_path.hpp>
 
-#include <quite/client/remote_object.hpp>
-#include <quite/meta_any_formatter.hpp>
-
 using namespace boost::ut;
 using namespace std::literals::string_view_literals;
 using namespace quite::test;
-
-template <class... Ts>
-struct overloads : Ts...
-{
-    using Ts::operator()...;
-};
 
 static suite<"integration manage todo"> _ = [] { // NOLINT
     bdd::gherkin::steps steps = [](auto &steps) {
