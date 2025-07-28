@@ -39,6 +39,11 @@ SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
+path = "**.ini"
+SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
 path = [
     "package-lock.json",
     "package.json",
