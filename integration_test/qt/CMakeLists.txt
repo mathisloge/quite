@@ -9,3 +9,4 @@ target_include_directories(test_bdd_paths INTERFACE ${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(test_application)
 add_subdirectory(cpp_test)
+add_subdirectory(python_test)

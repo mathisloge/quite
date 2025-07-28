@@ -72,7 +72,8 @@ PYBIND11_MODULE(_quite, m)
     py_property //
         .def("fetch", &Property::fetch)
         .def("value", &Property::value)
-        .def("wait_for_value", &Property::wait_for_value, py::arg{"target_value"}, py::arg{"timeout"});
+        .def("wait_for_value", &Property::wait_for_value, py::arg{"target_value"}, py::arg{"timeout"})
+        .def("write", &Property::write, py::arg{"value"});
 
     py_image.doc() =
         "Holds the data of an image in the format of RGBA. Use .data() with other libraries for more complex use cases";
@@ -111,7 +112,8 @@ PYBIND11_MODULE(_quite, m)
              py::overload_cast<std::string, std::string>(&quite::ObjectQueryBuilder::with_property),
              py::arg{"key"},
              py::arg{"value"})
-        .def("with_parent", &quite::ObjectQueryBuilder::with_parent, py::arg("parent"));
+        .def("with_parent", &quite::ObjectQueryBuilder::with_parent, py::arg("parent"))
+        .def("with_type", &quite::ObjectQueryBuilder::with_type, py::arg("type_name"));
     py::implicitly_convertible<quite::ObjectQueryBuilder, quite::ObjectQuery>();
 
     m.def("make_query", &quite::make_query, "Create a new ObjectQuery");

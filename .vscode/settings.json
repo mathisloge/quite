@@ -3,7 +3,9 @@
     "python.analysis.extraPaths": [
         "./build/test",
         "./python",
-        "./build/test/python"
+        "./build/test/python",
+        "./build/integration_test/qt/python_test"
     ],
-    "svg.preview.background": "custom"
+    "svg.preview.background": "custom",
+    "python-envs.pythonProjects": []
 }

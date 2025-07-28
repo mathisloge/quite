@@ -145,6 +145,9 @@ class ObjectQueryBuilder:
         4. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
 
+    def with_type(self, type_name: str) -> ObjectQueryBuilder:
+        """with_type(self: quite._quite.ObjectQueryBuilder, type_name: str) -> quite._quite.ObjectQueryBuilder"""
+
 class Probe:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
@@ -215,6 +218,19 @@ class Property:
         timeout: datetime.timedelta,
     ) -> bool | int | int | float | str | RemoteObject:
         """wait_for_value(self: quite._quite.Property, target_value: bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject, timeout: datetime.timedelta) -> bool | int | int | float | str | quite._quite.RemoteObject"""
+
+    def write(
+        self,
+        value: (
+            bool
+            | typing.SupportsInt
+            | typing.SupportsInt
+            | typing.SupportsFloat
+            | str
+            | RemoteObject
+        ),
+    ) -> None:
+        """write(self: quite._quite.Property, value: bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject) -> None"""
 
 class RemoteObject:
     """Represents an object from the test application."""
