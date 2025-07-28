@@ -64,7 +64,7 @@ entt::meta_any convert_value(const ValueRegistry &value_registry, const IValueCo
     }
     if (value.has_int_val())
     {
-        return entt::forward_as_meta(value_registry.context(), value.uint_val());
+        return entt::forward_as_meta(value_registry.context(), value.int_val());
     }
     if (value.has_uint_val())
     {
