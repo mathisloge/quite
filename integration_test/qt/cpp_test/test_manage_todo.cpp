@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <fstream>
+#include <print>
 #include <boost/ut.hpp>
 #include <bdd_features.hpp>
 #include <quite/test/probe.hpp>
@@ -10,9 +11,18 @@
 #include <quite/value/object_query.hpp>
 #include <test_application_path.hpp>
 
+#include <quite/client/remote_object.hpp>
+#include <quite/meta_any_formatter.hpp>
+
 using namespace boost::ut;
 using namespace std::literals::string_view_literals;
 using namespace quite::test;
+
+template <class... Ts>
+struct overloads : Ts...
+{
+    using Ts::operator()...;
+};
 
 static suite<"integration manage todo"> _ = [] { // NOLINT
     bdd::gherkin::steps steps = [](auto &steps) {
@@ -21,7 +31,7 @@ static suite<"integration manage todo"> _ = [] { // NOLINT
             auto probe = probe_manager.launch_probe_application("test_application", kTestApplicationPath);
             probe.wait_for_connected(std::chrono::seconds{5});
             steps.scenario("*") = [&] {};
-            steps.given("I have entered '{todoText}' into the todo input field") = [&](std::string todoText) {
+            steps.when("I have entered '{todoText}' into the todo input field") = [&](std::string todoText) {
                 auto input_obj =
                     probe.find_object(quite::make_query().with_property("objectName", std::string{"inputField"}));
                 input_obj.property("text").write(std::move(todoText));
@@ -32,7 +42,7 @@ static suite<"integration manage todo"> _ = [] { // NOLINT
                 btn_obj.mouse_action();
             };
 
-            steps.then("the todo list should display '{expectdTodoText}' as a new item") = [&](std::string todoText) {
+            steps.then("the todo list should display '{expectedTodoText}' as a new item") = [&](std::string todoText) {
                 auto delegate_query = quite::make_query().with_property("text", todoText).with_type("SwipeDelegate");
                 auto delegate_text = probe.try_find_object(delegate_query, std::chrono::seconds{2}).property("text");
                 expect(std::holds_alternative<std::string>(delegate_text.value()));
