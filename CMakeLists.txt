@@ -69,7 +69,6 @@ cpmaddpackage(
 )
 cpmaddpackage("gh:fmtlib/fmt#11.2.0")
 cpmaddpackage("gh:odygrd/quill@10.0.1")
-cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237")
 cpmaddpackage("gh:skypjack/entt@3.15.0")
 cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
 cpmaddpackage(URI "gh:NVIDIA/stdexec#0d0a15c669cbd2571248536a7e70524d8b7071aa" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
@@ -80,6 +79,8 @@ cpmaddpackage("gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5")
 set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${stb_SOURCE_DIR}>")
 cpmaddpackage("gh:pybind/pybind11@3.0.1")
 if(BUILD_TESTING)
+    cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
+    )
     cpmaddpackage("gh:catchorg/Catch2@3.9.1")
     cpmaddpackage("gh:boost-ext/ut@2.3.1")
 endif()
