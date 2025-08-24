@@ -19,5 +19,4 @@ target_sources(
         test_value_containers.cpp
         test_probe_context.cpp
         test_qt_probe_handler.cpp
-        $<TARGET_OBJECTS:probe_qt_impl>
 )

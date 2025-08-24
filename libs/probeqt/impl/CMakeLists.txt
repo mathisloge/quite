@@ -34,6 +34,8 @@ target_sources(
         value_converters.cpp
         probe_context.hpp
         probe_context.cpp
+        create_probe_context.cpp
+        create_probe_context.hpp
         method_invoker.cpp
         method_invoker.hpp
         qt_meta_registry.cpp
