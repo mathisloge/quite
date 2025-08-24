@@ -24,8 +24,8 @@ target_link_libraries(
     quite_manager
     PUBLIC quite::core
     PRIVATE
-        Boost::asio
-        Boost::process
+        $<IF:$<TARGET_EXISTS:Boost::asio>,Boost::asio,Boost::headers>
+        $<IF:$<TARGET_EXISTS:Boost::process>,Boost::process,Boost::headers>
         protobuf::libprotobuf
         gRPC::grpc++
         asio-grpc::asio-grpc-stdexec

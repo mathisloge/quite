@@ -25,7 +25,12 @@ configure_file(
 
 target_link_libraries(
     quite_core
-    PUBLIC fmt::fmt quill::quill Boost::asio EnTT::EnTT STDEXEC::stdexec
+    PUBLIC
+        fmt::fmt
+        quill::quill
+        $<IF:$<TARGET_EXISTS:Boost::asio>,Boost::asio,Boost::headers>
+        EnTT::EnTT
+        STDEXEC::stdexec
 )
 
 target_include_directories(quite_core PRIVATE ${Stb_INCLUDE_DIR})
