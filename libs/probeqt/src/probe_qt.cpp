@@ -4,15 +4,13 @@
 
 #include "quite/probe_qt/probe_qt.hpp"
 #include <quite/setup_logger.hpp>
-#include <quite/value/value_registry.hpp>
-#include "probe_context.hpp"
-#include "quite/probe.hpp"
+#include "create_probe_context.hpp"
 
 namespace quite::probe
 {
 Probe &setup_qt_probe(GrpcServer server_config)
 {
     setup_logger(false);
-    return entt::locator<probe::ProbeContext>::emplace(server_config.server_address);
+    return create_probe_context(std::move(server_config));
 }
 } // namespace quite::probe
