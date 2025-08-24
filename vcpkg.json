@@ -11,15 +11,6 @@
         "stb",
         "sdl3",
         "cli11",
-        {
-            "name": "imgui",
-            "features": [
-                "freetype",
-                "docking-experimental",
-                "sdl3-binding",
-                "sdlgpu3-binding"
-            ]
-        },
         "nlohmann-json",
         "qtbase",
         "pybind11",

@@ -2,10 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-
-add_library(probe SHARED)
+add_library(probe)
 add_library(quite::probe ALIAS probe)
 add_sanitizers(probe)
 target_compile_features(probe PUBLIC cxx_std_17 PRIVATE cxx_std_23)
@@ -28,4 +25,3 @@ target_sources(
             FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_probe_export.hpp
     PRIVATE src/probe.cpp
 )
-target_link_libraries(probe PRIVATE probeqt)
