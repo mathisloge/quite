@@ -42,15 +42,18 @@ target_sources(
             TYPE HEADERS
             BASE_DIRS include
             FILES
-                include/quite/async_result.hpp
-                include/quite/error.hpp
-                include/quite/result.hpp
-                include/quite/setup_logger.hpp
-                include/quite/logger.hpp
-                include/quite/image.hpp
-                include/quite/image_utils.hpp
                 include/quite/asio_context.hpp
+                include/quite/async_result.hpp
+                include/quite/disable_copy_move.hpp
+                include/quite/error.hpp
+                include/quite/geometry.hpp
+                include/quite/image_utils.hpp
+                include/quite/image.hpp
+                include/quite/logger.hpp
+                include/quite/meta_any_formatter.hpp
+                include/quite/result.hpp
                 include/quite/service_handle.hpp
+                include/quite/setup_logger.hpp
                 include/quite/meta_any_formatter.hpp
                 include/quite/meta/meta_registry.hpp
                 include/quite/meta/meta_types.hpp
