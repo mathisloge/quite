@@ -2,9 +2,12 @@
 #
 # SPDX-License-Identifier: MIT
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+
 add_executable(test_probe_qt main.cpp)
 add_sanitizers(test_probe_qt)
-target_link_libraries(test_probe_qt PRIVATE quite::probeqt Boost::ut)
+target_link_libraries(test_probe_qt PRIVATE Boost::ut probe_qt_impl)
 add_test(NAME test_probe_qt COMMAND test_probe_qt)
 
 target_sources(
@@ -16,4 +19,5 @@ target_sources(
         test_value_containers.cpp
         test_probe_context.cpp
         test_qt_probe_handler.cpp
+        $<TARGET_OBJECTS:probe_qt_impl>
 )

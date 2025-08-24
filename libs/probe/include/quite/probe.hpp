@@ -14,5 +14,9 @@ struct GrpcServer
     std::string server_address;
 };
 
-PROBE_EXPORT void setup_hooks(GrpcServer server_config = GrpcServer{.server_address = "unix:///tmp/grpc_probe.sock"});
+class PROBE_EXPORT Probe
+{
+  public:
+    virtual ~Probe();
+};
 } // namespace quite

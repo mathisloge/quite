@@ -2,25 +2,22 @@
 #
 # SPDX-License-Identifier: MIT
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
+add_subdirectory(impl)
 
-add_library(probeqt STATIC)
-add_library(quite::probeqt ALIAS probeqt)
-add_sanitizers(probeqt)
-set_target_properties(probeqt PROPERTIES POSITION_INDEPENDENT_CODE ON)
-generate_export_header(probeqt)
-
-target_include_directories(
-    probeqt
-    PUBLIC
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
-        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+add_library(probe_qt)
+add_library(quite::probe_qt ALIAS probe_qt)
+add_sanitizers(probe_qt)
+target_compile_features(probe_qt PUBLIC cxx_std_17 PRIVATE cxx_std_23)
+set_target_properties(
+    probe_qt
+    PROPERTIES POSITION_INDEPENDENT_CODE ON VISIBILITY_INLINES_HIDDEN ON
 )
-
+generate_export_header(
+    probe_qt
+    EXPORT_FILE_NAME quite/quite_probe_qt_export.hpp
+)
 target_link_libraries(
-    probeqt
+    probe_qt
     PUBLIC
         Qt6::CorePrivate
         Qt6::QuickPrivate
@@ -30,35 +27,22 @@ target_link_libraries(
         EnTT::EnTT
         quite::protocol
         quite::core
+        quite::probe
 )
-
+target_include_directories(probe_qt PRIVATE impl)
 target_sources(
-    probeqt
-    PRIVATE
-        object_tracker.cpp
-        object_tracker.hpp
-        property_collector.cpp
-        property_collector.hpp
-        qt_probe_handler.cpp
-        qt_probe_handler.hpp
-        value_converters.hpp
-        value_converters.cpp
-        probe_context.hpp
-        probe_context.cpp
-        method_invoker.cpp
-        method_invoker.hpp
-        qt_meta_registry.cpp
-        qt_meta_registry.hpp
-        meta_adapter.cpp
-        meta_adapter.hpp
-        qt_meta_type_accessor.hpp
-        qt_meta_type_accessor.cpp
-        meta_qt_containers.hpp
+    probe_qt
+    PUBLIC
+        FILE_SET headers
+            TYPE HEADERS
+            BASE_DIRS include
+            FILES include/quite/probe_qt/probe_qt.hpp
+        FILE_SET export_config
+            TYPE HEADERS
+            BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/quite/quite_probe_qt_export.hpp
+    PRIVATE src/probe_qt.cpp $<TARGET_OBJECTS:probe_qt_impl>
 )
-add_subdirectory(injector)
-
-#target_compile_options(probeqt PRIVATE -fno-omit-frame-pointer -fsanitize=address)
-#target_link_options(probeqt PRIVATE -fno-omit-frame-pointer -fsanitize=address)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)

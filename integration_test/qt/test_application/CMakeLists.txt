@@ -21,7 +21,7 @@ qt_add_qml_module(test_application
 
 target_link_libraries(
     test_application
-    PRIVATE Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick quite::probe
+    PRIVATE Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick quite::probe_qt
 )
 
 file(
