@@ -16,19 +16,13 @@ generate_export_header(
     probe_qt
     EXPORT_FILE_NAME quite/quite_probe_qt_export.hpp
 )
+
 target_link_libraries(
     probe_qt
-    PUBLIC
-        Qt6::CorePrivate
-        Qt6::QuickPrivate
-        Qt6::Widgets
-        asio-grpc::asio-grpc-stdexec
-        fmt::fmt
-        EnTT::EnTT
-        quite::protocol
-        quite::core
-        quite::probe
+    PUBLIC quite::probe
+    PRIVATE quite::core quite::protocol
 )
+
 target_include_directories(probe_qt PRIVATE impl)
 target_sources(
     probe_qt
