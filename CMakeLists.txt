@@ -120,6 +120,7 @@ if(NOT CMAKE_SKIP_INSTALL_RULES)
             quite_client
             quite_test
             probe
+            probe_qt
         EXPORT quiteTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

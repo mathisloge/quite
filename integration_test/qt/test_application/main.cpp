@@ -6,11 +6,11 @@
 #include <QGuiApplication>
 #include <QQuickItem>
 #include <QtQuick/QQuickView>
-#include <quite/probe.hpp>
+#include <quite/probe_qt/probe_qt.hpp>
 
 int main(int argc, char *argv[])
 {
-    quite::setup_hooks(quite::GrpcServer{.server_address = "unix:///tmp/grpc_probe.sock"});
+    auto probe = quite::probe::setup_qt_probe(quite::GrpcServer{.server_address = "unix:///tmp/grpc_probe.sock"});
     QGuiApplication app(argc, argv);
 
     QQuickView view;
