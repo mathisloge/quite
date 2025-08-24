@@ -6,6 +6,7 @@ find_dependency(EnTT CONFIG REQUIRED)
 find_dependency(quill CONFIG REQUIRED)
 find_dependency(asio-grpc CONFIG REQUIRED)
 find_dependency(stdexec CONFIG REQUIRED)
+find_dependency(nlohmann_json CONFIG REQUIRED)
 
 include("${CMAKE_CURRENT_LIST_DIR}/quiteTargets.cmake")
 
