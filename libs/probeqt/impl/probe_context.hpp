@@ -5,6 +5,7 @@
 #pragma once
 #include <private/qhooks_p.h>
 #include <quite/disable_copy_move.hpp>
+#include <quite/probe.hpp>
 #include <quite/proto/probe/server.hpp>
 #include "injector/mouse_injector.hpp"
 #include "object_tracker.hpp"
@@ -13,7 +14,7 @@
 
 namespace quite::probe
 {
-class ProbeContext final
+class ProbeContext final : public Probe
 {
   public:
     QUITE_DISABLE_COPY_MOVE(ProbeContext);
