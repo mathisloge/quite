@@ -23,7 +23,7 @@ class QUITE_TEST_EXPORT RemoteObject
     explicit RemoteObject(std::shared_ptr<client::RemoteObject> object);
 
     void mouse_action();
-    void invoke_method(std::string method_name, std::vector<Property::Value> parameters = {});
+    Property::Value invoke_method(std::string method_name, std::vector<Property::Value> parameters = {});
     [[nodiscard]] Image take_snapshot();
     [[nodiscard]] Property property(std::string name);
 
