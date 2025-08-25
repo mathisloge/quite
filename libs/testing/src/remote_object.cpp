@@ -28,7 +28,7 @@ Image RemoteObject::take_snapshot()
     return std::move(snapshot.value());
 }
 
-void RemoteObject::invoke_method(std::string method_name, std::vector<Property::Value> parameters)
+Property::Value RemoteObject::invoke_method(std::string method_name, std::vector<Property::Value> parameters)
 {
     std::vector<entt::meta_any> any_parameters(parameters.size());
     std::ranges::transform(std::move(parameters), std::back_inserter(any_parameters), [](auto &&p) {
@@ -37,6 +37,7 @@ void RemoteObject::invoke_method(std::string method_name, std::vector<Property::
     const auto [invoke_result] =
         stdexec::sync_wait(object_->invoke_method(std::move(method_name), std::move(any_parameters))).value();
     throw_unexpected(invoke_result);
+    return convert_any(invoke_result); // TODO: what happens with void?
 }
 
 Property RemoteObject::property(std::string name)
