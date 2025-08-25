@@ -238,8 +238,19 @@ class RemoteObject:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
 
-    def invoke(self, method: str) -> None:
-        """invoke(self: quite._quite.RemoteObject, method: str) -> None
+    def invoke(
+        self,
+        method: str,
+        parameters: collections.abc.Sequence[
+            bool
+            | typing.SupportsInt
+            | typing.SupportsInt
+            | typing.SupportsFloat
+            | str
+            | RemoteObject
+        ],
+    ) -> None:
+        """invoke(self: quite._quite.RemoteObject, method: str, parameters: collections.abc.Sequence[bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject]) -> None
 
         Invokes the given method. Has to be the fully qualified name. If the qualified name is unknown, use the meta API to query the methods.
         """

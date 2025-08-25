@@ -84,7 +84,7 @@ AsyncResult<Image> GrpcRemoteObject::take_snapshot()
     co_return co_await client_->probe_service().take_snapshot(id());
 }
 
-AsyncResult<void> GrpcRemoteObject::invoke_method(std::string method_name)
+AsyncResult<void> GrpcRemoteObject::invoke_method(std::string method_name, std::vector<entt::meta_any> parameters)
 {
     LOG_DEBUG(grpc_remote_object_logger(), "invoke method: {}", method_name);
     auto response = co_await client_->probe_service().invoke_method(id(), std::move(method_name), {});
