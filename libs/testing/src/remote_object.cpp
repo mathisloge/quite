@@ -30,10 +30,12 @@ Image RemoteObject::take_snapshot()
 
 Property::Value RemoteObject::invoke_method(std::string method_name, std::vector<Property::Value> parameters)
 {
-    std::vector<entt::meta_any> any_parameters(parameters.size());
+    std::vector<entt::meta_any> any_parameters;
+    any_parameters.reserve(parameters.size());
     std::ranges::transform(std::move(parameters), std::back_inserter(any_parameters), [](auto &&p) {
         return convert_any(std::forward<decltype(p)>(p));
     });
+
     const auto [invoke_result] =
         stdexec::sync_wait(object_->invoke_method(std::move(method_name), std::move(any_parameters))).value();
     throw_unexpected(invoke_result);
