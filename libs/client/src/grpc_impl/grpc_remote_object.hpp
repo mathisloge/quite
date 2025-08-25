@@ -27,7 +27,7 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
 
     AsyncResult<Image> take_snapshot() override;
 
-    AsyncResult<void> invoke_method(std::string method_name) override;
+    AsyncResult<void> invoke_method(std::string method_name, std::vector<entt::meta_any> parameters) override;
 
   private:
     std::shared_ptr<proto::ProbeClient> client_;

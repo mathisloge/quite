@@ -13,4 +13,6 @@ target_sources(
         expect_screenshot.cpp
         expect_screenshot.hpp
         expect.cpp
+        value_convert.cpp
+        value_convert.hpp
 )
