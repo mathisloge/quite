@@ -18,6 +18,8 @@ struct ObjectMeta
 
     [[nodiscard]] static ObjectMeta from_qobject(QObject *object);
 };
+[[nodiscard]] entt::meta_any convert_void_ptr_to_any(QMetaType meta_type, void *data_ptr);
+
 [[nodiscard]] std::pair<std::string, entt::meta_any> read_property(QVariant property_value,
                                                                    const QMetaProperty &property);
 Result<void> write_property(const ObjectMeta &meta,
