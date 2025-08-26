@@ -11,6 +11,8 @@
 #include <quite/meta_any_formatter.hpp>
 #include <quite/value/generic_value_class.hpp>
 #include "qt_meta_type_accessor.hpp"
+#include "quite/value/object_id.hpp"
+#include "to_object_id.hpp"
 
 DEFINE_LOGGER(property_collector_logger)
 namespace quite
@@ -36,7 +38,11 @@ entt::meta_any convert_void_ptr_to_any(QMetaType meta_type, void *data_ptr)
     else if (meta_type.flags().testFlag(QMetaType::PointerToQObject))
     {
         QObject *obj = *reinterpret_cast<QObject **>(data_ptr);
-        return entt::meta_any{std::in_place_type<QObject *>, obj};
+
+        return ObjectReference{
+            .object_id = probe::to_object_id(obj),
+            .type_id = static_cast<meta::TypeId>(probe::try_get_qt_meta_type(obj).id()),
+        };
     }
     else if (meta_type.flags().testAnyFlags(QMetaType::IsGadget | QMetaType::PointerToGadget))
     {
