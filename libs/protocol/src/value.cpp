@@ -19,6 +19,7 @@ namespace
 {
 void convert_class(const ValueRegistry &value_registry, Value &value, const entt::meta_any &any);
 void convert_string(Value &value, const entt::meta_any &any);
+void convert_object_reference(Value &value, const entt::meta_any &any);
 void convert_arithmetic(Value &value, const entt::meta_any &any);
 void convert_object_ptr(Value &value, const entt::meta_any &any);
 void convert_sequence_container(const ValueRegistry &value_registry, Value &value, const entt::meta_any &any);
@@ -35,6 +36,10 @@ Value create_value(const ValueRegistry &value_registry, const entt::meta_any &an
         if (type.can_convert(string_type))
         {
             convert_string(value, any);
+        }
+        else if (type.can_convert(entt::resolve<ObjectReference>()))
+        {
+            convert_object_reference(value, any);
         }
         else
         {
@@ -174,6 +179,13 @@ void convert_string(Value &value, const entt::meta_any &any)
 {
     const auto string_any = any.allow_cast<std::string>();
     value.set_string_val(string_any.cast<std::string>());
+}
+
+void convert_object_reference(Value &value, const entt::meta_any &any)
+{
+    const auto obj_ref = any.allow_cast<ObjectReference>().cast<ObjectReference>();
+    value.mutable_object_val()->set_object_id(obj_ref.object_id);
+    value.set_type_id(obj_ref.type_id);
 }
 
 void convert_object_ptr(Value &value, const entt::meta_any &any)
