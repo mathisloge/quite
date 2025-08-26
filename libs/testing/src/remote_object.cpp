@@ -39,7 +39,7 @@ Property::Value RemoteObject::invoke_method(std::string method_name, std::vector
     const auto [invoke_result] =
         stdexec::sync_wait(object_->invoke_method(std::move(method_name), std::move(any_parameters))).value();
     throw_unexpected(invoke_result);
-    return convert_any(invoke_result); // TODO: what happens with void?
+    return convert_any(invoke_result.value()); // TODO: what happens with void?
 }
 
 Property RemoteObject::property(std::string name)
