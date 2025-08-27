@@ -14,6 +14,8 @@
 #include "quite/value/object_id.hpp"
 #include "to_object_id.hpp"
 
+using namespace entt::literals;
+
 DEFINE_LOGGER(property_collector_logger)
 namespace quite
 {
@@ -65,6 +67,14 @@ entt::meta_any convert_void_ptr_to_any(QMetaType meta_type, const void *data_ptr
             generic_class.properties.emplace(std::forward<decltype(name_value)>(name_value));
         }
         value = std::move(generic_class);
+    }
+    else if (meta_type.flags().testFlag(QMetaType::IsEnumeration))
+    {
+        entt::hashed_string data_type =
+            meta_type.flags().testFlag(QMetaType::IsUnsignedEnumeration) ? "qulonglong"_hs : "qlonglong"_hs;
+        LOG_DEBUG(property_collector_logger(), "raw-value '{}' convertible to {}", meta_type.name(), data_type.value());
+        auto custom_meta_type = entt::resolve(data_type.value());
+        value = value = custom_meta_type.from_void(meta_type.create(data_ptr), true);
     }
     else if (QQmlListReference qml_list{QVariant::fromMetaType(meta_type, data_ptr)};
              qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
