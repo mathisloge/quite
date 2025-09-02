@@ -86,7 +86,7 @@ def test_method_invoke(probe_manager: ProbeManager, hello_btn_query, text_field_
     btn = app.find_object(hello_btn_query)
     text = app.find_object(text_field_query)
 
-    btn.invoke(method="click()")
+    btn.invoke(method="clicked()")
     assert text.property("text").fetch() == "Hello"
 
 
