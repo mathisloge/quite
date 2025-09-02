@@ -64,7 +64,7 @@ PYBIND11_MODULE(_quite, m)
         .def("invoke",
              &RemoteObject::invoke_method,
              py::arg{"method"},
-             py::arg{"parameters"},
+             py::arg{"parameters"} = std::vector<Property::Value>{},
              "Invokes the given method. Has to be the fully qualified name. If the qualified name is unknown, use the "
              "meta API to query the methods.")
         .def("property", &RemoteObject::property, py::arg{"name"}, "Reads a property from the object");
