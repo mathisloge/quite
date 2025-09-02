@@ -43,7 +43,7 @@ class SimpleQGadget
     };
     Q_ENUM(Color)
 
-    enum class Color2 : std::uint64_t
+    enum class Color2 : quint64
     {
         Red,
         Green,
