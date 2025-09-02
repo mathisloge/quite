@@ -38,10 +38,10 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
     auto &&meta_method = meta_obj->method(method_index);
     if (method_index < 0)
     {
-        return std::unexpected{Error{
-            .code = ErrorCode::invalid_argument,
-            .message =
-                fmt::format("Could a method for {} of type {}", qualified_method_signature, meta_obj->className())}};
+        return std::unexpected{Error{.code = ErrorCode::invalid_argument,
+                                     .message = fmt::format("Could not find a method with name '{}' of type {}",
+                                                            qualified_method_signature,
+                                                            meta_obj->className())}};
     }
 
     if (meta_method.parameterCount() != params.size())
