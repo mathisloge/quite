@@ -76,6 +76,7 @@ entt::meta_any convert_void_ptr_to_any(QMetaType meta_type, const void *data_ptr
         auto custom_meta_type = entt::resolve(data_type.value());
         value = value = custom_meta_type.from_void(meta_type.create(data_ptr), true);
     }
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 7, 0))
     else if (QQmlListReference qml_list{QVariant::fromMetaType(meta_type, data_ptr)};
              qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
     {
@@ -89,6 +90,7 @@ entt::meta_any convert_void_ptr_to_any(QMetaType meta_type, const void *data_ptr
         }
         value = std::move(object_list);
     }
+#endif
     else
     {
         LOG_DEBUG(property_collector_logger(), "raw-value '{}' not convertible", meta_type.name());
