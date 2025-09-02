@@ -248,9 +248,9 @@ class RemoteObject:
             | typing.SupportsFloat
             | str
             | RemoteObject
-        ],
+        ] = ...,
     ) -> bool | int | int | float | str | RemoteObject:
-        """invoke(self: quite._quite.RemoteObject, method: str, parameters: collections.abc.Sequence[bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject]) -> bool | int | int | float | str | quite._quite.RemoteObject
+        """invoke(self: quite._quite.RemoteObject, method: str, parameters: collections.abc.Sequence[bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject] = []) -> bool | int | int | float | str | quite._quite.RemoteObject
 
         Invokes the given method. Has to be the fully qualified name. If the qualified name is unknown, use the meta API to query the methods.
         """
