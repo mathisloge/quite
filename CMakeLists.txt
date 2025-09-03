@@ -86,6 +86,7 @@ if(BUILD_TESTING)
     cpmaddpackage("gh:catchorg/Catch2@3.9.1")
     cpmaddpackage("gh:boost-ext/ut@2.3.1")
 endif()
+
 find_package(
     Qt6
     REQUIRED
