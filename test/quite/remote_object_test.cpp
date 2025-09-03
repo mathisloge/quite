@@ -102,7 +102,7 @@ TEST_CASE("Remote object can be invoked")
     SECTION("A method is invoked")
     {
         ASYNC_BLOCK
-        auto invoke_result = co_await obj->invoke_method("click()");
+        auto invoke_result = co_await obj->invoke_method("clicked()");
         if (not invoke_result.has_value())
         {
             fmt::println("Error: {}", invoke_result.error().message);
