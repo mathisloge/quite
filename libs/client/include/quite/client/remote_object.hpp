@@ -35,7 +35,8 @@ class QUITE_CLIENT_EXPORT RemoteObject
 
     virtual AsyncResult<Image> take_snapshot() = 0;
 
-    virtual AsyncResult<void> invoke_method(std::string method_name) = 0;
+    virtual AsyncResult<entt::meta_any> invoke_method(std::string method_name,
+                                                      std::vector<entt::meta_any> parameters = {}) = 0;
 
   private:
     const ObjectId id_;

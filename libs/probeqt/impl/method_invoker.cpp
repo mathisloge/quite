@@ -9,6 +9,7 @@
 #include <entt/meta/resolve.hpp>
 #include <fmt/format.h>
 #include <quite/logger.hpp>
+#include "property_collector.hpp"
 
 DEFINE_LOGGER(method_invoker)
 
@@ -37,10 +38,10 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
     auto &&meta_method = meta_obj->method(method_index);
     if (method_index < 0)
     {
-        return std::unexpected{Error{
-            .code = ErrorCode::invalid_argument,
-            .message =
-                fmt::format("Could a method for {} of type {}", qualified_method_signature, meta_obj->className())}};
+        return std::unexpected{Error{.code = ErrorCode::invalid_argument,
+                                     .message = fmt::format("Could not find a method with name '{}' of type {}",
+                                                            qualified_method_signature,
+                                                            meta_obj->className())}};
     }
 
     if (meta_method.parameterCount() != params.size())
@@ -101,25 +102,20 @@ Result<entt::meta_any> invoke_qmeta_method(entt::meta_ctx &meta_context,
     const auto call_result = obj->qt_metacall(QMetaObject::Call::InvokeMetaMethod, method_index, meta_call_args.data());
 
     LOG_DEBUG(method_invoker(), "Return type: {}", meta_method.returnMetaType().name());
-    const auto custom_meta_type =
-        entt::resolve(meta_context, entt::hashed_string{meta_method.returnMetaType().name()}.value());
     if (call_result < 0)
     {
         if (meta_method.returnMetaType() == QMetaType::fromType<void>())
         {
             return entt::meta_any{std::in_place_type<void>};
         }
-        if (custom_meta_type)
+        auto meta_value = convert_void_ptr_to_any(meta_method.returnMetaType(), args[0].get());
+        if (meta_value)
         {
-            constexpr bool kTransferOwnership{true};
-            // args[0] is always the return type.
-            return custom_meta_type.from_void(args[0].release(), kTransferOwnership);
+            return meta_value;
         }
     }
     return make_error_result(ErrorCode::cancelled,
-                             fmt::format("Could not invoke or wrap return type. Call status = {}, convertible = ",
-                                         call_result,
-                                         static_cast<bool>(custom_meta_type)));
+                             fmt::format("Could not invoke or wrap return type. Call status = {}", call_result));
 }
 } // namespace
 

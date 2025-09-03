@@ -11,6 +11,10 @@
 #include <quite/meta_any_formatter.hpp>
 #include <quite/value/generic_value_class.hpp>
 #include "qt_meta_type_accessor.hpp"
+#include "quite/value/object_id.hpp"
+#include "to_object_id.hpp"
+
+using namespace entt::literals;
 
 DEFINE_LOGGER(property_collector_logger)
 namespace quite
@@ -20,27 +24,34 @@ ObjectMeta ObjectMeta::from_qobject(QObject *object)
     return ObjectMeta{.object = object, .meta_object = probe::try_get_qt_meta_object(object)};
 }
 
-std::pair<std::string, entt::meta_any> read_property(const QVariant property_value, const QMetaProperty &property)
+entt::meta_any convert_void_ptr_to_any(QMetaType meta_type, const void *data_ptr)
 {
     entt::meta_any value;
 
     // important: check for explicit conversions first. E.g. QQuickAnchorLine is a QGadget but should be converted with
     // the explicit converter.
-    if (auto custom_meta_type = entt::resolve(entt::hashed_string{property.metaType().name()}.value());
-        custom_meta_type)
+    if (auto custom_meta_type = entt::resolve(entt::hashed_string{meta_type.name()}.value()); custom_meta_type)
     {
         LOG_DEBUG(
-            property_collector_logger(), "got known type {} for {}", custom_meta_type.info().name(), property.name());
+            property_collector_logger(), "got known type {} for {}", custom_meta_type.info().name(), meta_type.name());
         // create a copy of the underlying variant object and transfer the ownership.
-        value = custom_meta_type.from_void(property_value.metaType().create(property_value.data()), true);
+        value = custom_meta_type.from_void(meta_type.create(data_ptr), true);
     }
-    else if (property.metaType().flags().testAnyFlags(QMetaType::IsGadget | QMetaType::PointerToGadget))
+    else if (meta_type.flags().testFlag(QMetaType::PointerToQObject))
     {
-        auto &&gadget_metaobj = property.metaType().metaObject();
+        const QObject *obj = *reinterpret_cast<QObject *const *>(data_ptr);
+
+        return ObjectReference{
+            .object_id = probe::to_object_id(obj),
+            .type_id = static_cast<meta::TypeId>(probe::try_get_qt_meta_type(obj).id()),
+        };
+    }
+    else if (meta_type.flags().testAnyFlags(QMetaType::IsGadget | QMetaType::PointerToGadget))
+    {
+        auto &&gadget_metaobj = meta_type.metaObject();
         LOG_DEBUG(property_collector_logger(),
-                  "prop {}={} convertible to QGadget (props={})",
-                  property.name(),
-                  property.typeName(),
+                  "raw-value '{}' convertible to QGadget (props={})",
+                  meta_type.name(),
                   gadget_metaobj->propertyCount());
         GenericClass generic_class;
         auto view =
@@ -48,7 +59,7 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
             std::views::transform([&](int prop_idx) { return gadget_metaobj->property(prop_idx); }) |
             std::views::filter([](const QMetaProperty &prop) { return prop.isValid() and prop.isReadable(); }) |
             std::views::transform([&](auto &&prop) {
-                return std::tuple{prop.readOnGadget(property_value.data()), std::forward<decltype(prop)>(prop)};
+                return std::tuple{prop.readOnGadget(data_ptr), std::forward<decltype(prop)>(prop)};
             }) |
             std::views::transform([&](auto &&prop) { return read_property(std::get<0>(prop), std::get<1>(prop)); });
         for (auto &&name_value : view)
@@ -57,13 +68,19 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
         }
         value = std::move(generic_class);
     }
-    else if (QQmlListReference qml_list{property_value};
+    else if (meta_type.flags().testFlag(QMetaType::IsEnumeration))
+    {
+        entt::hashed_string data_type =
+            meta_type.flags().testFlag(QMetaType::IsUnsignedEnumeration) ? "qulonglong"_hs : "qlonglong"_hs;
+        LOG_DEBUG(property_collector_logger(), "raw-value '{}' convertible to {}", meta_type.name(), data_type.value());
+        auto custom_meta_type = entt::resolve(data_type.value());
+        value = value = custom_meta_type.from_void(meta_type.create(data_ptr), true);
+    }
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 7, 0))
+    else if (QQmlListReference qml_list{QVariant::fromMetaType(meta_type, data_ptr)};
              qml_list.isValid() and qml_list.canCount() and qml_list.canAt())
     {
-        LOG_DEBUG(property_collector_logger(),
-                  "prop {}={} convertible to QQmlListReference",
-                  property.name(),
-                  property.typeName());
+        LOG_DEBUG(property_collector_logger(), "raw-value '{}' convertible to QQmlListReference", meta_type.name());
         const auto size = qml_list.count();
         std::vector<entt::meta_any> object_list;
         object_list.reserve(size);
@@ -73,11 +90,17 @@ std::pair<std::string, entt::meta_any> read_property(const QVariant property_val
         }
         value = std::move(object_list);
     }
+#endif
     else
     {
-        LOG_DEBUG(property_collector_logger(), "prop {}={} not convertible", property.name(), property.typeName());
+        LOG_DEBUG(property_collector_logger(), "raw-value '{}' not convertible", meta_type.name());
     }
-    return {property.name(), std::move(value)};
+    return value;
+}
+
+std::pair<std::string, entt::meta_any> read_property(const QVariant property_value, const QMetaProperty &property)
+{
+    return {property.name(), convert_void_ptr_to_any(property.metaType(), property_value.data())};
 }
 
 Result<void> write_property(const ObjectMeta &meta,

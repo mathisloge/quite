@@ -6,6 +6,7 @@
 #include <quite/client/remote_object.hpp>
 #include "quite/test/property.hpp"
 #include "throw_unexpected.hpp"
+#include "value_convert.hpp"
 
 namespace quite::test
 {
@@ -27,10 +28,18 @@ Image RemoteObject::take_snapshot()
     return std::move(snapshot.value());
 }
 
-void RemoteObject::invoke_method(std::string method_name)
+Property::Value RemoteObject::invoke_method(std::string method_name, std::vector<Property::Value> parameters)
 {
-    const auto [invoke_result] = stdexec::sync_wait(object_->invoke_method(std::move(method_name))).value();
+    std::vector<entt::meta_any> any_parameters;
+    any_parameters.reserve(parameters.size());
+    std::ranges::transform(std::move(parameters), std::back_inserter(any_parameters), [](auto &&p) {
+        return convert_any(std::forward<decltype(p)>(p));
+    });
+
+    const auto [invoke_result] =
+        stdexec::sync_wait(object_->invoke_method(std::move(method_name), std::move(any_parameters))).value();
     throw_unexpected(invoke_result);
+    return convert_any(invoke_result.value()); // TODO: what happens with void?
 }
 
 Property RemoteObject::property(std::string name)
