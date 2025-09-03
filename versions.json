@@ -1,10 +1,15 @@
 [
   {
-    "version": "v1.3.0-dev.2",
-    "title": "v1.3.0-dev.2",
+    "version": "v1.3.0-dev.3",
+    "title": "v1.3.0-dev.3",
     "aliases": [
       "develop"
     ]
+  },
+  {
+    "version": "v1.3.0-dev.2",
+    "title": "v1.3.0-dev.2",
+    "aliases": []
   },
   {
     "version": "v1.3.0-dev.1",
