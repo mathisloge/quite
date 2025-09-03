@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "quite"
-version = "1.3.0-dev.2"
+version = "1.3.0-dev.3"
 description="quite - the ui testing framework"
 readme = "README.md"
 authors = [
