@@ -43,7 +43,7 @@ cmake_dependent_option(
     QUITE_BUILD_PYTHON_TEST_API
     "Decides if the python testing API should be build"
     ON
-    BUILD_TEST_API
+    QUITE_BUILD_TEST_API
     OFF
 )
 option(
@@ -100,10 +100,11 @@ cpmaddpackage(URI "gh:Tradias/asio-grpc@3.5.0" FIND_PACKAGE_ARGUMENTS "CONFIG" V
 cpmaddpackage(URI "gh:nlohmann/json@3.12.0" FIND_PACKAGE_ARGUMENTS "CONFIG" NAME "nlohmann_json")
 cpmaddpackage(URI "gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5" NAME Stb
 )
+find_package(gRPC CONFIG REQUIRED)
+set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${Stb_SOURCE_DIR}>")
 if(QUITE_BUILD_REMOTE_MANAGER OR BUILD_TESTING)
     cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
 endif()
-set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${Stb_SOURCE_DIR}>")
 if(BUILD_TESTING)
     cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
     )
@@ -118,8 +119,6 @@ if(QUITE_BUILD_PROBE_QT)
         REQUIRED
     )
 endif()
-find_package(gRPC CONFIG REQUIRED)
-
 add_subdirectory(libs)
 if(BUILD_TESTING)
     add_subdirectory(simple_tester)
