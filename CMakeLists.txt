@@ -46,6 +46,11 @@ cmake_dependent_option(
     BUILD_TEST_API
     OFF
 )
+option(
+    QUITE_BUILD_REMOTE_MANAGER
+    "Decides if the remote manager should be build"
+    ON
+)
 
 add_feature_info(QtProbe QUITE_BUILD_PROBE_QT "Build probeqt")
 add_feature_info(TestingApi QUITE_BUILD_TEST_API "Build testing API")
@@ -54,6 +59,12 @@ add_feature_info(
     QUITE_BUILD_PYTHON_TEST_API
     "Build testing API"
 )
+add_feature_info(
+    RemoteManager
+    QUITE_BUILD_REMOTE_MANAGER
+    "Build remote manager"
+)
+
 add_feature_info(Testing BUILD_TESTING "Build all tests")
 add_feature_info(
     SharedLibraries
@@ -83,13 +94,15 @@ cpmaddpackage(
 cpmaddpackage("gh:fmtlib/fmt#11.2.0")
 cpmaddpackage("gh:odygrd/quill@10.1.0")
 cpmaddpackage(URI "gh:skypjack/entt@3.15.0" NAME "EnTT" FIND_PACKAGE_ARGUMENTS "CONFIG")
-cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
 cpmaddpackage(URI "gh:NVIDIA/stdexec#daf12bcc46438f88b3c78212363f7b6531338780" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
 )
 cpmaddpackage(URI "gh:Tradias/asio-grpc@3.5.0" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.4.0)
 cpmaddpackage(URI "gh:nlohmann/json@3.12.0" FIND_PACKAGE_ARGUMENTS "CONFIG" NAME "nlohmann_json")
 cpmaddpackage(URI "gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5" NAME Stb
 )
+if(QUITE_BUILD_REMOTE_MANAGER OR BUILD_TESTING)
+    cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
+endif()
 set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${Stb_SOURCE_DIR}>")
 if(BUILD_TESTING)
     cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
@@ -117,8 +130,9 @@ if(QUITE_BUILD_PYTHON_TEST_API)
     add_subdirectory(python)
 endif()
 
-add_subdirectory(remote-manager)
-
+if(QUITE_BUILD_REMOTE_MANAGER)
+    add_subdirectory(remote-manager)
+endif()
 if(BUILD_TESTING)
     add_subdirectory(example)
 endif()
