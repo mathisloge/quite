@@ -3,7 +3,7 @@
 </div
 
 quite is a new UI testing framework specifically designed for applications built on the Qt framework.
-It aims to provide developers and testers with an efficient way to automate the testing of Qt application user interfaces.
+It aims to provide developers and testers with an efficient way to automate the testing of Qt user interfaces.
 
 I welcome any feedback, suggestions, and contributions that can help make quite a robust and reliable native UI testing framework!
 
@@ -12,6 +12,15 @@ I welcome any feedback, suggestions, and contributions that can help make quite 
 > There is no API stability or other guarantees at this time.
 > Changes may occur without notice, and existing code may become incompatible with future versions.
 > Until v2 I will not mark any change as breaking change.
+
+# Documentation
+
+Full documentation is available at [quite.rocks](https://quite.rocks).
+
+Some useful starting points:
+
+- [Getting Started](https://quite.rocks/getting-started) – install quite and run your first test
+- [Building from Source](https://quite.rocks/building) – instructions for compiling
 
 # Release and branch strategy
 

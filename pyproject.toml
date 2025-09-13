@@ -8,7 +8,7 @@ version = "1.3.0"
 description="quite - the ui testing framework"
 readme = "README.md"
 authors = [
-  { name = "Mathis Logemann", email = "mathisloge@tuta.io" },
+  { name = "Mathis Logemann", email = "mathis@quite.rocks" },
 ]
 requires-python = ">=3.7"
 
@@ -19,8 +19,10 @@ test = ["pytest", "mypy"]
 build-dir = "./build-python"
 backport.find-python = "3.28.0"
 [tool.scikit-build.cmake.define]
-QUITE_BUILD_PROBES = "OFF"
-QUITE_EXAMPLES = "OFF"
+QUITE_BUILD_TEST_API = "ON"
+QUITE_BUILD_PYTHON_TEST_API = "ON"
+QUITE_BUILD_PROBE_QT = "OFF"
+QUITE_BUILD_REMOTE_MANAGER = "OFF"
 BUILD_SHARED_LIBS = "OFF"
 BUILD_TESTING = "OFF"
 CMAKE_SKIP_INSTALL_RULES = "ON"
