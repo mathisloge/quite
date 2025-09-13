@@ -94,7 +94,6 @@ set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${Stb_SOURCE_DIR}>")
 if(BUILD_TESTING)
     cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
     )
-    cpmaddpackage("gh:catchorg/Catch2@3.9.1")
     cpmaddpackage("gh:boost-ext/ut@2.3.1")
 endif()
 
