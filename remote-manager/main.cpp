@@ -14,5 +14,5 @@ int main(int argc, char **argv)
 
     quite::setup_logger();
 
-    return 0;
+    return EXIT_FAILURE;
 }
