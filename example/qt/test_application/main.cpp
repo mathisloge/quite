@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[])
 {
-    auto probe = quite::probe::setup_qt_probe(quite::GrpcServer{.server_address = "unix:///tmp/grpc_probe.sock"});
+    auto &probe = quite::probe::setup_qt_probe(quite::GrpcServer{.server_address = "unix:///tmp/grpc_probe.sock"});
     QGuiApplication app(argc, argv);
 
     QQuickView view;
