@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="64"
+   height="47.5"
+   viewBox="0 0 16.933333 12.567708"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   sodipodi:docname="favicon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="7.9237354"
+     inkscape:cx="41.89943"
+     inkscape:cy="28.963612"
+     inkscape:window-width="2560"
+     inkscape:window-height="1368"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       transform="matrix(0.27093701,0,0,0.26458322,0.33456961,-2.3111628)"
+       id="g7"
+       style="fill:#ffffff;fill-opacity:1">
+      <!-- App Window Frame -->
+      <rect
+         x="0"
+         y="10"
+         width="60"
+         height="45"
+         rx="4"
+         fill="none"
+         stroke="#005a9c"
+         stroke-width="2.5"
+         id="rect1"
+         style="fill:#ffffff;fill-opacity:1" />
+      <!-- Window Title Bar -->
+      <rect
+         x="0"
+         y="10"
+         width="60"
+         height="12"
+         rx="4"
+         fill="#005a9c"
+         opacity="0.1"
+         id="rect2"
+         style="fill:#ffffff;fill-opacity:1" />
+      <!-- Window Controls (dots) -->
+      <circle
+         cx="8"
+         cy="16"
+         r="1.5"
+         fill="#005a9c"
+         opacity="0.6"
+         id="circle2"
+         style="fill:#ffffff;fill-opacity:1" />
+      <circle
+         cx="14"
+         cy="16"
+         r="1.5"
+         fill="#005a9c"
+         opacity="0.6"
+         id="circle3"
+         style="fill:#ffffff;fill-opacity:1" />
+      <circle
+         cx="20"
+         cy="16"
+         r="1.5"
+         fill="#005a9c"
+         opacity="0.6"
+         id="circle4"
+         style="fill:#ffffff;fill-opacity:1" />
+      <!-- Window Content Area with subtle grid -->
+      <line
+         x1="10"
+         y1="30"
+         x2="50"
+         y2="30"
+         stroke="#005a9c"
+         stroke-width="1"
+         opacity="0.3"
+         id="line4"
+         style="fill:#ffffff;fill-opacity:1" />
+      <line
+         x1="10"
+         y1="38"
+         x2="45"
+         y2="38"
+         stroke="#005a9c"
+         stroke-width="1"
+         opacity="0.3"
+         id="line5"
+         style="fill:#ffffff;fill-opacity:1" />
+      <line
+         x1="10"
+         y1="46"
+         x2="50"
+         y2="46"
+         stroke="#005a9c"
+         stroke-width="1"
+         opacity="0.3"
+         id="line6"
+         style="fill:#ffffff;fill-opacity:1" />
+      <!-- Magnifying Glass -->
+      <circle
+         cx="35"
+         cy="35"
+         r="12"
+         fill="none"
+         stroke="#005a9c"
+         stroke-width="2.5"
+         id="circle6"
+         style="fill:#ffffff;fill-opacity:1" />
+      <circle
+         cx="35"
+         cy="35"
+         r="8"
+         fill="none"
+         stroke="#005a9c"
+         stroke-width="1.5"
+         opacity="0.4"
+         id="circle7"
+         style="fill:#ffffff;fill-opacity:1" />
+      <line
+         x1="44"
+         y1="44"
+         x2="52"
+         y2="52"
+         stroke="#005a9c"
+         stroke-width="2.5"
+         stroke-linecap="round"
+         id="line7"
+         style="fill:#ffffff;fill-opacity:1" />
+    </g>
+  </g>
+</svg>
