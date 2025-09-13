@@ -56,13 +56,13 @@ message(STATUS "git_branch: ${git_branch}")
 find_package(Sanitizers REQUIRED)
 ### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
 include(get_cpm)
-set(BOOST_VERSION "1.88.0")
+set(BOOST_VERSION "1.89.0")
 list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
 cpmaddpackage(
   NAME Boost
   VERSION "${BOOST_VERSION}"
   URL https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}-cmake.tar.xz
-  URL_HASH SHA256=f48b48390380cfb94a629872346e3a81370dc498896f16019ade727ab72eb1ec
+  URL_HASH SHA256=67acec02d0d118b5de9eb441f5fb707b3a1cdd884be00ca24b9a73c995511f74
   EXCLUDE_FROM_ALL ON
   SYSTEM ON
   FIND_PACKAGE_ARGUMENTS "CONFIG"
