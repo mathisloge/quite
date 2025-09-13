@@ -28,6 +28,7 @@ include(GenerateExportHeader)
 include(FeatureSummary)
 include(GNUInstallDirs)
 include(GetGitRevisionDescription)
+include(CMakeDependentOption)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -36,13 +37,35 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 
-option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
-add_feature_info(
-    Studio
-    QUITE_BUILD_STUDIO
-    "The studio provides a way to interactively explore the objects in the app."
+option(QUITE_BUILD_PROBE_QT "Decides if the probes should be build" ON)
+option(QUITE_BUILD_TEST_API "Decides if the testing API should be build" ON)
+cmake_dependent_option(
+    QUITE_BUILD_PYTHON_TEST_API
+    "Decides if the python testing API should be build"
+    ON
+    QUITE_BUILD_TEST_API
+    OFF
 )
-add_feature_info(Testing BUILD_TESTING "Build all tests.")
+option(
+    QUITE_BUILD_REMOTE_MANAGER
+    "Decides if the remote manager should be build"
+    ON
+)
+
+add_feature_info(QtProbe QUITE_BUILD_PROBE_QT "Build probeqt")
+add_feature_info(TestingApi QUITE_BUILD_TEST_API "Build testing API")
+add_feature_info(
+    TestingPythonApi
+    QUITE_BUILD_PYTHON_TEST_API
+    "Build testing API"
+)
+add_feature_info(
+    RemoteManager
+    QUITE_BUILD_REMOTE_MANAGER
+    "Build remote manager"
+)
+
+add_feature_info(Testing BUILD_TESTING "Build all tests")
 add_feature_info(
     SharedLibraries
     BUILD_SHARED_LIBS
@@ -56,55 +79,61 @@ message(STATUS "git_branch: ${git_branch}")
 find_package(Sanitizers REQUIRED)
 ### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
 include(get_cpm)
-set(BOOST_VERSION "1.88.0")
+set(BOOST_VERSION "1.89.0")
 list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
 cpmaddpackage(
   NAME Boost
   VERSION "${BOOST_VERSION}"
   URL https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}-cmake.tar.xz
-  URL_HASH SHA256=f48b48390380cfb94a629872346e3a81370dc498896f16019ade727ab72eb1ec
+  URL_HASH SHA256=67acec02d0d118b5de9eb441f5fb707b3a1cdd884be00ca24b9a73c995511f74
   EXCLUDE_FROM_ALL ON
   SYSTEM ON
   FIND_PACKAGE_ARGUMENTS "CONFIG"
   OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_PROCESS_USE_STD_FS ON" "BOOST_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
 )
 cpmaddpackage("gh:fmtlib/fmt#11.2.0")
-cpmaddpackage("gh:odygrd/quill@10.0.1")
+cpmaddpackage("gh:odygrd/quill@10.1.0")
 cpmaddpackage(URI "gh:skypjack/entt@3.15.0" NAME "EnTT" FIND_PACKAGE_ARGUMENTS "CONFIG")
-cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
-cpmaddpackage(URI "gh:NVIDIA/stdexec#0d0a15c669cbd2571248536a7e70524d8b7071aa" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
+cpmaddpackage(URI "gh:NVIDIA/stdexec#daf12bcc46438f88b3c78212363f7b6531338780" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
 )
 cpmaddpackage(URI "gh:Tradias/asio-grpc@3.5.0" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.4.0)
 cpmaddpackage(URI "gh:nlohmann/json@3.12.0" FIND_PACKAGE_ARGUMENTS "CONFIG" NAME "nlohmann_json")
 cpmaddpackage(URI "gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5" NAME Stb
 )
+find_package(gRPC CONFIG REQUIRED)
 set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${Stb_SOURCE_DIR}>")
-cpmaddpackage(URI "gh:pybind/pybind11@3.0.1" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.0.0)
+if(QUITE_BUILD_REMOTE_MANAGER OR BUILD_TESTING)
+    cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
+endif()
 if(BUILD_TESTING)
     cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
     )
-    cpmaddpackage("gh:catchorg/Catch2@3.9.1")
     cpmaddpackage("gh:boost-ext/ut@2.3.1")
 endif()
 
-find_package(
-    Qt6
-    REQUIRED
-    COMPONENTS Core Gui Qml Quick Widgets
-    REQUIRED
-)
-find_package(gRPC CONFIG REQUIRED)
+if(QUITE_BUILD_PROBE_QT)
+    find_package(
+        Qt6
+        REQUIRED
+        COMPONENTS Core Gui Qml Quick Widgets
+        REQUIRED
+    )
+endif()
+add_subdirectory(libs)
 if(BUILD_TESTING)
-    list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/extras")
-    include(Catch)
+    add_subdirectory(simple_tester)
 endif()
 
-add_subdirectory(libs)
-add_subdirectory(python)
-add_subdirectory(remote-manager)
+if(QUITE_BUILD_PYTHON_TEST_API)
+    cpmaddpackage(URI "gh:pybind/pybind11@3.0.1" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.0.0)
+    add_subdirectory(python)
+endif()
+
+if(QUITE_BUILD_REMOTE_MANAGER)
+    add_subdirectory(remote-manager)
+endif()
 if(BUILD_TESTING)
-    add_subdirectory(integration_test)
-    add_subdirectory(test)
+    add_subdirectory(example)
 endif()
 
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")

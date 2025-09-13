@@ -13,10 +13,13 @@
             "generator": "Ninja",
             "installDir": "${sourceDir}/dist",
             "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "Python3_FIND_VIRTUALENV": "FIRST",
                 "Python3_EXECUTABLE": "${sourceDir}/venv",
-                "BUILD_SHARED_LIBS": "ON"
+                "BUILD_SHARED_LIBS": true,
+                "QUITE_BUILD_PROBE_QT": true,
+                "QUITE_BUILD_TEST_API": true,
+                "QUITE_BUILD_PYTHON_TEST_API": true
             }
         },
         {
@@ -83,8 +86,6 @@
             ],
             "cacheVariables": {
                 "BUILD_SHARED_LIBS": false,
-                "QUITE_BUILD_STUDIO": false,
-                "QUITE_BUILD_PROBES": true,
                 "QUITE_EXAMPLES": false
             }
         },
