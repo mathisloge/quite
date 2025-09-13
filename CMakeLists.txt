@@ -81,7 +81,7 @@ cpmaddpackage(
   OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_PROCESS_USE_STD_FS ON" "BOOST_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
 )
 cpmaddpackage("gh:fmtlib/fmt#11.2.0")
-cpmaddpackage("gh:odygrd/quill@10.0.1")
+cpmaddpackage("gh:odygrd/quill@10.1.0")
 cpmaddpackage(URI "gh:skypjack/entt@3.15.0" NAME "EnTT" FIND_PACKAGE_ARGUMENTS "CONFIG")
 cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
 cpmaddpackage(URI "gh:NVIDIA/stdexec#0d0a15c669cbd2571248536a7e70524d8b7071aa" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
