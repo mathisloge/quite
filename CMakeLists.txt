@@ -28,6 +28,7 @@ include(GenerateExportHeader)
 include(FeatureSummary)
 include(GNUInstallDirs)
 include(GetGitRevisionDescription)
+include(CMakeDependentOption)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -36,13 +37,24 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 
-option(QUITE_BUILD_PROBES "Decides if the probes should be build" ON)
-add_feature_info(
-    Studio
-    QUITE_BUILD_STUDIO
-    "The studio provides a way to interactively explore the objects in the app."
+option(QUITE_BUILD_PROBE_QT "Decides if the probes should be build" ON)
+option(QUITE_BUILD_TEST_API "Decides if the testing API should be build" ON)
+cmake_dependent_option(
+    QUITE_BUILD_PYTHON_TEST_API
+    "Decides if the python testing API should be build"
+    ON
+    BUILD_TEST_API
+    OFF
 )
-add_feature_info(Testing BUILD_TESTING "Build all tests.")
+
+add_feature_info(QtProbe QUITE_BUILD_PROBE_QT "Build probeqt")
+add_feature_info(TestingApi QUITE_BUILD_TEST_API "Build testing API")
+add_feature_info(
+    TestingPythonApi
+    QUITE_BUILD_PYTHON_TEST_API
+    "Build testing API"
+)
+add_feature_info(Testing BUILD_TESTING "Build all tests")
 add_feature_info(
     SharedLibraries
     BUILD_SHARED_LIBS
@@ -79,7 +91,6 @@ cpmaddpackage(URI "gh:nlohmann/json@3.12.0" FIND_PACKAGE_ARGUMENTS "CONFIG" NAME
 cpmaddpackage(URI "gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5" NAME Stb
 )
 set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${Stb_SOURCE_DIR}>")
-cpmaddpackage(URI "gh:pybind/pybind11@3.0.1" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.0.0)
 if(BUILD_TESTING)
     cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
     )
@@ -87,24 +98,30 @@ if(BUILD_TESTING)
     cpmaddpackage("gh:boost-ext/ut@2.3.1")
 endif()
 
-find_package(
-    Qt6
-    REQUIRED
-    COMPONENTS Core Gui Qml Quick Widgets
-    REQUIRED
-)
-find_package(gRPC CONFIG REQUIRED)
-if(BUILD_TESTING)
-    list(APPEND CMAKE_MODULE_PATH "${Catch2_SOURCE_DIR}/extras")
-    include(Catch)
+if(QUITE_BUILD_PROBE_QT)
+    find_package(
+        Qt6
+        REQUIRED
+        COMPONENTS Core Gui Qml Quick Widgets
+        REQUIRED
+    )
 endif()
+find_package(gRPC CONFIG REQUIRED)
 
 add_subdirectory(libs)
-add_subdirectory(python)
-add_subdirectory(remote-manager)
 if(BUILD_TESTING)
-    add_subdirectory(integration_test)
-    add_subdirectory(test)
+    add_subdirectory(simple_tester)
+endif()
+
+if(QUITE_BUILD_PYTHON_TEST_API)
+    cpmaddpackage(URI "gh:pybind/pybind11@3.0.1" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.0.0)
+    add_subdirectory(python)
+endif()
+
+add_subdirectory(remote-manager)
+
+if(BUILD_TESTING)
+    add_subdirectory(example)
 endif()
 
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
