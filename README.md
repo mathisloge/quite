@@ -19,8 +19,8 @@ Full documentation is available at [quite.rocks](https://quite.rocks).
 
 Some useful starting points:
 
-- [Getting Started](https://quite.rocks/getting-started) – install quite and run your first test
-- [Building from Source](https://quite.rocks/building) – instructions for compiling
+- [Getting Started](https://quite.rocks/develop/getting-started) – install quite and run your first test
+- [Building from Source](https://quite.rocks/develop/building) – instructions for compiling
 
 # Release and branch strategy
 
