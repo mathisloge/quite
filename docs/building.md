@@ -71,3 +71,10 @@ See [Python Usage](python-usage.md) for details.
     - [Qt](https://www.qt.io/) ≥ `6.5.0`
 
 ---
+
+### `QUITE_INSTALL`
+
+- **Default:**: `ON`
+- **Description:**: Adds cmake install steps to targets.
+
+---
