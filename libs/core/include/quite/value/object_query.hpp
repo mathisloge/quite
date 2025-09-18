@@ -46,7 +46,7 @@ class QUITE_CORE_EXPORT ObjectQueryBuilder
 
     ObjectQueryBuilder &with_property(std::string key, std::string value);
 
-    ObjectQueryBuilder &with_parent(std::shared_ptr<ObjectQuery> parent);
+    ObjectQueryBuilder &with_parent(ObjectQueryBuilder parent);
 
     ObjectQueryBuilder &with_type(std::string type_name);
 

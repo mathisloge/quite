@@ -37,6 +37,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 
+option(QUITE_INSTALL "If ON the libraries will be exported" ON)
 option(QUITE_BUILD_PROBE_QT "Decides if the probes should be build" ON)
 option(QUITE_BUILD_TEST_API "Decides if the testing API should be build" ON)
 cmake_dependent_option(
@@ -139,7 +140,7 @@ endif()
 feature_summary(WHAT ENABLED_FEATURES DISABLED_FEATURES DESCRIPTION "Features:")
 feature_summary(WHAT PACKAGES_FOUND DESCRIPTION "Found packages:")
 
-if(NOT CMAKE_SKIP_INSTALL_RULES)
+if(QUITE_INSTALL)
     include(CMakePackageConfigHelpers)
 
     install(
