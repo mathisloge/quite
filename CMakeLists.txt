@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: MIT
 
 cmake_minimum_required(VERSION 3.28)
-file(READ "${CMAKE_SOURCE_DIR}/package.json" PACKAGE_JSON)
+file(READ "package.json" PACKAGE_JSON)
 string(JSON PACKAGE_JSON_PROJECT_VERSION GET "${PACKAGE_JSON}" version)
 string(
     REGEX REPLACE
