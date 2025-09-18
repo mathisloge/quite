@@ -52,9 +52,9 @@ ObjectQueryBuilder &ObjectQueryBuilder::with_property(std::string key, std::stri
     return *this;
 }
 
-ObjectQueryBuilder &ObjectQueryBuilder::with_parent(std::shared_ptr<ObjectQuery> parent)
+ObjectQueryBuilder &ObjectQueryBuilder::with_parent(ObjectQueryBuilder parent)
 {
-    query_->container = std::move(parent);
+    query_->container = parent;
     return *this;
 }
 
