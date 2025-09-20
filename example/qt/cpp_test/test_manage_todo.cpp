@@ -22,18 +22,17 @@ static suite<"integration manage todo"> _ = [] { // NOLINT
             probe.wait_for_connected(std::chrono::seconds{5});
             steps.scenario("*") = [&] {};
             steps.when("I have entered '{todoText}' into the todo input field") = [&](std::string todoText) {
-                auto input_obj =
-                    probe.find_object(quite::make_query().with_property("objectName", std::string{"inputField"}));
+                auto input_obj = probe.find_object(quite::query().property("objectName", std::string{"inputField"}));
                 input_obj.property("text").write(std::move(todoText));
             };
             steps.when("I click the 'Add' button") = [&]() {
-                auto btn_query = quite::make_query().with_property("objectName", std::string{"addButton"});
+                auto btn_query = quite::query().property("objectName", std::string{"addButton"});
                 auto btn_obj = probe.find_object(btn_query);
                 btn_obj.mouse_action();
             };
 
             steps.then("the todo list should display '{expectedTodoText}' as a new item") = [&](std::string todoText) {
-                auto delegate_query = quite::make_query().with_property("text", todoText).with_type("SwipeDelegate");
+                auto delegate_query = quite::query().property("text", todoText).type("SwipeDelegate");
                 auto delegate_text = probe.try_find_object(delegate_query, std::chrono::seconds{2}).property("text");
                 expect(std::holds_alternative<std::string>(delegate_text.value()));
                 expect(that % todoText == std::get<std::string>(delegate_text.value()));
