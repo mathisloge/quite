@@ -96,28 +96,28 @@ PYBIND11_MODULE(_quite, m)
     py::class_<quite::ObjectQuery>(m, "ObjectQuery").def(py::init<quite::ObjectQueryBuilder>());
     py::class_<quite::ObjectQueryBuilder>(m, "ObjectQueryBuilder")
         .def(py::init<>())
-        .def("with_property",
-             py::overload_cast<std::string, std::int64_t>(&quite::ObjectQueryBuilder::with_property),
+        .def("property",
+             py::overload_cast<std::string, std::int64_t>(&quite::ObjectQueryBuilder::property),
              py::arg{"key"},
              py::arg{"value"},
              "Adds the property to the search requirements")
-        .def("with_property",
-             py::overload_cast<std::string, double>(&quite::ObjectQueryBuilder::with_property),
+        .def("property",
+             py::overload_cast<std::string, double>(&quite::ObjectQueryBuilder::property),
              py::arg{"key"},
              py::arg{"value"})
-        .def("with_property",
-             py::overload_cast<std::string, bool>(&quite::ObjectQueryBuilder::with_property),
+        .def("property",
+             py::overload_cast<std::string, bool>(&quite::ObjectQueryBuilder::property),
              py::arg{"key"},
              py::arg{"value"})
-        .def("with_property",
-             py::overload_cast<std::string, std::string>(&quite::ObjectQueryBuilder::with_property),
+        .def("property",
+             py::overload_cast<std::string, std::string>(&quite::ObjectQueryBuilder::property),
              py::arg{"key"},
              py::arg{"value"})
-        .def("with_parent", &quite::ObjectQueryBuilder::with_parent, py::arg("parent"))
-        .def("with_type", &quite::ObjectQueryBuilder::with_type, py::arg("type_name"));
+        .def("parent", &quite::ObjectQueryBuilder::parent, py::arg("parent"))
+        .def("type", &quite::ObjectQueryBuilder::type, py::arg("type_name"));
     py::implicitly_convertible<quite::ObjectQueryBuilder, quite::ObjectQuery>();
 
-    m.def("make_query", &quite::make_query, "Create a new ObjectQuery");
+    m.def("query", &quite::query, "Create a new ObjectQuery");
 
     m.def("expect", &expect, py::arg{"object"});
     py_expect.def("screenshot", &IExpectBuilder::to_have_screenshot, py::arg{"name"});

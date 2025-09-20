@@ -10,7 +10,7 @@ import pytest
 import test_paths
 from pytest_bdd import parsers, scenario, then, when
 
-from quite import Probe, ProbeManager, make_query
+from quite import Probe, ProbeManager, query
 
 
 @pytest.fixture
@@ -29,7 +29,7 @@ def test_add_todo():
 @when(parsers.parse("I have entered '{todo_text}' into the todo input field"))
 def enter_todo_text(application: Probe, todo_text: str):
     input_field = application.find_object(
-        object_query=make_query().with_property("objectName", "inputField")
+        object_query=query().property("objectName", "inputField")
     )
     input_field.property("text").write(todo_text)
 
@@ -37,7 +37,7 @@ def enter_todo_text(application: Probe, todo_text: str):
 @when("I click the 'Add' button")
 def click_add_button(application: Probe):
     button = application.find_object(
-        object_query=make_query().with_property("objectName", "addButton")
+        object_query=query().property("objectName", "addButton")
     )
     button.mouse_action()
 
@@ -47,13 +47,11 @@ def click_add_button(application: Probe):
 )
 def verify_new_todo_exists(application: Probe, expected_todo_text: str):
     list_item = application.find_object(
-        object_query=make_query().with_property("objectName", "listView")
+        object_query=query().property("objectName", "listView")
     )
     new_item_index = list_item.property("count").value() - 1
     todo_list_item = application.try_find_object(
-        object_query=make_query()
-        .with_property("index", new_item_index)
-        .with_type("SwipeDelegate"),
+        object_query=query().property("index", new_item_index).type("SwipeDelegate"),
         timeout=timedelta(seconds=1),
     )
     assert todo_list_item.property("text").value() == expected_todo_text
