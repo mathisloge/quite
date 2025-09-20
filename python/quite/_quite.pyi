@@ -76,77 +76,75 @@ class ObjectQueryBuilder:
     def __init__(self) -> None:
         """__init__(self: quite._quite.ObjectQueryBuilder) -> None"""
 
-    def with_parent(self, parent: ObjectQuery) -> ObjectQueryBuilder:
-        """with_parent(self: quite._quite.ObjectQueryBuilder, parent: quite._quite.ObjectQuery) -> quite._quite.ObjectQueryBuilder"""
+    def parent(self, parent: ObjectQueryBuilder) -> ObjectQueryBuilder:
+        """parent(self: quite._quite.ObjectQueryBuilder, parent: quite._quite.ObjectQueryBuilder) -> quite._quite.ObjectQueryBuilder"""
 
     @overload
-    def with_property(self, key: str, value: typing.SupportsInt) -> ObjectQueryBuilder:
-        """with_property(*args, **kwargs)
+    def property(self, key: str, value: typing.SupportsInt) -> ObjectQueryBuilder:
+        """property(*args, **kwargs)
         Overloaded function.
 
-        1. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
+        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
+        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
 
-        3. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
+        3. property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
-        4. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
+        4. property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
 
     @overload
-    def with_property(
-        self, key: str, value: typing.SupportsFloat
-    ) -> ObjectQueryBuilder:
-        """with_property(*args, **kwargs)
+    def property(self, key: str, value: typing.SupportsFloat) -> ObjectQueryBuilder:
+        """property(*args, **kwargs)
         Overloaded function.
 
-        1. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
+        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
+        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
 
-        3. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
+        3. property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
-        4. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
+        4. property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
 
     @overload
-    def with_property(self, key: str, value: bool) -> ObjectQueryBuilder:
-        """with_property(*args, **kwargs)
+    def property(self, key: str, value: bool) -> ObjectQueryBuilder:
+        """property(*args, **kwargs)
         Overloaded function.
 
-        1. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
+        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
+        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
 
-        3. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
+        3. property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
-        4. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
+        4. property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
 
     @overload
-    def with_property(self, key: str, value: str) -> ObjectQueryBuilder:
-        """with_property(*args, **kwargs)
+    def property(self, key: str, value: str) -> ObjectQueryBuilder:
+        """property(*args, **kwargs)
         Overloaded function.
 
-        1. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
+        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
+        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
 
-        3. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
+        3. property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
-        4. with_property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
+        4. property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
 
-    def with_type(self, type_name: str) -> ObjectQueryBuilder:
-        """with_type(self: quite._quite.ObjectQueryBuilder, type_name: str) -> quite._quite.ObjectQueryBuilder"""
+    def type(self, type_name: str) -> ObjectQueryBuilder:
+        """type(self: quite._quite.ObjectQueryBuilder, type_name: str) -> quite._quite.ObjectQueryBuilder"""
 
 class Probe:
     def __init__(self, *args, **kwargs) -> None:
@@ -270,8 +268,8 @@ class RemoteObject:
 def expect(object: RemoteObject) -> IExpectBuilder:
     """expect(object: quite._quite.RemoteObject) -> quite._quite.IExpectBuilder"""
 
-def make_query() -> ObjectQueryBuilder:
-    """make_query() -> quite._quite.ObjectQueryBuilder
+def query() -> ObjectQueryBuilder:
+    """query() -> quite._quite.ObjectQueryBuilder
 
     Create a new ObjectQuery
     """
