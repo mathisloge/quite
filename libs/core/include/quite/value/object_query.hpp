@@ -34,21 +34,21 @@ class QUITE_CORE_EXPORT ObjectQueryBuilder
   public:
     ObjectQueryBuilder();
 
-    ObjectQueryBuilder &with_property(std::initializer_list<std::pair<std::string, entt::meta_any>> props);
+    ObjectQueryBuilder &property(std::initializer_list<std::pair<std::string, entt::meta_any>> props);
 
-    ObjectQueryBuilder &with_property(std::string key, std::int64_t value);
+    ObjectQueryBuilder &property(std::string key, std::int64_t value);
 
-    ObjectQueryBuilder &with_property(std::string key, std::uint64_t value);
+    ObjectQueryBuilder &property(std::string key, std::uint64_t value);
 
-    ObjectQueryBuilder &with_property(std::string key, double value);
+    ObjectQueryBuilder &property(std::string key, double value);
 
-    ObjectQueryBuilder &with_property(std::string key, bool value);
+    ObjectQueryBuilder &property(std::string key, bool value);
 
-    ObjectQueryBuilder &with_property(std::string key, std::string value);
+    ObjectQueryBuilder &property(std::string key, std::string value);
 
-    ObjectQueryBuilder &with_parent(ObjectQueryBuilder parent);
+    ObjectQueryBuilder &parent(ObjectQueryBuilder parent);
 
-    ObjectQueryBuilder &with_type(std::string type_name);
+    ObjectQueryBuilder &type(std::string type_name);
 
     operator std::shared_ptr<ObjectQuery>() const;
 
@@ -57,7 +57,7 @@ class QUITE_CORE_EXPORT ObjectQueryBuilder
 };
 
 // Factory function
-QUITE_CORE_EXPORT ObjectQueryBuilder make_query();
+QUITE_CORE_EXPORT ObjectQueryBuilder query();
 
 } // namespace quite
 template <>
