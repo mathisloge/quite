@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-namespace quite::core
+namespace quite
 {
 enum class MouseTrigger
 {
@@ -24,13 +24,4 @@ enum class MouseButton
     forward,
     back,
 };
-
-enum class KeyboardModifier
-{
-    none,
-    shift,
-    control,
-    alt,
-    meta,
-};
-} // namespace quite::core
+} // namespace quite

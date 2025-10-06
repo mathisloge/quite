@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include "keys.hpp"
 #include "quite/async_result.hpp"
 #include "quite/geometry.hpp"
+#include "quite/keyboard.hpp"
+#include "quite/mouse.hpp"
 #include "quite/quite_core_export.hpp"
 #include "quite/value/object_id.hpp"
 

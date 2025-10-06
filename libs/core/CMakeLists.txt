@@ -42,6 +42,8 @@ target_sources(
             TYPE HEADERS
             BASE_DIRS include
             FILES
+                include/quite/mouse.hpp
+                include/quite/keyboard.hpp
                 include/quite/asio_context.hpp
                 include/quite/async_result.hpp
                 include/quite/disable_copy_move.hpp

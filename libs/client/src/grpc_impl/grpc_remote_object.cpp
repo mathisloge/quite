@@ -76,7 +76,7 @@ AsyncResult<void> GrpcRemoteObject::mouse_action()
 {
     LOG_DEBUG(grpc_remote_object_logger(), "mouse_action for object={}", id());
     co_return co_await client_->mouse_injector().single_action(
-        id(), core::MouseAction{.button = core::MouseButton::left, .trigger = core::MouseTrigger::click});
+        id(), core::MouseAction{.button = MouseButton::left, .trigger = MouseTrigger::click});
 }
 
 AsyncResult<Image> GrpcRemoteObject::take_snapshot()

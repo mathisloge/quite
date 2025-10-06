@@ -76,7 +76,7 @@ AsyncResult<void> MouseInjector::single_action(ObjectId target_id, core::MouseAc
 
     switch (action.trigger)
     {
-    case core::MouseTrigger::none:
+    case MouseTrigger::none:
         break;
     case core::MouseTrigger::click:
         dispatch_mouse_event(
