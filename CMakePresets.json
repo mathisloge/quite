@@ -96,13 +96,13 @@
                 "common"
             ],
             "cacheVariables": {
+                "QUITE_INSTALL": false,
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "BUILD_TESTING": true,
                 "CMAKE_C_COMPILER": "gcc-13",
                 "CMAKE_CXX_COMPILER": "g++-13",
                 "CMAKE_C_COMPILER_LAUNCHER": "ccache",
-                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
-                "CMAKE_SKIP_INSTALL_RULES": true
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache"
             },
             "environment": {
                 "WAYLAND_DISPLAY": "wl-test-env"
