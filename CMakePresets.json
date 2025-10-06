@@ -53,8 +53,8 @@
                 "debug-build"
             ],
             "cacheVariables": {
+                "QUITE_INSTALL": false,
                 "BUILD_TESTING": true,
-                "CMAKE_SKIP_INSTALL_RULES": true,
                 "SANITIZE_ADDRESS": false,
                 "SANITIZE_UNDEFINED": false
             }
