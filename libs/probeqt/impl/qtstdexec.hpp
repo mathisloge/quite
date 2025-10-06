@@ -21,6 +21,8 @@ class QThreadOperationState;
 class QThreadScheduler
 {
   public:
+    using scheduler_concept = stdexec::scheduler_t;
+
     explicit QThreadScheduler(QThread *thread)
         : thread_(thread)
     {}
@@ -34,7 +36,7 @@ class QThreadScheduler
     {
         QThread *thread;
         template <typename CPO>
-        auto query(stdexec::get_completion_scheduler_t<CPO>) const noexcept
+        auto query(stdexec::get_completion_scheduler_t<CPO>) const noexcept -> QThreadScheduler
         {
             return QThreadScheduler{thread};
         }
@@ -53,7 +55,7 @@ class QThreadScheduler
     class QThreadSender
     {
       public:
-        using is_sender = void;
+        using sender_concept = stdexec::sender_t;
         using completion_signatures =
             stdexec::completion_signatures<stdexec::set_value_t(), stdexec::set_error_t(std::exception_ptr)>;
 
@@ -66,15 +68,15 @@ class QThreadScheduler
             return thread_;
         }
 
-        DefaultEnv query(stdexec::get_env_t) const noexcept
+        auto get_env() const noexcept -> DefaultEnv
         {
             return {thread_};
         }
 
-        template <class Recv>
-        QThreadOperationState<Recv> connect(Recv &&receiver)
+        template <class Receiver>
+        QThreadOperationState<Receiver> connect(Receiver receiver)
         {
-            return QThreadOperationState<Recv>(std::forward<Recv>(receiver), thread());
+            return QThreadOperationState<Receiver>(std::move(receiver), thread());
         }
 
       private:
@@ -137,13 +139,13 @@ class QObjectSender
         }
     };
 
-    DefaultEnv query([[maybe_unused]] stdexec::get_env_t env) noexcept
+    auto get_env() const noexcept -> DefaultEnv
     {
         return {obj_->thread()};
     }
 
   public:
-    using is_sender = void;
+    using sender_concept = stdexec::sender_t;
     using completion_signatures = stdexec::completion_signatures<stdexec::set_value_t(Args...),
                                                                  stdexec::set_error_t(std::exception_ptr),
                                                                  stdexec::set_stopped_t()>;
