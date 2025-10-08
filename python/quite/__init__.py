@@ -18,7 +18,7 @@ from ._quite import (
     __version__,
     __version_git_ref__,
     expect,
-    make_query,
+    query,
 )
 
 __all__ = [
@@ -35,5 +35,5 @@ __all__ = [
     "__version__",
     "__version_git_ref__",
     "expect",
-    "make_query",
+    "query",
 ]
