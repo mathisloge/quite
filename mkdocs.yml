@@ -34,7 +34,24 @@ theme:
 
 site_dir: ../build/public
 
+nav:
+  - Home: index.md
+  - Documentation:
+    - Installation: getting-started.md
+    - Probe setup: probe-setup.md
+    - Python usage: python-usage.md
+    - Building: building.md
+  - Community:
+    - Contributing: contributing.md
+  - Blog:
+    - blog/index.md
+
 markdown_extensions:
+  - attr_list
+  - admonition
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -49,7 +66,6 @@ plugins:
   - social
   - privacy:
       enabled: !ENV [CI, false]
-
 
 extra:
   version:

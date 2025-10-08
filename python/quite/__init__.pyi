@@ -42,7 +42,7 @@ from ._quite import (
     expect as expect,
 )
 from ._quite import (
-    make_query as make_query,
+    query as query,
 )
 
 __all__ = [
@@ -59,5 +59,5 @@ __all__ = [
     "__version__",
     "__version_git_ref__",
     "expect",
-    "make_query",
+    "query",
 ]

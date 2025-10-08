@@ -146,8 +146,8 @@ static suite<"qtprobe"> _ = [] { // NOLINT
         tracker.add_object(&a2);
         expect(loop.processEvents());
 
-        auto &&query = make_query().with_type("MyCustomClass");
-        auto found = tracker.find_object_by_query(query);
+        auto &&type_query = query().type("MyCustomClass");
+        auto found = tracker.find_object_by_query(type_query);
         expect(found.has_value());
         expect(found->object_id == to_object_id(&my_class));
     };
