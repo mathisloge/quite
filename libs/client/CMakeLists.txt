@@ -31,6 +31,9 @@ target_sources(
             FILES
                 include/quite/client/testing/verification_point.hpp
                 include/quite/client/utils/dump_properties.hpp
+                include/quite/client/mouse_action_builder.hpp
+                include/quite/client/probe_context_handle.hpp
+                include/quite/client/probe_context.hpp
                 include/quite/client/probe.hpp
                 include/quite/client/probe_handle.hpp
                 include/quite/client/probe_manager.hpp
@@ -45,6 +48,8 @@ target_sources(
         src/quite.cpp
         src/basic_probe.hpp
         src/basic_probe.cpp
+        src/mouse_action_builder.cpp
+        src/probe_context_handle.cpp
         src/probe_handle.cpp
         src/probe_manager.cpp
         src/property.cpp

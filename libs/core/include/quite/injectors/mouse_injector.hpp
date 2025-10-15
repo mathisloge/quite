@@ -4,6 +4,7 @@
 
 #pragma once
 #include "quite/async_result.hpp"
+#include "quite/core/bit_flags.hpp"
 #include "quite/geometry.hpp"
 #include "quite/keyboard.hpp"
 #include "quite/mouse.hpp"
@@ -25,6 +26,10 @@ class QUITE_CORE_EXPORT IMouseInjector
 {
   public:
     virtual ~IMouseInjector() = default;
+    virtual AsyncResult<void> perfom_on_target(ObjectId target_id,
+                                               MouseTrigger trigger,
+                                               MouseButton button,
+                                               MouseEventOptions options = {}) = 0;
     virtual AsyncResult<void> single_action(ObjectId target_id, MouseAction action) = 0;
 };
 } // namespace quite::core

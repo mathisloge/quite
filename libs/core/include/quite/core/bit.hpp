@@ -3,16 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include "quite/core/bit.hpp"
+#include <concepts>
 
 namespace quite
 {
-enum class KeyboardModifier
+template <std::integral T = unsigned int>
+constexpr T bit(std::size_t position)
 {
-    none = 0,
-    shift = bit(0),
-    control = bit(1),
-    alt = bit(2),
-    meta = bit(3),
-};
+    return static_cast<T>(1) << position;
+}
 } // namespace quite

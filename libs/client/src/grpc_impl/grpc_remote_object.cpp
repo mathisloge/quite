@@ -10,11 +10,16 @@
 DEFINE_LOGGER(grpc_remote_object_logger);
 namespace quite::client
 {
-GrpcRemoteObject::GrpcRemoteObject(ObjectReference reference, std::shared_ptr<proto::ProbeClient> client)
+GrpcRemoteObject::GrpcRemoteObject(ObjectReference reference, std::shared_ptr<GrpcProbeContext> probe_context)
     : RemoteObject{reference.object_id}
-    , client_{std::move(client)}
+    , probe_context_{std::move(probe_context)}
     , type_id_{reference.type_id}
 {}
+
+ProbeContextHandle GrpcRemoteObject::probe_context() const
+{
+    return ProbeContextHandle{probe_context_};
+}
 
 meta::TypeId GrpcRemoteObject::type_id() const
 {
@@ -29,7 +34,8 @@ AsyncResult<std::unordered_map<std::string, std::shared_ptr<Property>>> GrpcRemo
               "get properties[{}] for object={}",
               fmt::format("{}", fmt::join(properties, ",")),
               id());
-    const auto result = co_await client_->probe_service().get_object_properties(id(), std::move(properties));
+    const auto result =
+        co_await probe_context_->client().probe_service().get_object_properties(id(), std::move(properties));
     co_return result.transform([this](auto &&properties) -> RetVal {
         RetVal values;
         for (auto &&[key, value] : properties)
@@ -53,15 +59,16 @@ AsyncResult<std::shared_ptr<Property>> GrpcRemoteObject::property(std::string pr
 
 AsyncResult<void> GrpcRemoteObject::write_property(std::string property_name, entt::meta_any value)
 {
-    auto response =
-        co_await client_->probe_service().set_object_property(id(), std::move(property_name), std::move(value));
+    auto response = co_await probe_context_->client().probe_service().set_object_property(
+        id(), std::move(property_name), std::move(value));
     co_return response;
 }
 
 AsyncResult<entt::meta_any> GrpcRemoteObject::fetch_property(std::string property_name)
 {
     std::vector<std::string> gcc13_workaround{property_name}; // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=115660
-    auto response = co_await client_->probe_service().get_object_properties(id(), std::move(gcc13_workaround));
+    auto response =
+        co_await probe_context_->client().probe_service().get_object_properties(id(), std::move(gcc13_workaround));
     co_return response.and_then([this, &property_name](auto &&properties) -> Result<entt::meta_any> {
         auto it = properties.find(property_name);
         if (it == properties.end())
@@ -75,21 +82,21 @@ AsyncResult<entt::meta_any> GrpcRemoteObject::fetch_property(std::string propert
 AsyncResult<void> GrpcRemoteObject::mouse_action()
 {
     LOG_DEBUG(grpc_remote_object_logger(), "mouse_action for object={}", id());
-    co_return co_await client_->mouse_injector().single_action(
+    co_return co_await probe_context_->client().mouse_injector().single_action(
         id(), core::MouseAction{.button = MouseButton::left, .trigger = MouseTrigger::click});
 }
 
 AsyncResult<Image> GrpcRemoteObject::take_snapshot()
 {
-    co_return co_await client_->probe_service().take_snapshot(id());
+    co_return co_await probe_context_->client().probe_service().take_snapshot(id());
 }
 
 AsyncResult<entt::meta_any> GrpcRemoteObject::invoke_method(std::string method_name,
                                                             std::vector<entt::meta_any> parameters)
 {
     LOG_DEBUG(grpc_remote_object_logger(), "invoke method: {}", method_name);
-    auto response =
-        co_await client_->probe_service().invoke_method(id(), std::move(method_name), std::move(parameters));
+    auto response = co_await probe_context_->client().probe_service().invoke_method(
+        id(), std::move(method_name), std::move(parameters));
 
     if (response.has_value())
     {

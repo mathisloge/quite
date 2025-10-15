@@ -8,16 +8,15 @@
 
 namespace quite::client
 {
-void GrpcValueConverter::set_client(std::shared_ptr<proto::ProbeClient> client)
-{
-    client_ = std::move(client);
-}
+GrpcValueConverter::GrpcValueConverter(std::shared_ptr<GrpcProbeContext> probe_context)
+    : probe_context_{std::move(probe_context)}
+{}
 
 entt::meta_any GrpcValueConverter::from(ObjectReference ref) const
 {
-    if (auto client = client_.lock(); client != nullptr)
+    if (auto probe_context = probe_context_.lock(); probe_context != nullptr)
     {
-        RemoteObjectPtr obj = std::make_shared<GrpcRemoteObject>(std::move(ref), client);
+        RemoteObjectPtr obj = std::make_shared<GrpcRemoteObject>(std::move(ref), probe_context);
         return entt::meta_any{std::move(obj)};
     }
     return {};

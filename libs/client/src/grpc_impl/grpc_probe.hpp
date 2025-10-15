@@ -21,7 +21,7 @@ class GrpcProbe : public BasicProbe
     AsyncResult<void> wait_for_started(std::chrono::seconds timeout) override;
 
   private:
-    std::shared_ptr<GrpcValueConverter> value_converter_{std::make_shared<GrpcValueConverter>()};
-    std::shared_ptr<proto::ProbeClient> client_;
+    std::shared_ptr<GrpcValueConverter> value_converter_;
+    std::shared_ptr<GrpcProbeContext> probe_context_;
 };
 } // namespace quite::client

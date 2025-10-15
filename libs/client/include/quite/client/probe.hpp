@@ -5,6 +5,7 @@
 #pragma once
 #include <quite/disable_copy_move.hpp>
 #include <quite/error.hpp>
+#include <quite/injectors/mouse_injector.hpp>
 #include <quite/meta/meta_registry.hpp>
 #include <quite/value/object_query.hpp>
 #include "quite/quite_client_export.hpp"

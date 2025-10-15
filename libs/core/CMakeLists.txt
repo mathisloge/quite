@@ -63,6 +63,9 @@ target_sources(
                 include/quite/value/generic_value_class.hpp
                 include/quite/value/object_query.hpp
                 include/quite/injectors/mouse_injector.hpp
+                include/quite/core/bit.hpp
+                include/quite/core/bit_flags.hpp
+                include/quite/core/bit_flags_fmt.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}

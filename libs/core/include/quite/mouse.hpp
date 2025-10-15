@@ -3,6 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
+#include "quite/core/bit_flags.hpp"
+#include "quite/geometry.hpp"
+#include "quite/keyboard.hpp"
 namespace quite
 {
 enum class MouseTrigger
@@ -23,5 +26,11 @@ enum class MouseButton
     middle,
     forward,
     back,
+};
+
+struct MouseEventOptions
+{
+    Vector2 position = {};
+    BitFlags<KeyboardModifier> modifiers = {KeyboardModifier::none};
 };
 } // namespace quite

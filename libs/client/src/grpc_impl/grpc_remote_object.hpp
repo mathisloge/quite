@@ -5,6 +5,7 @@
 #pragma once
 #include <quite/client/remote_object.hpp>
 #include <quite/value/object_id.hpp>
+#include "grpc_probe_context.hpp"
 #include "quite/proto/client/probe_client.hpp"
 
 namespace quite::client
@@ -12,7 +13,9 @@ namespace quite::client
 class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObject>, public RemoteObject
 {
   public:
-    explicit GrpcRemoteObject(ObjectReference reference, std::shared_ptr<proto::ProbeClient> client);
+    explicit GrpcRemoteObject(ObjectReference reference, std::shared_ptr<GrpcProbeContext> probe_context);
+
+    ProbeContextHandle probe_context() const override;
 
     meta::TypeId type_id() const override;
 
@@ -30,7 +33,7 @@ class GrpcRemoteObject final : public std::enable_shared_from_this<GrpcRemoteObj
     AsyncResult<entt::meta_any> invoke_method(std::string method_name, std::vector<entt::meta_any> parameters) override;
 
   private:
-    std::shared_ptr<proto::ProbeClient> client_;
+    std::shared_ptr<GrpcProbeContext> probe_context_;
     meta::TypeId type_id_;
 };
 } // namespace quite::client
