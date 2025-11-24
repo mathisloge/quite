@@ -14,7 +14,7 @@ jobs:
     name: Format source code
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: actions/setup-python@v6
     - uses: pre-commit/action@v3.0.1
     - uses: pre-commit-ci/lite-action@v1.1.0
@@ -29,7 +29,7 @@ jobs:
     name: Build & Test
     needs: format-source-code
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: lukka/get-cmake@latest
 
