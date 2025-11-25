@@ -6,8 +6,7 @@ add_executable(test_manager_runnable runnable_exe.cpp)
 add_sanitizers(test_manager_runnable)
 target_link_libraries(test_manager_runnable PUBLIC CLI11::CLI11)
 file(
-    GENERATE OUTPUT
-    runnable_path.hpp
+    GENERATE OUTPUT runnable_path.hpp
     INPUT runnable_path.in.hpp
     TARGET test_manager_runnable
 )
