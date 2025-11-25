@@ -115,7 +115,7 @@ if(QUITE_BUILD_PROBE_QT)
     find_package(
         Qt6
         REQUIRED
-        COMPONENTS Core Gui Qml Quick Widgets
+        COMPONENTS Core Gui Qml Quick Widgets CorePrivate QuickPrivate
         REQUIRED
     )
 endif()
