@@ -17,8 +17,7 @@ project(quite VERSION ${BASE_VERSION} LANGUAGES CXX)
 message(STATUS "Project version: ${PROJECT_VERSION}")
 
 list(
-    APPEND
-    CMAKE_MODULE_PATH
+    APPEND CMAKE_MODULE_PATH
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/sanitizers"
 )

@@ -14,8 +14,7 @@ set_tests_properties(
             "PYTHONPATH=$<TARGET_FILE_DIR:_quite>/../:${CMAKE_CURRENT_BINARY_DIR}"
 )
 file(
-    GENERATE OUTPUT
-    test_paths/__init__.py
+    GENERATE OUTPUT test_paths/__init__.py
     CONTENT
         [[
 APP_PATH = "$<TARGET_FILE:tester>"
