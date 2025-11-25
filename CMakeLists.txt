@@ -78,7 +78,7 @@ message(STATUS "git_branch: ${git_branch}")
 
 find_package(Sanitizers REQUIRED)
 ### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
-include(get_cpm)
+include(CPM)
 set(BOOST_VERSION "1.89.0")
 list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
 cpmaddpackage(
