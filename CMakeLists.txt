@@ -115,9 +115,12 @@ if(QUITE_BUILD_PROBE_QT)
     find_package(
         Qt6
         REQUIRED
-        COMPONENTS Core Gui Qml Quick Widgets CorePrivate QuickPrivate
+        COMPONENTS Core Gui Qml Quick Widgets
         REQUIRED
     )
+    if(Qt6_VERSION VERSION_GREATER_EQUAL 6.10.0)
+        find_package(Qt6 REQUIRED COMPONENTS CorePrivate QuickPrivate REQUIRED)
+    endif()
 endif()
 add_subdirectory(libs)
 if(BUILD_TESTING)
