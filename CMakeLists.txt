@@ -17,8 +17,7 @@ project(quite VERSION ${BASE_VERSION} LANGUAGES CXX)
 message(STATUS "Project version: ${PROJECT_VERSION}")
 
 list(
-    APPEND
-    CMAKE_MODULE_PATH
+    APPEND CMAKE_MODULE_PATH
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/sanitizers"
 )
@@ -79,7 +78,7 @@ message(STATUS "git_branch: ${git_branch}")
 
 find_package(Sanitizers REQUIRED)
 ### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
-include(get_cpm)
+include(CPM)
 set(BOOST_VERSION "1.89.0")
 list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
 cpmaddpackage(
@@ -92,19 +91,19 @@ cpmaddpackage(
   FIND_PACKAGE_ARGUMENTS "CONFIG"
   OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_PROCESS_USE_STD_FS ON" "BOOST_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
 )
-cpmaddpackage("gh:fmtlib/fmt#11.2.0")
-cpmaddpackage("gh:odygrd/quill@10.1.0")
-cpmaddpackage(URI "gh:skypjack/entt@3.15.0" NAME "EnTT" FIND_PACKAGE_ARGUMENTS "CONFIG")
-cpmaddpackage(URI "gh:NVIDIA/stdexec#138e136fa4b93e7e096a4968eaac1b0c94f0d255" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON" "CMAKE_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
+cpmaddpackage("gh:fmtlib/fmt#12.1.0")
+cpmaddpackage("gh:odygrd/quill@11.0.1")
+cpmaddpackage(URI "gh:skypjack/entt@3.16.0" NAME "EnTT" FIND_PACKAGE_ARGUMENTS "CONFIG")
+cpmaddpackage(URI "gh:NVIDIA/stdexec#394a7c50237fbe3151350027a7786f001de67355" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON" "CMAKE_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
 )
-cpmaddpackage(URI "gh:Tradias/asio-grpc@3.5.0" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.4.0)
+cpmaddpackage(URI "gh:Tradias/asio-grpc@3.5.1" FIND_PACKAGE_ARGUMENTS "CONFIG")
 cpmaddpackage(URI "gh:nlohmann/json@3.12.0" FIND_PACKAGE_ARGUMENTS "CONFIG" NAME "nlohmann_json")
 cpmaddpackage(URI "gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5" NAME Stb
 )
 find_package(gRPC CONFIG REQUIRED)
 set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${Stb_SOURCE_DIR}>")
 if(QUITE_BUILD_REMOTE_MANAGER OR BUILD_TESTING)
-    cpmaddpackage(URI "gh:CLIUtils/CLI11@2.5.0" OPTIONS "CLI11_PRECOMPILED ON")
+    cpmaddpackage(URI "gh:CLIUtils/CLI11@2.6.1" OPTIONS "CLI11_PRECOMPILED ON")
 endif()
 if(BUILD_TESTING)
     cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
@@ -119,6 +118,9 @@ if(QUITE_BUILD_PROBE_QT)
         COMPONENTS Core Gui Qml Quick Widgets
         REQUIRED
     )
+    if(Qt6_VERSION VERSION_GREATER_EQUAL 6.10.0)
+        find_package(Qt6 REQUIRED COMPONENTS CorePrivate QuickPrivate REQUIRED)
+    endif()
 endif()
 add_subdirectory(libs)
 if(BUILD_TESTING)

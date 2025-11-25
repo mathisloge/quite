@@ -1,5 +1,5 @@
-# Copyright (c)
 # SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+# Copyright (C)
 #
 # SPDX-License-Identifier: MIT
 

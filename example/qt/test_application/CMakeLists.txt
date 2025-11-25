@@ -25,8 +25,7 @@ target_link_libraries(
 )
 
 file(
-    GENERATE OUTPUT
-    test_application_path.hpp
+    GENERATE OUTPUT test_application_path.hpp
     INPUT test_application_path.in.hpp
     TARGET test_application
 )
