@@ -21,6 +21,5 @@ int main(int argc, char *argv[])
     view.show();
 
     MyCustomType my_custom_type_instance;
-
     return QGuiApplication::exec();
 }
