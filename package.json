@@ -6,7 +6,7 @@
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
     "conventional-changelog-conventionalcommits": "^10.2.1",
-    "semantic-release": "^25.0.7"
+    "semantic-release": "^25.0.8"
   },
   "release": {
     "repositoryUrl": "https://github.com/mathisloge/quite.git",
