@@ -5,7 +5,7 @@
   "devDependencies": {
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^11.0.1",
-    "conventional-changelog-conventionalcommits": "^10.2.1",
+    "conventional-changelog-conventionalcommits": "^10.3.0",
     "semantic-release": "^25.0.8"
   },
   "release": {
