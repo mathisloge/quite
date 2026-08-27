@@ -25,7 +25,7 @@ proto::Client &Context::backend_client()
     return *client_;
 }
 
-execpools::asio_thread_pool &Context::asio_context()
+exec::asio::asio_thread_pool &Context::asio_context()
 {
     return thread_pool();
 }

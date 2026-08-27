@@ -7,6 +7,7 @@
 #include <QQmlListReference>
 #include <ranges>
 #include <entt/meta/factory.hpp>
+#include <entt/meta/resolve.hpp>
 #include <quite/logger.hpp>
 #include <quite/meta_any_formatter.hpp>
 #include <quite/value/generic_value_class.hpp>

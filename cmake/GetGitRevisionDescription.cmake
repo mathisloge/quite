@@ -92,8 +92,7 @@ function(get_git_head_revision _refspecvar _hashvar)
             # If out is empty, GIT_DIR/CMAKE_CURRENT_SOURCE_DIR is in a submodule
             file(READ ${GIT_DIR} submodule)
             string(
-                REGEX REPLACE
-                "gitdir: (.*)$"
+                REGEX REPLACE "gitdir: (.*)$"
                 "\\1"
                 GIT_DIR_RELATIVE
                 ${submodule}
@@ -113,8 +112,7 @@ function(get_git_head_revision _refspecvar _hashvar)
             # inside the parent git repo of the worktree.
             #
             string(
-                REGEX REPLACE
-                "gitdir: (.*)$"
+                REGEX REPLACE "gitdir: (.*)$"
                 "\\1"
                 git_worktree_dir
                 ${worktree_ref}

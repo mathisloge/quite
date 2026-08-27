@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include "process_impl.hpp"
-#include <asioexec/use_sender.hpp>
+#include <exec/asio/use_sender.hpp>
 
 using boost::system::error_code;
 namespace quite::manager
@@ -25,7 +25,7 @@ int ProcessImpl::exit_code()
 
 AsyncResult<int> ProcessImpl::async_wait_exit()
 {
-    auto exit_code = co_await process_.async_wait(asioexec::use_sender);
+    auto exit_code = co_await process_.async_wait(exec::asio::use_sender);
     co_return exit_code;
 }
 
