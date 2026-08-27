@@ -26,6 +26,8 @@ jobs:
         os: [ubuntu-26.04]
         qt-version: [6.5.*, 6.8.*, 6.11.*]
     runs-on: ${{ matrix.os }}
+    env:
+      SCCACHE_GHA_ENABLED: "true"
     name: Build & Test
     needs: format-source-code
     steps:
@@ -38,11 +40,8 @@ jobs:
           packages: ninja-build doxygen libunwind-dev libgrpc++-dev protobuf-compiler-grpc weston ccache
           version: 1.0
 
-      - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: ${{ matrix.os }}
-          create-symlink: true
+      - name: Run sccache-cache
+        uses: mozilla-actions/sccache-action@v0.0.11
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
