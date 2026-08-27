@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
@@ -43,9 +43,6 @@ struct fmt::formatter<entt::meta_any> : fmt::formatter<std::string_view>
             }
             return std::string{"unknown"};
         };
-        return fmt::format_to(ctx.out(),
-                              "any(name={} value={})",
-                              value.type().info().name(),
-                              value_printer());
+        return fmt::format_to(ctx.out(), "any(name={} value={})", value.type().info().name(), value_printer());
     }
 };

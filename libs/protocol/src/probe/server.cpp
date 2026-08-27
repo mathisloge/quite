@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
@@ -109,7 +109,7 @@ class Server::Impl
                                                          std::move(rpc_meta_find_type) | stop_token_env);
 
         exec::start_detached(stdexec::starts_on(grpc_context_.get_scheduler(), stdexec::just()) |
-                                stdexec::then([&] { LOG_DEBUG(grpc_server_log(), "grpc context running!"); }));
+                             stdexec::then([&] { LOG_DEBUG(grpc_server_log(), "grpc context running!"); }));
 
         grpc_context_.work_started();
         stdexec::sync_wait(stdexec::when_all(

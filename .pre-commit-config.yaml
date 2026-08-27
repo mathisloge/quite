@@ -3,6 +3,17 @@ default_install_hook_types:
   - commit-msg
 
 repos:
+  - repo: local
+    hooks:
+      - id: reuse-annotate
+        name: reuse-annotate
+        language: python
+        additional_dependencies: ["reuse"]
+        entry: reuse annotate -l MIT --merge-copyrights --single-line -c "Mathis Logemann <mathis@quite.rocks>"
+        types_or: [c++, qml, proto, cmake, python, pyi]
+        exclude: ^cmake/CPM\.cmake$
+        pass_filenames: true
+
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v4.4.0
     hooks:
@@ -23,10 +34,6 @@ repos:
     hooks:
     - id: gersemi
       name: CMake linting
-  - repo: https://github.com/psf/black
-    rev: 26.5.1
-    hooks:
-      - id: black
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: v22.1.8
     hooks:
@@ -53,13 +60,3 @@ repos:
     rev: v6.2.0
     hooks:
       - id: reuse-lint-file
-
-  - repo: local
-    hooks:
-      - id: reuse-annotate
-        name: reuse-annotate
-        entry: reuse annotate -l MIT --merge-copyrights --single-line -c "Mathis Logemann <mathis@quite.rocks>"
-        types_or: [c++, qml, proto, cmake, python, pyi]
-        pass_filenames: true
-        language: system
-        stages: [ manual ]
