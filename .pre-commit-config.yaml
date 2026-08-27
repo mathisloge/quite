@@ -18,10 +18,10 @@ repos:
         exclude: ^(mkdocs|.clang-format)
       - id: check-added-large-files
 
-  - repo: https://github.com/BlankSpruce/gersemi
-    rev: 0.23.2
+  - repo: https://github.com/BlankSpruce/gersemi-pre-commit
+    rev: 0.28.1
     hooks:
-      - id: gersemi
+    - id: gersemi
         name: CMake linting
 
   - repo: https://github.com/psf/black
