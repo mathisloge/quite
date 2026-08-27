@@ -9,6 +9,11 @@ on:
 permissions:
   contents: read # access to check out code and install dependencies
 
+# Concurrency group to cancel outdated CI runs on the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   format-source-code:
     name: Format source code
@@ -32,6 +37,9 @@ jobs:
     needs: format-source-code
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Required by GetGitRevisionDescription CMake module
+          fetch-depth: 0
 
       - uses: lukka/get-cmake@latest
 
