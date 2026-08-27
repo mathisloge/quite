@@ -33,6 +33,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       SCCACHE_GHA_ENABLED: "true"
+      # Runners have no GPU/DRM device
+      LIBGL_ALWAYS_SOFTWARE: "1"
     name: Build & Test
     needs: format-source-code
     steps:
