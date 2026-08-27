@@ -31,9 +31,6 @@ include(CMakeDependentOption)
 
 set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/runtime")
 
 option(QUITE_INSTALL "If ON the libraries will be exported" ON)
@@ -79,31 +76,31 @@ message(STATUS "git_branch: ${git_branch}")
 find_package(Sanitizers REQUIRED)
 ### NOTE: Set CPM_USE_LOCAL_PACKAGES or CPM_LOCAL_PACKAGES_ONLY to true if you want to use system packages or a package manager like vcpkg.
 include(CPM)
-set(BOOST_VERSION "1.89.0")
-list(APPEND BOOST_INCLUDE_LIBRARIES asio process)
+set(BOOST_VERSION "1.92.0")
+set(BOOST_INCLUDE_LIBRARIES "asio\\\\;process")
 cpmaddpackage(
   NAME Boost
   VERSION "${BOOST_VERSION}"
   URL https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}-cmake.tar.xz
-  URL_HASH SHA256=67acec02d0d118b5de9eb441f5fb707b3a1cdd884be00ca24b9a73c995511f74
+  URL_HASH SHA256=9bed76128d4e46755dbe818487788c6fceb6f72b378f4daa49b7e1e600d9088d
   EXCLUDE_FROM_ALL ON
   SYSTEM ON
   FIND_PACKAGE_ARGUMENTS "CONFIG"
-  OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_PROCESS_USE_STD_FS ON" "BOOST_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
+  OPTIONS "BOOST_ENABLE_CMAKE ON" "BOOST_INCLUDE_LIBRARIES ${BOOST_INCLUDE_LIBRARIES}" "BOOST_PROCESS_USE_STD_FS ON"
 )
 cpmaddpackage("gh:fmtlib/fmt#12.1.0")
-cpmaddpackage("gh:odygrd/quill@11.0.1")
-cpmaddpackage(URI "gh:skypjack/entt@3.16.0" NAME "EnTT" FIND_PACKAGE_ARGUMENTS "CONFIG")
-cpmaddpackage(URI "gh:NVIDIA/stdexec#394a7c50237fbe3151350027a7786f001de67355" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON" "CMAKE_SKIP_INSTALL_RULES ${CMAKE_SKIP_INSTALL_RULES}"
+cpmaddpackage("gh:odygrd/quill@12.2.2")
+cpmaddpackage(URI "gh:skypjack/entt@4.0.0" NAME "EnTT" FIND_PACKAGE_ARGUMENTS "CONFIG")
+cpmaddpackage(URI "gh:NVIDIA/stdexec#f91f63636f24a85b594dfb19b79d191ccdccd5ec" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
 )
-cpmaddpackage(URI "gh:Tradias/asio-grpc@3.5.1" FIND_PACKAGE_ARGUMENTS "CONFIG")
+cpmaddpackage(URI "gh:Tradias/asio-grpc@3.7.0" FIND_PACKAGE_ARGUMENTS "CONFIG")
 cpmaddpackage(URI "gh:nlohmann/json@3.12.0" FIND_PACKAGE_ARGUMENTS "CONFIG" NAME "nlohmann_json")
-cpmaddpackage(URI "gh:nothings/stb#f0569113c93ad095470c54bf34a17b36646bbbb5" NAME Stb
+cpmaddpackage(URI "gh:nothings/stb#2c980bb59875b0d32144a71867fbdebb2f77cd20" NAME Stb
 )
 find_package(gRPC CONFIG REQUIRED)
 set(Stb_INCLUDE_DIR "$<BUILD_INTERFACE:${Stb_SOURCE_DIR}>")
 if(QUITE_BUILD_REMOTE_MANAGER OR BUILD_TESTING)
-    cpmaddpackage(URI "gh:CLIUtils/CLI11@2.6.1" OPTIONS "CLI11_PRECOMPILED ON")
+    cpmaddpackage(URI "gh:CLIUtils/CLI11@2.7.2" OPTIONS "CLI11_PRECOMPILED ON")
 endif()
 if(BUILD_TESTING)
     cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
@@ -128,7 +125,7 @@ if(BUILD_TESTING)
 endif()
 
 if(QUITE_BUILD_PYTHON_TEST_API)
-    cpmaddpackage(URI "gh:pybind/pybind11@3.0.1" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.0.0)
+    cpmaddpackage(URI "gh:pybind/pybind11@3.1.0" FIND_PACKAGE_ARGUMENTS "CONFIG" VERSION 3.1.0)
     add_subdirectory(python)
 endif()
 
