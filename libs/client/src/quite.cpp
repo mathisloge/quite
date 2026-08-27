@@ -7,7 +7,7 @@
 
 namespace quite::client
 {
-execpools::asio_thread_pool &asio_context()
+exec::asio::asio_thread_pool &asio_context()
 {
     return Context::Instance().asio_context();
 }

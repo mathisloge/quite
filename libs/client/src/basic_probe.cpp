@@ -4,7 +4,7 @@
 
 #include "basic_probe.hpp"
 #include <boost/asio/steady_timer.hpp>
-#include <asioexec/use_sender.hpp>
+#include <exec/asio/use_sender.hpp>
 #include <exec/when_any.hpp>
 #include <quite/asio_context.hpp>
 #include <quite/logger.hpp>
@@ -30,7 +30,7 @@ AsyncResult<void> BasicProbe::exit()
 
     auto exit_result = co_await (
         exec::when_any(process_.instance().async_wait_exit(),
-                       timer.async_wait(asioexec::use_sender) | stdexec::then([this](auto &&...) -> Result<int> {
+                       timer.async_wait(exec::asio::use_sender) | stdexec::then([this](auto &&...) -> Result<int> {
                            LOG_WARNING(basic_probe(),
                                        "Could not stop process gracefully. Going to terminate the process.");
                            return process_.instance().terminate().transform([]() -> int { return EXIT_FAILURE; });

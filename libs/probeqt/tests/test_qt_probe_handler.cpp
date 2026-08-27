@@ -7,6 +7,7 @@
 #include <QObject>
 #include <boost/ut.hpp>
 #include <exec/async_scope.hpp>
+#include <exec/inline_scheduler.hpp>
 #include <stdexec/execution.hpp>
 #include "object_tracker.hpp"
 #include "qt_probe_handler.hpp"

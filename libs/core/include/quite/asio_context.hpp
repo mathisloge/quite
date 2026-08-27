@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include <execpools/asio/asio_thread_pool.hpp>
+#include <exec/asio/asio_thread_pool.hpp>
 #include "quite/quite_core_export.hpp"
 
 namespace quite
@@ -15,9 +15,9 @@ namespace quite
  * This thread pool is managed as a singleton and is used for all asynchronous operations
  * that require an ASIO execution context within the quite framework.
  *
- * @return Reference to the global execpools::asio_thread_pool instance.
+ * @return Reference to the global exec::asio::asio_thread_pool instance.
  */
-QUITE_CORE_EXPORT execpools::asio_thread_pool &thread_pool();
+QUITE_CORE_EXPORT exec::asio::asio_thread_pool &thread_pool();
 
 /**
  * @brief Returns the executor associated with the global ASIO thread pool.
