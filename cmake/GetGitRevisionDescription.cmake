@@ -1,7 +1,7 @@
 # Copyright 2009-2013 Iowa State University.
 # Copyright 2013-2020 Contributors
 # Copyright 2013-2020 Rylie Pavlik
-# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+# SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 #
 # SPDX-License-Identifier: BSL-1.0
 # SPDX-License-Identifier: MIT

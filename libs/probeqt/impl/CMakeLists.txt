@@ -1,11 +1,14 @@
-# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+# SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 #
 # SPDX-License-Identifier: MIT
 
 add_library(probe_qt_impl OBJECT)
 target_compile_features(probe_qt_impl PUBLIC cxx_std_23)
 target_include_directories(probe_qt_impl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-set_target_properties(probe_qt_impl PROPERTIES AUTOMOC ON POSITION_INDEPENDENT_CODE ON)
+set_target_properties(
+    probe_qt_impl
+    PROPERTIES AUTOMOC ON POSITION_INDEPENDENT_CODE ON
+)
 
 target_link_libraries(
     probe_qt_impl
