@@ -9,14 +9,14 @@
 namespace quite::proto
 {
 MouseInjectorImpl::MouseInjectorImpl(std::shared_ptr<agrpc::GrpcContext> grpc_context,
-                                     ProbeService::Stub &probe_service_stub)
+                                     ProbeService::StubInterface &probe_service_stub)
     : grpc_context_{std::move(grpc_context)}
     , probe_service_stub_{probe_service_stub}
 {}
 
 AsyncResult<void> MouseInjectorImpl::single_action(ObjectId target_id, core::MouseAction action)
 {
-    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncMouseAction>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::StubInterface::PrepareAsyncMouseAction>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 

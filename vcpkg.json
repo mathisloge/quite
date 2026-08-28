@@ -6,7 +6,7 @@
         "asio-grpc",
         "fmt",
         "quill",
-        "catch2",
+        "gtest",
         "stb",
         "sdl3",
         "cli11",

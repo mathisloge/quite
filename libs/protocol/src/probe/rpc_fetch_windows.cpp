@@ -23,7 +23,7 @@ exec::task<void> GetViewsRpcHandler::operator()(GetViewsRPC &rpc, const GetViews
     {
         auto &&proto_obj = response.add_object();
         proto_obj->set_type_id(obj.type_id);
-        proto_obj->set_object_id(obj.type_id);
+        proto_obj->set_object_id(obj.object_id);
     }
     co_await rpc.finish(response, grpc::Status::OK);
 }

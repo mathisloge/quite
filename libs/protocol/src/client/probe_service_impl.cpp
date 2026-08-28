@@ -29,7 +29,7 @@ void write_query(proto::ObjectSearchQuery &proto_query, const ObjectQuery &query
 } // namespace
 
 ProbeServiceImpl::ProbeServiceImpl(std::shared_ptr<agrpc::GrpcContext> grpc_context,
-                                   ProbeService::Stub &probe_service_stub,
+                                   ProbeService::StubInterface &probe_service_stub,
                                    std::shared_ptr<IValueConverter> value_converter)
     : grpc_context_{std::move(grpc_context)}
     , probe_service_stub_{probe_service_stub}
@@ -38,7 +38,7 @@ ProbeServiceImpl::ProbeServiceImpl(std::shared_ptr<agrpc::GrpcContext> grpc_cont
 
 AsyncResult<Image> ProbeServiceImpl::take_snapshot(ObjectId id)
 {
-    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncCreateScreenshot>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::StubInterface::PrepareAsyncCreateScreenshot>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 
@@ -76,7 +76,7 @@ AsyncResult<Image> ProbeServiceImpl::take_snapshot(ObjectId id)
 
 AsyncResult<ObjectReference> ProbeServiceImpl::find_object(ObjectQuery serach_query)
 {
-    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncFindObject>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::StubInterface::PrepareAsyncFindObject>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 
@@ -97,7 +97,7 @@ AsyncResult<ObjectReference> ProbeServiceImpl::find_object(ObjectQuery serach_qu
 AsyncResult<std::unordered_map<std::string, entt::meta_any>> ProbeServiceImpl::get_object_properties(
     ObjectId object_id, std::vector<std::string> properties)
 {
-    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncGetObjectProperties>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::StubInterface::PrepareAsyncGetObjectProperties>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 
@@ -126,7 +126,7 @@ AsyncResult<std::unordered_map<std::string, entt::meta_any>> ProbeServiceImpl::g
 
 AsyncResult<void> ProbeServiceImpl::set_object_property(ObjectId object_id, std::string property, entt::meta_any value)
 {
-    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncSetObjectProperty>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::StubInterface::PrepareAsyncSetObjectProperty>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 
@@ -146,7 +146,7 @@ AsyncResult<void> ProbeServiceImpl::set_object_property(ObjectId object_id, std:
 
 AsyncResult<std::vector<ObjectReference>> ProbeServiceImpl::query_top_level_views()
 {
-    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncGetViews>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::StubInterface::PrepareAsyncGetViews>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 
@@ -169,7 +169,7 @@ AsyncResult<entt::meta_any> ProbeServiceImpl::invoke_method(ObjectId id,
                                                             std::string method_name,
                                                             std::vector<entt::meta_any> parameters)
 {
-    using RPC = agrpc::ClientRPC<&proto::ProbeService::Stub::PrepareAsyncInvokeMethod>;
+    using RPC = agrpc::ClientRPC<&proto::ProbeService::StubInterface::PrepareAsyncInvokeMethod>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 

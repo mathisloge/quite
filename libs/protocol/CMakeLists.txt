@@ -3,6 +3,40 @@
 # SPDX-License-Identifier: MIT
 
 set(proto_inc_dir "${CMAKE_CURRENT_LIST_DIR}/quite/proto")
+set(quite_protocol_binary_dir "${CMAKE_CURRENT_BINARY_DIR}")
+set(quite_protocol_include_dir "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(quite_protocol_generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+
+# own target so quite_protocol_client_impl can depend on it without a build-graph cycle
+add_library(quite_protocol_generated OBJECT)
+add_sanitizers(quite_protocol_generated)
+target_compile_features(quite_protocol_generated PUBLIC cxx_std_23)
+set_target_properties(
+    quite_protocol_generated
+    PROPERTIES POSITION_INDEPENDENT_CODE ON
+)
+asio_grpc_protobuf_generate(
+    GENERATE_GRPC
+    GENERATE_MOCK_CODE
+    USAGE_REQUIREMENT PUBLIC
+    TARGET quite_protocol_generated
+    OUT_DIR "${quite_protocol_generated_dir}"
+    IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"
+    PROTOS
+        "${proto_inc_dir}/meta.proto"
+        "${proto_inc_dir}/meta_service.proto"
+        "${proto_inc_dir}/common.proto"
+        "${proto_inc_dir}/probe.proto"
+        "${proto_inc_dir}/keyboard.proto"
+        "${proto_inc_dir}/mouse.proto"
+        "${proto_inc_dir}/types.proto"
+        "${proto_inc_dir}/methods.proto"
+        "${proto_inc_dir}/health.proto"
+)
+target_link_libraries(
+    quite_protocol_generated
+    PUBLIC protobuf::libprotobuf gRPC::grpc gRPC::grpc++
+)
 
 add_library(quite_protocol)
 add_library(quite::protocol ALIAS quite_protocol)
@@ -16,39 +50,16 @@ generate_export_header(
     quite_protocol
     EXPORT_FILE_NAME quite/quite_protocol_export.hpp
 )
-asio_grpc_protobuf_generate(
-    GENERATE_GRPC
-    USAGE_REQUIREMENT PRIVATE
-    TARGET quite_protocol
-    OUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated"
-    IMPORT_DIRS "${CMAKE_CURRENT_LIST_DIR}"
-    PROTOS
-        "${proto_inc_dir}/meta.proto"
-        "${proto_inc_dir}/meta_service.proto"
-        "${proto_inc_dir}/common.proto"
-        "${proto_inc_dir}/probe.proto"
-        "${proto_inc_dir}/keyboard.proto"
-        "${proto_inc_dir}/mouse.proto"
-        "${proto_inc_dir}/types.proto"
-        "${proto_inc_dir}/methods.proto"
-        "${proto_inc_dir}/health.proto"
-)
 
 target_link_libraries(
     quite_protocol
     PUBLIC quite::core
-    PRIVATE
-        protobuf::libprotobuf
-        gRPC::grpc
-        gRPC::grpc++
-        asio-grpc::asio-grpc-stdexec
+    PRIVATE quite_protocol_generated asio-grpc::asio-grpc-stdexec
 )
 
 target_include_directories(
     quite_protocol
-    PRIVATE
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated>"
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
+    PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>"
 )
 
 target_sources(
@@ -63,6 +74,7 @@ target_sources(
                 include/quite/proto/client/probe_client.hpp
                 include/quite/proto/client/probe_service.hpp
                 include/quite/proto/client/client.hpp
+                include/quite/proto/client/value_converter.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}

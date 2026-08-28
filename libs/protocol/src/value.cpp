@@ -41,6 +41,11 @@ Value create_value(const ValueRegistry &value_registry, const entt::meta_any &an
         {
             convert_object_reference(value, any);
         }
+        else if (type.is_sequence_container())
+        {
+            // containers are also is_class(); string/object-ref checks above must win first
+            convert_sequence_container(value_registry, value, any);
+        }
         else
         {
             convert_class(value_registry, value, any);

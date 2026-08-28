@@ -156,10 +156,6 @@ struct ProtocolVisitor
         auto &&object = proto.mutable_object_type();
         object->set_type_id(meta->id);
         object->set_name(meta->name);
-        for (auto &&x : meta->properties)
-        {
-            object->add_properties()->set_name(x.name);
-        }
         std::ranges::for_each(
             meta->properties,
             [](auto &&property_pack) {

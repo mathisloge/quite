@@ -5,9 +5,9 @@
 #include <QEventLoop>
 #include <QObject>
 #include <QString>
-#include <boost/ut.hpp>
 #include <fmt/base.h>
 #include <fmt/std.h>
+#include <gtest/gtest.h>
 #include <quite/error.hpp>
 #include <quite/meta_any_formatter.hpp>
 #include <quite/value/object_query.hpp>
@@ -15,8 +15,6 @@
 
 using namespace quite;
 using namespace quite::probe;
-using namespace boost::ut;
-using namespace std::literals::string_view_literals;
 
 namespace
 {
@@ -44,71 +42,74 @@ class TestObject : public QObject
 };
 } // namespace
 
-static suite<"qtprobe methodinvoker"> _ = [] { // NOLINT
-    "invoke int add(int,int)"_test = [] {
-        MethodInvoker invoker;
+TEST(MethodInvoker, InvokeIntAdd)
+{
+    MethodInvoker invoker;
 
-        TestObject obj;
-        entt::meta_any obj_any = static_cast<QObject *>(&obj);
-        std::vector<entt::meta_any> params = {entt::forward_as_meta(1), entt::forward_as_meta(2)};
-        auto result = invoker.invoke_method(obj_any, "add(int,int)", params);
+    TestObject obj;
+    entt::meta_any obj_any = static_cast<QObject *>(&obj);
+    std::vector<entt::meta_any> params = {entt::forward_as_meta(1), entt::forward_as_meta(2)};
+    auto result = invoker.invoke_method(obj_any, "add(int,int)", params);
 
-        expect(result.has_value());
-        expect(result->cast<int>() == 3);
-    };
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->cast<int>(), 3);
+}
 
-    "invoke void setValue(int) and getValue"_test = [] {
-        MethodInvoker invoker;
+TEST(MethodInvoker, InvokeVoidSetValueAndGetValue)
+{
+    MethodInvoker invoker;
 
-        TestObject obj;
-        entt::meta_any obj_any = static_cast<QObject *>(&obj);
-        std::vector<entt::meta_any> params = {42};
-        auto set_result = invoker.invoke_method(obj_any, "setValue(int)", params);
+    TestObject obj;
+    entt::meta_any obj_any = static_cast<QObject *>(&obj);
+    std::vector<entt::meta_any> params = {42};
+    auto set_result = invoker.invoke_method(obj_any, "setValue(int)", params);
 
-        expect(set_result.has_value());
+    EXPECT_TRUE(set_result.has_value());
 
-        std::vector<entt::meta_any> get_params;
-        auto get_result = invoker.invoke_method(obj_any, "getValue()", get_params);
+    std::vector<entt::meta_any> get_params;
+    auto get_result = invoker.invoke_method(obj_any, "getValue()", get_params);
 
-        expect(get_result.has_value());
-        expect(get_result->cast<int>() == 42);
-    };
+    ASSERT_TRUE(get_result.has_value());
+    EXPECT_EQ(get_result->cast<int>(), 42);
+}
 
-    "invoke QString echo(QString)"_test = [] {
-        MethodInvoker invoker;
+TEST(MethodInvoker, InvokeQStringEcho)
+{
+    MethodInvoker invoker;
 
-        TestObject obj;
-        entt::meta_any obj_any = static_cast<QObject *>(&obj);
-        std::vector<entt::meta_any> params = {std::string{"hello"}};
-        auto result = invoker.invoke_method(obj_any, "echo(QString)", params);
+    TestObject obj;
+    entt::meta_any obj_any = static_cast<QObject *>(&obj);
+    std::vector<entt::meta_any> params = {std::string{"hello"}};
+    auto result = invoker.invoke_method(obj_any, "echo(QString)", params);
 
-        expect(result.has_value());
-        expect(result->cast<QString>().toStdString() == "hello"sv);
-    };
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->cast<QString>().toStdString(), "hello");
+}
 
-    "invoke with wrong method name returns error"_test = [] {
-        MethodInvoker invoker;
+TEST(MethodInvoker, InvokeWithWrongMethodNameReturnsError)
+{
+    MethodInvoker invoker;
 
-        TestObject obj;
-        entt::meta_any obj_any = static_cast<QObject *>(&obj);
-        std::vector<entt::meta_any> params;
-        auto result = invoker.invoke_method(obj_any, "doesNotExist()", params);
+    TestObject obj;
+    entt::meta_any obj_any = static_cast<QObject *>(&obj);
+    std::vector<entt::meta_any> params;
+    auto result = invoker.invoke_method(obj_any, "doesNotExist()", params);
 
-        expect(!result.has_value());
-        expect(result.error().code == ErrorCode::invalid_argument);
-    };
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::invalid_argument);
+}
 
-    "invoke with wrong argument count returns error"_test = [] {
-        MethodInvoker invoker;
+TEST(MethodInvoker, InvokeWithWrongArgumentCountReturnsError)
+{
+    MethodInvoker invoker;
 
-        TestObject obj;
-        entt::meta_any obj_any = static_cast<QObject *>(&obj);
-        std::vector<entt::meta_any> params = {1}; // add(int,int) expects 2
-        auto result = invoker.invoke_method(obj_any, "add(int,int)", params);
+    TestObject obj;
+    entt::meta_any obj_any = static_cast<QObject *>(&obj);
+    std::vector<entt::meta_any> params = {1}; // add(int,int) expects 2
+    auto result = invoker.invoke_method(obj_any, "add(int,int)", params);
 
-        expect(!result.has_value());
-        expect(result.error().code == ErrorCode::failed_precondition);
-    };
-};
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::failed_precondition);
+}
 
 #include "test_method_invoker.moc"

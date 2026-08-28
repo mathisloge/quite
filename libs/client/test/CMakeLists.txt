@@ -2,10 +2,9 @@
 #
 # SPDX-License-Identifier: MIT
 
-add_executable(client_test main.cpp)
-add_sanitizers(client_test)
-target_link_libraries(client_test PRIVATE quite::client Boost::ut)
-add_test(NAME client_test COMMAND client_test)
-
-#target_sources(client_test PRIVATE
-#)
+quite_add_test(
+    NAME client_test
+    SOURCES test_dump_properties.cpp
+    LIBRARIES quite::client nlohmann_json::nlohmann_json
+    LABELS unit
+)

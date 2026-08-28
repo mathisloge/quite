@@ -37,7 +37,7 @@ exec::task<void> FindObjectRpcHandler::operator()(FindObjectRPC &rpc, const Find
     const proto::ObjectSearchQuery *parent{&request.query()};
     while (parent->has_parent())
     {
-        parent = &request.query().parent();
+        parent = &parent->parent();
         child->container = std::make_shared<ObjectQuery>();
         child->container->properties = convert_properties(*value_registry, parent->properties());
         child = child->container.get();

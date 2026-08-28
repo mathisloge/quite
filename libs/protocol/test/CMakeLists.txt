@@ -2,9 +2,21 @@
 #
 # SPDX-License-Identifier: MIT
 
-add_executable(test_protocol main.cpp)
-add_sanitizers(test_protocol)
-target_link_libraries(test_protocol PRIVATE quite::protocol Boost::ut)
-add_test(NAME test_protocol COMMAND test_protocol)
-
-target_sources(test_protocol PRIVATE test_server.cpp)
+quite_add_test(
+    NAME test_protocol
+    SOURCES
+        main.cpp
+        test_server.cpp
+        test_server_with_fake_handler.cpp
+        test_value_conversion.cpp
+        client/test_probe_service_impl.cpp
+        client/test_meta_registry_impl.cpp
+        client/test_mouse_injector_impl.cpp
+    LIBRARIES quite::protocol quite_protocol_client_impl asio-grpc::asio-grpc-stdexec fmt::fmt
+    LABELS unit
+    NO_GTEST_MAIN
+)
+target_include_directories(
+    test_protocol
+    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../src/client"
+)

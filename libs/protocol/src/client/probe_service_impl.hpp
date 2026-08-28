@@ -14,7 +14,7 @@ class ProbeServiceImpl final : public IProbeService
 {
   public:
     explicit ProbeServiceImpl(std::shared_ptr<agrpc::GrpcContext> grpc_context,
-                              ProbeService::Stub &probe_service_stub,
+                              ProbeService::StubInterface &probe_service_stub,
                               std::shared_ptr<IValueConverter> value_converter);
 
     AsyncResult<Image> take_snapshot(ObjectId id) override;
@@ -29,7 +29,7 @@ class ProbeServiceImpl final : public IProbeService
 
   private:
     std::shared_ptr<agrpc::GrpcContext> grpc_context_;
-    ProbeService::Stub &probe_service_stub_;
+    ProbeService::StubInterface &probe_service_stub_;
     std::shared_ptr<IValueConverter> value_converter_;
 };
 } // namespace quite::proto
