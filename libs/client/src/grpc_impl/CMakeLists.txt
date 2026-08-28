@@ -5,6 +5,8 @@
 target_sources(
     quite_client
     PRIVATE
+        grpc_probe_context.hpp
+        grpc_probe_context.cpp
         grpc_probe.hpp
         grpc_probe.cpp
         grpc_remote_object.hpp

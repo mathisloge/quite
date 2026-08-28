@@ -49,6 +49,16 @@ Qt::KeyboardModifiers to_qt_modifiers(quite::core::KeyboardModifier modifier)
 
 namespace quite::probe
 {
+namespace
+{
+void dispatch_mouse_event(QObject *target, std::unique_ptr<QMouseEvent> event)
+{
+    if (event != nullptr)
+    {
+        QCoreApplication::postEvent(target, event.release());
+    }
+}
+} // namespace
 MouseInjector::MouseInjector(const ObjectTracker &object_tracker)
     : object_tracker_{object_tracker}
     , mouse_{QStringLiteral("QuiteProbeTestingMouse"),
@@ -76,7 +86,7 @@ AsyncResult<void> MouseInjector::single_action(ObjectId target_id, core::MouseAc
 
     switch (action.trigger)
     {
-    case core::MouseTrigger::none:
+    case MouseTrigger::none:
         break;
     case core::MouseTrigger::click:
         dispatch_mouse_event(
@@ -117,11 +127,71 @@ AsyncResult<void> MouseInjector::single_action(ObjectId target_id, core::MouseAc
     co_return {};
 }
 
-void MouseInjector::dispatch_mouse_event(QObject *target, std::unique_ptr<QMouseEvent> event)
+namespace
 {
-    if (event != nullptr)
+constexpr Qt::MouseButton convert(MouseButton button)
+{
+    switch (button)
     {
-        QCoreApplication::postEvent(target, event.release());
+    case MouseButton::none:
+        return Qt::MouseButton::NoButton;
+    case MouseButton::left:
+        return Qt::MouseButton::LeftButton;
+    case MouseButton::right:
+        return Qt::MouseButton::RightButton;
+    case MouseButton::middle:
+        return Qt::MouseButton::MiddleButton;
+    case MouseButton::forward:
+        return Qt::MouseButton::ForwardButton;
+    case MouseButton::back:
+        return Qt::MouseButton::BackButton;
     }
 }
+} // namespace
+
+AsyncResult<void> MouseInjector::perfom_on_target(ObjectId target_id,
+                                                  MouseTrigger trigger,
+                                                  MouseButton button,
+                                                  MouseEventOptions options)
+{
+    auto target = object_tracker_.get_object_by_id(target_id);
+    if (not target.has_value())
+    {
+        co_return std::unexpected{target.error()};
+    }
+
+    const auto create_event = [this, options, button](QMouseEvent::Type qt_event_type) {
+        return std::make_unique<QMouseEvent>(qt_event_type,
+                                             QPointF{options.position.x, options.position.y},
+                                             QPointF{},
+                                             convert(button),
+                                             Qt::MouseButton{},
+                                             Qt::KeyboardModifiers{},
+                                             &mouse_);
+    };
+    switch (trigger)
+    {
+    case MouseTrigger::none:
+        break;
+    case MouseTrigger::click:
+        dispatch_mouse_event(target.value(), create_event(QMouseEvent::MouseButtonPress));
+        dispatch_mouse_event(target.value(), create_event(QMouseEvent::MouseButtonRelease));
+        break;
+    case MouseTrigger::double_click:
+        dispatch_mouse_event(target.value(), create_event(QMouseEvent::MouseButtonDblClick));
+        break;
+    case MouseTrigger::press:
+        dispatch_mouse_event(target.value(), create_event(QMouseEvent::MouseButtonPress));
+        break;
+    case MouseTrigger::release:
+        dispatch_mouse_event(target.value(), create_event(QMouseEvent::MouseButtonDblClick));
+        break;
+    case MouseTrigger::move:
+        dispatch_mouse_event(target.value(), create_event(QMouseEvent::MouseMove));
+        break;
+    }
+
+    co_return {};
+}
+
 } // namespace quite::probe

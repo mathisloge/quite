@@ -104,3 +104,24 @@ def test_expect_screenshot(probe_manager: ProbeManager, hello_btn_query):
     )
     btn = app.find_object(hello_btn_query)
     expect(object=btn).screenshot(name="test1")
+
+
+#
+# def test_mouse_sketch(probe_manager: ProbeManager, hello_btn_query):
+#    app = probe_manager.launch_qt_probe_application(
+#        name="tester", path_to_application=APP_PATH
+#    )
+#    btn = app.find_object(hello_btn_query)
+#
+#    mouse(btn).modifier(KeyboardModifier.ctrl).click()
+#    mouse(btn).click()
+#    mouse(btn).click(button=MouseButton.Left, delay=100ms)
+#    mouse(btn).double_click(button=MouseButton.Left, delay=100ms)
+#    mouse(btn).down(button)
+#    mouse(btn).up(button)
+#
+#    mouse(btn).drag().drop_at(drag_target)
+#
+#    mouse(btn).drag(button=MouseButton.Left).move_to(some_other_target).drop_at(drag_target)
+#
+#    mouse(btn).wheel(delta_x, delty_y)

@@ -161,8 +161,7 @@ Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &q
         while (current_query && current_parent)
         {
             bool matched =
-                current_query->type_name.empty() or
-                (not current_query->type_name.empty() and get_class_name(current_parent) == current_query->type_name);
+                current_query->type_name.empty() or get_class_name(current_parent) == current_query->type_name;
             if (matched)
             {
                 // Check if the current parent matches the current query
@@ -196,8 +195,7 @@ Result<ObjectReference> ObjectTracker::find_object_by_query(const ObjectQuery &q
         {
             continue;
         }
-        const bool name_matched =
-            query.type_name.empty() or (not query.type_name.empty() and get_class_name(obj) == query.type_name);
+        const bool name_matched = query.type_name.empty() or get_class_name(obj) == query.type_name;
 
         // Then, check if the properties of the current object match
         bool property_matches = true;
