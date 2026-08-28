@@ -15,6 +15,8 @@ quite_add_test(
         test_value_containers.cpp
         test_probe_context.cpp
         test_qt_probe_handler.cpp
+        test_mouse_injector.cpp
+        test_qt_meta_registry.cpp
     LIBRARIES probe_qt_impl
     LABELS qt
     NO_GTEST_MAIN
