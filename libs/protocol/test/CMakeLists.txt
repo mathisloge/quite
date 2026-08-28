@@ -8,6 +8,7 @@ quite_add_test(
         main.cpp
         test_server.cpp
         test_server_with_fake_handler.cpp
+        test_value_conversion.cpp
         client/test_probe_service_impl.cpp
         client/test_meta_registry_impl.cpp
         client/test_mouse_injector_impl.cpp

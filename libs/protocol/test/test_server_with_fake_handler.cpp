@@ -10,6 +10,7 @@
 #include <quite/proto/client/probe_client.hpp>
 #include <quite/proto/client/value_converter.hpp>
 #include <quite/proto/probe/server.hpp>
+#include <quite/value/generic_value_class.hpp>
 #include <quite/value/value_registry.hpp>
 #include <unistd.h>
 #include "fake_meta_registry.hpp"
@@ -123,6 +124,90 @@ TEST_F(ProbeRoundTripTest, SetObjectPropertyRoundTripsThroughRealTransport)
     EXPECT_EQ(handler->last_set_property_call()->property, "name");
     ASSERT_TRUE(handler->last_set_property_call()->value.allow_cast<std::string>());
     EXPECT_EQ(handler->last_set_property_call()->value.cast<std::string>(), "hello");
+}
+
+TEST_F(ProbeRoundTripTest, SetObjectPropertyRoundTripsBoolValue)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] =
+        stdexec::sync_wait(probe_client_->probe_service().set_object_property(1, "flag", entt::meta_any{true})).value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(handler->last_set_property_call().has_value());
+    ASSERT_TRUE(handler->last_set_property_call()->value.allow_cast<bool>());
+    EXPECT_EQ(handler->last_set_property_call()->value.cast<bool>(), true);
+}
+
+TEST_F(ProbeRoundTripTest, SetObjectPropertyRoundTripsDoubleValue)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] =
+        stdexec::sync_wait(probe_client_->probe_service().set_object_property(1, "ratio", entt::meta_any{3.5})).value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(handler->last_set_property_call().has_value());
+    ASSERT_TRUE(handler->last_set_property_call()->value.allow_cast<double>());
+    EXPECT_DOUBLE_EQ(handler->last_set_property_call()->value.cast<double>(), 3.5);
+}
+
+TEST_F(ProbeRoundTripTest, SetObjectPropertyRoundTripsUnsignedValue)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().set_object_property(
+                                           1, "count", entt::meta_any{std::uint64_t{42}}))
+                        .value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(handler->last_set_property_call().has_value());
+    ASSERT_TRUE(handler->last_set_property_call()->value.allow_cast<std::uint64_t>());
+    EXPECT_EQ(handler->last_set_property_call()->value.cast<std::uint64_t>(), 42u);
+}
+
+TEST_F(ProbeRoundTripTest, SetObjectPropertyRoundTripsObjectReferenceValue)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    // A type_id that was never entt::meta<T>()-registered forces convert_value's object_val
+    // branch through IValueConverter::from(...) rather than a direct type lookup.
+    const ObjectReference sent{.object_id = 123, .type_id = 999999};
+    auto [result] =
+        stdexec::sync_wait(probe_client_->probe_service().set_object_property(1, "child", entt::meta_any{sent}))
+            .value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(handler->last_set_property_call().has_value());
+    ASSERT_TRUE(handler->last_set_property_call()->value.allow_cast<ObjectReference>());
+    const auto received = handler->last_set_property_call()->value.cast<ObjectReference>();
+    EXPECT_EQ(received.object_id, 123u);
+    EXPECT_EQ(received.type_id, 999999u);
+}
+
+TEST_F(ProbeRoundTripTest, SetObjectPropertyRoundTripsClassValue)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    GenericClass sent{.properties = {{"x", entt::meta_any{std::int64_t{1}}}, {"y", entt::meta_any{std::int64_t{2}}}}};
+    auto [result] =
+        stdexec::sync_wait(probe_client_->probe_service().set_object_property(1, "point", entt::meta_any{sent}))
+            .value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(handler->last_set_property_call().has_value());
+    ASSERT_TRUE(handler->last_set_property_call()->value.allow_cast<GenericClass>());
+    const auto received = handler->last_set_property_call()->value.cast<GenericClass>();
+    ASSERT_EQ(received.properties.size(), 2u);
+    ASSERT_TRUE(received.properties.contains("x"));
+    EXPECT_EQ(received.properties.at("x").cast<std::int64_t>(), 1);
+    ASSERT_TRUE(received.properties.contains("y"));
+    EXPECT_EQ(received.properties.at("y").cast<std::int64_t>(), 2);
 }
 
 TEST_F(ProbeRoundTripTest, InvokeMethodRoundTripsThroughRealTransport)
