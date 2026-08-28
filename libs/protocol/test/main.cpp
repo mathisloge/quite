@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-#include <boost/ut.hpp>
+#include <gtest/gtest.h>
 #include <quite/setup_logger.hpp>
 
 int main(int argc, char *argv[])
 {
     quite::setup_logger();
-    return static_cast<int>(
-        boost::ut::cfg<>.run({.report_errors = true, .argc = argc, .argv = const_cast<const char **>(argv)}));
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

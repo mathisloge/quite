@@ -63,6 +63,7 @@ target_sources(
                 include/quite/proto/client/probe_client.hpp
                 include/quite/proto/client/probe_service.hpp
                 include/quite/proto/client/client.hpp
+                include/quite/proto/client/value_converter.hpp
         FILE_SET export_config
             TYPE HEADERS
             BASE_DIRS ${CMAKE_CURRENT_BINARY_DIR}

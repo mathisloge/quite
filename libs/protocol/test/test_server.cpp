@@ -3,21 +3,30 @@
 // SPDX-License-Identifier: MIT
 
 #include <thread>
-#include <boost/ut.hpp>
+#include <fmt/format.h>
+#include <gtest/gtest.h>
 #include <quite/proto/probe/server.hpp>
-using namespace boost::ut;
-using namespace std::literals::string_view_literals;
+#include <unistd.h>
 
-static suite<"protocol server"> _ = [] { // NOLINT
-    "shutdown instant"_test = [] {
-        // This test is to ensure that the server can be created and destroyed without issues.
-        for (int i = 0; i < 1000; ++i)
-        {
-            quite::proto::Server server{"unix:///tmp/grpc_probe.sock", {}, {}, {}, {}};
-        }
-    };
-    "shutdown delayed"_test = [] {
-        quite::proto::Server server{"unix:///tmp/grpc_probe.sock", {}, {}, {}, {}};
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    };
-};
+namespace
+{
+std::string unique_socket_url()
+{
+    return fmt::format("unix:///tmp/quite_test_server_{}.sock", getpid());
+}
+} // namespace
+
+TEST(ProtocolServer, ShutdownInstant)
+{
+    const auto url = unique_socket_url();
+    for (int i = 0; i < 1000; ++i)
+    {
+        quite::proto::Server server{url, {}, {}, {}, {}};
+    }
+}
+
+TEST(ProtocolServer, ShutdownDelayed)
+{
+    quite::proto::Server server{unique_socket_url(), {}, {}, {}, {}};
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+}

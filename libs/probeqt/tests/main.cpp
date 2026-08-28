@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <QCoreApplication>
-#include <boost/ut.hpp>
+#include <gtest/gtest.h>
 #include <quill/Frontend.h>
 #include <quill/LogMacros.h>
 #include <quill/core/LogLevel.h>
@@ -46,6 +46,6 @@ int main(int argc, char *argv[])
     qInstallMessageHandler(quite_message_handler);
     quite::probe::register_converters(entt::locator<quite::ValueRegistry>::emplace());
     QCoreApplication app{argc, argv};
-    return static_cast<int>(
-        boost::ut::cfg<>.run({.report_errors = true, .argc = argc, .argv = const_cast<const char **>(argv)}));
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

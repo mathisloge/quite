@@ -105,7 +105,19 @@ endif()
 if(BUILD_TESTING)
     cpmaddpackage("gh:vector-of-bool/cmrc#952ffddba731fc110bd50409e8d2b8a06abbd237"
     )
+    # Boost::ut is kept solely for example/qt/cpp_test, which relies on its
+    # built-in Gherkin/BDD engine to drive .feature files; GoogleTest has no
+    # equivalent. All other test targets use GoogleTest/GoogleMock below.
     cpmaddpackage("gh:boost-ext/ut@2.3.1")
+    cpmaddpackage(
+        URI "gh:google/googletest@1.18.0"
+        NAME GTest
+        FIND_PACKAGE_ARGUMENTS "CONFIG"
+        SYSTEM ON
+        EXCLUDE_FROM_ALL ON
+        OPTIONS "INSTALL_GTEST OFF" "BUILD_GMOCK ON"
+    )
+    include(QuiteAddTest)
 endif()
 
 if(QUITE_BUILD_PROBE_QT)
