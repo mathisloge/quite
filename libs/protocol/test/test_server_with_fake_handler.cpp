@@ -210,6 +210,47 @@ TEST_F(ProbeRoundTripTest, FindObjectWithNestedQueryRoundTripsThroughRealTranspo
     EXPECT_EQ(received.container->properties.at("title").cast<std::string>(), "main");
 }
 
+// Regression test for a bug where the server-side parent-chain walk in rpc_find_object.cpp
+// re-read the top-level query's immediate parent on every loop iteration instead of advancing
+// to parent->parent(), causing an infinite loop for any query nested two or more levels deep.
+TEST_F(ProbeRoundTripTest, FindObjectWithGrandparentQueryRoundTripsThroughRealTransport)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto grandparent_query = std::make_shared<ObjectQuery>();
+    grandparent_query->type_name = "MainWindow";
+    grandparent_query->properties = {{"title", entt::meta_any{std::string{"app"}}}};
+
+    auto parent_query = std::make_shared<ObjectQuery>();
+    parent_query->type_name = "Panel";
+    parent_query->container = grandparent_query;
+    parent_query->properties = {{"name", entt::meta_any{std::string{"toolbar"}}}};
+
+    ObjectQuery query;
+    query.type_name = "Button";
+    query.container = parent_query;
+    query.properties = {{"text", entt::meta_any{std::string{"OK"}}}};
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().find_object(query)).value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(handler->last_find_object_query().has_value());
+    const auto &received = *handler->last_find_object_query();
+    EXPECT_EQ(received.type_name, "Button");
+    ASSERT_TRUE(received.properties.contains("text"));
+    EXPECT_EQ(received.properties.at("text").cast<std::string>(), "OK");
+
+    ASSERT_NE(received.container, nullptr);
+    ASSERT_TRUE(received.container->properties.contains("name"));
+    EXPECT_EQ(received.container->properties.at("name").cast<std::string>(), "toolbar");
+
+    ASSERT_NE(received.container->container, nullptr);
+    ASSERT_TRUE(received.container->container->properties.contains("title"));
+    EXPECT_EQ(received.container->container->properties.at("title").cast<std::string>(), "app");
+    EXPECT_EQ(received.container->container->container, nullptr);
+}
+
 TEST_F(ProbeRoundTripTest, MetaFindTypeReturnsPrimitiveType)
 {
     auto meta_registry =
