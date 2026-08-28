@@ -91,8 +91,7 @@ cpmaddpackage("gh:fmtlib/fmt#12.1.0"
 )
 cpmaddpackage("gh:odygrd/quill@12.2.2")
 cpmaddpackage(URI "gh:skypjack/entt@4.0.0" NAME "EnTT" FIND_PACKAGE_ARGUMENTS "CONFIG")
-cpmaddpackage(URI "gh:NVIDIA/stdexec#f91f63636f24a85b594dfb19b79d191ccdccd5ec" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" UPDATE_DISCONNECTED YES OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
-  PATCHES "${CMAKE_CURRENT_SOURCE_DIR}/cmake/patches/stdexec-thread-pool-scheduler-concept.patch"
+cpmaddpackage(URI "gh:NVIDIA/stdexec#5473e9da" NAME "stdexec" VERSION 0.11 FIND_PACKAGE_ARGUMENTS "CONFIG" UPDATE_DISCONNECTED YES OPTIONS "STDEXEC_BUILD_TESTS OFF" "STDEXEC_BUILD_EXAMPLES OFF" "STDEXEC_ENABLE_ASIO ON"
 )
 cpmaddpackage(URI "gh:Tradias/asio-grpc@3.7.0" FIND_PACKAGE_ARGUMENTS "CONFIG")
 cpmaddpackage(URI "gh:nlohmann/json@3.12.0" FIND_PACKAGE_ARGUMENTS "CONFIG" NAME "nlohmann_json")
