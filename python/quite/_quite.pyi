@@ -14,13 +14,11 @@ __version_git_ref__: str
 class IExpectBuilder:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-
     def screenshot(self, name: str) -> bool:
         """screenshot(self: quite._quite.IExpectBuilder, name: str) -> bool"""
 
 class Image:
     """Holds the data of an image in the format of RGBA. Use .data() with other libraries for more complex use cases"""
-
     @overload
     def __init__(self) -> None:
         """__init__(*args, **kwargs)
@@ -30,7 +28,6 @@ class Image:
 
         2. __init__(self: quite._quite.Image, file_path: os.PathLike | str | bytes) -> None
         """
-
     @overload
     def __init__(self, file_path: os.PathLike | str | bytes) -> None:
         """__init__(*args, **kwargs)
@@ -40,30 +37,23 @@ class Image:
 
         2. __init__(self: quite._quite.Image, file_path: os.PathLike | str | bytes) -> None
         """
-
     def data(self) -> ImageView:
         """data(self: quite._quite.Image) -> quite._quite.ImageView"""
-
     def save_to(self, file_path: os.PathLike | str | bytes) -> None:
         """save_to(self: quite._quite.Image, file_path: os.PathLike | str | bytes) -> None"""
 
 class ImageView:
     """A non owning reference to the data of an Image."""
-
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-
     def data(self) -> memoryview:
         """data(self: quite._quite.ImageView) -> memoryview"""
-
     @property
     def channels(self) -> int:
         """(self: quite._quite.ImageView) -> int"""
-
     @property
     def height(self) -> int:
         """(self: quite._quite.ImageView) -> int"""
-
     @property
     def width(self) -> int:
         """(self: quite._quite.ImageView) -> int"""
@@ -75,10 +65,8 @@ class ObjectQuery:
 class ObjectQueryBuilder:
     def __init__(self) -> None:
         """__init__(self: quite._quite.ObjectQueryBuilder) -> None"""
-
     def parent(self, parent: ObjectQueryBuilder) -> ObjectQueryBuilder:
         """parent(self: quite._quite.ObjectQueryBuilder, parent: quite._quite.ObjectQueryBuilder) -> quite._quite.ObjectQueryBuilder"""
-
     @overload
     def property(
         self, key: str, value: typing.SupportsInt | typing.SupportsIndex
@@ -96,7 +84,6 @@ class ObjectQueryBuilder:
 
         4. property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
-
     @overload
     def property(
         self, key: str, value: typing.SupportsFloat | typing.SupportsIndex
@@ -114,7 +101,6 @@ class ObjectQueryBuilder:
 
         4. property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
-
     @overload
     def property(self, key: str, value: bool) -> ObjectQueryBuilder:
         """property(*args, **kwargs)
@@ -130,7 +116,6 @@ class ObjectQueryBuilder:
 
         4. property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
-
     @overload
     def property(self, key: str, value: str) -> ObjectQueryBuilder:
         """property(*args, **kwargs)
@@ -146,26 +131,22 @@ class ObjectQueryBuilder:
 
         4. property(self: quite._quite.ObjectQueryBuilder, key: str, value: str) -> quite._quite.ObjectQueryBuilder
         """
-
     def type(self, type_name: str) -> ObjectQueryBuilder:
         """type(self: quite._quite.ObjectQueryBuilder, type_name: str) -> quite._quite.ObjectQueryBuilder"""
 
 class Probe:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-
     def exit(self) -> None:
         """exit(self: quite._quite.Probe) -> None
 
         Request to exit the application.
         """
-
     def find_object(self, object_query) -> RemoteObject:
         """find_object(self: quite._quite.Probe, object_query: quite::ObjectQuery) -> quite._quite.RemoteObject
 
         Try to get an instance of an object by the given query. If the object might not be present directly, use try_find_object.
         """
-
     def try_find_object(
         self, object_query, timeout: datetime.timedelta
     ) -> RemoteObject:
@@ -173,7 +154,6 @@ class Probe:
 
         Try to get a object in the specified time.
         """
-
     def wait_for_connected(self, timeout: datetime.timedelta = ...) -> None:
         """wait_for_connected(self: quite._quite.Probe, timeout: datetime.timedelta = datetime.timedelta(seconds=5)) -> None
 
@@ -183,10 +163,8 @@ class Probe:
 class ProbeManager:
     def __init__(self) -> None:
         """__init__(self: quite._quite.ProbeManager) -> None"""
-
     def connect_to_probe(self, name: str) -> Probe:
         """connect_to_probe(self: quite._quite.ProbeManager, name: str) -> quite._quite.Probe"""
-
     def launch_qt_probe_application(
         self,
         name: str,
@@ -197,49 +175,38 @@ class ProbeManager:
 
 class Property:
     """Represents a property which is tied to a remote objects property"""
-
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-
     def fetch(self) -> bool | int | float | str | RemoteObject:
         """fetch(self: quite._quite.Property) -> bool | int | int | float | str | quite._quite.RemoteObject"""
-
     def value(self) -> bool | int | float | str | RemoteObject:
         """value(self: quite._quite.Property) -> bool | int | int | float | str | quite._quite.RemoteObject"""
-
     def wait_for_value(
         self,
-        target_value: (
-            bool
-            | typing.SupportsInt
-            | typing.SupportsIndex
-            | typing.SupportsFloat
-            | str
-            | RemoteObject
-        ),
+        target_value: bool
+        | typing.SupportsInt
+        | typing.SupportsIndex
+        | typing.SupportsFloat
+        | str
+        | RemoteObject,
         timeout: datetime.timedelta,
     ) -> bool | int | float | str | RemoteObject:
         """wait_for_value(self: quite._quite.Property, target_value: bool | typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex | str | quite._quite.RemoteObject, timeout: datetime.timedelta) -> bool | int | int | float | str | quite._quite.RemoteObject"""
-
     def write(
         self,
-        value: (
-            bool
-            | typing.SupportsInt
-            | typing.SupportsIndex
-            | typing.SupportsFloat
-            | str
-            | RemoteObject
-        ),
+        value: bool
+        | typing.SupportsInt
+        | typing.SupportsIndex
+        | typing.SupportsFloat
+        | str
+        | RemoteObject,
     ) -> None:
         """write(self: quite._quite.Property, value: bool | typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex | str | quite._quite.RemoteObject) -> None"""
 
 class RemoteObject:
     """Represents an object from the test application."""
-
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-
     def invoke(
         self,
         method: str,
@@ -256,16 +223,13 @@ class RemoteObject:
 
         Invokes the given method. Has to be the fully qualified name. If the qualified name is unknown, use the meta API to query the methods.
         """
-
     def mouse_action(self) -> None:
         """mouse_action(self: quite._quite.RemoteObject) -> None"""
-
     def property(self, name: str) -> Property:
         """property(self: quite._quite.RemoteObject, name: str) -> quite._quite.Property
 
         Reads a property from the object
         """
-
     def take_snapshot(self) -> Image:
         """take_snapshot(self: quite._quite.RemoteObject) -> quite._quite.Image"""
 

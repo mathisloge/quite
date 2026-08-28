@@ -13,11 +13,11 @@ class MouseInjectorImpl final : public core::IMouseInjector
 {
   public:
     explicit MouseInjectorImpl(std::shared_ptr<agrpc::GrpcContext> grpc_context,
-                               ProbeService::Stub &probe_service_stub);
+                               ProbeService::StubInterface &probe_service_stub);
     AsyncResult<void> single_action(ObjectId target_id, core::MouseAction action) override;
 
   private:
     std::shared_ptr<agrpc::GrpcContext> grpc_context_;
-    ProbeService::Stub &probe_service_stub_;
+    ProbeService::StubInterface &probe_service_stub_;
 };
 } // namespace quite::proto

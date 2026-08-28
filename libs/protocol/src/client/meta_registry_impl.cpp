@@ -14,7 +14,7 @@ namespace quite::proto
 {
 
 MetaRegistryImpl::MetaRegistryImpl(std::shared_ptr<agrpc::GrpcContext> grpc_context,
-                                   MetaService::Stub &meta_service_stub)
+                                   MetaService::StubInterface &meta_service_stub)
     : grpc_context_{std::move(grpc_context)}
     , meta_service_stub_{meta_service_stub}
 {}
@@ -23,7 +23,7 @@ AsyncResult<meta::Type> MetaRegistryImpl::lookup_type(meta::TypeId type_id)
 {
     LOG_DEBUG(meta_registry(), "lookup type for '{}'", type_id);
 
-    using RPC = agrpc::ClientRPC<&proto::MetaService::Stub::PrepareAsyncFindType>;
+    using RPC = agrpc::ClientRPC<&proto::MetaService::StubInterface::PrepareAsyncFindType>;
     grpc::ClientContext client_context;
     configure_client_context(client_context);
 
