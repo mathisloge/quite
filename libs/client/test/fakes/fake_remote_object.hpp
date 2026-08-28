@@ -22,6 +22,16 @@ class FakeRemoteObject final : public RemoteObject
         fetch_properties_error_ = std::move(error);
     }
 
+    void set_snapshot(Image image)
+    {
+        snapshot_ = std::move(image);
+    }
+
+    void set_take_snapshot_error(Error error)
+    {
+        take_snapshot_error_ = std::move(error);
+    }
+
     meta::TypeId type_id() const override
     {
         return 0;
@@ -67,7 +77,11 @@ class FakeRemoteObject final : public RemoteObject
 
     AsyncResult<Image> take_snapshot() override
     {
-        co_return Image{};
+        if (take_snapshot_error_.has_value())
+        {
+            co_return std::unexpected(*take_snapshot_error_);
+        }
+        co_return snapshot_;
     }
 
     AsyncResult<entt::meta_any> invoke_method(std::string /*method_name*/,
@@ -79,5 +93,7 @@ class FakeRemoteObject final : public RemoteObject
   private:
     std::unordered_map<std::string, PropertyPtr> properties_;
     std::optional<Error> fetch_properties_error_;
+    Image snapshot_;
+    std::optional<Error> take_snapshot_error_;
 };
 } // namespace quite::client::test
