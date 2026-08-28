@@ -6,6 +6,47 @@
 #include <QCoreApplication>
 #include <QPointer>
 
+namespace
+{
+Qt::MouseButton to_qt_button(quite::core::MouseButton button)
+{
+    switch (button)
+    {
+    case quite::core::MouseButton::none:
+        return Qt::NoButton;
+    case quite::core::MouseButton::left:
+        return Qt::LeftButton;
+    case quite::core::MouseButton::right:
+        return Qt::RightButton;
+    case quite::core::MouseButton::middle:
+        return Qt::MiddleButton;
+    case quite::core::MouseButton::forward:
+        return Qt::ForwardButton;
+    case quite::core::MouseButton::back:
+        return Qt::BackButton;
+    }
+    return Qt::NoButton;
+}
+
+Qt::KeyboardModifiers to_qt_modifiers(quite::core::KeyboardModifier modifier)
+{
+    switch (modifier)
+    {
+    case quite::core::KeyboardModifier::none:
+        return Qt::NoModifier;
+    case quite::core::KeyboardModifier::shift:
+        return Qt::ShiftModifier;
+    case quite::core::KeyboardModifier::control:
+        return Qt::ControlModifier;
+    case quite::core::KeyboardModifier::alt:
+        return Qt::AltModifier;
+    case quite::core::KeyboardModifier::meta:
+        return Qt::MetaModifier;
+    }
+    return Qt::NoModifier;
+}
+} // namespace
+
 namespace quite::probe
 {
 MouseInjector::MouseInjector(const ObjectTracker &object_tracker)
@@ -28,75 +69,51 @@ AsyncResult<void> MouseInjector::single_action(ObjectId target_id, core::MouseAc
     {
         co_return std::unexpected{target.error()};
     }
-    std::unique_ptr<QMouseEvent> event;
+
+    const QPointF position{action.position.x, action.position.y};
+    const Qt::MouseButton button = to_qt_button(action.button);
+    const Qt::KeyboardModifiers modifiers = to_qt_modifiers(action.modifier);
+
     switch (action.trigger)
     {
     case core::MouseTrigger::none:
         break;
     case core::MouseTrigger::click:
-        dispatch_mouse_event(target.value(),
-                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonPress,
-                                                           QPointF{action.position.x, action.position.y},
-                                                           QPointF{},
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::KeyboardModifiers{},
-                                                           &mouse_));
-        dispatch_mouse_event(target.value(),
-                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonRelease,
-                                                           QPointF{action.position.x, action.position.y},
-                                                           QPointF{},
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::KeyboardModifiers{},
-                                                           &mouse_));
+        dispatch_mouse_event(
+            target.value(),
+            std::make_unique<QMouseEvent>(
+                QMouseEvent::Type::MouseButtonPress, position, QPointF{}, button, button, modifiers, &mouse_));
+        dispatch_mouse_event(
+            target.value(),
+            std::make_unique<QMouseEvent>(
+                QMouseEvent::Type::MouseButtonRelease, position, QPointF{}, button, button, modifiers, &mouse_));
         break;
     case core::MouseTrigger::double_click:
-        dispatch_mouse_event(target.value(),
-                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonDblClick,
-                                                           QPointF{action.position.x, action.position.y},
-                                                           QPointF{},
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::KeyboardModifiers{},
-                                                           &mouse_));
+        dispatch_mouse_event(
+            target.value(),
+            std::make_unique<QMouseEvent>(
+                QMouseEvent::Type::MouseButtonDblClick, position, QPointF{}, button, button, modifiers, &mouse_));
         break;
     case core::MouseTrigger::press:
-        dispatch_mouse_event(target.value(),
-                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonPress,
-                                                           QPointF{action.position.x, action.position.y},
-                                                           QPointF{},
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::KeyboardModifiers{},
-                                                           &mouse_));
+        dispatch_mouse_event(
+            target.value(),
+            std::make_unique<QMouseEvent>(
+                QMouseEvent::Type::MouseButtonPress, position, QPointF{}, button, button, modifiers, &mouse_));
         break;
     case core::MouseTrigger::release:
-        dispatch_mouse_event(target.value(),
-                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseButtonRelease,
-                                                           QPointF{action.position.x, action.position.y},
-                                                           QPointF{},
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::KeyboardModifiers{},
-                                                           &mouse_));
+        dispatch_mouse_event(
+            target.value(),
+            std::make_unique<QMouseEvent>(
+                QMouseEvent::Type::MouseButtonRelease, position, QPointF{}, button, button, modifiers, &mouse_));
         break;
     case core::MouseTrigger::move:
-        dispatch_mouse_event(target.value(),
-                             std::make_unique<QMouseEvent>(QMouseEvent::Type::MouseMove,
-                                                           QPointF{action.position.x, action.position.y},
-                                                           QPointF{},
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::MouseButton::LeftButton,
-                                                           Qt::KeyboardModifiers{},
-                                                           &mouse_));
+        dispatch_mouse_event(
+            target.value(),
+            std::make_unique<QMouseEvent>(
+                QMouseEvent::Type::MouseMove, position, QPointF{}, button, button, modifiers, &mouse_));
         break;
     }
 
-    if (event != nullptr)
-    {
-        QCoreApplication::postEvent(target.value(), event.release());
-    }
     co_return {};
 }
 
