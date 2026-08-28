@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+# SPDX-FileCopyrightText: 2026 Mathis Logemann <mathis@quite.rocks>
 #
 # SPDX-License-Identifier: MIT
 
@@ -80,15 +80,17 @@ class ObjectQueryBuilder:
         """parent(self: quite._quite.ObjectQueryBuilder, parent: quite._quite.ObjectQueryBuilder) -> quite._quite.ObjectQueryBuilder"""
 
     @overload
-    def property(self, key: str, value: typing.SupportsInt) -> ObjectQueryBuilder:
+    def property(
+        self, key: str, value: typing.SupportsInt | typing.SupportsIndex
+    ) -> ObjectQueryBuilder:
         """property(*args, **kwargs)
         Overloaded function.
 
-        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
+        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt | typing.SupportsIndex) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
+        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat | typing.SupportsIndex) -> quite._quite.ObjectQueryBuilder
 
         3. property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
@@ -96,15 +98,17 @@ class ObjectQueryBuilder:
         """
 
     @overload
-    def property(self, key: str, value: typing.SupportsFloat) -> ObjectQueryBuilder:
+    def property(
+        self, key: str, value: typing.SupportsFloat | typing.SupportsIndex
+    ) -> ObjectQueryBuilder:
         """property(*args, **kwargs)
         Overloaded function.
 
-        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
+        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt | typing.SupportsIndex) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
+        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat | typing.SupportsIndex) -> quite._quite.ObjectQueryBuilder
 
         3. property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
@@ -116,11 +120,11 @@ class ObjectQueryBuilder:
         """property(*args, **kwargs)
         Overloaded function.
 
-        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
+        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt | typing.SupportsIndex) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
+        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat | typing.SupportsIndex) -> quite._quite.ObjectQueryBuilder
 
         3. property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
@@ -132,11 +136,11 @@ class ObjectQueryBuilder:
         """property(*args, **kwargs)
         Overloaded function.
 
-        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt) -> quite._quite.ObjectQueryBuilder
+        1. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsInt | typing.SupportsIndex) -> quite._quite.ObjectQueryBuilder
 
         Adds the property to the search requirements
 
-        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat) -> quite._quite.ObjectQueryBuilder
+        2. property(self: quite._quite.ObjectQueryBuilder, key: str, value: typing.SupportsFloat | typing.SupportsIndex) -> quite._quite.ObjectQueryBuilder
 
         3. property(self: quite._quite.ObjectQueryBuilder, key: str, value: bool) -> quite._quite.ObjectQueryBuilder
 
@@ -197,10 +201,10 @@ class Property:
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
 
-    def fetch(self) -> bool | int | int | float | str | RemoteObject:
+    def fetch(self) -> bool | int | float | str | RemoteObject:
         """fetch(self: quite._quite.Property) -> bool | int | int | float | str | quite._quite.RemoteObject"""
 
-    def value(self) -> bool | int | int | float | str | RemoteObject:
+    def value(self) -> bool | int | float | str | RemoteObject:
         """value(self: quite._quite.Property) -> bool | int | int | float | str | quite._quite.RemoteObject"""
 
     def wait_for_value(
@@ -208,27 +212,27 @@ class Property:
         target_value: (
             bool
             | typing.SupportsInt
-            | typing.SupportsInt
+            | typing.SupportsIndex
             | typing.SupportsFloat
             | str
             | RemoteObject
         ),
         timeout: datetime.timedelta,
-    ) -> bool | int | int | float | str | RemoteObject:
-        """wait_for_value(self: quite._quite.Property, target_value: bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject, timeout: datetime.timedelta) -> bool | int | int | float | str | quite._quite.RemoteObject"""
+    ) -> bool | int | float | str | RemoteObject:
+        """wait_for_value(self: quite._quite.Property, target_value: bool | typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex | str | quite._quite.RemoteObject, timeout: datetime.timedelta) -> bool | int | int | float | str | quite._quite.RemoteObject"""
 
     def write(
         self,
         value: (
             bool
             | typing.SupportsInt
-            | typing.SupportsInt
+            | typing.SupportsIndex
             | typing.SupportsFloat
             | str
             | RemoteObject
         ),
     ) -> None:
-        """write(self: quite._quite.Property, value: bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject) -> None"""
+        """write(self: quite._quite.Property, value: bool | typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex | str | quite._quite.RemoteObject) -> None"""
 
 class RemoteObject:
     """Represents an object from the test application."""
@@ -242,13 +246,13 @@ class RemoteObject:
         parameters: collections.abc.Sequence[
             bool
             | typing.SupportsInt
-            | typing.SupportsInt
+            | typing.SupportsIndex
             | typing.SupportsFloat
             | str
             | RemoteObject
         ] = ...,
-    ) -> bool | int | int | float | str | RemoteObject:
-        """invoke(self: quite._quite.RemoteObject, method: str, parameters: collections.abc.Sequence[bool | typing.SupportsInt | typing.SupportsInt | typing.SupportsFloat | str | quite._quite.RemoteObject] = []) -> bool | int | int | float | str | quite._quite.RemoteObject
+    ) -> bool | int | float | str | RemoteObject:
+        """invoke(self: quite._quite.RemoteObject, method: str, parameters: collections.abc.Sequence[bool | typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex | str | quite._quite.RemoteObject] = []) -> bool | int | int | float | str | quite._quite.RemoteObject
 
         Invokes the given method. Has to be the fully qualified name. If the qualified name is unknown, use the meta API to query the methods.
         """

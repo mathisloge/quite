@@ -1,12 +1,13 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
 #include "probe_client_impl.hpp"
 #include <boost/asio/steady_timer.hpp>
 #include <agrpc/notify_on_state_change.hpp>
-#include <asioexec/use_sender.hpp>
-#include <exec/repeat_effect_until.hpp>
+#include <exec/asio/use_sender.hpp>
+#include <exec/inline_scheduler.hpp>
+#include <exec/repeat_until.hpp>
 #include <exec/when_any.hpp>
 #include <grpcpp/create_channel.h>
 #include <quite/asio_context.hpp>

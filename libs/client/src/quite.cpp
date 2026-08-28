@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,7 +7,7 @@
 
 namespace quite::client
 {
-execpools::asio_thread_pool &asio_context()
+exec::asio::asio_thread_pool &asio_context()
 {
     return Context::Instance().asio_context();
 }

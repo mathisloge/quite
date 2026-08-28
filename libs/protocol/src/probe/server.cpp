@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,6 +6,8 @@
 #include <thread>
 #include <exec/env.hpp>
 #include <exec/finally.hpp>
+#include <exec/inline_scheduler.hpp>
+#include <exec/start_detached.hpp>
 #include <quite/logger.hpp>
 #include <quite/proto/health.grpc.pb.h>
 #include <quite/proto/meta_service.grpc.pb.h>
@@ -106,8 +108,8 @@ class Server::Impl
                                                          std::move(rpc_mouse_injection) | stop_token_env,
                                                          std::move(rpc_meta_find_type) | stop_token_env);
 
-        stdexec::start_detached(stdexec::starts_on(grpc_context_.get_scheduler(), stdexec::just()) |
-                                stdexec::then([&] { LOG_DEBUG(grpc_server_log(), "grpc context running!"); }));
+        exec::start_detached(stdexec::starts_on(grpc_context_.get_scheduler(), stdexec::just()) |
+                             stdexec::then([&] { LOG_DEBUG(grpc_server_log(), "grpc context running!"); }));
 
         grpc_context_.work_started();
         stdexec::sync_wait(stdexec::when_all(

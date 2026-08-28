@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
 #include "quite/test/probe.hpp"
 #include <boost/asio/steady_timer.hpp>
-#include <asioexec/use_sender.hpp>
-#include <exec/repeat_effect_until.hpp>
+#include <exec/asio/use_sender.hpp>
+#include <exec/repeat_until.hpp>
 #include <exec/task.hpp>
 #include <exec/when_any.hpp>
 #include <quite/asio_context.hpp>
@@ -51,11 +51,11 @@ RemoteObject Probe::try_find_object(ObjectQuery query, std::chrono::milliseconds
             found_object = std::forward<decltype(result)>(result);
             return found_object.has_value();
         }) |
-        exec::repeat_effect_until();
+        exec::repeat_until();
 
     boost::asio::steady_timer timer{get_executor(), timeout};
     stdexec::sender auto timeout_snd =
-        timer.async_wait(asioexec::use_sender) | stdexec::then([&found_object](auto &&...) {
+        timer.async_wait(exec::asio::use_sender) | stdexec::then([&found_object](auto &&...) {
             found_object = quite::make_error_result(ErrorCode::deadline_exceeded, "Could not find object in time.");
         });
     stdexec::sender auto wait_snd = exec::when_any(std::move(find_obj_snd), std::move(timeout_snd));

@@ -10,7 +10,7 @@
                 "ms-vscode.cmake-tools",
                 "llvm-vs-code-extensions.vscode-clangd",
                 "ms-python.python",
-                "zxh404.vscode-proto3",
+                "DrBlury.protobuf-vsc",
                 "charliermarsh.ruff"
             ]
         }
@@ -18,8 +18,5 @@
     "forwardPorts": [],
     "containerEnv": {
         "DISPLAY": "${localEnv:DISPLAY}"
-    },
-    "mounts": [
-        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
-    ]
+    }
 }

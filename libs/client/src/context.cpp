@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
@@ -25,7 +25,7 @@ proto::Client &Context::backend_client()
     return *client_;
 }
 
-execpools::asio_thread_pool &Context::asio_context()
+exec::asio::asio_thread_pool &Context::asio_context()
 {
     return thread_pool();
 }

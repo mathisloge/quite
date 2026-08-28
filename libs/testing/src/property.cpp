@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
 #include "quite/test/property.hpp"
 #include <boost/asio/steady_timer.hpp>
-#include <asioexec/use_sender.hpp>
-#include <exec/repeat_effect_until.hpp>
+#include <exec/asio/use_sender.hpp>
+#include <exec/repeat_until.hpp>
 #include <exec/when_any.hpp>
 #include <quite/client/property.hpp>
 #include <quite/client/quite.hpp>
@@ -65,13 +65,13 @@ Property::Value Property::wait_for_value(Property::Value target_value, std::chro
             if (not finished)
             {
                 boost::asio::steady_timer retry_timer{get_executor(), std::chrono::milliseconds{100}};
-                co_await retry_timer.async_wait(asioexec::use_sender);
+                co_await retry_timer.async_wait(exec::asio::use_sender);
             }
             co_return finished;
         }) |
-        exec::repeat_effect_until();
+        exec::repeat_until();
 
-    stdexec::sender auto timeout_snd = timeout_timer.async_wait(asioexec::use_sender);
+    stdexec::sender auto timeout_snd = timeout_timer.async_wait(exec::asio::use_sender);
     stdexec::sender auto wait_snd = exec::when_any(std::move(fetch_value_snd), std::move(timeout_snd));
     stdexec::sync_wait(std::move(wait_snd));
 

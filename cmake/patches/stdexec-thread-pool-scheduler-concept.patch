@@ -1,0 +1,13 @@
+diff --git a/include/exec/thread_pool_base.hpp b/include/exec/thread_pool_base.hpp
+index ed4f44c6..a6e5d518 100644
+--- a/include/exec/thread_pool_base.hpp
++++ b/include/exec/thread_pool_base.hpp
+@@ -487,6 +487,8 @@ namespace experimental::execution
+       DerivedPoolType* pool_;
+
+      public:
++      using scheduler_concept = STDEXEC::scheduler_t;
++
+       auto operator==(scheduler const &) const -> bool = default;
+
+       [[nodiscard]]

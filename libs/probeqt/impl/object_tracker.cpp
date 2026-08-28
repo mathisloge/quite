@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
@@ -10,6 +10,7 @@
 #include <QtQml/private/qqmldata_p.h>
 #include <QtQml/private/qqmlmetatype_p.h>
 #include <entt/meta/factory.hpp>
+#include <entt/meta/resolve.hpp>
 #include <fmt/ranges.h>
 #include <private/qv4executablecompilationunit_p.h>
 #include <quite/logger.hpp>

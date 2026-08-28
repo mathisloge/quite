@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Mathis Logemann <mathis@quite.rocks>
+// SPDX-FileCopyrightText: 2025, 2026 Mathis Logemann <mathis@quite.rocks>
 //
 // SPDX-License-Identifier: MIT
 
@@ -94,14 +94,14 @@ void register_converters(ValueRegistry &value_registry)
     entt::meta_factory<QUrl>(meta_ctx) //
         .type("QUrl"_hs)
         .custom<QMetaType>(QMetaType::fromType<QUrl>())
-        .data<nullptr, [](const QUrl &url) { return url.url(); }>(value_registry.named_property("url"))
-        .data<nullptr, [](const QUrl &url) { return url.toDisplayString(); }>(
+        .data<nullptr, +[](const QUrl &url) { return url.url(); }>(value_registry.named_property("url"))
+        .data<nullptr, +[](const QUrl &url) { return url.toDisplayString(); }>(
             value_registry.named_property("displayString"));
 
     entt::meta_factory<QColor>(meta_ctx) //
         .type("QColor"_hs)
         .custom<QMetaType>(QMetaType::fromType<QColor>())
-        .data<nullptr, [](const QColor &color) { return color.name(); }>(value_registry.named_property("name"))
+        .data<nullptr, +[](const QColor &color) { return color.name(); }>(value_registry.named_property("name"))
         .data<&QColor::setAlpha, &QColor::alpha>(value_registry.named_property("alpha"))
         .data<&QColor::setRed, &QColor::red>(value_registry.named_property("red"))
         .data<&QColor::setGreen, &QColor::green>(value_registry.named_property("green"))

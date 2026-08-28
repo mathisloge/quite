@@ -42,7 +42,7 @@ endif()
 if(DEFINED EXTRACTED_CPM_VERSION)
     set(CURRENT_CPM_VERSION "${EXTRACTED_CPM_VERSION}${CPM_DEVELOPMENT}")
 else()
-    set(CURRENT_CPM_VERSION 0.42.0)
+    set(CURRENT_CPM_VERSION 1.0.0-development-version)
 endif()
 
 get_filename_component(
@@ -261,7 +261,7 @@ function(cpm_package_name_and_ver_from_url url outName outVer)
     if(
         url
             MATCHES
-            "[/\\?]([a-zA-Z0-9_\\.-]+)\\.(tar|tar\\.gz|tar\\.bz2|zip|ZIP)(\\?|/|$)"
+            "[/\\?]([a-zA-Z0-9_\\.-]+)\\.(tar|tar\\.gz|tar\\.bz2|tar\\.xz|tar\\.zst|zip|ZIP)(\\?|/|$)"
     )
         # We matched an archive
         set(filename "${CMAKE_MATCH_1}")
@@ -783,17 +783,48 @@ function(CPMAddPackage)
         return()
     endif()
 
+    if(
+        NOT DEFINED CPM_${CPM_ARGS_NAME}_SOURCE
+        AND DEFINED ENV{CPM_${CPM_ARGS_NAME}_SOURCE}
+    )
+        # Normalize separators to support Windows paths when reading from environment variables.
+        file(
+            TO_CMAKE_PATH
+            "$ENV{CPM_${CPM_ARGS_NAME}_SOURCE}"
+            CPM_${CPM_ARGS_NAME}_SOURCE
+        )
+        message(
+            WARNING
+            "${CPM_INDENT} '${CPM_ARGS_NAME}' version overridden by environment variable "
+            "CPM_${CPM_ARGS_NAME}_SOURCE='${CPM_${CPM_ARGS_NAME}_SOURCE}'"
+        )
+    endif()
+
     # Check for manual overrides
     if(NOT CPM_ARGS_FORCE AND NOT "${CPM_${CPM_ARGS_NAME}_SOURCE}" STREQUAL "")
         set(PACKAGE_SOURCE ${CPM_${CPM_ARGS_NAME}_SOURCE})
         set(CPM_${CPM_ARGS_NAME}_SOURCE "")
+        if(NOT DEFINED ENV{CPM_${CPM_ARGS_NAME}_SOURCE})
+            message(
+                WARNING
+                "${CPM_INDENT} '${CPM_ARGS_NAME}' version overridden by CMake variable "
+                "CPM_${CPM_ARGS_NAME}_SOURCE='${PACKAGE_SOURCE}'"
+            )
+        endif()
+        # Preserve semicolons in option values across the recursive cpmaddpackage() call.
+        set(_forwarded_options)
+        foreach(opt IN LISTS CPM_ARGS_OPTIONS)
+            string(REPLACE ";" "\\\\;" opt "${opt}")
+            list(APPEND _forwarded_options "${opt}")
+        endforeach()
+
         cpmaddpackage(
           NAME "${CPM_ARGS_NAME}"
           SOURCE_DIR "${PACKAGE_SOURCE}"
           EXCLUDE_FROM_ALL "${CPM_ARGS_EXCLUDE_FROM_ALL}"
           SYSTEM "${CPM_ARGS_SYSTEM}"
           PATCHES "${CPM_ARGS_PATCHES}"
-          OPTIONS "${CPM_ARGS_OPTIONS}"
+          OPTIONS "${_forwarded_options}"
           SOURCE_SUBDIR "${CPM_ARGS_SOURCE_SUBDIR}"
           DOWNLOAD_ONLY "${DOWNLOAD_ONLY}"
           FORCE True
@@ -977,6 +1008,7 @@ function(CPMAddPackage)
               "${lower_case_name}" SOURCE_DIR "${${CPM_ARGS_NAME}_SOURCE_DIR}/${CPM_ARGS_SOURCE_SUBDIR}"
               BINARY_DIR "${${CPM_ARGS_NAME}_BINARY_DIR}"
             )
+
         else()
             # Enable shallow clone when GIT_TAG is not a commit hash. Our guess may not be accurate, but
             # it should guarantee no commit hash get mis-detected.
@@ -1281,6 +1313,7 @@ function(cpm_parse_option OPTION)
     else()
         math(EXPR OPTION_KEY_LENGTH "${OPTION_KEY_LENGTH}+1")
         string(SUBSTRING "${OPTION}" "${OPTION_KEY_LENGTH}" "-1" OPTION_VALUE)
+        string(STRIP "${OPTION_VALUE}" OPTION_VALUE)
     endif()
     set(OPTION_KEY "${OPTION_KEY}" PARENT_SCOPE)
     set(OPTION_VALUE "${OPTION_VALUE}" PARENT_SCOPE)
@@ -1348,8 +1381,7 @@ function(cpm_prettify_package_arguments OUT_VAR IS_IN_COMMENT)
             endif()
             if(${oneArgName} STREQUAL "SOURCE_DIR")
                 string(
-                    REPLACE
-                    ${CMAKE_SOURCE_DIR}
+                    REPLACE ${CMAKE_SOURCE_DIR}
                     "\${CMAKE_SOURCE_DIR}"
                     CPM_ARGS_${oneArgName}
                     ${CPM_ARGS_${oneArgName}}

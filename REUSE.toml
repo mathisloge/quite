@@ -58,7 +58,8 @@ path = [
     ".gitignore",
     "vcpkg.json",
     "pyproject.toml",
-    "README.md"
+    "README.md",
+    "CLAUDE.md"
 ]
 SPDX-FileCopyrightText = "2025 Mathis Logemann <mathis@quite.rocks>"
 SPDX-License-Identifier = "MIT"
