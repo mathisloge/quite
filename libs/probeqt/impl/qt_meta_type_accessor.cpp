@@ -23,13 +23,12 @@ const QMetaObject *try_get_qt_meta_object(const QObject *object)
         return nullptr;
     }
 
-    const QMetaObject *meta_object{nullptr};
     if (object->metaObject() != nullptr)
     {
         return object->metaObject();
     }
     auto &&data = QQmlData::get(object);
-    if (data != nullptr or not data->compilationUnit)
+    if (data == nullptr or not data->compilationUnit)
     {
         LOG_DEBUG(qt_meta_type_accessor(), "Could not get any data from object {}", to_object_id(object));
         return nullptr;
