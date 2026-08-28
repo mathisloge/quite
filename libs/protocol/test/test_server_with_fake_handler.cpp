@@ -183,9 +183,37 @@ TEST_F(ProbeRoundTripTest, MouseActionRoundTripsThroughRealTransport)
     EXPECT_EQ(mouse_injector->last_call()->action.trigger, core::MouseTrigger::click);
 }
 
-TEST_F(ProbeRoundTripTest, MetaFindTypeRoundTripsThroughRealTransport)
+TEST_F(ProbeRoundTripTest, FindObjectWithNestedQueryRoundTripsThroughRealTransport)
 {
-    auto meta_registry = std::make_shared<FakeMetaRegistry>(meta::Type{meta::PrimitiveType::type_double});
+    auto handler = std::make_shared<FakeProbeHandler>();
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto parent_query = std::make_shared<ObjectQuery>();
+    parent_query->type_name = "Window";
+    parent_query->properties = {{"title", entt::meta_any{std::string{"main"}}}};
+
+    ObjectQuery query;
+    query.type_name = "Button";
+    query.container = parent_query;
+    query.properties = {{"text", entt::meta_any{std::string{"OK"}}}};
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().find_object(query)).value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(handler->last_find_object_query().has_value());
+    const auto &received = *handler->last_find_object_query();
+    EXPECT_EQ(received.type_name, "Button");
+    ASSERT_TRUE(received.properties.contains("text"));
+    EXPECT_EQ(received.properties.at("text").cast<std::string>(), "OK");
+    ASSERT_NE(received.container, nullptr);
+    ASSERT_TRUE(received.container->properties.contains("title"));
+    EXPECT_EQ(received.container->properties.at("title").cast<std::string>(), "main");
+}
+
+TEST_F(ProbeRoundTripTest, MetaFindTypeReturnsPrimitiveType)
+{
+    auto meta_registry =
+        std::make_shared<FakeMetaRegistry>(Result<meta::Type>{meta::Type{meta::PrimitiveType::type_double}});
     connect({}, {}, ServiceHandle<meta::MetaRegistry>{meta_registry});
 
     auto [result] = stdexec::sync_wait(probe_client_->meta_registry().lookup_type(1)).value();
@@ -193,4 +221,195 @@ TEST_F(ProbeRoundTripTest, MetaFindTypeRoundTripsThroughRealTransport)
     ASSERT_TRUE(result.has_value());
     ASSERT_TRUE(std::holds_alternative<meta::PrimitiveType>(*result));
     EXPECT_EQ(std::get<meta::PrimitiveType>(*result), meta::PrimitiveType::type_double);
+}
+
+TEST_F(ProbeRoundTripTest, MetaFindTypeReturnsListType)
+{
+    meta::ListType list{.id = 5, .name = "IntList", .value_type = 2};
+    auto meta_registry = std::make_shared<FakeMetaRegistry>(Result<meta::Type>{meta::Type{list}});
+    connect({}, {}, ServiceHandle<meta::MetaRegistry>{meta_registry});
+
+    auto [result] = stdexec::sync_wait(probe_client_->meta_registry().lookup_type(5)).value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(std::holds_alternative<meta::ListType>(*result));
+    const auto &received = std::get<meta::ListType>(*result);
+    EXPECT_EQ(received.id, 5u);
+    EXPECT_EQ(received.name, "IntList");
+    EXPECT_EQ(received.value_type, 2u);
+}
+
+TEST_F(ProbeRoundTripTest, MetaFindTypeReturnsMapType)
+{
+    meta::MapType map{.id = 6, .name = "Dict", .key_type = 1, .value_type = 2};
+    auto meta_registry = std::make_shared<FakeMetaRegistry>(Result<meta::Type>{meta::Type{map}});
+    connect({}, {}, ServiceHandle<meta::MetaRegistry>{meta_registry});
+
+    auto [result] = stdexec::sync_wait(probe_client_->meta_registry().lookup_type(6)).value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(std::holds_alternative<meta::MapType>(*result));
+    const auto &received = std::get<meta::MapType>(*result);
+    EXPECT_EQ(received.id, 6u);
+    EXPECT_EQ(received.name, "Dict");
+    EXPECT_EQ(received.key_type, 1u);
+    EXPECT_EQ(received.value_type, 2u);
+}
+
+TEST_F(ProbeRoundTripTest, MetaFindTypeReturnsEnumType)
+{
+    auto enum_type = std::make_unique<meta::EnumType>();
+    enum_type->id = 7;
+    enum_type->name = "Color";
+    enum_type->values = {{"Red", 0}, {"Green", 1}};
+    auto meta_registry = std::make_shared<FakeMetaRegistry>(Result<meta::Type>{meta::Type{std::move(enum_type)}});
+    connect({}, {}, ServiceHandle<meta::MetaRegistry>{meta_registry});
+
+    auto [result] = stdexec::sync_wait(probe_client_->meta_registry().lookup_type(7)).value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(std::holds_alternative<meta::EnumTypePtr>(*result));
+    const auto &received = *std::get<meta::EnumTypePtr>(*result);
+    EXPECT_EQ(received.id, 7u);
+    EXPECT_EQ(received.name, "Color");
+    ASSERT_EQ(received.values.size(), 2u);
+    EXPECT_EQ(received.values.at("Red"), 0);
+    EXPECT_EQ(received.values.at("Green"), 1);
+}
+
+TEST_F(ProbeRoundTripTest, MetaFindTypeReturnsObjectType)
+{
+    auto object_type = std::make_unique<meta::ObjectType>();
+    object_type->id = 8;
+    object_type->name = "Widget";
+    object_type->properties = {meta::Property{.name = "x", .type = 2}};
+    auto meta_registry = std::make_shared<FakeMetaRegistry>(Result<meta::Type>{meta::Type{std::move(object_type)}});
+    connect({}, {}, ServiceHandle<meta::MetaRegistry>{meta_registry});
+
+    auto [result] = stdexec::sync_wait(probe_client_->meta_registry().lookup_type(8)).value();
+
+    ASSERT_TRUE(result.has_value());
+    ASSERT_TRUE(std::holds_alternative<meta::ObjectTypePtr>(*result));
+    const auto &received = *std::get<meta::ObjectTypePtr>(*result);
+    EXPECT_EQ(received.id, 8u);
+    EXPECT_EQ(received.name, "Widget");
+    ASSERT_EQ(received.properties.size(), 1u);
+    EXPECT_EQ(received.properties[0].name, "x");
+    EXPECT_EQ(received.properties[0].type, 2u);
+}
+
+TEST_F(ProbeRoundTripTest, WaitForConnectedTimesOutWhenNothingListens)
+{
+    // No Server is started; nothing listens on this socket.
+    const auto url = unique_socket_url();
+    entt::locator<ValueRegistry>::emplace();
+    client_.emplace(entt::locator<ValueRegistry>::handle());
+    probe_client_ = client_->create_probe_client(std::make_shared<NullValueConverter>(), url);
+
+    auto [connected] = stdexec::sync_wait(probe_client_->wait_for_connected(std::chrono::seconds(1))).value();
+
+    ASSERT_FALSE(connected.has_value());
+    EXPECT_EQ(connected.error().code, ErrorCode::deadline_exceeded);
+}
+
+TEST_F(ProbeRoundTripTest, FindObjectPropagatesErrorThroughRealTransport)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    handler->set_error(Error{.code = ErrorCode::cancelled, .message = "cancelled by user"});
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().find_object(ObjectQuery{})).value();
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::cancelled);
+}
+
+TEST_F(ProbeRoundTripTest, FetchWindowsPropagatesErrorThroughRealTransport)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    handler->set_error(Error{.code = ErrorCode::unimplemented, .message = "not supported"});
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().query_top_level_views()).value();
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::unimplemented);
+}
+
+TEST_F(ProbeRoundTripTest, GetObjectPropertiesPropagatesErrorThroughRealTransport)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    handler->set_error(Error{.code = ErrorCode::deadline_exceeded, .message = "too slow"});
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().get_object_properties(1, {"answer"})).value();
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::deadline_exceeded);
+}
+
+TEST_F(ProbeRoundTripTest, SetObjectPropertyPropagatesErrorThroughRealTransport)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    handler->set_error(Error{.code = ErrorCode::aborted, .message = "conflict"});
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().set_object_property(
+                                           7, "name", entt::meta_any{std::string{"hello"}}))
+                        .value();
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::aborted);
+}
+
+TEST_F(ProbeRoundTripTest, InvokeMethodPropagatesErrorThroughRealTransport)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    handler->set_error(Error{.code = ErrorCode::invalid_argument, .message = "bad args"});
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().invoke_method(1, "add(int)", {})).value();
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::invalid_argument);
+}
+
+TEST_F(ProbeRoundTripTest, TakeSnapshotPropagatesErrorThroughRealTransport)
+{
+    auto handler = std::make_shared<FakeProbeHandler>();
+    handler->set_error(Error{.code = ErrorCode::unavailable, .message = "no display"});
+    connect(ServiceHandle<IProbeHandler>{handler});
+
+    auto [result] = stdexec::sync_wait(probe_client_->probe_service().take_snapshot(1)).value();
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::unavailable);
+}
+
+TEST_F(ProbeRoundTripTest, MouseActionPropagatesErrorThroughRealTransport)
+{
+    auto mouse_injector = std::make_shared<FakeMouseInjector>();
+    mouse_injector->set_error(Error{.code = ErrorCode::failed_precondition, .message = "no window focused"});
+    connect({}, ServiceHandle<core::IMouseInjector>{mouse_injector});
+
+    core::MouseAction action{.position = {1.0, 2.0},
+                             .button = core::MouseButton::left,
+                             .trigger = core::MouseTrigger::click,
+                             .modifier = core::KeyboardModifier::none};
+    auto [result] = stdexec::sync_wait(probe_client_->mouse_injector().single_action(42, action)).value();
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::failed_precondition);
+}
+
+TEST_F(ProbeRoundTripTest, MetaFindTypePropagatesErrorThroughRealTransport)
+{
+    auto meta_registry = std::make_shared<FakeMetaRegistry>(
+        Result<meta::Type>{std::unexpected(Error{.code = ErrorCode::not_found, .message = "unknown type"})});
+    connect({}, {}, ServiceHandle<meta::MetaRegistry>{meta_registry});
+
+    auto [result] = stdexec::sync_wait(probe_client_->meta_registry().lookup_type(1)).value();
+
+    ASSERT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, ErrorCode::not_found);
 }
