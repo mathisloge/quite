@@ -19,9 +19,7 @@ namespace quite::proto::test
 {
 namespace
 {
-// Only forms a valid reference for ProbeServiceImpl's value_converter_ member; get_object_properties
-// and invoke_method dereference it even when the actual conversion never touches an object-reference
-// value, so a real (if inert) instance is needed to avoid a null dereference under sanitizers.
+// nullptr would fail sanitizers: ProbeServiceImpl dereferences value_converter_ unconditionally
 class NullValueConverter final : public IValueConverter
 {
   public:
@@ -237,9 +235,7 @@ TEST_F(ProbeServiceImplTest, InvokeMethodPropagatesErrorStatus)
 
 TEST_F(ProbeServiceImplTest, TakeSnapshotReturnsImage)
 {
-    // Unlike the unary ClientAsyncResponseReaderInterface (wrapped in a unique_ptr with a no-op
-    // deleter), gRPC's ClientAsyncReaderInterface wrapper for streaming calls really does delete
-    // the pointer it receives, so the mock must be heap-allocated and released, not stack-local.
+    // streaming reader is actually deleted by gRPC, unlike the unary one - must be heap-allocated
     EXPECT_CALL(stub_, PrepareAsyncCreateScreenshotRaw).WillOnce([this](auto &&...) {
         auto reader = std::make_unique<NiceMock<grpc::testing::MockClientAsyncReader<ImageResponse>>>();
         EXPECT_CALL(*reader, StartCall).WillOnce([this](void *tag) {

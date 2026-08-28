@@ -9,9 +9,7 @@
 
 namespace quite::proto::test
 {
-// Mocked stubs never enqueue real completion-queue tags, so a background thread must actively
-// run the GrpcContext for agrpc::process_grpc_tag (used by the mocked Finish()/Read() callbacks)
-// to have something to post onto and resume the awaiting coroutine.
+// agrpc::process_grpc_tag needs a running GrpcContext to post onto
 class GrpcContextTest : public ::testing::Test
 {
   protected:

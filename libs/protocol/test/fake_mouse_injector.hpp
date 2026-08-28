@@ -9,8 +9,6 @@
 
 namespace quite::proto::test
 {
-// Records the last single_action() call so a round-trip test can assert the proto request was
-// decoded correctly server-side (rpc_mouse_injection.cpp's enum mapping in particular).
 class FakeMouseInjector final : public core::IMouseInjector
 {
   public:

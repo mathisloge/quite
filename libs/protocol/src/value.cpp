@@ -43,11 +43,7 @@ Value create_value(const ValueRegistry &value_registry, const entt::meta_any &an
         }
         else if (type.is_sequence_container())
         {
-            // Sequence containers (e.g. std::vector<T>) are also is_class(), so this must be
-            // checked before falling back to convert_class, or every array value silently
-            // becomes an empty class value instead of an array. Checked after the string/
-            // ObjectReference conversions above since std::string is itself (once registered)
-            // a sequence container too, and must still be encoded as a string.
+            // containers are also is_class(); string/object-ref checks above must win first
             convert_sequence_container(value_registry, value, any);
         }
         else

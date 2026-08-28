@@ -7,9 +7,7 @@ set(quite_protocol_binary_dir "${CMAKE_CURRENT_BINARY_DIR}")
 set(quite_protocol_include_dir "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(quite_protocol_generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
-# Generated protobuf/grpc sources live in their own object library so that both
-# quite_protocol and quite_protocol_client_impl (an internal dependency OF quite_protocol,
-# see src/client/CMakeLists.txt) can depend on them without creating a build-graph cycle.
+# own target so quite_protocol_client_impl can depend on it without a build-graph cycle
 add_library(quite_protocol_generated OBJECT)
 add_sanitizers(quite_protocol_generated)
 target_compile_features(quite_protocol_generated PUBLIC cxx_std_23)

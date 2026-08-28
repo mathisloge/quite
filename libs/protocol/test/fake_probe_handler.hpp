@@ -10,9 +10,6 @@
 
 namespace quite::proto::test
 {
-// Returns canned/configurable results for every IProbeHandler operation, and records the
-// arguments of the last write-style call; used to drive a real Server/Client pair over an
-// actual (local) gRPC transport without needing a real probe implementation.
 class FakeProbeHandler final : public IProbeHandler
 {
   public:

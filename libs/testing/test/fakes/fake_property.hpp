@@ -8,15 +8,10 @@
 
 namespace quite::test::fakes
 {
-// Returns the next value from a fixed sequence on each read(), repeating the last one once
-// exhausted; used to drive Property::wait_for_value's polling loop deterministically.
 class FakeProperty final : public client::Property
 {
   public:
-    // NOTE: uses parens, not braces, for the member-initializers below. entt::meta_any's
-    // catch-all templated constructor makes std::deque<entt::meta_any> convertible to
-    // entt::meta_any itself, so brace-init would prefer deque's initializer_list constructor
-    // over its move constructor and wrap the whole sequence as a single element.
+    // parens not braces: meta_any's catch-all ctor makes brace-init pick deque's initializer_list ctor over move
     explicit FakeProperty(std::deque<entt::meta_any> read_sequence)
         : read_sequence_(std::move(read_sequence))
         , last_value_(read_sequence_.front())

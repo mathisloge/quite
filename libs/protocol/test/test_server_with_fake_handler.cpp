@@ -174,8 +174,7 @@ TEST_F(ProbeRoundTripTest, SetObjectPropertyRoundTripsObjectReferenceValue)
     auto handler = std::make_shared<FakeProbeHandler>();
     connect(ServiceHandle<IProbeHandler>{handler});
 
-    // A type_id that was never entt::meta<T>()-registered forces convert_value's object_val
-    // branch through IValueConverter::from(...) rather than a direct type lookup.
+    // unregistered type_id forces object_val decode through IValueConverter::from()
     const ObjectReference sent{.object_id = 123, .type_id = 999999};
     auto [result] =
         stdexec::sync_wait(probe_client_->probe_service().set_object_property(1, "child", entt::meta_any{sent}))
@@ -295,9 +294,7 @@ TEST_F(ProbeRoundTripTest, FindObjectWithNestedQueryRoundTripsThroughRealTranspo
     EXPECT_EQ(received.container->properties.at("title").cast<std::string>(), "main");
 }
 
-// Regression test for a bug where the server-side parent-chain walk in rpc_find_object.cpp
-// re-read the top-level query's immediate parent on every loop iteration instead of advancing
-// to parent->parent(), causing an infinite loop for any query nested two or more levels deep.
+// guards the parent-chain walk in rpc_find_object.cpp; 2+ levels used to infinite-loop
 TEST_F(ProbeRoundTripTest, FindObjectWithGrandparentQueryRoundTripsThroughRealTransport)
 {
     auto handler = std::make_shared<FakeProbeHandler>();

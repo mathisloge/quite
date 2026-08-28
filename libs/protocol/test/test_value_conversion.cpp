@@ -4,6 +4,7 @@
 
 #include <entt/meta/container.hpp>
 #include <entt/meta/factory.hpp>
+#include <entt/meta/resolve.hpp>
 #include <gtest/gtest.h>
 #include <quite/value/value_registry.hpp>
 #include "value.hpp"
@@ -24,17 +25,9 @@ class NullValueConverter final : public IValueConverter
 };
 } // namespace
 
-// Regression test: create_value used to check type.is_class() before type.is_sequence_container(),
-// and STL-style containers are also is_class(), so every array value silently became an empty
-// class value instead of an array. Exercises create_value/convert_value directly (no Server/Client)
-// so the encode+decode round trip can be verified in isolation.
 TEST(ValueConversion, ArrayValueRoundTrips)
 {
-    // entt only recognizes a type as a sequence container once it has an entt::meta_factory
-    // registration in the (process-wide default) meta context; mirrors how real callers (e.g.
-    // probeqt's register_converters) must register their container types up front. Both the
-    // input type and the type convert_value's array_val decode path produces
-    // (std::vector<entt::meta_any>) need it.
+    // entt only treats a type as a sequence container once entt::meta_factory registers it
     entt::meta_factory<std::vector<std::int64_t>>().type("ValueConversionTestIntVector"_hs);
     entt::meta_factory<std::vector<entt::meta_any>>().type("ValueConversionTestAnyVector"_hs);
 
@@ -50,14 +43,59 @@ TEST(ValueConversion, ArrayValueRoundTrips)
     ASSERT_TRUE(decoded.type().is_sequence_container());
     auto seq = decoded.as_sequence_container();
     ASSERT_EQ(seq.size(), 3u);
-    // Each element of the decoded std::vector<entt::meta_any> is itself wrapped in an
-    // entt::meta_any by the generic sequence-container iteration, so it needs an extra
-    // cast<entt::meta_any>() unwrap before the inner scalar is reachable.
+    // elements are double-wrapped meta_any; unwrap once before the inner scalar
     auto it = seq.begin();
     EXPECT_EQ((*it).cast<entt::meta_any>().cast<std::int64_t>(), 10);
     ++it;
     EXPECT_EQ((*it).cast<entt::meta_any>().cast<std::int64_t>(), 20);
     ++it;
     EXPECT_EQ((*it).cast<entt::meta_any>().cast<std::int64_t>(), 30);
+}
+
+namespace
+{
+// std::string minus substr(): entt's sequence-container concept excludes types with substr(),
+// which is why std::string never qualifies but QString (uses .mid()) does once registered.
+class StringLikeContainer : private std::string
+{
+  public:
+    using std::string::begin;
+    using std::string::cbegin;
+    using std::string::cend;
+    using std::string::const_reference;
+    using std::string::end;
+    using std::string::iterator;
+    using std::string::size;
+    using std::string::string;
+    using std::string::value_type;
+
+    const std::string &as_std_string() const
+    {
+        return *this;
+    }
+};
+} // namespace
+
+// string-convertible types that are also sequence containers must still encode as strings
+TEST(ValueConversion, StringLikeContainerValueEncodesAsStringNotArray)
+{
+    entt::meta_factory<StringLikeContainer>()
+        .type("ValueConversionTestStringLikeContainer"_hs)
+        .conv<[](auto &&value) { return value.as_std_string(); }>();
+
+    ValueRegistry registry;
+    NullValueConverter converter;
+
+    const entt::meta_any input{StringLikeContainer{"hello"}};
+    ASSERT_TRUE(input.type().is_sequence_container());
+    ASSERT_TRUE(input.type().can_convert(entt::resolve<std::string>()));
+
+    const Value encoded = create_value(registry, input);
+    ASSERT_TRUE(encoded.has_string_val());
+    EXPECT_EQ(encoded.string_val(), "hello");
+
+    const entt::meta_any decoded = convert_value(registry, converter, encoded);
+    ASSERT_TRUE(decoded.allow_cast<std::string>());
+    EXPECT_EQ(decoded.cast<std::string>(), "hello");
 }
 } // namespace quite::proto
