@@ -34,4 +34,12 @@ AsyncResult<void> MouseInjectorImpl::single_action(ObjectId target_id, core::Mou
     }
     co_return {};
 }
+
+AsyncResult<void> MouseInjectorImpl::perfom_on_target(ObjectId target_id,
+                                                      quite::MouseTrigger trigger,
+                                                      quite::MouseButton button,
+                                                      quite::MouseEventOptions options)
+{
+    co_return {};
+}
 } // namespace quite::proto

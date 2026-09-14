@@ -34,21 +34,21 @@ class QUITE_CORE_EXPORT ObjectQueryBuilder
   public:
     ObjectQueryBuilder();
 
-    ObjectQueryBuilder &property(std::initializer_list<std::pair<std::string, entt::meta_any>> props);
+    ObjectQueryBuilder property(std::initializer_list<std::pair<std::string, entt::meta_any>> props);
 
-    ObjectQueryBuilder &property(std::string key, std::int64_t value);
+    ObjectQueryBuilder property(std::string key, std::int64_t value);
 
-    ObjectQueryBuilder &property(std::string key, std::uint64_t value);
+    ObjectQueryBuilder property(std::string key, std::uint64_t value);
 
-    ObjectQueryBuilder &property(std::string key, double value);
+    ObjectQueryBuilder property(std::string key, double value);
 
-    ObjectQueryBuilder &property(std::string key, bool value);
+    ObjectQueryBuilder property(std::string key, bool value);
 
-    ObjectQueryBuilder &property(std::string key, std::string value);
+    ObjectQueryBuilder property(std::string key, std::string value);
 
-    ObjectQueryBuilder &parent(ObjectQueryBuilder parent);
+    ObjectQueryBuilder parent(ObjectQueryBuilder parent);
 
-    ObjectQueryBuilder &type(std::string type_name);
+    ObjectQueryBuilder type(std::string type_name);
 
     operator std::shared_ptr<ObjectQuery>() const;
 

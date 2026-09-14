@@ -12,7 +12,7 @@ ObjectQueryBuilder::ObjectQueryBuilder()
     : query_(std::make_shared<ObjectQuery>())
 {}
 
-ObjectQueryBuilder &ObjectQueryBuilder::property(std::initializer_list<std::pair<std::string, entt::meta_any>> props)
+ObjectQueryBuilder ObjectQueryBuilder::property(std::initializer_list<std::pair<std::string, entt::meta_any>> props)
 {
     for (const auto &[key, val] : props)
     {
@@ -21,43 +21,43 @@ ObjectQueryBuilder &ObjectQueryBuilder::property(std::initializer_list<std::pair
     return *this;
 }
 
-ObjectQueryBuilder &ObjectQueryBuilder::property(std::string key, std::int64_t value)
+ObjectQueryBuilder ObjectQueryBuilder::property(std::string key, std::int64_t value)
 {
     query_->properties.insert_or_assign(std::move(key), std::move(value));
     return *this;
 }
 
-ObjectQueryBuilder &ObjectQueryBuilder::property(std::string key, std::uint64_t value)
+ObjectQueryBuilder ObjectQueryBuilder::property(std::string key, std::uint64_t value)
 {
     query_->properties.insert_or_assign(std::move(key), std::move(value));
     return *this;
 }
 
-ObjectQueryBuilder &ObjectQueryBuilder::property(std::string key, double value)
+ObjectQueryBuilder ObjectQueryBuilder::property(std::string key, double value)
 {
     query_->properties.insert_or_assign(std::move(key), std::move(value));
     return *this;
 }
 
-ObjectQueryBuilder &ObjectQueryBuilder::property(std::string key, bool value)
+ObjectQueryBuilder ObjectQueryBuilder::property(std::string key, bool value)
 {
     query_->properties.insert_or_assign(std::move(key), std::move(value));
     return *this;
 }
 
-ObjectQueryBuilder &ObjectQueryBuilder::property(std::string key, std::string value)
+ObjectQueryBuilder ObjectQueryBuilder::property(std::string key, std::string value)
 {
     query_->properties.insert_or_assign(std::move(key), std::move(value));
     return *this;
 }
 
-ObjectQueryBuilder &ObjectQueryBuilder::parent(ObjectQueryBuilder parent)
+ObjectQueryBuilder ObjectQueryBuilder::parent(ObjectQueryBuilder parent)
 {
     query_->container = parent;
     return *this;
 }
 
-ObjectQueryBuilder &ObjectQueryBuilder::type(std::string type_name)
+ObjectQueryBuilder ObjectQueryBuilder::type(std::string type_name)
 {
     query_->type_name = std::move(type_name);
     return *this;

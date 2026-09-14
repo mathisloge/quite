@@ -21,9 +21,11 @@ target_sources(
             TYPE HEADERS
             BASE_DIRS include
             FILES
+                include/quite/test/exceptions.hpp
+                include/quite/test/expect.hpp
+                include/quite/test/mouse.hpp
                 include/quite/test/probe_manager.hpp
                 include/quite/test/probe.hpp
-                include/quite/test/exceptions.hpp
                 include/quite/test/property.hpp
                 include/quite/test/remote_object.hpp
         FILE_SET export_config

@@ -38,7 +38,7 @@ AsyncResult<void> ProbeClientImpl::wait_for_connected(std::chrono::seconds timeo
     while (not is_connected)
     {
         const auto state_change_result = co_await stdexec::starts_on(
-            exec::inline_scheduler{},
+            stdexec::inline_scheduler{},
             agrpc::notify_on_state_change(*grpc_context_, *grpc_channel_, state, deadline, agrpc::use_sender) |
                 stdexec::then([this, &state](bool state_changed) -> Result<bool> {
                     if (not state_changed)

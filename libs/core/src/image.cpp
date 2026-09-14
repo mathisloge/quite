@@ -41,7 +41,9 @@ Image::Image(std::vector<std::byte> image_data, std::uint32_t width, std::uint32
 
 Image::Image(const std::filesystem::path &filename)
 {
-    int w, h, channels;
+    int w{};
+    int h{};
+    int channels{};
     auto *data = stbi_load(filename.c_str(), &w, &h, &channels, 0);
     if (data != nullptr)
     {

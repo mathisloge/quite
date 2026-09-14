@@ -6,9 +6,11 @@
 #include <cstdint>
 #include <exec/task.hpp>
 #include <quite/async_result.hpp>
+#include "probe_context_handle.hpp"
 #include "property.hpp"
 #include "quite/image.hpp"
 #include "quite/quite_client_export.hpp"
+
 namespace quite::client
 {
 
@@ -23,6 +25,8 @@ class QUITE_CLIENT_EXPORT RemoteObject
     ObjectId id() const noexcept;
 
     virtual meta::TypeId type_id() const = 0;
+
+    virtual ProbeContextHandle probe_context() const = 0;
 
     virtual AsyncResult<std::unordered_map<std::string, PropertyPtr>> fetch_properties(
         std::vector<std::string> properties) = 0;

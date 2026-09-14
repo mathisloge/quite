@@ -15,6 +15,10 @@ class MouseInjectorImpl final : public core::IMouseInjector
     explicit MouseInjectorImpl(std::shared_ptr<agrpc::GrpcContext> grpc_context,
                                ProbeService::StubInterface &probe_service_stub);
     AsyncResult<void> single_action(ObjectId target_id, core::MouseAction action) override;
+    AsyncResult<void> perfom_on_target(ObjectId target_id,
+                                       quite::MouseTrigger trigger,
+                                       quite::MouseButton button,
+                                       quite::MouseEventOptions options) override;
 
   private:
     std::shared_ptr<agrpc::GrpcContext> grpc_context_;
