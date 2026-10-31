@@ -18,9 +18,10 @@ class MouseInjector final : public core::IMouseInjector
     ~MouseInjector() override;
 
     AsyncResult<void> single_action(ObjectId target_id, core::MouseAction action) override;
-
-  private:
-    static void dispatch_mouse_event(QObject *target, std::unique_ptr<QMouseEvent> event);
+    AsyncResult<void> perfom_on_target(ObjectId target_id,
+                                       MouseTrigger trigger,
+                                       MouseButton button,
+                                       MouseEventOptions options = {}) override;
 
   private:
     const ObjectTracker &object_tracker_;

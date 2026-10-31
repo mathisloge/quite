@@ -8,10 +8,6 @@ add_library(probe_qt)
 add_library(quite::probe_qt ALIAS probe_qt)
 add_sanitizers(probe_qt)
 target_compile_features(probe_qt PUBLIC cxx_std_17 PRIVATE cxx_std_23)
-set_target_properties(
-    probe_qt
-    PROPERTIES POSITION_INDEPENDENT_CODE ON VISIBILITY_INLINES_HIDDEN ON
-)
 generate_export_header(
     probe_qt
     EXPORT_FILE_NAME quite/quite_probe_qt_export.hpp
@@ -20,7 +16,13 @@ generate_export_header(
 target_link_libraries(
     probe_qt
     PUBLIC quite::probe
-    PRIVATE quite::core quite::protocol
+    PRIVATE
+        quite::core
+        quite::protocol
+        Qt6::Core
+        Qt6::Widgets
+        Qt6::Qml
+        Qt6::Quick
 )
 
 target_include_directories(probe_qt PRIVATE impl)

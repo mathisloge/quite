@@ -22,59 +22,59 @@ quite::core::MouseAction mouse_action_from_request(const quite::proto::MouseActi
                 switch (btn)
                 {
                 case quite::proto::left_button:
-                    return quite::core::MouseButton::left;
+                    return quite::MouseButton::left;
                 case quite::proto::right_button:
-                    return quite::core::MouseButton::right;
+                    return quite::MouseButton::right;
                 case quite::proto::middle_button:
-                    return quite::core::MouseButton::middle;
+                    return quite::MouseButton::middle;
                 case quite::proto::MouseButton_INT_MIN_SENTINEL_DO_NOT_USE_:
                 case quite::proto::MouseButton_INT_MAX_SENTINEL_DO_NOT_USE_:
                     break;
                 }
-                return quite::core::MouseButton::none;
+                return quite::MouseButton::none;
             }(),
         .trigger =
             [trigger = request.mouse_action()]() {
                 switch (trigger)
                 {
                 case quite::proto::none:
-                    return quite::core::MouseTrigger::none;
+                    return quite::MouseTrigger::none;
                 case quite::proto::click:
-                    return quite::core::MouseTrigger::click;
+                    return quite::MouseTrigger::click;
                 case quite::proto::double_click:
-                    return quite::core::MouseTrigger::double_click;
+                    return quite::MouseTrigger::double_click;
                 case quite::proto::press:
-                    return quite::core::MouseTrigger::press;
+                    return quite::MouseTrigger::press;
                 case quite::proto::release:
-                    return quite::core::MouseTrigger::release;
+                    return quite::MouseTrigger::release;
                 case quite::proto::move:
-                    return quite::core::MouseTrigger::move;
+                    return quite::MouseTrigger::move;
                 case quite::proto::MouseAction_INT_MIN_SENTINEL_DO_NOT_USE_:
                 case quite::proto::MouseAction_INT_MAX_SENTINEL_DO_NOT_USE_:
                     break;
                 }
-                return quite::core::MouseTrigger::none;
+                return quite::MouseTrigger::none;
             }(),
         .modifier =
             [modifier = request.modifier_key()]() {
                 switch (modifier)
                 {
                 case quite::proto::no_mod:
-                    return quite::core::KeyboardModifier::none;
+                    return quite::KeyboardModifier::none;
                 case quite::proto::shift:
-                    return quite::core::KeyboardModifier::shift;
+                    return quite::KeyboardModifier::shift;
                 case quite::proto::crtl:
-                    return quite::core::KeyboardModifier::control;
+                    return quite::KeyboardModifier::control;
                 case quite::proto::alt:
-                    return quite::core::KeyboardModifier::alt;
+                    return quite::KeyboardModifier::alt;
                 case quite::proto::meta:
-                    return quite::core::KeyboardModifier::meta;
+                    return quite::KeyboardModifier::meta;
                 case quite::proto::keypad:
                 case quite::proto::KeyboardModifierKey_INT_MIN_SENTINEL_DO_NOT_USE_:
                 case quite::proto::KeyboardModifierKey_INT_MAX_SENTINEL_DO_NOT_USE_:
                     break;
                 }
-                return quite::core::KeyboardModifier::none;
+                return quite::KeyboardModifier::none;
             }(),
     };
 }

@@ -11,10 +11,6 @@ target_compile_definitions(
     quite_manager
     PRIVATE BOOST_PROCESS_V2_SEPARATE_COMPILATION=1 BOOST_PROCESS_USE_STD_FS=1
 )
-set_target_properties(
-    quite_manager
-    PROPERTIES POSITION_INDEPENDENT_CODE ON VISIBILITY_INLINES_HIDDEN ON
-)
 generate_export_header(
     quite_manager
     EXPORT_FILE_NAME quite/quite_manager_export.hpp
@@ -24,6 +20,8 @@ target_link_libraries(
     quite_manager
     PUBLIC quite::core
     PRIVATE
+        Boost::asio
+        Boost::process
         $<IF:$<TARGET_EXISTS:Boost::asio>,Boost::asio,Boost::headers>
         $<IF:$<TARGET_EXISTS:Boost::process>,Boost::process,Boost::headers>
         protobuf::libprotobuf

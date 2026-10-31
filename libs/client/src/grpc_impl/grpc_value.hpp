@@ -3,18 +3,17 @@
 // SPDX-License-Identifier: MIT
 
 #pragma once
-#include <quite/proto/client/probe_client.hpp>
 #include <quite/proto/client/value_converter.hpp>
+#include "grpc_probe_context.hpp"
 namespace quite::client
 {
 class GrpcValueConverter final : public proto::IValueConverter
 {
   public:
-    void set_client(std::shared_ptr<proto::ProbeClient> client);
+    explicit GrpcValueConverter(std::shared_ptr<GrpcProbeContext> probe_context);
     entt::meta_any from(ObjectReference ref) const override;
 
   private:
-    std::weak_ptr<proto::ProbeClient> client_;
+    std::weak_ptr<GrpcProbeContext> probe_context_;
 };
-// quite::Result<quite::Value> convert(const entt::meta_any &value, std::shared_ptr<proto::ProbeClient> client);
 } // namespace quite::client

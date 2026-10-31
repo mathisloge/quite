@@ -218,7 +218,8 @@ Result<ImageCompareResult> pixel_match(const ImageView &expected_img,
     }
 
     // check if images are identical
-    const bool identical = std::equal(expected_img.data.cbegin(), expected_img.data.cend(), actual_img.data.cbegin());
+    const bool identical =
+        std::equal(std::begin(expected_img.data), std::end(expected_img.data), std::begin(actual_img.data));
     if (identical)
     {
         if (!options.diff_mask)

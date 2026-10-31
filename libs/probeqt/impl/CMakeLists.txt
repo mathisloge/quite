@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-add_library(probe_qt_impl OBJECT)
+add_library(probe_qt_impl STATIC)
 target_compile_features(probe_qt_impl PUBLIC cxx_std_23)
 target_include_directories(probe_qt_impl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 set_target_properties(
@@ -15,7 +15,6 @@ target_link_libraries(
     PUBLIC
         Qt6::CorePrivate
         Qt6::QuickPrivate
-        Qt6::Widgets
         asio-grpc::asio-grpc-stdexec
         fmt::fmt
         EnTT::EnTT

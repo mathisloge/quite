@@ -113,7 +113,7 @@ class Server::Impl
 
         grpc_context_.work_started();
         stdexec::sync_wait(stdexec::when_all(
-            exec::finally(stdexec::starts_on(exec::inline_scheduler{}, stdexec::when_all(std::move(all_snd))),
+            exec::finally(stdexec::starts_on(stdexec::inline_scheduler{}, stdexec::when_all(std::move(all_snd))),
                           stdexec::then(stdexec::just(),
                                         [&] {
                                             grpc_context_.work_finished();
